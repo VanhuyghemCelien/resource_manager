@@ -1,16 +1,6 @@
-# ember-boilerplate
+# Resource Manager Back-Office
 
-[![CI](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ci.yml)
-[![CI](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ligthouse.yml/badge.svg?branch=main)](https://github.com/TRIPTYK/ember-boilerplate/actions/workflows/ci.yml)
-
-## You can use this IF
-
-- ✅ You use tailwindcss
-- ✅ You want an Embroider boilerplate
-- ✅ You use JWT based authentification
-- ✅ You want a lot of code checks
-
-## Preconfigured 4.x Ember project with
+## Ember project with
 
 ### Ember Side
 
@@ -47,15 +37,7 @@ Note: Exception for the ApplicationController, needed for an addon.
 
 ## Installation
 
-- `git clone git@github.com:TRIPTYK/ember-boilerplate.git` this repository
-- `cd ember-boilerplate`
-- `rm -rf .git`
-- `git init`
 - `pnpm install`
-
-Or
-
-- "Use this template" button on Github
 
 ## Running / Development
 
