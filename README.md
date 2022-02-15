@@ -12,8 +12,8 @@ Une méthode de travail [Git flow](https://danielkummer.github.io/git-flow-cheat
   - Lint du JS/TS
 
 - N'oubliez pas de lire les README de chaque package
-    - [ipbw-common](https://github.com/TRIPTYK/ipbw/blob/main/packages/ipbw-common/README.md)
-    - [ipbw-back-office](https://github.com/TRIPTYK/ipbw/blob/main/packages/ipbw-back-office/README.md)
+    - [resource-backend](https://github.com/TRIPTYK/resource_manager/blob/main/packages/resource-backend/README.md)
+    - [resource-back-office](https://github.com/TRIPTYK/resource_manager/blob/main/packages/resource-back-office/README.md)
 
 ## Concernant les tests
 
@@ -22,14 +22,14 @@ Optionnel : unitaires.
 
 ## Concernant le code coverage
 
-Le front-office et la back-office sont soumis à un minimum de code coverage, si il n'y a pas assez de tests écrits ou qu'ils ne couvrent pas assez de cas, les tests ne passeront pas.
+Le  back-office sont soumis à un minimum de code coverage, si il n'y a pas assez de tests écrits ou qu'ils ne couvrent pas assez de cas, les tests ne passeront pas.
 
 # Install
 
 ## Clone
 
 ```bash
-git clone git@github.com:TRIPTYK/ipbw.git
+git clone git@github.com:TRIPTYK/resource_manager.git
 git flow init
 ```
 
