@@ -18,7 +18,7 @@ export default {
     host: 'localhost',
     user: 'root',
     password: 'test123*',
-    database: 'nfw',
+    database: 'resourcemgr',
     port: 3306,
     type: 'mysql',
     debug: true,

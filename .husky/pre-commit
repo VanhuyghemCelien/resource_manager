@@ -24,7 +24,7 @@ then
     if [ $DO_BACK_OFFICE ] 
     then
         echo "Changes in resource-back-office"
-        pnpm run --dir packages/resource-backend test
+        # pnpm run --dir packages/resource-backend test
         pnpm --dir packages/resource-back-office test
         node read-cov.js packages/resource-back-office 10
     fi
@@ -36,7 +36,7 @@ then
     fi
 else
     # IN DOUBT TEST ALL
-    pnpm run --dir packages/resource-backend test
+    # pnpm run --dir packages/resource-backend test
     pnpm --dir packages/resource-back-office test
     node read-cov.js packages/resource-back-office 10
 fi

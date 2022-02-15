@@ -1,10 +1,7 @@
 ![alt text](https://repository-images.githubusercontent.com/166414581/dc0a1b80-a1a0-11e9-805b-cf8be46b5507)
 
-# NFW a node Typescript boilerplate
+# NFW backend for Resource manager
 
-![Test](https://github.com/TRIPTYK/nfw/workflows/Test/badge.svg?branch=master)
-![Lint](https://github.com/TRIPTYK/nfw/workflows/Lint/badge.svg?branch=master)
-[![CodeQL](https://github.com/TRIPTYK/nfw/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/TRIPTYK/nfw/actions/workflows/codeql-analysis.yml)
 
 This repository contains a JSON-API REST API boilerplate using [NFW-CORE](https://github.com/TRIPTYK/nfw-core).
 
@@ -24,7 +21,7 @@ pnpm i
 
 ## Start
 
-*You must create a `<NODE_ENV>.js` file for each env at the root of your project.*
+*You must create a database in mysql called resourcemgr*
 
 The structure of the env file can be found in the configuration service.
 
