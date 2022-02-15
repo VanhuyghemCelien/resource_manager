@@ -1,0 +1,42 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+[ -n "$CI" ] && exit 0
+
+STAGED=$(git diff --name-only --cached 2>&1)
+
+
+
+if echo "$STAGED" | grep -q "resource-back-office"
+then
+  DO_BACK_OFFICE=TRUE
+fi
+
+
+
+# if echo "$STAGED" | grep -q "resource-backend"
+# then
+#   DO_BACKEND=TRUE
+# fi
+
+if  [ $DO_FRONT_OFFICE ] 
+then 
+    if [ $DO_BACK_OFFICE ] 
+    then
+        echo "Changes in resource-back-office"
+        pnpm run --dir packages/resource-backend test
+        pnpm --dir packages/resource-back-office test
+        node read-cov.js packages/resource-back-office 10
+    fi
+    if [ $DO_BACKEND ] 
+    then
+        echo "Changes in resource-backend"
+        pnpm run --dir packages/backend lint
+        pnpm run --dir packages/backend test:build
+    fi
+else
+    # IN DOUBT TEST ALL
+    pnpm run --dir packages/resource-backend test
+    pnpm --dir packages/resource-back-office test
+    node read-cov.js packages/resource-back-office 10
+fi

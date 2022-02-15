@@ -1,0 +1,28 @@
+{
+  "name": "resource_manager",
+  "version": "0.0.0",
+  "description": "resource_manager",
+  "main": "index.js",
+  "scripts": {
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable",
+    "postinstall": "husky install",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TRIPTYK/resource_manager.git"
+  },
+  "author": "TRIPTYK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TRIPTYK/resource_manager/issues"
+  },
+  "homepage": "https://github.com/TRIPTYK/resource_manager#readme",
+  "dependencies": {
+    "husky": "^7.0.2"
+  },
+  "devDependencies": {
+    "pinst": "^2.1.6"
+  }
+}
