@@ -5,7 +5,7 @@ import type SessionService from 'ember-simple-auth/services/session';
 export default class Login extends Route {
   @inject declare session: SessionService;
 
-  beforeModel() {
-    this.session.prohibitAuthentication('index');
-  }
+  //beforeModel() {
+  //  this.session.prohibitAuthentication('index');
+  //}
 }
