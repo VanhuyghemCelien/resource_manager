@@ -19,6 +19,8 @@ module.exports = {
     colors: {
       primary: '#CFAF6E',
       secondary: '#2B4999',
+      littleline: '#F2F2F2',
+      triptykblue: '#3787C0',
       text: '#647377',
       'text-secondary': '#384043',
       error: '#D72F33',
