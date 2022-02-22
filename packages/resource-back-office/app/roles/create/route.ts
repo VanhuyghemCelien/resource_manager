@@ -1,7 +1,5 @@
 import Route from '@ember/routing/route';
 
-export default class RolesCreate extends Route.extend({
-  // anything which *must* be merged to prototype here
-}) {
+export default class RolesCreate extends Route {
   // normal class body definition here
 }
