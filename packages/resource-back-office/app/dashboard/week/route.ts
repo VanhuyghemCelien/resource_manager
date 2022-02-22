@@ -1,7 +1,16 @@
 import Route from '@ember/routing/route';
 
-export default class DashboardWeek extends Route.extend({
-  // anything which *must* be merged to prototype here
-}) {
+// eslint-disable-next-line ember/no-classic-classes
+export default class DashboardWeek extends Route {
   // normal class body definition here
+
+  model() {
+    let cols: number[] = Array(5);
+    let resources = Array(8);
+    let retunsTBL = {
+      cols,
+      resources,
+    };
+    return retunsTBL;
+  }
 }

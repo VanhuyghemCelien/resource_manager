@@ -1,0 +1,32 @@
+{
+  "0 info pnpm": {
+    "message": "Using hooks from: /home/sacha/NFW/nfw1/resource_manager/.pnpmfile.cjs",
+    "prefix": "/home/sacha/NFW/nfw1/resource_manager"
+  },
+  "1 info pnpm": {
+    "message": "readPackage hook is declared. Manifests of dependencies might get overridden",
+    "prefix": "/home/sacha/NFW/nfw1/resource_manager"
+  },
+  "2 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/home/sacha/NFW/nfw1/resource_manager"
+  },
+  "3 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: recurse",
+      "code": "ENOENT",
+      "stack": "Error: not found: recurse\n    at getNotFoundError (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:41555:51)\n    at Function.whichSync [as sync] (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:41632:13)\n    at getCommandAbsolutePathSync (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43197:44)\n    at default_1 (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43206:32)\n    at /home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:178093:39"
+    }
+  },
+  "4 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "/home/sacha/NFW/nfw1/resource_manager",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: recurse",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: recurse\n    at getNotFoundError (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:41555:51)\n    at Function.whichSync [as sync] (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:41632:13)\n    at getCommandAbsolutePathSync (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43197:44)\n    at default_1 (/home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:43206:32)\n    at /home/sacha/.volta/tools/image/packages/pnpm/lib/node_modules/pnpm/dist/pnpm.cjs:178093:39"
+    }
+  }
+}

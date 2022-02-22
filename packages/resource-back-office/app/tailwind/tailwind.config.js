@@ -27,6 +27,10 @@ module.exports = {
       warn: '#ffcc00',
       white: colors.white,
       black: colors.black,
+      grey: '#F0F0F0',
+      green: '#9EDCA0',
+      purple: '#C19DD2',
+      salmon: '#F49494',
     },
   },
 };
