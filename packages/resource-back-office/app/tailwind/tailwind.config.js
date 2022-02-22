@@ -9,7 +9,10 @@ module.exports = {
   corePlugins: {},
   plugins: [],
   theme: {
-    extends: {
+    extend: {
+      fontFamily: {
+        sans: ['Raleway'],
+      },
       screens: {
         lxg: '1140px',
         '2xl': '1600px',

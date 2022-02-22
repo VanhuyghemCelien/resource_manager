@@ -6,11 +6,12 @@ module.exports = function (env) {
     policy: {
       'default-src': ["'none'"],
       'script-src': ["'self'"],
-      'font-src': ["'self'"],
+      'font-src': ["'self'", 'https://fonts.gstatic.com'],
       'connect-src': ["'self'"],
       'img-src': ["'self'"],
       'style-src': ["'self'"],
       'media-src': ["'self'"],
+      'style-src-elem': ["'self'", 'https://fonts.googleapis.com'],
     },
     reportOnly: true,
   };
