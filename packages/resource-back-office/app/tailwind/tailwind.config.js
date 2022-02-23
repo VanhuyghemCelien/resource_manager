@@ -9,7 +9,10 @@ module.exports = {
   corePlugins: {},
   plugins: [],
   theme: {
-    extends: {
+    extend: {
+      fontFamily: {
+        sans: ['Raleway'],
+      },
       screens: {
         lxg: '1140px',
         '2xl': '1600px',
@@ -17,8 +20,10 @@ module.exports = {
       },
     },
     colors: {
-      primary: '#CFAF6E',
-      secondary: '#2B4999',
+      primary: '#34404A',
+      secondary: '#66727C',
+      navbarBg: '#3787C0',
+      navbarSelected: '#F2F2F2',
       text: '#647377',
       'text-secondary': '#384043',
       error: '#D72F33',
