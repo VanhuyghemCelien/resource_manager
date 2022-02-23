@@ -1,0 +1,60 @@
+<div class="mt-12 ml-28 max-w-[90%]">
+  <h1 class="text-3xl font-black text-primary">Month : {{this.currentMonth}}</h1>
+  <div class="mt-3">
+    <div class="grid grid-cols-6 gap-1 mb-5">
+      <div class="text-center">Semaine</div>
+      <div class="text-center {{if (eq this.today 1) "border-b-4 border-b-triptykblue"}}">Monday 14 / 02 </div>
+      <div class="text-center {{if (eq this.today 2) "border-b-4 border-b-triptykblue"}}">Tuesday 15 / 02 </div>
+      <div class="text-center {{if (eq this.today 3) "border-b-4 border-b-triptykblue"}} ">
+        Wednesday 16 / 02
+      </div>
+      <div class="text-center {{if (eq this.today 4) "border-b-4 border-b-triptykblue"}}">Thursday 17 / 02 </div>
+      <div class="text-center {{if (eq this.today 5) "border-b-4 border-b-triptykblue"}}">Friday 18 / 02 </div>
+    </div>
+    {{#each this.resources as |resource|}}
+      <div class="grid grid-cols-6 gap-3 mt-3">
+        <div class="grid grid-cols-2">
+          <div class="text-center block">
+            <img
+                  src="/assets/images/p5.png"
+                  alt="portrait-icon"
+                  class="rounded-full w-16 h-16 m-auto object-cover"
+                  />
+          </div>
+          <div class="text-center">RESSOURCE {{resource}}</div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+          <div class="bg-triptykblue text-center rounded-t-xl text-white">
+            Angular - UX / UI<br />
+                  Technocité - Tournai
+          </div>
+          <div class="bg-grey text-center rounded-b-xl text-white"></div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col">
+          <div class="bg-grey text-center rounded-t-xl text-white"></div>
+          <div class="bg-green text-center rounded-b-xl text-white">Projet</div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col">
+          <div class="bg-grey text-center rounded-t-xl text-white"></div>
+          <div class="bg-salmon text-center rounded-b-xl text-white">
+            Consultance
+          </div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col">
+          <div class="bg-triptykblue text-center rounded-t-xl text-white">
+            Angular - UX / UI<br />
+                  Technocité - Tournai
+          </div>
+          <div class="bg-triptykblue text-center rounded-b-xl text-white">
+            Angular - UX / UI<br />
+                  Technocité - Tournai
+          </div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col">
+          <div class="bg-grey text-center rounded-t-xl text-white"></div>
+          <div class="bg-purple text-center rounded-b-xl text-white">Autre Activité</div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
