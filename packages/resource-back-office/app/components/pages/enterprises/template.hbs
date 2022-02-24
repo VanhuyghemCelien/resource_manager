@@ -24,52 +24,54 @@
       <th class="text-primary text-lg">Phone Number</th>
     </thead>
     <tbody>
-      <tr class="border-b border-primary border-opacity-25">
-        <td
-          class="w-1/5 text-center text-primary font-medium px-2 text-base py-2"
-        >
-          Technocité
-        </td>
-        <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-          Hornu
-        </td>
-        <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-          technocite@technocite.be
-        </td>
-        <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-          065/76.67.10
-        </td>
-        <td class="w-[10%] text-center px-2 py-2">
-          <div class="w-max rounded-full hover:bg-navbarBg">
-            <button
-              type="button"
-              class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
-            >
-              <img
-                src="/assets/icons/edit-button.svg"
-                alt="edit button icon"
-                class="inline h-5 w-auto mr-1"
-              />
-              Edit
-            </button>
-          </div>
-        </td>
-        <td class="w-[10%] text-center px-2 py-2">
-          <div class="w-max rounded-full hover:bg-warn">
-            <button
-              type="button"
-              class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
-            >
-              <img
-                src="/assets/icons/delete-button.svg"
-                alt="delete button icon"
-                class="inline h-5 w-auto mr-1"
-              />
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
+      {{#each @model as |enterprise|}}
+        <tr class="border-b border-primary border-opacity-25">
+          <td
+            class="w-1/5 text-center text-primary font-medium px-2 text-base py-2"
+          >
+            {{enterprise.name}}
+          </td>
+          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+            {{enterprise.city}}
+          </td>
+          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+            {{enterprise.emailaddress}}
+          </td>
+          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+            {{enterprise.phonenumber}}
+          </td>
+          <td class="w-[10%] text-center px-2 py-2">
+            <div class="w-max rounded-full hover:bg-navbarBg">
+              <button
+                type="button"
+                class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
+              >
+                <img
+                  src="/assets/icons/edit-button.svg"
+                  alt="edit button icon"
+                  class="inline h-5 w-auto mr-1"
+                />
+                Edit
+              </button>
+            </div>
+          </td>
+          <td class="w-[10%] text-center px-2 py-2">
+            <div class="w-max rounded-full hover:bg-warn">
+              <button
+                type="button"
+                class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
+              >
+                <img
+                  src="/assets/icons/delete-button.svg"
+                  alt="delete button icon"
+                  class="inline h-5 w-auto mr-1"
+                />
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
     </tbody>
   </table>
 </div>
