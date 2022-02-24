@@ -1,140 +1,146 @@
 <div class="grid grid-cols-[48px_1fr]">
-  <nav
-    class="fixed flex flex-col justify-around bg-navbarBg rounded-r-xl top-10 overflow-hidden w-[56px] hover:w-[175px] transition-all text-white after:w-10/12 after:absolute after:top-[75px] after:content-[''] after:h-px after:left-2 after:bg-navbarBg hover:after:bg-navbarSelected after:transition-all hover:after:opacity-20"
-  >
-    <div class="flex items-end my-6">
-      <h1 class="w-9 ml-[6px] mr-2 text-2xl font-black">TPK</h1>
-      <h2 class="ml-3">Intranet</h2>
-    </div>
-    <LinkTo
-      @route="dashboard"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "dashboard")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
+  <div>
+    <nav
+      class="fixed flex flex-col justify-around bg-navbarBg rounded-r-xl top-5 overflow-hidden w-[56px] hover:w-[175px] transition-all text-white after:w-10/12 after:absolute after:top-[75px] after:content-[''] after:h-px after:left-2 after:bg-navbarBg hover:after:bg-navbarSelected after:transition-all hover:after:opacity-20"
     >
-      <img
-        src="/assets/icons/dashboard.svg"
-        alt="dashboard's icon"
-        class="ml-3 mr-4"
-      />
-      <p>Dashboard</p>
-    </LinkTo>
-    <LinkTo
-      @route="resources"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "resources")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
-      data-test-letestdesacha
-    >
-      <img
-        src="/assets/icons/resources.svg"
-        alt="resource's icon"
-        class="ml-3 mr-4"
-      />
-      <p>Resources</p>
-    </LinkTo>
-    <LinkTo
-      @route="users"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "users")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
-    >
-      <img src="/assets/icons/users.svg" alt="user's icon" class="ml-3 mr-4" />
-      <p>Users</p>
-    </LinkTo>
-    <LinkTo
-      @route="enterprises"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "enterprises")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
-    >
-      <img
-        src="/assets/icons/enterprises.svg"
-        alt="enterprise's icon"
-        class="ml-3 mr-4"
-      />
-      <p>Enterprises</p>
-    </LinkTo>
-    <LinkTo
-      @route="assignment-type"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "assignment-type")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
-    >
-      <img
-        src="/assets/icons/assignments.svg"
-        alt="assignment's icon"
-        class="ml-3 mr-4"
-      />
-      <p>Assignments</p>
-    </LinkTo>
-    <LinkTo
-      @route="statistics"
-      class="flex mx-1 my-2 mb-4 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
-        {{if
-          (eq this.route "statistics")
-          "bg-white text-navbarBg transition-all"
-          "brightness-0 invert transition-all"
-        }}"
-    >
-      <img
-        src="/assets/icons/statistics.svg"
-        alt="statistic's icon"
-        class="ml-3 mr-4"
-      />
-      <p>Statistics</p>
-    </LinkTo>
-  </nav>
-  <main class="col-start-2">
-    <div
-      class="fixed flex flex-col right-0 m-2 pt-1 h-[48px] overflow-hidden bg-white rounded-xl after:contents[''] after:absolute after:bg-navbarBg after:top-12 after:right-4 after:h-px after:left-4 hover:bg-navbarBg hover:h-[145px] hover:text-white hover:after:bg-navbarSelected hover:after:opacity-20 hover:transition-all"
-    >
-      <div class="flex mx-3">
-        <button type="button" class="flex items-center mb-5">
+      <div class="flex items-end my-6">
+        <h1 class="w-9 ml-[6px] mr-2 text-2xl font-black">TPK</h1>
+        <h2 class="ml-3">Intranet</h2>
+      </div>
+      <LinkTo
+        @route="dashboard"
+        class="flex mx-1 my-2 items-center rounded-full py-2
+          {{if
+            (eq this.route "dashboard")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+      >
+        <img
+          src="/assets/icons/dashboard.svg"
+          alt="dashboard's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Dashboard</p>
+      </LinkTo>
+      <LinkTo
+        @route="resources"
+        class="flex mx-1 my-2 items-center rounded-full py-2
+          {{if
+            (eq this.route "resources")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+        data-test-letestdesacha
+      >
+        <img
+          src="/assets/icons/resources.svg"
+          alt="resource's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Resources</p>
+      </LinkTo>
+      <LinkTo
+        @route="users"
+        class="flex mx-1 my-2 items-center rounded-full py-2
+          {{if
+            (eq this.route "users")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+      >
+        <img
+          src="/assets/icons/users.svg"
+          alt="user's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Users</p>
+      </LinkTo>
+      <LinkTo
+        @route="enterprises"
+        class="flex mx-1 my-2 items-center rounded-full py-2
+          {{if
+            (eq this.route "enterprises")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+      >
+        <img
+          src="/assets/icons/enterprises.svg"
+          alt="enterprise's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Enterprises</p>
+      </LinkTo>
+      <LinkTo
+        @route="assignment-type"
+        class="flex mx-1 my-2 items-center rounded-full py-2
+          {{if
+            (eq this.route "assignment-type")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+      >
+        <img
+          src="/assets/icons/assignments.svg"
+          alt="assignment's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Assignments</p>
+      </LinkTo>
+      <LinkTo
+        @route="statistics"
+        class="flex mx-1 my-2 mb-4 items-center rounded-full py-2
+          {{if
+            (eq this.route "statistics")
+            "bg-white text-navbarBg transition-all"
+            "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
+          }}"
+      >
+        <img
+          src="/assets/icons/statistics.svg"
+          alt="statistic's icon"
+          class="ml-3 mr-4"
+        />
+        <p>Statistics</p>
+      </LinkTo>
+    </nav>
+    <main class="col-start-2">
+      <div
+        class="fixed flex flex-col top-5 right-4 m-2 pt-1 h-[48px] overflow-hidden bg-white rounded-xl after:contents[''] after:absolute after:bg-navbarBg after:top-12 after:right-4 after:h-px after:left-4 hover:bg-navbarBg hover:h-[145px] hover:text-white hover:after:bg-navbarSelected hover:after:opacity-20 hover:transition-all"
+      >
+        <div class="flex mx-3">
+          <button type="button" class="flex items-center mb-5">
+            <img
+              src="/assets/icons/users.svg"
+              alt="user's profile pic"
+              class="h-10 w-10 rounded-full mr-2"
+            />
+            <p>Louis Monmodèle</p>
+          </button>
+        </div>
+        <div
+          class="flex mx-2 mb-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
+        >
           <img
-            src="/assets/icons/users.svg"
-            alt="user's profile pic"
-            class="h-10 w-10 rounded-full mr-2"
+            src="/assets/icons/profile.svg"
+            alt="profile's icon"
+            class="w-6 h-auto ml-3 mr-5"
           />
-          <p>Louis Monmodèle</p>
-        </button>
+          <a href="#">Profile</a>
+        </div>
+        <div
+          class="flex mx-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
+        >
+          <img
+            src="/assets/icons/log-out.svg"
+            alt="log out icon"
+            class="w-6 h-auto mr-4 ml-4"
+          />
+          <a href="#">Log Out</a>
+        </div>
       </div>
-      <div
-        class="flex mx-2 mb-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
-      >
-        <img
-          src="/assets/icons/profile.svg"
-          alt="profile's icon"
-          class="w-6 h-auto ml-3 mr-5"
-        />
-        <a href="#">Profile</a>
-      </div>
-      <div
-        class="flex mx-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
-      >
-        <img
-          src="/assets/icons/log-out.svg"
-          alt="log out icon"
-          class="w-6 h-auto mr-4 ml-4"
-        />
-        <a href="#">Log Out</a>
-      </div>
-    </div>
-    {{yield}}
-  </main>
+    </main>
+  </div>
+  {{yield}}
 </div>
