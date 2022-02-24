@@ -13,4 +13,16 @@ export default Factory.extend({
   phonenumber() {
     return '065/76.67.10';
   },
+  emailaddress2() {
+    return 'technocite2@technocite.be';
+  },
+  phonenumber2() {
+    return '065/76.67.11';
+  },
+  enterprisenumber() {
+    return '0123456789';
+  },
+  vatnumber() {
+    return 'BE0123456789';
+  },
 });

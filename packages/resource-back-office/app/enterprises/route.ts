@@ -6,7 +6,6 @@ export default class Enterprises extends Route {
   @service declare store: Store;
 
   model() {
-    console.log(this.store.findAll('enterprise'));
     return this.store.findAll('enterprise');
   }
 }
