@@ -22,6 +22,7 @@ export default function () {
     */
   this.get('/users');
   this.get('/enterprises');
+  this.post('/enterprises');
 
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);

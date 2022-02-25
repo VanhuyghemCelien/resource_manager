@@ -28,7 +28,9 @@
     </thead>
     <tbody>
       {{#each @model as |enterprise|}}
-        <tr class="border-b border-primary border-opacity-25">
+        <tr
+          class="border-b border-primary border-opacity-25 hover:bg-secondary hover:bg-opacity-10"
+        >
           <td
             class="w-1/5 text-center text-primary font-medium px-2 text-base py-2"
           >
@@ -51,7 +53,7 @@
                 type="button"
                 class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
                 id={{enterprise.enterpriseid}}
-                {{on "click" (fn this.change enterprise)}}
+                {{on "click" (fn this.displayEnterpriseDetails enterprise)}}
               >
                 <img
                   src="/assets/icons/edit-button.svg"
@@ -112,6 +114,8 @@
                 id="nameInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                {{on "change" (fn this.editEnterprise "name")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -120,6 +124,7 @@
                 id="enterpriseNumberInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                {{on "change" (fn this.editEnterprise "enterprisenumber")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -128,6 +133,7 @@
                 id="vatNumberInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                {{on "change" (fn this.editEnterprise "vatnumber")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -136,6 +142,8 @@
                 id="cityInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                {{on "change" (fn this.editEnterprise "city")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -144,6 +152,8 @@
                 id="addressInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                {{on "change" (fn this.editEnterprise "address")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -152,6 +162,8 @@
                 id="emailInput"
                 type="email"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                {{on "change" (fn this.editEnterprise "emailaddress")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -160,6 +172,7 @@
                 id="email2Input"
                 type="email"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                {{on "change" (fn this.editEnterprise "emailaddress2")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -168,6 +181,8 @@
                 id="phoneNumberInput"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                {{on "change" (fn this.editEnterprise "phonenumber")}}
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -176,14 +191,16 @@
                 id="phoneNumber2Input"
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                {{on "change" (fn this.editEnterprise "phonenumber2")}}
               />
             </div>
-            <input
-              id="submitNewEnterprise"
-              type="submit"
-              value="Create enterprise"
+            <button
+              type="button"
               class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            />
+              {{on "click" this.addEnterprise}}
+            >
+              <p>Add enterprise</p>
+            </button>
           </form>
 
         </div>
@@ -220,6 +237,7 @@
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
                 value={{this.enterprise.name}}
+                required
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -247,6 +265,7 @@
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
                 value={{this.enterprise.city}}
+                required
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -256,6 +275,7 @@
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
                 value={{this.enterprise.address}}
+                required
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -265,6 +285,7 @@
                 type="email"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
                 value={{this.enterprise.emailaddress}}
+                required
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -283,6 +304,7 @@
                 type="text"
                 class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
                 value={{this.enterprise.phonenumber}}
+                required
               />
             </div>
             <div class="flex flex-row items-stretch mt-4">
@@ -294,12 +316,12 @@
                 value={{this.enterprise.phonenumber2}}
               />
             </div>
-            <input
-              id="submitEditEnterprise"
+            <button
               type="submit"
-              value="Edit enterprise"
               class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            />
+            >
+              <p>Edit enterprise</p>
+            </button>
           </form>
         </div>
       </div>
