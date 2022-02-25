@@ -1,9 +1,12 @@
 <div class="mt-12 ml-12 mr-10 max-w-[95%]">
   <h1 class="text-3xl font-black text-primary">Enterprises</h1>
-  <div class="mt-1 w-max rounded-full hover:bg-navbarBg">
+  <div
+    class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
+  >
     <button
       type="button"
-      class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0"
+      class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+      {{on "click" this.toggleDisplayNewEnterpriseModal}}
     >
       <p class="text-lg">
         <img
@@ -41,10 +44,14 @@
             {{enterprise.phonenumber}}
           </td>
           <td class="w-[10%] text-center px-2 py-2">
-            <div class="w-max rounded-full hover:bg-navbarBg">
+            <div
+              class="w-max rounded-full hover:bg-navbarBg transition-all duration-200"
+            >
               <button
                 type="button"
-                class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
+                class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+                id={{enterprise.enterpriseid}}
+                {{on "click" (fn this.change enterprise)}}
               >
                 <img
                   src="/assets/icons/edit-button.svg"
@@ -56,10 +63,12 @@
             </div>
           </td>
           <td class="w-[10%] text-center px-2 py-2">
-            <div class="w-max rounded-full hover:bg-warn">
+            <div
+              class="w-max rounded-full hover:bg-warn transition-all duration-200"
+            >
               <button
                 type="button"
-                class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0"
+                class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
               >
                 <img
                   src="/assets/icons/delete-button.svg"
@@ -74,4 +83,226 @@
       {{/each}}
     </tbody>
   </table>
+  {{#if this.displayNewEnterpriseModal}}
+    <div
+      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+    >
+      <div class="flex h-screen justify-center items-center">
+        <div class="bg-white p-5 rounded-3xl w-[500px]">
+          <div class="flex flex-row justify-end">
+            <h1
+              class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
+            >
+              New Enterprise
+            </h1>
+            <button
+              type="button"
+              {{on "click" this.toggleDisplayNewEnterpriseModal}}
+            >
+              <img
+                src="/assets/icons/close-button.svg"
+                alt="close button icon"
+              />
+            </button>
+          </div>
+          <form aria-label="newEnterpriseForm">
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Name</p>
+              <input
+                id="nameInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Enterprise Number</p>
+              <input
+                id="enterpriseNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">VAT Number</p>
+              <input
+                id="vatNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">City</p>
+              <input
+                id="cityInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Address</p>
+              <input
+                id="addressInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Email Address</p>
+              <input
+                id="emailInput"
+                type="email"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Email Address n°2</p>
+              <input
+                id="email2Input"
+                type="email"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Phone Number</p>
+              <input
+                id="phoneNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Phone Number n°2</p>
+              <input
+                id="phoneNumber2Input"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              />
+            </div>
+            <input
+              id="submitNewEnterprise"
+              type="submit"
+              value="Create enterprise"
+              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            />
+          </form>
+
+        </div>
+      </div>
+    </div>
+  {{/if}}
+  {{#if this.displayEditEnterpriseModal}}
+    <div
+      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+    >
+      <div class="flex h-screen justify-center items-center">
+        <div class="bg-white p-5 rounded-3xl w-[500px]">
+          <div class="flex flex-row justify-end">
+            <h1
+              class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
+            >
+              Edit Enterprise
+            </h1>
+            <button
+              type="button"
+              {{on "click" this.toggleDisplayEditEnterpriseModal}}
+            >
+              <img
+                src="/assets/icons/close-button.svg"
+                alt="close button icon"
+              />
+            </button>
+          </div>
+          <form aria-label="editEnterpriseForm">
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Name</p>
+              <input
+                id="editNameInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.name}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Enterprise Number</p>
+              <input
+                id="editEnterpriseNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.enterprisenumber}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">VAT Number</p>
+              <input
+                id="editVatNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.vatnumber}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">City</p>
+              <input
+                id="editCityInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.city}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Address</p>
+              <input
+                id="editAddressInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.address}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Email Address</p>
+              <input
+                id="editEmailInput"
+                type="email"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.emailaddress}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Email Address n°2</p>
+              <input
+                id="editEmail2Input"
+                type="email"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.emailaddress2}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Phone Number</p>
+              <input
+                id="editPhoneNumberInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.phonenumber}}
+              />
+            </div>
+            <div class="flex flex-row items-stretch mt-4">
+              <p class="my-auto">Phone Number n°2</p>
+              <input
+                id="editPhoneNumber2Input"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                value={{this.enterprise.phonenumber2}}
+              />
+            </div>
+            <input
+              id="submitEditEnterprise"
+              type="submit"
+              value="Edit enterprise"
+              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  {{/if}}
 </div>
