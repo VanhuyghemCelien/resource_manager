@@ -1,15 +1,21 @@
 <div class="mt-12 ml-28 max-w-[90%]">
   <h1 class="text-3xl font-black text-primary">Month : {{this.currentMonth}}</h1>
+  <button class="bg-error text-black rounded-lg mx-1" type="button" {{on "click" this.choosingDayLess}}> &lt; &lt; Previous</button>
+  <button class="bg-triptykblue text-white rounded-lg mx-1"type="button" {{on "click" this.choosingDayActual}}>Actual</button>
+  <button class="bg-green text-black rounded-lg mx-1"type="button" {{on "click" this.choosingDayPlus}}>Next &gt; &gt;</button>
+  <label name="specificDay">
+    SpecificDay
+    {{!-- template-lint-disable no-down-event-binding --}}
+    <input type="date" name="specificDay" required onkeydown="return false" label="specificDay" class="border-4 border-triptykblue" value={{this.specificDay}} {{on "change" this.choosingSpecificDay }} />
+  </label>
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
       <div class="text-center">Semaine</div>
-      <div class="text-center {{if (eq this.today 1) "border-b-4 border-b-triptykblue"}}">Monday 14 / 02 </div>
-      <div class="text-center {{if (eq this.today 2) "border-b-4 border-b-triptykblue"}}">Tuesday 15 / 02 </div>
-      <div class="text-center {{if (eq this.today 3) "border-b-4 border-b-triptykblue"}} ">
-        Wednesday 16 / 02
-      </div>
-      <div class="text-center {{if (eq this.today 4) "border-b-4 border-b-triptykblue"}}">Thursday 17 / 02 </div>
-      <div class="text-center {{if (eq this.today 5) "border-b-4 border-b-triptykblue"}}">Friday 18 / 02 </div>
+      <div class="text-center {{if (eq this.monday this.todayFormat) "border-b-4 border-b-triptykblue"}}">{{this.monday}}</div>
+      <div class="text-center {{if (eq this.tuesday this.todayFormat) "border-b-4 border-b-triptykblue"}}">{{this.tuesday}}</div>
+      <div class="text-center {{if (eq this.wednesday this.todayFormat) "border-b-4 border-b-triptykblue"}} ">{{this.wednesday}}</div>
+      <div class="text-center {{if (eq this.thursday this.todayFormat) "border-b-4 border-b-triptykblue"}}">{{this.thursday}}</div>
+      <div class="text-center {{if (eq this.friday this.todayFormat) "border-b-4 border-b-triptykblue"}}">{{this.friday}}</div>
     </div>
     {{#each this.resources as |resource|}}
       <div class="grid grid-cols-6 gap-3 mt-3">
