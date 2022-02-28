@@ -7,8 +7,29 @@ interface PagesDashboardWeekArgs {}
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   today: Date = new Date();
+  @tracked displayNewAssignmentModal: boolean = false;
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
+  @tracked here: boolean = false;
+  @tracked resourceName: string = '';
+
+  @action
+  toggleHere() {
+    this.here ? (this.here = false) : (this.here = true);
+  }
+
+  @action
+  toggleDisplayNewAssignmentModal(
+    resourceLastName: string,
+    resourceFirstName: string,
+    choosingdate: Date
+  ) {
+    this.displayNewAssignmentModal
+      ? (this.displayNewAssignmentModal = false)
+      : ((this.displayNewAssignmentModal = true),
+        (this.resourceName = resourceFirstName + ' ' + resourceLastName),
+        (this.choosingDay = new Date(choosingdate)));
+  }
 
   @action
   choosingDayPlus() {
@@ -36,9 +57,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.choosingDay = new Date(this.specificDay);
   }
 
-  get todayFormat() {
-    let todayFormat = format(this.today, 'EEEE - d / LL');
-    return todayFormat;
+  dayFormat(dayDate: Date) {
+    let dayFormat = format(dayDate, 'EEEE - d / LL');
+    return dayFormat;
   }
 
   get columns() {
@@ -66,35 +87,30 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       weekStartsOn: 0,
     });
     monday.setDate(monday.getDate() + 1);
-    let result = format(monday, 'EEEE - d / MM');
-    return result;
+    return monday;
   }
 
   get tuesday() {
     let tuesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     tuesday.setDate(tuesday.getDate() + 2);
-    let result = format(tuesday, 'EEEE - d / MM');
-    return result;
+    return tuesday;
   }
 
   get wednesday() {
     let wednesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     wednesday.setDate(wednesday.getDate() + 3);
-    let result = format(wednesday, 'EEEE - d / MM');
-    return result;
+    return wednesday;
   }
 
   get thursday() {
     let thursday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     thursday.setDate(thursday.getDate() + 4);
-    let result = format(thursday, 'EEEE - d / MM');
-    return result;
+    return thursday;
   }
 
   get friday() {
     let friday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     friday.setDate(friday.getDate() + 5);
-    let result = format(friday, 'EEEE - d / LL');
-    return result;
+    return friday;
   }
 }

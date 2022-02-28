@@ -22,6 +22,12 @@ export default function () {
     */
   this.get('/users');
 
+  this.get('/resources');
+
+  this.get('/dashboard/week/:id');
+  this.put('/dashboard/week/:id'); // or this.patch
+  this.del('/dashboard/week/:id');
+
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);
   });
