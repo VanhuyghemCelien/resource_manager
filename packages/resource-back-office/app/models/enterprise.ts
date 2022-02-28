@@ -6,10 +6,10 @@ export default class EnterpriseModel extends Model {
   @attr() declare city: string;
   @attr() declare emailaddress: string;
   @attr() declare phonenumber: string;
-  @attr() declare emailaddress2: string;
-  @attr() declare phonenumber2: string;
-  @attr() declare enterprisenumber: string;
-  @attr() declare vatnumber: string;
+  @attr() declare emailaddress2?: string;
+  @attr() declare phonenumber2?: string;
+  @attr() declare enterprisenumber?: string;
+  @attr() declare vatnumber?: string;
   @attr() declare address: string;
 }
 

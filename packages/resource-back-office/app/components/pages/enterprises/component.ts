@@ -78,7 +78,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  editEnterprise(field: string, event: { target: { value: string } }) {
+  editEnterpriseField(field: string, event: { target: { value: string } }) {
     switch (field) {
       case 'name':
         this.enterprise.name = event.target.value;
@@ -129,5 +129,22 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     };
     enterprise.save();
     this.toggleDisplayNewEnterpriseModal();
+  }
+
+  @action
+  editEnterprise() {
+    var editedEnterprise = this.enterprise;
+    this.store.findRecord('enterprise', 1).then(function (enterprise) {
+      enterprise.name = editedEnterprise.name;
+      enterprise.city = editedEnterprise.city;
+      enterprise.emailaddress = editedEnterprise.emailaddress;
+      enterprise.phonenumber = editedEnterprise.phonenumber;
+      enterprise.emailaddress2 = editedEnterprise.emailaddress2;
+      enterprise.phonenumber2 = editedEnterprise.phonenumber2;
+      enterprise.enterprisenumber = editedEnterprise.enterprisenumber;
+      enterprise.vatnumber = editedEnterprise.vatnumber;
+      enterprise.address = editedEnterprise.address;
+    });
+    this.toggleDisplayEditEnterpriseModal();
   }
 }
