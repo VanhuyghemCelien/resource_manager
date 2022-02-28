@@ -41,26 +41,62 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @action
   toggleDisplayNewEnterpriseModal() {
     this.displayNewEnterpriseModal
-      ? (this.displayNewEnterpriseModal = false)
+      ? ((this.displayNewEnterpriseModal = false),
+        (this.enterprise = {
+          enterpriseid: 0,
+          name: '',
+          city: '',
+          emailaddress: '',
+          phonenumber: '',
+          emailaddress2: '',
+          phonenumber2: '',
+          enterprisenumber: '',
+          vatnumber: '',
+          address: '',
+        }))
       : (this.displayNewEnterpriseModal = true);
   }
 
   @action
   toggleDisplayEditEnterpriseModal() {
     this.displayEditEnterpriseModal
-      ? (this.displayEditEnterpriseModal = false)
+      ? ((this.displayEditEnterpriseModal = false),
+        (this.enterprise = {
+          enterpriseid: 0,
+          name: '',
+          city: '',
+          emailaddress: '',
+          phonenumber: '',
+          emailaddress2: '',
+          phonenumber2: '',
+          enterprisenumber: '',
+          vatnumber: '',
+          address: '',
+        }))
       : (this.displayEditEnterpriseModal = true);
   }
 
   @action
   toggleDisplayDetailsEnterpriseModal() {
     this.displayDetailsEnterpriseModal
-      ? (this.displayDetailsEnterpriseModal = false)
+      ? ((this.displayDetailsEnterpriseModal = false),
+        (this.enterprise = {
+          enterpriseid: 0,
+          name: '',
+          city: '',
+          emailaddress: '',
+          phonenumber: '',
+          emailaddress2: '',
+          phonenumber2: '',
+          enterprisenumber: '',
+          vatnumber: '',
+          address: '',
+        }))
       : (this.displayDetailsEnterpriseModal = true);
   }
 
   @action
-  displayEnterpriseDetails(enterpriseReceived: Enterprise) {
+  displayEnterpriseDetails(modalName: string, enterpriseReceived: Enterprise) {
     var enterpriseToEdit: Enterprise = {
       enterpriseid: enterpriseReceived.enterpriseid,
       name: enterpriseReceived.name,
@@ -74,7 +110,11 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       address: enterpriseReceived.address,
     };
     this.enterprise = enterpriseToEdit;
-    this.toggleDisplayEditEnterpriseModal();
+    if (modalName === 'editEnterprise') {
+      this.toggleDisplayEditEnterpriseModal();
+    } else if (modalName === 'detailsEnterprise') {
+      this.toggleDisplayDetailsEnterpriseModal();
+    }
   }
 
   @action
