@@ -25,6 +25,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
   @tracked displayDetailsEnterpriseModal: Boolean = false;
+  @tracked modalName: string = '';
   @tracked enterprise: Enterprise = {
     enterpriseid: 0,
     name: '',
@@ -40,64 +41,70 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   toggleDisplayNewEnterpriseModal() {
-    this.displayNewEnterpriseModal
-      ? ((this.displayNewEnterpriseModal = false),
-        (this.enterprise = {
-          enterpriseid: 0,
-          name: '',
-          city: '',
-          emailaddress: '',
-          phonenumber: '',
-          emailaddress2: '',
-          phonenumber2: '',
-          enterprisenumber: '',
-          vatnumber: '',
-          address: '',
-        }))
-      : (this.displayNewEnterpriseModal = true);
+    if (this.displayNewEnterpriseModal) {
+      this.displayNewEnterpriseModal = false;
+      this.enterprise = {
+        enterpriseid: 0,
+        name: '',
+        city: '',
+        emailaddress: '',
+        phonenumber: '',
+        emailaddress2: '',
+        phonenumber2: '',
+        enterprisenumber: '',
+        vatnumber: '',
+        address: '',
+      };
+    } else {
+      this.displayNewEnterpriseModal = true;
+    }
   }
 
   @action
   toggleDisplayEditEnterpriseModal() {
-    this.displayEditEnterpriseModal
-      ? ((this.displayEditEnterpriseModal = false),
-        (this.enterprise = {
-          enterpriseid: 0,
-          name: '',
-          city: '',
-          emailaddress: '',
-          phonenumber: '',
-          emailaddress2: '',
-          phonenumber2: '',
-          enterprisenumber: '',
-          vatnumber: '',
-          address: '',
-        }))
-      : (this.displayEditEnterpriseModal = true);
+    if (this.displayEditEnterpriseModal) {
+      this.displayEditEnterpriseModal = false;
+      this.enterprise = {
+        enterpriseid: 0,
+        name: '',
+        city: '',
+        emailaddress: '',
+        phonenumber: '',
+        emailaddress2: '',
+        phonenumber2: '',
+        enterprisenumber: '',
+        vatnumber: '',
+        address: '',
+      };
+    } else {
+      this.displayEditEnterpriseModal = true;
+    }
   }
 
   @action
   toggleDisplayDetailsEnterpriseModal() {
-    this.displayDetailsEnterpriseModal
-      ? ((this.displayDetailsEnterpriseModal = false),
-        (this.enterprise = {
-          enterpriseid: 0,
-          name: '',
-          city: '',
-          emailaddress: '',
-          phonenumber: '',
-          emailaddress2: '',
-          phonenumber2: '',
-          enterprisenumber: '',
-          vatnumber: '',
-          address: '',
-        }))
-      : (this.displayDetailsEnterpriseModal = true);
+    if (this.displayDetailsEnterpriseModal) {
+      this.displayDetailsEnterpriseModal = false;
+      this.enterprise = {
+        enterpriseid: 0,
+        name: '',
+        city: '',
+        emailaddress: '',
+        phonenumber: '',
+        emailaddress2: '',
+        phonenumber2: '',
+        enterprisenumber: '',
+        vatnumber: '',
+        address: '',
+      };
+    } else {
+      this.displayDetailsEnterpriseModal = true;
+    }
   }
 
   @action
   displayEnterpriseDetails(modalName: string, enterpriseReceived: Enterprise) {
-    var enterpriseToEdit: Enterprise = {
+    const enterpriseToEdit: Enterprise = {
       enterpriseid: enterpriseReceived.enterpriseid,
       name: enterpriseReceived.name,
       city: enterpriseReceived.city,
@@ -173,7 +180,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   editEnterprise() {
-    var editedEnterprise = this.enterprise;
+    const editedEnterprise = this.enterprise;
     this.store.findRecord('enterprise', 1).then(function (enterprise) {
       enterprise.name = editedEnterprise.name;
       enterprise.city = editedEnterprise.city;
