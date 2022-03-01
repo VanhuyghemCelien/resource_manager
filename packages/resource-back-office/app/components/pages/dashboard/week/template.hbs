@@ -11,11 +11,11 @@
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
       <div class="text-center">Semaine</div>
-      <div class="text-center {{if (eq this.monday this.today) "border-b-4 border-b-triptykblue"}}">{{this.monday}}</div>
-      <div class="text-center {{if (eq this.tuesday this.today) "border-b-4 border-b-triptykblue"}}">{{this.tuesday}}</div>
-      <div class="text-center {{if (eq this.wednesday this.today) "border-b-4 border-b-triptykblue"}} ">{{this.wednesday}}</div>
-      <div class="text-center {{if (eq this.thursday this.today) "border-b-4 border-b-triptykblue"}}">{{this.thursday}}</div>
-      <div class="text-center {{if (eq this.friday this.today) "border-b-4 border-b-triptykblue"}}">{{this.friday}}</div>
+      <div class="text-center {{if (eq this.monday this.today) "border-b-4 border-b-triptykblue"}}">{{dayFormat this.monday}}</div>
+      <div class="text-center {{if (eq this.tuesday this.today) "border-b-4 border-b-triptykblue"}}">{{dayFormat this.tuesday}}</div>
+      <div class="text-center {{if (eq this.wednesday this.today) "border-b-4 border-b-triptykblue"}} ">{{dayFormat this.wednesday}}</div>
+      <div class="text-center {{if (eq this.thursday this.today) "border-b-4 border-b-triptykblue"}}">{{dayFormat this.thursday}}</div>
+      <div class="text-center {{if (eq this.friday this.today) "border-b-4 border-b-triptykblue"}}">{{dayFormat this.friday}}</div>
     </div>
     {{#each @model as |resource|}}
       <div class="grid grid-cols-6 gap-3 mt-3">
@@ -33,33 +33,33 @@
           </div>
         </div>
         <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.monday)}} title="test">
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.monday)}} title="test">
           </button>
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.monday)}} >
-          </button>
-        </div>
-        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.tuesday)}} >
-          </button>
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.tuesday)}} >
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.monday)}} >
           </button>
         </div>
         <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.wednesday)}} >
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.tuesday)}} >
           </button>
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.wednesday)}} >
-          </button>
-        </div>
-        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.thursday)}} >
-          </button>
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.thursday)}} >
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.tuesday)}} >
           </button>
         </div>
         <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.friday)}} >
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.wednesday)}} >
           </button>
-          <button type="button" class="bg-grey hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.friday)}} >
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.wednesday)}} >
+          </button>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.thursday)}} >
+          </button>
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.thursday)}} >
+          </button>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-t-xl text-white " {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.friday)}} >
+          </button>
+          <button type="button" class="bg-grey bg-opacity-100 hover:border-8 hover:border-triptykblue text-center rounded-b-xl text-white" {{on "click" (fn this.toggleDisplayNewAssignmentModal resource.lastname resource.firstname this.friday)}} >
           </button>
         </div>
       </div>
@@ -89,7 +89,7 @@
             </button>
           </div>
           <div class="text-center mt-3">
-            {{this.choosingDay}}
+            {{dayFormat this.choosingDay}}
           </div>
           <form aria-label="newEnterpriseForm">
             <div class="flex flex-row items-stretch mt-4">
@@ -116,6 +116,15 @@
                 <option value="consultance">consultance</option>
                 <option value="projet">projet</option>
               </select>
+              <button
+                type="button"
+                {{on "click" this.toggleDisplayNewTypeModal}}
+              >
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
+              </button>
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <p class="my-auto mx-auto">Title</p>
@@ -125,6 +134,14 @@
                 <option value="basic">Html/css</option>
                 <option value="react">react</option>
               </select>
+              <button
+                type="button"
+              >
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
+              </button>
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <p class="my-auto mx-auto">Enterprise</p>
@@ -134,6 +151,14 @@
                 <option value="ruche">la ruche</option>
                 <option value="autres">autres</option>
               </select>
+              <button
+                 type="button"
+              >
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
+              </button>
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <div>
@@ -155,17 +180,55 @@
             {{#if this.here}}
               <div>
                 <p>comment</p>
-                <input id="CommentText" type="text" class="bg-grey bg-opacity-20"/>
+                <input id="CommentText" type="text" class="bg-grey bg-opacity-100"/>
               </div>
             {{/if}}
             <button
               type="button"
               class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
             >
-              <p>Add enterprise</p>
+              <p>Add Assagnment</p>
             </button>
           </form>
 
+        </div>
+      </div>
+    </div>
+  {{/if}}
+  {{#if this.displayNewTypeModal}}
+    <div class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200">
+      <div class="flex h-screen justify-center items-center">
+        <div class="bg-white p-5 rounded-3xl w-[500px]">
+          <div class="flex flex-row justify-center">
+            <h1
+              class="ml-[19px] w-full text-2xl font-bol text-start"
+            >
+              Add a new Type:
+            </h1>
+            <button
+              type="button"
+              {{on "click" this.toggleDisplayNewTypeModal}}
+            >
+              <img
+                src="/assets/icons/close-button.svg"
+                alt="close button icon"
+              />
+            </button>
+          </div>
+          <div>
+            <input type="text" id="typeInput"/>
+          </div>
+          <div class="flex">
+            <p>Multiple colors for this type* ?</p>
+            <input type="checkbox" id="multicolorsInput"/>
+          </div>
+          <button
+              type="button"
+              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            >
+            <p>Create type</p>
+          </button>
+          <p>*If checked, you will have to select a color for each title created for this type of assignment</p>
         </div>
       </div>
     </div>

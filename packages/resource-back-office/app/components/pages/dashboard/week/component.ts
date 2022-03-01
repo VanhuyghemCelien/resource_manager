@@ -8,6 +8,7 @@ interface PagesDashboardWeekArgs {}
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   today: Date = new Date();
   @tracked displayNewAssignmentModal: boolean = false;
+  @tracked displayNewTypeModal: boolean = false;
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
   @tracked here: boolean = false;
@@ -29,6 +30,13 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       : ((this.displayNewAssignmentModal = true),
         (this.resourceName = resourceFirstName + ' ' + resourceLastName),
         (this.choosingDay = new Date(choosingdate)));
+  }
+
+  @action
+  toggleDisplayNewTypeModal() {
+    this.displayNewTypeModal
+      ? (this.displayNewTypeModal = false)
+      : (this.displayNewTypeModal = true);
   }
 
   @action
@@ -55,11 +63,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   choosingSpecificDay(event: { target: { value: Date } }) {
     this.specificDay = event.target.value;
     this.choosingDay = new Date(this.specificDay);
-  }
-
-  dayFormat(dayDate: Date) {
-    let dayFormat = format(dayDate, 'EEEE - d / LL');
-    return dayFormat;
   }
 
   get columns() {
