@@ -23,6 +23,13 @@ export default function () {
   this.get('/users');
 
   this.get('/resources');
+  this.get('/assignment-types');
+  this.get('/assignment-titles');
+  this.get('/enterprises');
+
+  this.post('/assignment-types');
+  this.post('/assignment-titles');
+  this.post('/enterprises');
 
   this.get('/dashboard/week/:id');
   this.put('/dashboard/week/:id'); // or this.patch

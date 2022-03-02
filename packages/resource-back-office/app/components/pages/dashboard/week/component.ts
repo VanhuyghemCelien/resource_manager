@@ -2,17 +2,125 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, startOfWeek } from 'date-fns';
+import type Store from '@ember-data/store';
+import { service } from '@ember/service';
+
+export interface AssignmentType {
+  assignmentTypeName: string;
+  assignmentTypeColor?: string;
+}
+
+export interface AssignmentTitle {
+  assignmentTitleName: string;
+  assignmentTitleColor?: string;
+}
+
+export interface Enterprise {
+  enterpriseName: string;
+}
 
 interface PagesDashboardWeekArgs {}
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
+  @service declare store: Store;
+
   today: Date = new Date();
   @tracked displayNewAssignmentModal: boolean = false;
   @tracked displayNewTypeModal: boolean = false;
+  @tracked displayNewTitleModal: boolean = false;
+  @tracked displayNewEnterpriseModal: boolean = false;
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
+  @tracked color: boolean = false;
   @tracked here: boolean = false;
   @tracked resourceName: string = '';
+  @tracked assignmentType: AssignmentType = {
+    assignmentTypeName: '',
+    assignmentTypeColor: '',
+  };
+  @tracked assignmentTitle: AssignmentTitle = {
+    assignmentTitleName: '',
+    assignmentTitleColor: '',
+  };
+  @tracked enterprise: Enterprise = {
+    enterpriseName: '',
+  };
+
+  @action
+  editAssignmentTypeField(field: string, event: { target: { value: string } }) {
+    switch (field) {
+      case 'name':
+        this.assignmentType.assignmentTypeName = event.target.value;
+        break;
+      case 'color':
+        this.assignmentType.assignmentTypeColor = event.target.value;
+        console.log(this.assignmentType.assignmentTypeColor);
+        break;
+    }
+  }
+
+  @action
+  editAssignmentTitleField(
+    field: string,
+    event: { target: { value: string } }
+  ) {
+    switch (field) {
+      case 'name':
+        this.assignmentTitle.assignmentTitleName = event.target.value;
+        break;
+      case 'color':
+        this.assignmentTitle.assignmentTitleColor = event.target.value;
+        break;
+    }
+  }
+
+  @action
+  editEnterpriseField(event: { target: { value: string } }) {
+    this.enterprise.enterpriseName = event.target.value;
+  }
+
+  @action
+  addAssignmentType() {
+    const assignmentType = this.store.createRecord(
+      'assignment-type',
+      this.assignmentType
+    );
+    // this.assignmentType = {
+    //   assignmentTypeName: '',
+    //   assignmentTypeColor: '',
+    // };
+    assignmentType.save();
+    this.toggleDisplayNewTypeModal();
+  }
+
+  @action
+  addAssignmentTitle() {
+    const assignmentTitle = this.store.createRecord(
+      'assignment-title',
+      this.assignmentTitle
+    );
+    this.assignmentTitle = {
+      assignmentTitleName: '',
+      assignmentTitleColor: '',
+    };
+    assignmentTitle.save();
+    this.toggleDisplayNewTitleModal();
+  }
+
+  @action
+  addEnterprise() {
+    const enterprise = this.store.createRecord('enterprise', this.enterprise);
+    this.enterprise = {
+      enterpriseName: '',
+    };
+    enterprise.save();
+    this.toggleDisplayNewEnterpriseModal();
+  }
+
+  @action
+  toggleColor() {
+    this.color ? (this.color = false) : (this.color = true);
+  }
 
   @action
   toggleHere() {
@@ -37,6 +145,20 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.displayNewTypeModal
       ? (this.displayNewTypeModal = false)
       : (this.displayNewTypeModal = true);
+  }
+
+  @action
+  toggleDisplayNewTitleModal() {
+    this.displayNewTitleModal
+      ? (this.displayNewTitleModal = false)
+      : (this.displayNewTitleModal = true);
+  }
+
+  @action
+  toggleDisplayNewEnterpriseModal() {
+    this.displayNewEnterpriseModal
+      ? (this.displayNewEnterpriseModal = false)
+      : (this.displayNewEnterpriseModal = true);
   }
 
   @action
