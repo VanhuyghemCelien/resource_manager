@@ -25,6 +25,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
   @tracked displayDetailsEnterpriseModal: Boolean = false;
+  @tracked displayDeleteEnterpriseModal: Boolean = true;
   @tracked modalName: string = '';
   @tracked enterprise: Enterprise = {
     enterpriseid: 0,
@@ -38,6 +39,15 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     vatnumber: '',
     address: '',
   };
+
+  @action
+  toggleDisplayDeleteEnterpriseModal() {
+    if (this.displayDeleteEnterpriseModal) {
+      this.displayDeleteEnterpriseModal = false;
+    } else {
+      this.displayDeleteEnterpriseModal = true;
+    }
+  }
 
   @action
   toggleDisplayNewEnterpriseModal() {
