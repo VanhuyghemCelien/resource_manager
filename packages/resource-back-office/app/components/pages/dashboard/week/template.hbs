@@ -53,51 +53,35 @@
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
       <div class="text-center">Semaine</div>
-      <div
-        class="text-center
-          {{if
-            (eq (dayFormat this.monday) (dayFormat this.today))
-            "border-b-4 border-b-navbarBg"
-          }}"
-      >
+      <div class="text-center">
         {{dayFormat this.monday}}
+        {{#if (eq (dayFormat this.monday) (dayFormat this.today))}}
+          <div class="mt-1 h-1 ml-2 mr-1 rounded-full bg-navbarBg"></div>
+        {{/if}}
       </div>
-      <div
-        class="text-center
-          {{if
-            (eq (dayFormat this.tuesday) (dayFormat this.today))
-            "border-b-4 border-b-navbarBg"
-          }}"
-      >
+      <div class="text-center">
         {{dayFormat this.tuesday}}
+        {{#if (eq (dayFormat this.tuesday) (dayFormat this.today))}}
+          <div class="mt-1 h-1 ml-2 mr-1 rounded-full bg-navbarBg"></div>
+        {{/if}}
       </div>
-      <div
-        class="text-center
-          {{if
-            (eq (dayFormat this.wednesday) (dayFormat this.today))
-            "border-b-4 border-b-navbarBg"
-          }}
-          "
-      >
+      <div class="text-center">
         {{dayFormat this.wednesday}}
+        {{#if (eq (dayFormat this.wednesday) (dayFormat this.today))}}
+          <div class="mt-1 h-1 ml-2 mr-1 rounded-full bg-navbarBg"></div>
+        {{/if}}
       </div>
-      <div
-        class="text-center
-          {{if
-            (eq (dayFormat this.thursday) (dayFormat this.today))
-            "border-b-4 border-b-navbarBg"
-          }}"
-      >
+      <div class="text-center">
         {{dayFormat this.thursday}}
+        {{#if (eq (dayFormat this.thursday) (dayFormat this.today))}}
+          <div class="mt-1 h-1 ml-2 mr-1 rounded-full bg-navbarBg"></div>
+        {{/if}}
       </div>
-      <div
-        class="text-center
-          {{if
-            (eq (dayFormat this.friday) (dayFormat this.today))
-            "border-b-4 border-b-navbarBg"
-          }}"
-      >
+      <div class="text-center">
         {{dayFormat this.friday}}
+        {{#if (eq (dayFormat this.friday) (dayFormat this.today))}}
+          <div class="mt-1 h-1 ml-2 mr-1 rounded-full bg-navbarBg"></div>
+        {{/if}}
       </div>
     </div>
     {{#each @model.resource as |resource|}}
@@ -322,11 +306,13 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Type</p>
-              <select 
-                id="typeSelect" 
+              <select
+                id="typeSelect"
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
-                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
-                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectType}}
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}"
+                {{on "change" this.selectType}}
               >
                 {{#each @model.assignmentType as |assignmentType|}}
                   <option value={{assignmentType.assignmentTypeName}}>
@@ -347,11 +333,13 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Title</p>
-              <select 
+              <select
                 id="titleSelect"
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
-                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
-                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectTitle}}
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}"
+                {{on "change" this.selectTitle}}
               >
                 {{#each @model.assignmentTitle as |assignmentTitle|}}
                   <option value={{assignmentTitle.assignmentTitleName}}>
@@ -372,11 +360,13 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Enterprise</p>
-              <select 
+              <select
                 id="enterpriseSelect"
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
-                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
-                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectEnterprise}}
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}"
+                {{on "change" this.selectEnterprise}}
               >
                 {{#each @model.enterprise as |enterprise|}}
                   <option value={{enterprise.enterpriseName}}>
@@ -429,7 +419,7 @@
             {{/if}}
             <button
               type="button"
-              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all du
+              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
               {{on "click" this.addAssignment}}
             >
               <p>Add Assignment</p>
