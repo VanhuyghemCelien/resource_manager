@@ -32,7 +32,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
   @tracked color: boolean = false;
-  @tracked here: boolean = false;
+  @tracked comment: boolean = false;
   @tracked resourceName: string = '';
   @tracked assignmentType: AssignmentType = {
     assignmentTypeName: '',
@@ -54,7 +54,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         break;
       case 'color':
         this.assignmentType.assignmentTypeColor = event.target.value;
-        console.log(this.assignmentType.assignmentTypeColor);
         break;
     }
   }
@@ -85,10 +84,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       'assignment-type',
       this.assignmentType
     );
-    // this.assignmentType = {
-    //   assignmentTypeName: '',
-    //   assignmentTypeColor: '',
-    // };
+    this.assignmentType = {
+      assignmentTypeName: '',
+      assignmentTypeColor: '',
+    };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();
   }
@@ -123,8 +122,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  toggleHere() {
-    this.here ? (this.here = false) : (this.here = true);
+  toggleComment() {
+    this.comment ? (this.comment = false) : (this.comment = true);
   }
 
   @action

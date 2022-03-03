@@ -1,6 +1,6 @@
 <div class="grid grid-cols-[48px_1fr] font-bold">
   <nav
-    class="fixed flex flex-col justify-around bg-triptykblue rounded-r-xl top-10 overflow-hidden w-[56px] hover:w-[160px] transition-all text-white after:w-10/12 after:absolute after:top-[75px] after:content-[''] after:h-px after:left-2 after:bg-triptykblue hover:after:bg-littleline after:transition-all hover:after:opacity-20"
+    class="fixed flex flex-col justify-around bg-navbarBg rounded-r-xl top-10 overflow-hidden w-[56px] hover:w-[160px] transition-all text-white after:w-10/12 after:absolute after:top-[75px] after:content-[''] after:h-px after:left-2 after:bg-navbarBg hover:after:bg-navbarSelected after:transition-all hover:after:opacity-20"
   >
     <div class="flex items-end my-6">
       <h1 class="w-9 ml-[6px] mr-2 text-2xl font-black">TPK</h1>
@@ -8,10 +8,10 @@
     </div>
     <LinkTo
       @route="dashboard"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "dashboard")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
         }}"
     >
@@ -20,22 +20,23 @@
     </LinkTo>
     <LinkTo
       @route="resources"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "resources")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
-        }}" data-test-letestdesacha
+        }}"
+      data-test-letestdesacha
     >
       <img src="/assets/icons/Resources.svg" alt="cheese" class="ml-3 mr-4" />
       <p>Resources</p>
     </LinkTo>
     <LinkTo
       @route="users"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "users")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
         }}"
     >
@@ -44,10 +45,10 @@
     </LinkTo>
     <LinkTo
       @route="enterprises"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "enterprises")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
         }}"
     >
@@ -60,10 +61,10 @@
     </LinkTo>
     <LinkTo
       @route="assignment-type"
-      class="flex mx-1 my-2 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "assignment-type")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
         }}"
     >
@@ -76,10 +77,10 @@
     </LinkTo>
     <LinkTo
       @route="statistics"
-      class="flex mx-1 my-2 mb-4 items-center rounded-full hover:bg-littleline hover:bg-opacity-20 py-2
+      class="flex mx-1 my-2 mb-4 items-center rounded-full hover:bg-navbarSelected hover:bg-opacity-20 py-2
         {{if
           (eq this.route "statistics")
-          "bg-white text-triptykblue transition-all"
+          "bg-white text-navbarBg transition-all"
           "brightness-0 invert transition-all"
         }}"
     >
@@ -89,7 +90,7 @@
   </nav>
   <main class="col-start-2">
     <div
-      class="fixed flex flex-col right-0 m-2 pt-1 h-[48px] overflow-hidden bg-white rounded-xl after:contents[''] after:absolute after:bg-triptykblue after:top-12 after:right-4 after:h-px after:left-4 hover:bg-triptykblue hover:h-[145px] hover:text-white hover:after:bg-littleline hover:after:opacity-20 hover:transition-all"
+      class="fixed flex flex-col right-0 m-2 pt-1 h-[48px] overflow-hidden bg-white rounded-xl after:contents[''] after:absolute after:bg-navbarBg after:top-12 after:right-4 after:h-px after:left-4 hover:bg-navbarBg hover:h-[145px] hover:text-white hover:after:bg-navbarSelected hover:after:opacity-20 hover:transition-all"
     >
       <div class="flex mx-3">
         <button type="button" class="flex items-center mb-5">
@@ -102,13 +103,13 @@
         </button>
       </div>
       <div
-        class="flex mx-2 mb-2 rounded-full p-1 hover:bg-littleline hover:bg-opacity-20 hover:transition-all"
+        class="flex mx-2 mb-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
       >
         <img src="/assets/icons/Profil.svg" alt="profil" class="ml-3 mr-5" />
         <a href="#">Profile</a>
       </div>
       <div
-        class="flex mx-2 rounded-full p-1 hover:bg-littleline hover:bg-opacity-20 hover:transition-all"
+        class="flex mx-2 rounded-full p-1 hover:bg-navbarSelected hover:bg-opacity-20 hover:transition-all"
       >
         <img src="/assets/icons/Log-Out.svg" alt="profil" class="mr-4 ml-4" />
         <a href="#">Log Out</a>
