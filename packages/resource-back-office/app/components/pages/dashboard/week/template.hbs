@@ -322,9 +322,11 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Type</p>
-              <select
-                id="typeSelect"
-                class="grow text-center mx-4 rounded-xl px-2 bg-white border border-navbarBg text-navbarBg"
+              <select 
+                id="typeSelect" 
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectType}}
               >
                 {{#each @model.assignmentType as |assignmentType|}}
                   <option value={{assignmentType.assignmentTypeName}}>
@@ -345,9 +347,11 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Title</p>
-              <select
+              <select 
                 id="titleSelect"
-                class="grow text-center mx-4 rounded-xl px-2 bg-white border border-navbarBg text-navbarBg"
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectTitle}}
               >
                 {{#each @model.assignmentTitle as |assignmentTitle|}}
                   <option value={{assignmentTitle.assignmentTitleName}}>
@@ -368,9 +372,11 @@
             </div>
             <div class="flex flex-row mt-4 justify-between">
               <p class="w-[76px] grow-0">Enterprise</p>
-              <select
+              <select 
                 id="enterpriseSelect"
-                class="grow text-center mx-4 rounded-xl px-2 bg-white border border-navbarBg text-navbarBg"
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+                style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectEnterprise}}
               >
                 {{#each @model.enterprise as |enterprise|}}
                   <option value={{enterprise.enterpriseName}}>
@@ -423,7 +429,8 @@
             {{/if}}
             <button
               type="button"
-              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all du
+              {{on "click" this.addAssignment}}
             >
               <p>Add Assignment</p>
             </button>
