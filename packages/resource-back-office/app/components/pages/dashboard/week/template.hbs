@@ -110,7 +110,8 @@
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <p class="my-auto mx-auto">Type</p>
-              <select id="typeSelect">
+              <select id="typeSelect" {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+              style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectType}}>
                 <option value="">--Select a type of assignment</option>
                 {{#each @model.assignmentType as |assignmentType|}}
                   <option value={{assignmentType.assignmentTypeName}}>{{assignmentType.assignmentTypeName}}</option>
@@ -128,7 +129,8 @@
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <p class="my-auto mx-auto">Title</p>
-              <select id="titleSelect">
+              <select id="titleSelect" {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+              style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectTitle}}>
                 <option value="">--Select a title of assignment</option>
                 {{#each @model.assignmentTitle as |assignmentTitle|}}
                   <option value={{assignmentTitle.assignmentTitleName}}>{{assignmentTitle.assignmentTitleName}}</option>
@@ -146,7 +148,8 @@
             </div>
             <div class="flex flex-row items-stretch mt-4">
               <p class="my-auto mx-auto">Enterprise</p>
-              <select id="enterpriseSelect">
+              <select id="enterpriseSelect" {{!-- template-lint-disable no-inline-styles --}}{{!-- template-lint-disable style-concatenation --}}
+              style="border: 1px solid {{this.assignmentType.assignmentTypeColor}}" {{on "change" this.selectEnterprise}}>
                 <option value="">--Select an Enterprise</option>
                 {{#each @model.enterprise as |enterprise|}}
                   <option value={{enterprise.enterpriseName}}>{{enterprise.enterpriseName}}</option>
@@ -188,6 +191,7 @@
             <button
               type="button"
               class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+              {{on "click" this.addAssignment}}
             >
               <p>Add Assagnment</p>
             </button>

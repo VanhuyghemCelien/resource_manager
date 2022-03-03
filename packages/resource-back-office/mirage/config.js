@@ -26,6 +26,11 @@ export default function () {
   this.get('/assignment-types');
   this.get('/assignment-titles');
   this.get('/enterprises');
+  this.get('/assignment-types/:assignmentTypeName', (schema, request) => {
+    const assignmentTypeName = request.params.assignmentTypeName;
+    console.log(schema);
+    return schema.assignmentTypes.findBy({ assignmentTypeName });
+  });
 
   this.post('/assignment-types');
   this.post('/assignment-titles');

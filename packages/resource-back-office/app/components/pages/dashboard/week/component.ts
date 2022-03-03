@@ -36,7 +36,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked resourceName: string = '';
   @tracked assignmentType: AssignmentType = {
     assignmentTypeName: '',
-    assignmentTypeColor: '',
+    assignmentTypeColor: '#adab32',
   };
   @tracked assignmentTitle: AssignmentTitle = {
     assignmentTitleName: '',
@@ -45,6 +45,35 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked enterprise: Enterprise = {
     enterpriseName: '',
   };
+  @tracked colorFormat =
+    'border-[' + this.assignmentType.assignmentTypeColor + ']';
+
+  @action
+  selectEnterprise(event: { target: { value: string } }) {
+    this.enterprise = {
+      enterpriseName: event.target.value,
+    };
+  }
+
+  @action
+  selectTitle(event: { target: { value: string } }) {
+    this.assignmentTitle = {
+      assignmentTitleName: event.target.value,
+    };
+  }
+
+  @action
+  async selectType(event: { target: { value: string } }) {
+    let selected = await this.store.findRecord(
+      'assignment-type',
+      event.target.value
+    );
+    console.log(selected.assignmentTypeColor);
+    this.assignmentType = {
+      assignmentTypeName: selected.assignmentTypeName,
+      assignmentTypeColor: selected.assignmentTypeColor,
+    };
+  }
 
   @action
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
@@ -85,10 +114,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       'assignment-type',
       this.assignmentType
     );
-    // this.assignmentType = {
-    //   assignmentTypeName: '',
-    //   assignmentTypeColor: '',
-    // };
+    this.assignmentType = {
+      assignmentTypeName: '',
+      assignmentTypeColor: '',
+    };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();
   }
