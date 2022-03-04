@@ -5,6 +5,14 @@ import { format, startOfWeek } from 'date-fns';
 import type Store from '@ember-data/store';
 import { service } from '@ember/service';
 
+export interface Assignment {
+  userName: string;
+  assignmentType: AssignmentType;
+  assignmentTitle: AssignmentTitle;
+  enterprise: Enterprise;
+  date: string;
+}
+
 export interface AssignmentType {
   assignmentTypeName: string;
   assignmentTypeColor?: string;
@@ -47,6 +55,59 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   };
   @tracked colorFormat =
     'border-[' + this.assignmentType.assignmentTypeColor + ']';
+  @tracked assignment: Assignment = {
+    userName: '',
+    assignmentType: {
+      assignmentTypeName: '',
+      assignmentTypeColor: '',
+    },
+    assignmentTitle: {
+      assignmentTitleName: '',
+      assignmentTitleColor: '',
+    },
+    enterprise: {
+      enterpriseName: '',
+    },
+    date: '',
+  };
+
+  @action
+  addAssignment(date: string, userName: string) {
+    this.assignment = {
+      userName: userName,
+      assignmentType: {
+        assignmentTypeName: this.assignmentType.assignmentTypeName,
+        assignmentTypeColor: this.assignmentType.assignmentTypeColor,
+      },
+      assignmentTitle: {
+        assignmentTitleName: this.assignmentTitle.assignmentTitleName,
+        assignmentTitleColor: this.assignmentTitle.assignmentTitleColor,
+      },
+      enterprise: {
+        enterpriseName: this.enterprise.enterpriseName,
+      },
+      date: date,
+    };
+    const assignment = this.store.createRecord('assignment', this.assignment);
+    this.assignment = {
+      userName: '',
+      assignmentType: {
+        assignmentTypeName: '',
+        assignmentTypeColor: '',
+      },
+      assignmentTitle: {
+        assignmentTitleName: '',
+        assignmentTitleColor: '',
+      },
+      enterprise: {
+        enterpriseName: '',
+      },
+      date: '',
+    };
+    console.log(assignment);
+    assignment.save();
+    this.toggleDisplayNewAssignmentModal('', '', this.today);
+  }
 
   @action
   selectEnterprise(event: { target: { value: string } }) {
@@ -64,11 +125,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   async selectType(event: { target: { value: string } }) {
-    let selected = await this.store.findRecord(
-      'assignment-type',
-      event.target.value
-    );
-    console.log(selected.assignmentTypeColor);
+    const value = event.target.value;
+    let selected = await this.store.queryRecord('assignment-type', {
+      name: value,
+    });
     this.assignmentType = {
       assignmentTypeName: selected.assignmentTypeName,
       assignmentTypeColor: selected.assignmentTypeColor,
@@ -214,6 +274,36 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.specificDay = event.target.value;
     this.choosingDay = new Date(this.specificDay);
   }
+
+  // async dayAssignment(userName: string, date: string) {
+  //   console.log(userName + ' ' + date);
+  //   console.log(
+  //     this.store.queryRecord('assignment', {
+  //       userName,
+  //       date,
+  //     })
+  //   );
+  //   const result = await this.store.queryRecord('assignment', {
+  //     userName,
+  //     date,
+  //   });
+  //   this.assignment = {
+  //     userName: result.userName,
+  //     assignmentType: {
+  //       assignmentTypeName: result.assignmentType.assignmentTypeName,
+  //       assignmentTypeColor: result.assignmentType.assignmentTypeColor,
+  //     },
+  //     assignmentTitle: {
+  //       assignmentTitleName: result.assignmentTitle.assignmentTitleName,
+  //       assignmentTitleColor: result.assignmentTitle.assignmentTitleColor,
+  //     },
+  //     enterprise: {
+  //       enterpriseName: result.enterprise.enterpriseName,
+  //     },
+  //     date: date,
+  //   };
+  //   return result;
+  // }
 
   get columns() {
     let cols: number[] = Array(5);

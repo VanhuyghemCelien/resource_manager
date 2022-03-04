@@ -9,9 +9,10 @@ module.exports = function (env) {
       'font-src': ["'self'", 'https://fonts.gstatic.com'],
       'connect-src': ["'self'"],
       'img-src': ["'self'"],
-      'style-src': ["'self'"],
+      'style-src': ["'self'", 'https://fonts.googleapis.com'],
       'media-src': ["'self'"],
       'style-src-elem': ["'self'", 'https://fonts.googleapis.com'],
+      'style-src-attr': ["'self'", "'unsafe-inline'"],
     },
     reportOnly: true,
   };

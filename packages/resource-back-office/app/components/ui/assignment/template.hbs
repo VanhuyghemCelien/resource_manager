@@ -1,0 +1,169 @@
+<div class="grid grid-cols-6 gap-3 mt-3">
+  <div class="grid grid-cols-2">
+    <div class="flex flex-row justify-end mr-5 my-auto">
+      <img
+        src={{this.resource.image}}
+        alt="portrait-icon"
+        class="rounded-full w-[50px] h-[50px] object-cover"
+      />
+    </div>
+    <div class="text-left my-auto">
+      <h1 class="text-primary">
+        {{this.resource.firstname}}
+        {{this.resource.lastname}}
+      </h1>
+      <p class="text-secondary text-left">{{this.resource.enterprise}}</p>
+    </div>
+  </div>
+  <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.monday
+        )
+      }}
+      title="title"
+    >
+    </button>
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.monday
+        )
+      }}
+    >
+    </button>
+  </div>
+  <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.tuesday
+        )
+      }}
+    >
+    </button>
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.tuesday
+        )
+      }}
+    >
+    </button>
+  </div>
+  <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.wednesday
+        )
+      }}
+    >
+    </button>
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.wednesday
+        )
+      }}
+    >
+    </button>
+  </div>
+  <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.thursday
+        )
+      }}
+    >
+    </button>
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.thursday
+        )
+      }}
+    >
+    </button>
+  </div>
+  <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.friday
+        )
+      }}
+    >
+    </button>
+    <button
+      type="button"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      {{on
+        "click"
+        (fn
+          this.toggleDisplayNewAssignmentModal
+          this.resource.lastname
+          this.resource.firstname
+          this.friday
+        )
+      }}
+    >
+    </button>
+  </div>
+</div>
