@@ -84,7 +84,7 @@
               <button
                 type="button"
                 class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-                {{on "click" this.toggleDisplayDeleteEnterpriseModal}}
+                {{on "click" (fn this.displayDeleteEnterprise enterprise)}}
               >
                 <img
                   src="/assets/icons/delete-button.svg"
@@ -474,12 +474,17 @@
             <button
               type="button"
               class="w-max px-10 py-2 bg-navbarBg text-white rounded-full"
+              {{on "click" this.toggleDisplayDeleteEnterpriseModal}}
             >
               No
             </button>
             <button
               type="button"
               class="w-max px-10 py-2 bg-warn text-white ml-3 rounded-full"
+              {{on
+                "click"
+                (fn this.deleteEnterprise this.enterprise.enterpriseid)
+              }}
             >
               Yes
             </button>

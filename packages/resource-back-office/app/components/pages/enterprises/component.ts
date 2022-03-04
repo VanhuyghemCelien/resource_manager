@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import type Store from '@ember-data/store';
 
-export interface Enterprise {
+export interface EnterpriseModel {
   enterpriseid: number;
   name: string;
   city: string;
@@ -25,10 +25,10 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
   @tracked displayDetailsEnterpriseModal: Boolean = false;
-  @tracked displayDeleteEnterpriseModal: Boolean = true;
+  @tracked displayDeleteEnterpriseModal: Boolean = false;
   @tracked modalName: string = '';
-  @tracked enterprise: Enterprise = {
-    enterpriseid: 0,
+  @tracked enterprise: EnterpriseModel = {
+    enterpriseid: 3,
     name: '',
     city: '',
     emailaddress: '',
@@ -41,7 +41,36 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   };
 
   @action
-  toggleDisplayDeleteEnterpriseModal() {
+  displayDeleteEnterprise(enterprise: EnterpriseModel) {
+    this.toggleDisplayDeleteEnterpriseModal();
+    this.enterprise = {
+      enterpriseid: enterprise.enterpriseid,
+      name: enterprise.name,
+      city: enterprise.city,
+      emailaddress: enterprise.emailaddress,
+      phonenumber: enterprise.phonenumber,
+      emailaddress2: enterprise.emailaddress2,
+      phonenumber2: enterprise.phonenumber2,
+      enterprisenumber: enterprise.enterprisenumber,
+      vatnumber: enterprise.vatnumber,
+      address: enterprise.address,
+    };
+  }
+
+  @action
+  async toggleDisplayDeleteEnterpriseModal() {
+    this.enterprise = {
+      enterpriseid: 3,
+      name: '',
+      city: '',
+      emailaddress: '',
+      phonenumber: '',
+      emailaddress2: '',
+      phonenumber2: '',
+      enterprisenumber: '',
+      vatnumber: '',
+      address: '',
+    };
     if (this.displayDeleteEnterpriseModal) {
       this.displayDeleteEnterpriseModal = false;
     } else {
@@ -54,7 +83,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     if (this.displayNewEnterpriseModal) {
       this.displayNewEnterpriseModal = false;
       this.enterprise = {
-        enterpriseid: 0,
+        enterpriseid: 3,
         name: '',
         city: '',
         emailaddress: '',
@@ -75,7 +104,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     if (this.displayEditEnterpriseModal) {
       this.displayEditEnterpriseModal = false;
       this.enterprise = {
-        enterpriseid: 0,
+        enterpriseid: 3,
         name: '',
         city: '',
         emailaddress: '',
@@ -96,7 +125,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     if (this.displayDetailsEnterpriseModal) {
       this.displayDetailsEnterpriseModal = false;
       this.enterprise = {
-        enterpriseid: 0,
+        enterpriseid: 3,
         name: '',
         city: '',
         emailaddress: '',
@@ -113,8 +142,11 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  displayEnterpriseDetails(modalName: string, enterpriseReceived: Enterprise) {
-    const enterpriseToEdit: Enterprise = {
+  displayEnterpriseDetails(
+    modalName: string,
+    enterpriseReceived: EnterpriseModel
+  ) {
+    const enterpriseToEdit: EnterpriseModel = {
       enterpriseid: enterpriseReceived.enterpriseid,
       name: enterpriseReceived.name,
       city: enterpriseReceived.city,
@@ -173,7 +205,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   addEnterprise() {
     const enterprise = this.store.createRecord('enterprise', this.enterprise);
     this.enterprise = {
-      enterpriseid: 0,
+      enterpriseid: 3,
       name: '',
       city: '',
       emailaddress: '',
@@ -189,19 +221,38 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  editEnterprise() {
+  async editEnterprise() {
     const editedEnterprise = this.enterprise;
-    this.store.findRecord('enterprise', 1).then(function (enterprise) {
-      enterprise.name = editedEnterprise.name;
-      enterprise.city = editedEnterprise.city;
-      enterprise.emailaddress = editedEnterprise.emailaddress;
-      enterprise.phonenumber = editedEnterprise.phonenumber;
-      enterprise.emailaddress2 = editedEnterprise.emailaddress2;
-      enterprise.phonenumber2 = editedEnterprise.phonenumber2;
-      enterprise.enterprisenumber = editedEnterprise.enterprisenumber;
-      enterprise.vatnumber = editedEnterprise.vatnumber;
-      enterprise.address = editedEnterprise.address;
-    });
+    const enterprise = await this.store.findRecord(
+      'enterprise',
+      editedEnterprise.enterpriseid
+    );
+
+    enterprise.name = editedEnterprise.name;
+    enterprise.city = editedEnterprise.city;
+    enterprise.emailaddress = editedEnterprise.emailaddress;
+    enterprise.phonenumber = editedEnterprise.phonenumber;
+    enterprise.emailaddress2 = editedEnterprise.emailaddress2;
+    enterprise.phonenumber2 = editedEnterprise.phonenumber2;
+    enterprise.enterprisenumber = editedEnterprise.enterprisenumber;
+    enterprise.vatnumber = editedEnterprise.vatnumber;
+    enterprise.address = editedEnterprise.address;
+
+    enterprise.save();
     this.toggleDisplayEditEnterpriseModal();
+  }
+
+  @action
+  async deleteEnterprise(enterpriseId: number) {
+    const enterpriseToDelete = await this.store.peekRecord(
+      'enterprise',
+      enterpriseId
+    );
+    if (enterpriseId) {
+      enterpriseToDelete!.deleteRecord();
+      this.toggleDisplayDeleteEnterpriseModal();
+      enterpriseToDelete!.unloadRecord();
+      enterpriseToDelete!.save();
+    }
   }
 }
