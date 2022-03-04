@@ -22,7 +22,21 @@ export default function () {
     */
   this.get('/users');
   this.get('/enterprises');
+  this.get('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    return schema.enterprise.findBy(enterpriseId);
+  });
   this.post('/enterprises');
+  this.patch('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToEdit = schema.enterprise.findBy(enterpriseId);
+    return enterpriseToEdit;
+  });
+  this.del('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToDelete = schema.enterprise.findBy(enterpriseId);
+    return enterpriseToDelete;
+  });
 
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);

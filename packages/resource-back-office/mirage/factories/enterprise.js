@@ -1,8 +1,8 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  enterpriseid() {
-    return Math.floor(Math.random() * 20);
+  enterpriseid(i) {
+    return i + 1;
   },
   name() {
     if (Math.floor(Math.random() * 20) >= 10) {
