@@ -25,6 +25,6 @@ export default Factory.extend({
   },
 
   date() {
-    return 'Monday - 28 / 02';
+    return new Date('2022-03-08');
   },
 });

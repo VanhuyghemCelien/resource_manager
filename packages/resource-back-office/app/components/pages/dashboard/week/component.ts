@@ -10,7 +10,7 @@ export interface Assignment {
   assignmentType: AssignmentType;
   assignmentTitle: AssignmentTitle;
   enterprise: Enterprise;
-  date: string;
+  date: Date;
 }
 
 export interface AssignmentType {
@@ -68,11 +68,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     enterprise: {
       enterpriseName: '',
     },
-    date: '',
+    date: new Date(),
   };
 
   @action
-  addAssignment(date: string, userName: string) {
+  addAssignment(date: Date, userName: string) {
     this.assignment = {
       userName: userName,
       assignmentType: {
@@ -102,9 +102,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterprise: {
         enterpriseName: '',
       },
-      date: '',
+      date: new Date(),
     };
-    console.log(assignment);
     assignment.save();
     this.toggleDisplayNewAssignmentModal('', '', this.today);
   }
@@ -274,36 +273,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.specificDay = event.target.value;
     this.choosingDay = new Date(this.specificDay);
   }
-
-  // async dayAssignment(userName: string, date: string) {
-  //   console.log(userName + ' ' + date);
-  //   console.log(
-  //     this.store.queryRecord('assignment', {
-  //       userName,
-  //       date,
-  //     })
-  //   );
-  //   const result = await this.store.queryRecord('assignment', {
-  //     userName,
-  //     date,
-  //   });
-  //   this.assignment = {
-  //     userName: result.userName,
-  //     assignmentType: {
-  //       assignmentTypeName: result.assignmentType.assignmentTypeName,
-  //       assignmentTypeColor: result.assignmentType.assignmentTypeColor,
-  //     },
-  //     assignmentTitle: {
-  //       assignmentTitleName: result.assignmentTitle.assignmentTitleName,
-  //       assignmentTitleColor: result.assignmentTitle.assignmentTitleColor,
-  //     },
-  //     enterprise: {
-  //       enterpriseName: result.enterprise.enterpriseName,
-  //     },
-  //     date: date,
-  //   };
-  //   return result;
-  // }
 
   get columns() {
     let cols: number[] = Array(5);

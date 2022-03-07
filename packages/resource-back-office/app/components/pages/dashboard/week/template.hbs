@@ -85,7 +85,7 @@
       </div>
     </div>
     {{#each @model.resource as |resource|}}
-      <Ui::Assignment @resource={{resource}} @choosingday={{this.choosingDay}}></Ui::Assignment>
+      <Ui::Assignment @resource={{resource}} @choosingday={{this.choosingDay}} @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}></Ui::Assignment>
     {{/each}}
   </div>
   {{#if this.displayNewAssignmentModal}}

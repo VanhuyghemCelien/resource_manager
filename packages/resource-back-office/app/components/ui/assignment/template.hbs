@@ -2,29 +2,29 @@
   <div class="grid grid-cols-2">
     <div class="flex flex-row justify-end mr-5 my-auto">
       <img
-        src={{this.resource.image}}
+        src={{@resource.image}}
         alt="portrait-icon"
         class="rounded-full w-[50px] h-[50px] object-cover"
       />
     </div>
     <div class="text-left my-auto">
       <h1 class="text-primary">
-        {{this.resource.firstname}}
-        {{this.resource.lastname}}
+        {{@resource.firstname}}
+        {{@resource.lastname}}
       </h1>
-      <p class="text-secondary text-left">{{this.resource.enterprise}}</p>
+      <p class="text-secondary text-left">{{@resource.enterprise}}</p>
     </div>
   </div>
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyMonday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.monday
         )
       }}
@@ -33,13 +33,13 @@
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      class="bg-grey bg-opacity-p100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyMonday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.monday
         )
       }}
@@ -49,13 +49,13 @@
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyTuesday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.tuesday
         )
       }}
@@ -63,13 +63,13 @@
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyTuesday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.tuesday
         )
       }}
@@ -79,13 +79,13 @@
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyWednesday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.wednesday
         )
       }}
@@ -93,13 +93,13 @@
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyWednesday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.wednesday
         )
       }}
@@ -109,13 +109,13 @@
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyThursday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.thursday
         )
       }}
@@ -123,13 +123,13 @@
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyThursday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.thursday
         )
       }}
@@ -139,13 +139,13 @@
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyFriday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.friday
         )
       }}
@@ -153,13 +153,13 @@
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyFriday "bg-green"}}"
       {{on
         "click"
         (fn
-          this.toggleDisplayNewAssignmentModal
-          this.resource.lastname
-          this.resource.firstname
+          @toggleDisplayNewAssignmentModal
+          @resource.lastname
+          @resource.firstname
           this.friday
         )
       }}

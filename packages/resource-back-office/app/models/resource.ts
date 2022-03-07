@@ -1,4 +1,5 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
+import type AssignmentModel from './assignment';
 
 export default class ResourceModel extends Model {
   @attr() declare image: string;
@@ -8,6 +9,8 @@ export default class ResourceModel extends Model {
   @attr() declare phonenumber: string;
   @attr() declare roleuser: string;
   @attr() declare enterprise: string;
+  @hasMany('assignment', { async: false })
+  declare assignments: AssignmentModel[];
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.
