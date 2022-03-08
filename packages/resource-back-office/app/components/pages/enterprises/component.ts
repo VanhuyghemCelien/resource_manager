@@ -58,6 +58,17 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
+  toggleDisplayEnterpriseModal(type: string) {
+    if (type === 'details') {
+      this.toggleDisplayDetailsEnterpriseModal();
+    } else if (type === 'new') {
+      this.toggleDisplayNewEnterpriseModal();
+    } else if (type === 'edit') {
+      this.toggleDisplayEditEnterpriseModal();
+    }
+  }
+
+  @action
   async toggleDisplayDeleteEnterpriseModal() {
     this.enterprise = {
       enterpriseid: 3,
@@ -78,7 +89,6 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     }
   }
 
-  @action
   toggleDisplayNewEnterpriseModal() {
     if (this.displayNewEnterpriseModal) {
       this.displayNewEnterpriseModal = false;
@@ -99,7 +109,6 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     }
   }
 
-  @action
   toggleDisplayEditEnterpriseModal() {
     if (this.displayEditEnterpriseModal) {
       this.displayEditEnterpriseModal = false;
@@ -120,7 +129,6 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     }
   }
 
-  @action
   toggleDisplayDetailsEnterpriseModal() {
     if (this.displayDetailsEnterpriseModal) {
       this.displayDetailsEnterpriseModal = false;
@@ -217,7 +225,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       address: '',
     };
     enterprise.save();
-    this.toggleDisplayNewEnterpriseModal();
+    this.toggleDisplayEnterpriseModal('new');
   }
 
   @action
@@ -239,7 +247,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     enterprise.address = editedEnterprise.address;
 
     enterprise.save();
-    this.toggleDisplayEditEnterpriseModal();
+    this.toggleDisplayEnterpriseModal('edit');
   }
 
   @action

@@ -1,21 +1,23 @@
-<div class="mt-12 ml-12 mr-10 max-w-[95%]">
+<div class="mt-12 ml-12 mr-10 max-w-[95%]" id="enterprisePage">
   <h1 class="text-3xl font-black text-primary">Enterprises</h1>
   <div
     class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
   >
     <button
+      id="test"
       type="button"
       class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-      {{on "click" this.toggleDisplayNewEnterpriseModal}}
+      {{on "click" (fn this.toggleDisplayEnterpriseModal "new")}}
+      data-test-enterprises="addEnterpriseButton"
     >
-      <p class="text-lg">
+      <div class="text-lg flex flex-row">
         <img
           src="/assets/icons/plus-button.svg"
           alt="plus button icon"
-          class="inline h-6 w-6"
+          class="inline h-6 w-6 my-auto"
         />
-        Add an enterprise
-      </p>
+        <p class="ml-1">Add an enterprise</p>
+      </div>
     </button>
   </div>
   <table class="w-[100%] min-w-[850px]">
@@ -36,23 +38,34 @@
             <button
               type="button"
               class="hover:text-navbarBg"
+              title="{{enterprise.name}} - {{enterprise.city}}"
               {{on
                 "click"
                 (fn
                   this.displayEnterpriseDetails "detailsEnterprise" enterprise
                 )
               }}
+              data-test-enterprises="enterpriseNameDisplayed"
             >
               {{enterprise.name}}
             </button>
           </td>
-          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+          <td
+            class="w-1/5 text-center text-secondary px-2 text-base py-2"
+            data-test-enterprises="enterpriseCityDisplayed"
+          >
             {{enterprise.city}}
           </td>
-          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+          <td
+            class="w-1/5 text-center text-secondary px-2 text-base py-2"
+            data-test-enterprises="enterpriseEmailDisplayed"
+          >
             {{enterprise.emailaddress}}
           </td>
-          <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+          <td
+            class="w-1/5 text-center text-secondary px-2 text-base py-2"
+            data-test-enterprises="enterprisePhoneDisplayed"
+          >
             {{enterprise.phonenumber}}
           </td>
           <td class="w-[10%] text-center px-2 py-2">
@@ -100,355 +113,29 @@
     </tbody>
   </table>
   {{#if this.displayNewEnterpriseModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div class="flex h-screen justify-center items-center">
-        <div class="bg-white p-5 rounded-3xl w-[500px]">
-          <div class="flex flex-row justify-end">
-            <h1
-              class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
-            >
-              New Enterprise
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayNewEnterpriseModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <form aria-label="newEnterpriseForm">
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Name</p>
-              <input
-                id="nameInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                required
-                {{on "change" (fn this.editEnterpriseField "name")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Enterprise Number</p>
-              <input
-                id="enterpriseNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                {{on "change" (fn this.editEnterpriseField "enterprisenumber")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">VAT Number</p>
-              <input
-                id="vatNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                {{on "change" (fn this.editEnterpriseField "vatnumber")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">City</p>
-              <input
-                id="cityInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                required
-                {{on "change" (fn this.editEnterpriseField "city")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Address</p>
-              <input
-                id="addressInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                required
-                {{on "change" (fn this.editEnterpriseField "address")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address</p>
-              <input
-                id="emailInput"
-                type="email"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                required
-                {{on "change" (fn this.editEnterpriseField "emailaddress")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address n°2</p>
-              <input
-                id="email2Input"
-                type="email"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                {{on "change" (fn this.editEnterpriseField "emailaddress2")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number</p>
-              <input
-                id="phoneNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                required
-                {{on "change" (fn this.editEnterpriseField "phonenumber")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number n°2</p>
-              <input
-                id="phoneNumber2Input"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                {{on "change" (fn this.editEnterpriseField "phonenumber2")}}
-              />
-            </div>
-            <button
-              type="button"
-              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-              {{on "click" this.addEnterprise}}
-            >
-              <p>Add enterprise</p>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <Popups::Enterprises
+      @type="new"
+      @enterprise={{this.enterprise}}
+      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
+      @editEnterpriseField={{this.editEnterpriseField}}
+      @saveFunction={{this.addEnterprise}}
+    />
   {{/if}}
   {{#if this.displayEditEnterpriseModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div class="flex h-screen justify-center items-center">
-        <div class="bg-white p-5 rounded-3xl w-[500px]">
-          <div class="flex flex-row justify-end">
-            <h1
-              class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
-            >
-              Edit Enterprise
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayEditEnterpriseModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <form aria-label="editEnterpriseForm">
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Name</p>
-              <input
-                id="editNameInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.name}}
-                {{on "change" (fn this.editEnterpriseField "name")}}
-                required
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Enterprise Number</p>
-              <input
-                id="editEnterpriseNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.enterprisenumber}}
-                {{on "change" (fn this.editEnterpriseField "enterprisenumber")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">VAT Number</p>
-              <input
-                id="editVatNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.vatnumber}}
-                {{on "change" (fn this.editEnterpriseField "vatnumber")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">City</p>
-              <input
-                id="editCityInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.city}}
-                {{on "change" (fn this.editEnterpriseField "city")}}
-                required
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Address</p>
-              <input
-                id="editAddressInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.address}}
-                {{on "change" (fn this.editEnterpriseField "address")}}
-                required
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address</p>
-              <input
-                id="editEmailInput"
-                type="email"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.emailaddress}}
-                {{on "change" (fn this.editEnterpriseField "emailaddress")}}
-                required
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address n°2</p>
-              <input
-                id="editEmail2Input"
-                type="email"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.emailaddress2}}
-                {{on "change" (fn this.editEnterpriseField "emailaddress2")}}
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number</p>
-              <input
-                id="editPhoneNumberInput"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.phonenumber}}
-                {{on "change" (fn this.editEnterpriseField "phonenumber")}}
-                required
-              />
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number n°2</p>
-              <input
-                id="editPhoneNumber2Input"
-                type="text"
-                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-                value={{this.enterprise.phonenumber2}}
-                {{on "change" (fn this.editEnterpriseField "phonenumber2")}}
-              />
-            </div>
-            <button
-              type="submit"
-              class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-              {{on "click" this.editEnterprise}}
-            >
-              <p>Edit enterprise</p>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <Popups::Enterprises
+      @type="edit"
+      @enterprise={{this.enterprise}}
+      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
+      @editEnterpriseField={{this.editEnterpriseField}}
+      @saveFunction={{this.editEnterprise}}
+    />
   {{/if}}
   {{#if this.displayDetailsEnterpriseModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div class="flex h-screen justify-center items-center">
-        <div class="bg-white p-5 rounded-3xl w-[500px]">
-          <div class="flex flex-row justify-end">
-            <h1
-              class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
-            >
-              Enterprise Details
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayDetailsEnterpriseModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <form aria-label="detailsEnterpriseForm">
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Name</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.name}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Enterprise Number</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.enterprisenumber}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">VAT Number</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.vatnumber}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">City</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.city}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Address</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.address}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.emailaddress}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Email Address n°2</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.emailaddress2}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.phonenumber}}
-              </p>
-            </div>
-            <div class="flex flex-row items-stretch mt-4">
-              <p class="my-auto">Phone Number n°2</p>
-              <p
-                class="border-2 h-9 text-secondary border-secondary rounded-md w-60 px-3 py-1 mr-0 ml-auto"
-              >
-                {{this.enterprise.phonenumber2}}
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <Popups::Enterprises
+      @type="details"
+      @enterprise={{this.enterprise}}
+      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
+    />
   {{/if}}
   {{#if this.displayDeleteEnterpriseModal}}
     <div

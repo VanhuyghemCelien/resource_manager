@@ -1,0 +1,199 @@
+<div
+  class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+>
+  <div class="flex h-screen justify-center items-center">
+    <div class="bg-white p-5 rounded-3xl w-[500px]">
+      <div class="flex flex-row justify-end">
+        <h1
+          class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
+        >
+          {{this.popupName}}
+        </h1>
+        <button
+          type="button"
+          {{on "click" (fn @toggleDisplayEnterpriseModal @type)}}
+        >
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
+        </button>
+      </div>
+      <form aria-label="detailsEnterpriseForm">
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Name</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.name}}
+            </p>
+          {{else}}
+            <input
+              id="nameInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @type "new") "" @enterprise.name}}
+              {{on "change" (fn @editEnterpriseField "name")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Enterprise Number</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.enterprisenumber}}
+            </p>
+          {{else}}
+            <input
+              id="enterpriseNumberInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @type "new") "" @enterprise.enterprisenumber}}
+              {{on "change" (fn @editEnterpriseField "enterprisenumber")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">VAT Number</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.vatnumber}}
+            </p>
+          {{else}}
+            <input
+              id="vatNumberInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @type "new") "" @enterprise.vatnumber}}
+              {{on "change" (fn @editEnterpriseField "vatnumber")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">City</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.city}}
+            </p>
+          {{else}}
+            <input
+              id="cityInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @type "new") "" @enterprise.city}}
+              {{on "change" (fn @editEnterpriseField "city")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Address</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.address}}
+            </p>
+          {{else}}
+            <input
+              id="addressInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @type "new") "" @enterprise.address}}
+              {{on "change" (fn @editEnterpriseField "address")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Email Address</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.emailaddress}}
+            </p>
+          {{else}}
+            <input
+              id="emailAddressInput"
+              type="email"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @type "new") "" @enterprise.emailaddress}}
+              {{on "change" (fn @editEnterpriseField "emailaddress")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Email Address n°2</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.emailaddress2}}
+            </p>
+          {{else}}
+            <input
+              id="emailAddress2Input"
+              type="email"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @type "new") "" @enterprise.emailaddress2}}
+              {{on "change" (fn @editEnterpriseField "emailaddress2")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Phone Number</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.phonenumber}}
+            </p>
+          {{else}}
+            <input
+              id="phoneNumberInput"
+              type="tel"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @type "new") "" @enterprise.phonenumber}}
+              {{on "change" (fn @editEnterpriseField "phonenumber")}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Phone Number n°2</p>
+          {{#if (eq @type "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@enterprise.phonenumber2}}
+            </p>
+          {{else}}
+            <input
+              id="phoneNumber2Input"
+              type="tel"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @type "new") "" @enterprise.phonenumber2}}
+              {{on "change" (fn @editEnterpriseField "phonenumber2")}}
+            />
+          {{/if}}
+        </div>
+        {{#if (or (eq @type "new") (eq @type "edit"))}}
+          <button
+            type="submit"
+            class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            {{on "click" @saveFunction}}
+          >
+            <p>{{this.popupName}}</p>
+          </button>
+        {{/if}}
+      </form>
+    </div>
+  </div>
+</div>
