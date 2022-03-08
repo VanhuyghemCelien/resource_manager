@@ -1,0 +1,58 @@
+<tr
+  class="border-b border-primary border-opacity-25 hover:bg-secondary hover:bg-opacity-10 transition-all duration-200"
+>
+  <td class="w-1/5 text-center text-primary font-medium px-2 text-base py-2">
+    <button
+      type="button"
+      class="hover:text-navbarBg"
+      title="{{@enterprise.name}} - {{@enterprise.city}}"
+      {{on "click" (fn @displayDetails "detailsEnterprise" @enterprise)}}
+    >
+      {{@enterprise.name}}
+    </button>
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{@enterprise.city}}
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{@enterprise.emailaddress}}
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{@enterprise.phonenumber}}
+  </td>
+  <td class="w-[10%] text-center px-2 py-2">
+    <div
+      class="w-max rounded-full hover:bg-navbarBg transition-all duration-200"
+    >
+      <button
+        type="button"
+        class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        id={{@enterprise.enterpriseid}}
+        {{on "click" (fn @displayDetails "editEnterprise" @enterprise)}}
+      >
+        <img
+          src="/assets/icons/edit-button.svg"
+          alt="edit button icon"
+          class="inline h-5 w-auto mr-1"
+        />
+        Edit
+      </button>
+    </div>
+  </td>
+  <td class="w-[10%] text-center px-2 py-2">
+    <div class="w-max rounded-full hover:bg-warn transition-all duration-200">
+      <button
+        type="button"
+        class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn @displayDelete @enterprise)}}
+      >
+        <img
+          src="/assets/icons/delete-button.svg"
+          alt="delete button icon"
+          class="inline h-5 w-auto mr-1"
+        />
+        Delete
+      </button>
+    </div>
+  </td>
+</tr>
