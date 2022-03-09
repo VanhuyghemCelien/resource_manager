@@ -1,0 +1,76 @@
+<div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
+  <h1 class="text-3xl font-black text-primary">Resources</h1>
+  <div
+    class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
+  >
+    <button
+      type="button"
+      class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+      {{on "click" (fn this.toggleDisplayResourceModal "new")}}
+      data-test-enterprises="addResourceButton"
+    >
+      <div class="text-lg flex flex-row">
+        <img
+          src="/assets/icons/plus-button.svg"
+          alt="plus button icon"
+          class="inline h-6 w-6 my-auto"
+        />
+        <p class="ml-1">Add a resource</p>
+      </div>
+    </button>
+  </div>
+  <table class="w-[100%] min-w-[850px]">
+    <thead>
+      <th class="text-primary text-lg">Complete Name</th>
+      <th class="text-primary text-lg">Enterprise</th>
+      <th class="text-primary text-lg">Email Address</th>
+      <th class="text-primary text-lg">Phone Number</th>
+    </thead>
+    <tbody>
+      {{#each @model as |resource|}}
+        <Ui::List
+          @type="resource"
+          @object={{resource}}
+          @displayDetails={{this.displayResourceDetails}}
+          @displayDelete={{this.displayDeleteResource}}
+        />
+      {{/each}}
+    </tbody>
+  </table>
+  {{#if this.displayNewResourceModal}}
+    <Popups::Enterprises
+      @popupType="new"
+      @objectType="Resource"
+      @object={{this.resource}}
+      @toggleDisplayModal={{this.toggleDisplayResourceModal}}
+      @editField={{this.editResourceField}}
+      @saveFunction={{this.addResource}}
+    />
+  {{/if}}
+  {{#if this.displayEditResourceModal}}
+    <Popups::Enterprises
+      @popupType="edit"
+      @objectType="Resource"
+      @object={{this.resource}}
+      @toggleDisplayModal={{this.toggleDisplayResourceModal}}
+      @editField={{this.editResourceField}}
+      @saveFunction={{this.editResource}}
+    />
+  {{/if}}
+  {{#if this.displayDetailsResourceModal}}
+    <Popups::Enterprises
+      @popupType="details"
+      @objectType="Resource"
+      @object={{this.resource}}
+      @toggleDisplayModal={{this.toggleDisplayResourceModal}}
+    />
+  {{/if}}
+  {{#if this.displayDeleteResourceModal}}
+    <Popups::Delete
+      @type="enterprise"
+      @toggleDisplayDeleteModal={{this.toggleDisplayDeleteResourceModal}}
+      @deleteFunction={{this.deleteResource}}
+      @idObjectToDelete={{this.resource.resourceid}}
+    />
+  {{/if}}
+</div>

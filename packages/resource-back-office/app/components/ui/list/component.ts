@@ -1,8 +1,10 @@
 import Component from '@glimmer/component';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
+import type ResourceModel from 'ember-boilerplate/models/resource';
 
 interface UiListArgs {
-  enterprise: EnterpriseModel;
+  type: string;
+  object: EnterpriseModel | ResourceModel;
   displayDetails: (typeOfDisplay: string, enterprise: EnterpriseModel) => void;
   displayDelete: (enterprise: EnterpriseModel) => void;
 }

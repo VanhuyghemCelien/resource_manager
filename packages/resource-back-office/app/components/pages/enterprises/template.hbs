@@ -4,11 +4,9 @@
     class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
   >
     <button
-      id="test"
       type="button"
       class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
       {{on "click" (fn this.toggleDisplayEnterpriseModal "new")}}
-      data-test-enterprises="addEnterpriseButton"
     >
       <div class="text-lg flex flex-row">
         <img
@@ -30,7 +28,8 @@
     <tbody>
       {{#each @model as |enterprise|}}
         <Ui::List
-          @enterprise={{enterprise}}
+          @type="enterprise"
+          @object={{enterprise}}
           @displayDetails={{this.displayEnterpriseDetails}}
           @displayDelete={{this.displayDeleteEnterprise}}
         />
@@ -39,27 +38,30 @@
   </table>
   {{#if this.displayNewEnterpriseModal}}
     <Popups::Enterprises
-      @type="new"
-      @enterprise={{this.enterprise}}
-      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
-      @editEnterpriseField={{this.editEnterpriseField}}
+      @popupType="new"
+      @objectType="Enterprise"
+      @object={{this.enterprise}}
+      @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
+      @editField={{this.editEnterpriseField}}
       @saveFunction={{this.addEnterprise}}
     />
   {{/if}}
   {{#if this.displayEditEnterpriseModal}}
     <Popups::Enterprises
-      @type="edit"
-      @enterprise={{this.enterprise}}
-      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
-      @editEnterpriseField={{this.editEnterpriseField}}
+      @popupType="edit"
+      @objectType="Enterprise"
+      @object={{this.enterprise}}
+      @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
+      @editField={{this.editEnterpriseField}}
       @saveFunction={{this.editEnterprise}}
     />
   {{/if}}
   {{#if this.displayDetailsEnterpriseModal}}
     <Popups::Enterprises
-      @type="details"
-      @enterprise={{this.enterprise}}
-      @toggleDisplayEnterpriseModal={{this.toggleDisplayEnterpriseModal}}
+      @popupType="details"
+      @objectType="Enterprise"
+      @object={{this.enterprise}}
+      @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
     />
   {{/if}}
   {{#if this.displayDeleteEnterpriseModal}}

@@ -4,21 +4,38 @@
   <td class="w-1/5 text-center text-primary font-medium px-2 text-base py-2">
     <button
       type="button"
-      class="hover:text-navbarBg"
-      title="{{@enterprise.name}} - {{@enterprise.city}}"
-      {{on "click" (fn @displayDetails "detailsEnterprise" @enterprise)}}
+      class="hover:text-navbarBg my-auto"
+      {{on "click" (fn @displayDetails "details" @object)}}
     >
-      {{@enterprise.name}}
+      {{#if (eq @type "enterprise")}}
+        {{@object.name}}
+      {{/if}}
+      {{#if (eq @type "resource")}}
+        <div class="flex flex-row py-2">
+          <img
+            src={{@object.image}}
+            alt="resource's profile pic"
+            class="inline h-6 w-6 object-cover rounded-full mr-2"
+          />
+          {{@object.firstname}}
+          {{@object.lastname}}
+        </div>
+      {{/if}}
     </button>
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-    {{@enterprise.city}}
+    {{#if (eq @type "enterprise")}}
+      {{@object.city}}
+    {{/if}}
+    {{#if (eq @type "resource")}}
+      {{@object.enterprise}}
+    {{/if}}
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-    {{@enterprise.emailaddress}}
+    {{@object.emailaddress}}
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-    {{@enterprise.phonenumber}}
+    {{@object.phonenumber}}
   </td>
   <td class="w-[10%] text-center px-2 py-2">
     <div
@@ -27,8 +44,8 @@
       <button
         type="button"
         class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        id={{@enterprise.enterpriseid}}
-        {{on "click" (fn @displayDetails "editEnterprise" @enterprise)}}
+        id={{@object.enterpriseid}}
+        {{on "click" (fn @displayDetails "edit" @object)}}
       >
         <img
           src="/assets/icons/edit-button.svg"
@@ -44,7 +61,7 @@
       <button
         type="button"
         class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        {{on "click" (fn @displayDelete @enterprise)}}
+        {{on "click" (fn @displayDelete @object)}}
       >
         <img
           src="/assets/icons/delete-button.svg"

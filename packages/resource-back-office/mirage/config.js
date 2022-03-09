@@ -38,6 +38,23 @@ export default function () {
     return enterpriseToDelete;
   });
 
+  this.get('/resources');
+  this.get('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    return schema.enterprise.findBy(resourceId);
+  });
+  this.post('/resources');
+  this.patch('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.enterprise.findBy(resourceId);
+    return resourceToEdit;
+  });
+  this.del('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.enterprise.findBy(resourceId);
+    return resourceToEdit;
+  });
+
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);
   });

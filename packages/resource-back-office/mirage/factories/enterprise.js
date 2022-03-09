@@ -4,38 +4,38 @@ export default Factory.extend({
   enterpriseid(i) {
     return i + 1;
   },
-  name() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  name(i) {
+    if (i === 0) {
       return 'Technocité';
     }
     return 'Triptyk';
   },
-  city() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  city(i) {
+    if (i === 0) {
       return 'Hornu';
     }
     return 'Mons';
   },
-  emailaddress() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  emailaddress(i) {
+    if (i === 0) {
       return 'technocite@technocite.be';
     }
     return 'triptyk@triptyk.be';
   },
-  phonenumber() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  phonenumber(i) {
+    if (i === 0) {
       return '065/76.67.10';
     }
     return '065/76.67.11';
   },
-  emailaddress2() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  emailaddress2(i) {
+    if (i === 0) {
       return 'technocite2@technocite.be';
     }
     return 'triptyk2@triptyk.be';
   },
-  phonenumber2() {
-    if (Math.floor(Math.random() * 20) >= 10) {
+  phonenumber2(i) {
+    if (i === 0) {
       return '065/76.67.12';
     }
     return '065/76.67.13';
