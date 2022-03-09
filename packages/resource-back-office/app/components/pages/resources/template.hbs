@@ -38,7 +38,7 @@
     </tbody>
   </table>
   {{#if this.displayNewResourceModal}}
-    <Popups::Enterprises
+    <Popups::CreateEditDetails
       @popupType="new"
       @objectType="Resource"
       @object={{this.resource}}
@@ -48,7 +48,7 @@
     />
   {{/if}}
   {{#if this.displayEditResourceModal}}
-    <Popups::Enterprises
+    <Popups::CreateEditDetails
       @popupType="edit"
       @objectType="Resource"
       @object={{this.resource}}
@@ -58,7 +58,7 @@
     />
   {{/if}}
   {{#if this.displayDetailsResourceModal}}
-    <Popups::Enterprises
+    <Popups::CreateEditDetails
       @popupType="details"
       @objectType="Resource"
       @object={{this.resource}}

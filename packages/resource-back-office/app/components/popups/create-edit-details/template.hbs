@@ -18,12 +18,24 @@
       </div>
       <form aria-label="form">
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Name</p>
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              Name
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              First Name
+            {{/if}}
+          </p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.name}}
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.name}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.firstname}}
+              {{/if}}
             </p>
           {{else}}
             <input
@@ -31,85 +43,150 @@
               type="text"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               required
-              value={{if (eq @popupType "new") "" @object.name}}
-              {{on "change" (fn @editField "name")}}
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.name
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.firstname
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 0)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Enterprise Number</p>
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              Enterprise Number
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              Last Name
+            {{/if}}
+          </p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.enterprisenumber}}
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.enterprisenumber}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.lastname}}
+              {{/if}}
             </p>
           {{else}}
             <input
               id="enterpriseNumberInput"
               type="text"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              value={{if (eq @popupType "new") "" @object.enterprisenumber}}
-              {{on "change" (fn @editField "enterprisenumber")}}
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.enterprisenumber
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.lastname
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 1)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">VAT Number</p>
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              VAT Number
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              Enterprise
+            {{/if}}
+          </p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.vatnumber}}
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.vatnumber}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.enterprise}}
+              {{/if}}
             </p>
           {{else}}
             <input
               id="vatNumberInput"
               type="text"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              value={{if (eq @popupType "new") "" @object.vatnumber}}
-              {{on "change" (fn @editField "vatnumber")}}
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.vatnumber
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.enterprise
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 2)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
-        <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">City</p>
-          {{#if (eq @popupType "details")}}
-            <p
-              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
-            >
-              {{@object.city}}
-            </p>
-          {{else}}
-            <input
-              id="cityInput"
-              type="text"
-              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              required
-              value={{if (eq @popupType "new") "" @object.city}}
-              {{on "change" (fn @editField "city")}}
-            />
-          {{/if}}
-        </div>
-        <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Address</p>
-          {{#if (eq @popupType "details")}}
-            <p
-              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
-            >
-              {{@object.address}}
-            </p>
-          {{else}}
-            <input
-              id="addressInput"
-              type="text"
-              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              required
-              value={{if (eq @popupType "new") "" @object.address}}
-              {{on "change" (fn @editField "address")}}
-            />
-          {{/if}}
-        </div>
+        {{#if (eq @objectType "Enterprise")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">City</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.city}}
+              </p>
+            {{else}}
+              <input
+                id="cityInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                  @object.name
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 3)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
+        {{#if (eq @objectType "Enterprise")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">Address</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.address}}
+              </p>
+            {{else}}
+              <input
+                id="addressInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                  @object.name
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 4)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
         <div class="flex flex-row items-stretch mt-4">
           <p class="my-auto">Email Address</p>
           {{#if (eq @popupType "details")}}
@@ -125,7 +202,8 @@
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               required
               value={{if (eq @popupType "new") "" @object.emailaddress}}
-              {{on "change" (fn @editField "emailaddress")}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 5)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
@@ -143,7 +221,8 @@
               type="email"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               value={{if (eq @popupType "new") "" @object.emailaddress2}}
-              {{on "change" (fn @editField "emailaddress2")}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 6)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
@@ -162,7 +241,8 @@
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               required
               value={{if (eq @popupType "new") "" @object.phonenumber}}
-              {{on "change" (fn @editField "phonenumber")}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 7)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
@@ -180,7 +260,8 @@
               type="tel"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               value={{if (eq @popupType "new") "" @object.phonenumber2}}
-              {{on "change" (fn @editField "phonenumber2")}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 8)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
             />
           {{/if}}
         </div>
