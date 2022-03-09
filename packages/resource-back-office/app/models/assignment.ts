@@ -11,7 +11,10 @@ export default class AssignmentModel extends Model {
   @attr() declare assignmentTitle: AssignmentTitle;
   @attr() declare enterprise: Enterprise;
   @attr('date') declare date: Date;
-  @belongsTo('resource') declare resource: ResourceModel;
+  @attr() declare boolMorning: boolean;
+  @attr() declare boolAfternoon: boolean;
+  @belongsTo('resource')
+  declare resource: ResourceModel;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

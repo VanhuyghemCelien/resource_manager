@@ -4,13 +4,16 @@ import { tracked } from '@glimmer/tracking';
 import { format, startOfWeek } from 'date-fns';
 import type Store from '@ember-data/store';
 import { service } from '@ember/service';
+import type ResourceModel from 'ember-boilerplate/models/resource';
 
 export interface Assignment {
-  userName: string;
   assignmentType: AssignmentType;
   assignmentTitle: AssignmentTitle;
   enterprise: Enterprise;
   date: Date;
+  boolMorning: boolean;
+  boolAfternoon: boolean;
+  resource?: ResourceModel;
 }
 
 export interface AssignmentType {
@@ -56,7 +59,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked colorFormat =
     'border-[' + this.assignmentType.assignmentTypeColor + ']';
   @tracked assignment: Assignment = {
-    userName: '',
     assignmentType: {
       assignmentTypeName: '',
       assignmentTypeColor: '',
@@ -69,12 +71,21 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterpriseName: '',
     },
     date: new Date(),
+    boolMorning: false,
+    boolAfternoon: false,
+    resource: undefined,
   };
 
   @action
-  addAssignment(date: Date, userName: string) {
+  addAssignment(
+    date: Date,
+    resource: ResourceModel,
+    boolMorning: boolean,
+    boolAfternoon: boolean
+  ) {
+    console.log(boolMorning);
+    console.log(boolAfternoon);
     this.assignment = {
-      userName: userName,
       assignmentType: {
         assignmentTypeName: this.assignmentType.assignmentTypeName,
         assignmentTypeColor: this.assignmentType.assignmentTypeColor,
@@ -87,10 +98,12 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         enterpriseName: this.enterprise.enterpriseName,
       },
       date: date,
+      boolMorning: boolMorning,
+      boolAfternoon: boolAfternoon,
+      resource: resource,
     };
     const assignment = this.store.createRecord('assignment', this.assignment);
     this.assignment = {
-      userName: '',
       assignmentType: {
         assignmentTypeName: '',
         assignmentTypeColor: '',
@@ -103,35 +116,12 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         enterpriseName: '',
       },
       date: new Date(),
+      boolMorning: false,
+      boolAfternoon: false,
+      resource: undefined,
     };
     assignment.save();
-    this.toggleDisplayNewAssignmentModal('', '', this.today);
-  }
-
-  @action
-  selectEnterprise(event: { target: { value: string } }) {
-    this.enterprise = {
-      enterpriseName: event.target.value,
-    };
-  }
-
-  @action
-  selectTitle(event: { target: { value: string } }) {
-    this.assignmentTitle = {
-      assignmentTitleName: event.target.value,
-    };
-  }
-
-  @action
-  async selectType(event: { target: { value: string } }) {
-    const value = event.target.value;
-    let selected = await this.store.queryRecord('assignment-type', {
-      name: value,
-    });
-    this.assignmentType = {
-      assignmentTypeName: selected.assignmentTypeName,
-      assignmentTypeColor: selected.assignmentTypeColor,
-    };
+    this.toggleDisplayNewAssignmentModal(this.today, resource, false, false);
   }
 
   @action
@@ -210,21 +200,27 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  toggleComment() {
-    this.comment ? (this.comment = false) : (this.comment = true);
-  }
-
-  @action
   toggleDisplayNewAssignmentModal(
-    resourceLastName: string,
-    resourceFirstName: string,
-    choosingdate: Date
+    choosingdate?: Date,
+    resource?: ResourceModel,
+    boolMorning?: boolean,
+    boolAfternoon?: boolean
   ) {
-    this.displayNewAssignmentModal
-      ? (this.displayNewAssignmentModal = false)
-      : ((this.displayNewAssignmentModal = true),
-        (this.resourceName = resourceFirstName + ' ' + resourceLastName),
-        (this.choosingDay = new Date(choosingdate)));
+    if (this.displayNewAssignmentModal) {
+      this.displayNewAssignmentModal = false;
+      this.assignment = {
+        ...this.assignment,
+        boolMorning: false,
+        boolAfternoon: false,
+      };
+    } else {
+      this.displayNewAssignmentModal = true;
+      this.choosingDay = new Date(choosingdate!);
+      this.assignment.resource = resource;
+      this.resourceName = resource!.firstname + ' ' + resource!.lastname;
+      this.assignment.boolMorning = boolMorning!;
+      this.assignment.boolAfternoon = boolAfternoon!;
+    }
   }
 
   @action

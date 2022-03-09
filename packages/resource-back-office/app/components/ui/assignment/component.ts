@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { startOfWeek } from 'date-fns';
@@ -9,70 +8,110 @@ interface UiAssignmentArgs {
   choosingDay: Date;
   toggleDisplayNewAssignmentModal: (
     choosingdate: Date,
-    resourceFirstName: string,
-    resourceLastName: string
+    resource: ResourceModel,
+    boolMorning: boolean,
+    boolAfternoon: boolean
   ) => void;
 }
 
 export default class UiAssignment extends Component<UiAssignmentArgs> {
-  @tracked displayNewAssignmentModal: boolean = false;
-  @tracked displayNewTypeModal: boolean = false;
-  @tracked displayNewTitleModal: boolean = false;
-  @tracked displayNewEnterpriseModal: boolean = false;
-  @tracked resourceName: string = '';
   @tracked choosingDay: Date = new Date();
 
-  @action
-  toggleDisplayNewTypeModal() {
-    this.displayNewTypeModal
-      ? (this.displayNewTypeModal = false)
-      : (this.displayNewTypeModal = true);
+  get assignmentMondayMorning() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 1 && e.boolMorning;
+    });
+    return res;
   }
 
-  @action
-  toggleDisplayNewTitleModal() {
-    this.displayNewTitleModal
-      ? (this.displayNewTitleModal = false)
-      : (this.displayNewTitleModal = true);
+  get assignmentMondayAfternoon() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 1 && e.boolAfternoon;
+    });
+    return res;
   }
 
-  @action
-  toggleDisplayNewEnterpriseModal() {
-    this.displayNewEnterpriseModal
-      ? (this.displayNewEnterpriseModal = false)
-      : (this.displayNewEnterpriseModal = true);
+  get assignmentTuesdayMorning() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 2 && e.boolMorning;
+    });
+    return res;
+  }
+
+  get assignmentTuesdayAfternoon() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 2 && e.boolAfternoon;
+    });
+    return res;
+  }
+
+  get assignmentWednesdayMorning() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 3 && e.boolMorning;
+    });
+    return res;
+  }
+
+  get assignmentWednesdayAfternoon() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 3 && e.boolAfternoon;
+    });
+    return res;
+  }
+
+  get assignmentThursdayMorning() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 4 && e.boolMorning;
+    });
+    return res;
+  }
+
+  get assignmentThursdayAfternoon() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 4 && e.boolAfternoon;
+    });
+    return res;
+  }
+
+  get assignmentFridayMorning() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 5 && e.boolMorning;
+    });
+    return res;
+  }
+
+  get assignmentFridayAfternoon() {
+    const res = this.args.resource.assignments.find((e) => {
+      return e.date.getDay() === 5 && e.boolAfternoon;
+    });
+    return res;
   }
 
   get isBusyMonday() {
-    console.log(this.args.resource);
     return this.args.resource.assignments.find((e) => {
       return e.date.getDay() === 1;
     });
   }
 
   get isBusyTuesday() {
-    console.log(this.args.resource);
     return this.args.resource.assignments.find((e) => {
       return e.date.getDay() === 2;
     });
   }
 
   get isBusyWednesday() {
-    console.log(this.args.resource);
     return this.args.resource.assignments.find((e) => {
       return e.date.getDay() === 3;
     });
   }
 
   get isBusyThursday() {
-    console.log(this.args.resource);
     return this.args.resource.assignments.find((e) => {
       return e.date.getDay() === 4;
     });
   }
 
   get isBusyFriday() {
-    console.log(this.args.resource);
     return this.args.resource.assignments.find((e) => {
       return e.date.getDay() === 5;
     });
@@ -83,30 +122,35 @@ export default class UiAssignment extends Component<UiAssignmentArgs> {
       weekStartsOn: 0,
     });
     monday.setDate(monday.getDate() + 1);
+    monday.setHours(1); //a modifier pour le utc//
     return monday;
   }
 
   get tuesday() {
     let tuesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     tuesday.setDate(tuesday.getDate() + 2);
+    tuesday.setHours(1); //a modifier pour le utc//
     return tuesday;
   }
 
   get wednesday() {
     let wednesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     wednesday.setDate(wednesday.getDate() + 3);
+    wednesday.setHours(1); //a modifier pour le utc//
     return wednesday;
   }
 
   get thursday() {
     let thursday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     thursday.setDate(thursday.getDate() + 4);
+    thursday.setHours(1); //a modifier pour le utc//
     return thursday;
   }
 
   get friday() {
     let friday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
     friday.setDate(friday.getDate() + 5);
+    friday.setHours(1); //a modifier pour le utc//
     return friday;
   }
 }

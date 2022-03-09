@@ -18,152 +18,222 @@
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyMonday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white "
+            {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentMondayMorning.boolMorning this.assignmentMondayMorning.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.monday
+          @resource
+          true
+          false
         )
       }}
       title="title"
     >
+      {{#if this.assignmentMondayMorning.boolMorning}}
+        <p>{{this.assignmentMondayMorning.assignmentType.assignmentTypeName}}<br>{{this.assignmentMondayMorning.assignmentTitle.assignmentTitleName}}-{{this.assignmentMondayMorning.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-p100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyMonday "bg-green"}}"
+      class=" bg-opacity-p100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white "
+            {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentMondayAfternoon.boolAfternoon this.assignmentMondayAfternoon.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.monday
+          @resource
+          false
+          true
         )
       }}
     >
+      {{#if this.assignmentMondayAfternoon.boolAfternoon}}
+        <p>{{this.assignmentMondayAfternoon.assignmentType.assignmentTypeName}}<br>{{this.assignmentMondayAfternoon.assignmentTitle.assignmentTitleName}}-{{this.assignmentMondayAfternoon.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
   </div>
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyTuesday "bg-green"}}"
+      class="bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white "
+      {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentTuesdayMorning.boolMorning this.assignmentTuesdayMorning.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.tuesday
+          @resource
+          true
+          false
         )
       }}
     >
+      {{#if this.assignmentTuesdayMorning.boolMorning}}
+        <p>{{this.assignmentTuesdayMorning.assignmentType.assignmentTypeName}}<br>{{this.assignmentTuesdayMorning.assignmentTitle.assignmentTitleName}}-{{this.assignmentTuesdayMorning.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyTuesday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+            {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentTuesdayAfternoon.boolAfternoon this.assignmentTuesdayAfternoon.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.tuesday
+          @resource
+          false
+          true
         )
       }}
     >
+      {{#if this.assignmentTuesdayAfternoon.boolAfternoon}}
+        <p>{{this.assignmentTuesdayAfternoon.assignmentType.assignmentTypeName}}<br>{{this.assignmentTuesdayAfternoon.assignmentTitle.assignmentTitleName}}-{{this.assignmentTuesdayAfternoon.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
   </div>
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyWednesday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentWednesdayMorning.boolMorning this.assignmentWednesdayMorning.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.wednesday
+          @resource
+          true
+          false
         )
       }}
     >
+      {{#if this.assignmentWednesdayMorning.boolMorning}}
+        <p>{{this.assignmentWednesdayMorning.assignmentType.assignmentTypeName}}<br>{{this.assignmentWednesdayMorning.assignmentTitle.assignmentTitleName}}-{{this.assignmentWednesdayMorning.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyWednesday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white "
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentWednesdayAfternoon.boolAfternoon this.assignmentWednesdayAfternoon.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.wednesday
+          @resource
+          false
+          true
         )
       }}
     >
+      {{#if this.assignmentWednesdayAfternoon.boolAfternoon}}
+        <p>{{this.assignmentWednesdayAdternoon.assignmentType.assignmentTypeName}}<br>{{this.assignmentWednesdayAfternoon.assignmentTitle.assignmentTitleName}}-{{this.assignmentWednesdayAfternoon.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
   </div>
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyThursday "bg-green"}}"
+      class="bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentThursdayMorning.boolMorning this.assignmentThursdayMorning.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.thursday
+          @resource
+          true
+          false
         )
       }}
     >
+      {{#if this.assignmentThursdayMorning.boolMorning}}
+        <p>{{this.assignmentThursdayMorning.assignmentType.assignmentTypeName}}<br>{{this.assignmentThursdayMorning.assignmentTitle.assignmentTitleName}}-{{this.assignmentThursdayMorning.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyThursday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white "
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentThursdayAfternoon.boolAfternoon this.assignmentThursdayAfternoon.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.thursday
+          @resource
+          false
+          true
         )
       }}
     >
+      {{#if this.assignmentThursdayAfternoon.boolAfternoon}}
+        <p>{{this.assignmentThursdayAfternoon.assignmentType.assignmentTypeName}}<br>{{this.assignmentThursdayAfternoon.assignmentTitle.assignmentTitleName}}-{{this.assignmentThursdayAfternoon.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
   </div>
   <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white {{if this.isBusyFriday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white"
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentFridayMorning.boolMorning this.assignmentFridayMorning.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.friday
+          @resource
+          true
+          false
         )
       }}
     >
+      {{#if this.assignmentFridayMorning.boolMorning}}
+        <p>{{this.assignmentFridayMorning.assignmentType.assignmentTypeName}}<br>{{this.assignmentFridayMorning.assignmentTitle.assignmentTitleName}}-{{this.assignmentFridayMorning.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
     <button
       type="button"
-      class="bg-grey bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white {{if this.isBusyFriday "bg-green"}}"
+      class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-b-xl text-white"
+                  {{! template-lint-disable no-inline-styles }}
+      {{! template-lint-disable style-concatenation }}
+      style="background-color:{{if this.assignmentFridayAfternoon.boolAfternoon this.assignmentFridayAfternoon.assignmentType.assignmentTypeColor "#F0F0F0"}} "
       {{on
         "click"
         (fn
           @toggleDisplayNewAssignmentModal
-          @resource.lastname
-          @resource.firstname
           this.friday
+          @resource
+          false
+          true
         )
       }}
     >
+      {{#if this.assignmentFridayAfternoon.boolAfternoon}}
+        <p>{{this.assignmentFriday.assignmentTypeAfternoon.assignmentTypeName}}<br>{{this.assignmentFridayAfternoon.assignmentTitle.assignmentTitleName}}-{{this.assignmentFridayAfternoon.enterprise.enterpriseName}}</p>
+      {{/if}}
     </button>
   </div>
 </div>

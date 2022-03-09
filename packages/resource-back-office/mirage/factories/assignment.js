@@ -1,30 +1,34 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  userName() {
-    return 'toto fitdevoie';
-  },
-
   assignmentType() {
     return {
-      assignmentTypeName: 'fefe',
+      assignmentTypeName: 'Formation',
       assignmentTypeColor: '#f4bdbd',
     };
   },
 
   assignmentTitle() {
     return {
-      assignmentTitleName: 'gt',
+      assignmentTitleName: 'Node.js',
     };
   },
 
   enterprise() {
     return {
-      enterpriseName: 'tuy',
+      enterpriseName: 'Technocité',
     };
   },
 
   date() {
-    return new Date('2022-03-08');
+    return new Date().toISOString();
+  },
+
+  boolMorning() {
+    return true;
+  },
+
+  boolAfternoon() {
+    return false;
   },
 });
