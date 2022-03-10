@@ -6,4 +6,5 @@ export default function (server) {
   server.createList('user', 1);
   server.createList('enterprise', 2);
   server.createList('resource', 2);
+  server.createList('assignment-type', 2);
 }
