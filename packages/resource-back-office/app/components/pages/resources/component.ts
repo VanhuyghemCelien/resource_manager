@@ -15,6 +15,7 @@ export interface ResourceModel {
   phonenumber2?: string;
   roleuser: string;
   enterprise: string;
+  cost?: string;
 }
 
 interface PagesResourcesArgs {}
@@ -38,6 +39,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     phonenumber2: '',
     roleuser: 'user',
     enterprise: '',
+    cost: '',
   };
 
   reinitResource() {
@@ -52,6 +54,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       phonenumber2: '',
       roleuser: 'user',
       enterprise: '',
+      cost: '',
     };
   }
 
@@ -69,6 +72,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       phonenumber2: resource.phonenumber2,
       roleuser: resource.roleuser,
       enterprise: resource.enterprise,
+      cost: resource.cost,
     };
   }
 
@@ -133,6 +137,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       phonenumber2: resourceReceived.phonenumber2,
       roleuser: resourceReceived.roleuser,
       enterprise: resourceReceived.enterprise,
+      cost: resourceReceived.cost,
     };
     this.resource = resourceToEdit;
     if (modalName === 'edit') {
@@ -169,6 +174,9 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       case 'lastname':
         this.resource.lastname = event.target.value;
         break;
+      case 'cost':
+        this.resource.cost = event.target.value;
+        break;
       default:
         break;
     }
@@ -198,6 +206,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     resource.phonenumber2 = editedResource.phonenumber2;
     resource.firstname = editedResource.firstname;
     resource.lastname = editedResource.lastname;
+    resource.cost = editedResource.cost;
 
     resource.save();
     this.toggleDisplayResourceModal('edit');

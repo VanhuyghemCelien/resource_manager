@@ -11,6 +11,7 @@ export default class ResourceModel extends Model {
   @attr() declare phonenumber2?: string;
   @attr() declare roleuser: string;
   @attr() declare enterprise: string;
+  @attr() declare cost?: string;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

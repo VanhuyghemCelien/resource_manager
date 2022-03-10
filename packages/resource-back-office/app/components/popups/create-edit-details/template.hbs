@@ -305,6 +305,32 @@
             />
           {{/if}}
         </div>
+        {{#if (eq @objectType "Resource")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">Cost (€/h)</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.cost}}
+              </p>
+            {{else}}
+              <input
+                id="costInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.cost
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 3)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
         {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
           <button
             type="submit"

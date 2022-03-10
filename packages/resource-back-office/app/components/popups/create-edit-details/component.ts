@@ -58,6 +58,8 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
       case 3:
         if (objectType === 'Enterprise') {
           valueToReturn = 'city';
+        } else if (objectType === 'Resource') {
+          valueToReturn = 'cost';
         }
         break;
       case 4:

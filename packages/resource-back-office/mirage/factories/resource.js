@@ -49,4 +49,7 @@ export default Factory.extend({
     }
     return 'Technocité';
   },
+  cost() {
+    return '20';
+  },
 });
