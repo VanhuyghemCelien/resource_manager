@@ -31,12 +31,10 @@ export default function () {
     return schema.assignmentTypes.findBy({ assignmentTypeName });
   });
   this.get('/assignments');
-  this.get('/assignments/:userName/:date'),
-    (schema, request) => {
-      const userName = request.params.userName;
-      const date = request.params.date;
-      return schema.assignment.findBy({ userName, date });
-    };
+  this.get('/assignments/:week', (schema, request) => {
+    const assignment = request.params.assignmentTypeName;
+    return schema.assignments.findBy({ week });
+  });
 
   this.post('/assignments');
   this.post('/assignment-types');

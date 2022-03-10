@@ -5,7 +5,13 @@ import { service } from '@ember/service';
 export default class DashboardWeek extends Route {
   @service declare store: Store;
 
-  async model() {
+  queryParams = {
+    week: {
+      refreshModel: true,
+    },
+  };
+
+  async model({ week }: { week: string }) {
     const [resource, assignmentType, assignmentTitle, enterprise, assignment] =
       await Promise.all([
         this.store.findAll('resource', { include: 'assignments' }),
@@ -14,12 +20,14 @@ export default class DashboardWeek extends Route {
         this.store.findAll('enterprise'),
         this.store.findAll('assignment'),
       ]);
+    console.log(week);
     return {
       resource,
       assignmentType,
       assignmentTitle,
       enterprise,
       assignment,
+      week,
     };
   }
 }

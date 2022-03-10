@@ -10,13 +10,14 @@
   </div>
   <div class="flex flex-row h-max mt-4">
     <div class="flex flex-row w-max">
-      <button
+      {{!-- template-lint-disable no-log --}}
+      {{log this.thursday}}
+      <LinkTo
+        @query={{hash week=this.choosingDateLess}}
         class="block text-center h-[34px] w-[34px] pr-[2px] ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-        type="button"
-        {{on "click" this.choosingDayLess}}
       >
         <p class="w-full text-center">&#x276E;</p>
-      </button>
+      </LinkTo>
       <button
         class="block text-center py-1 px-5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"

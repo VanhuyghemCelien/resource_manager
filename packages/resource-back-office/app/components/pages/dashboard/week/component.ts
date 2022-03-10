@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { format, startOfWeek } from 'date-fns';
+import { format, startOfWeek, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
 import { service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import getWeek from 'date-fns/getWeek';
 
 export interface Assignment {
   assignmentType: AssignmentType;
@@ -30,7 +31,9 @@ export interface Enterprise {
   enterpriseName: string;
 }
 
-interface PagesDashboardWeekArgs {}
+interface PagesDashboardWeekArgs {
+  model: { week: number };
+}
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
@@ -80,26 +83,24 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   addAssignment(
     date: Date,
     resource: ResourceModel,
-    boolMorning: boolean,
-    boolAfternoon: boolean
+    assignmentNew: Assignment
   ) {
-    console.log(boolMorning);
-    console.log(boolAfternoon);
     this.assignment = {
       assignmentType: {
-        assignmentTypeName: this.assignmentType.assignmentTypeName,
-        assignmentTypeColor: this.assignmentType.assignmentTypeColor,
+        assignmentTypeName: assignmentNew.assignmentType.assignmentTypeName,
+        assignmentTypeColor: assignmentNew.assignmentType.assignmentTypeColor,
       },
       assignmentTitle: {
-        assignmentTitleName: this.assignmentTitle.assignmentTitleName,
-        assignmentTitleColor: this.assignmentTitle.assignmentTitleColor,
+        assignmentTitleName: assignmentNew.assignmentTitle.assignmentTitleName,
+        assignmentTitleColor:
+          assignmentNew.assignmentTitle.assignmentTitleColor,
       },
       enterprise: {
-        enterpriseName: this.enterprise.enterpriseName,
+        enterpriseName: assignmentNew.enterprise.enterpriseName,
       },
       date: date,
-      boolMorning: boolMorning,
-      boolAfternoon: boolAfternoon,
+      boolMorning: assignmentNew.boolMorning,
+      boolAfternoon: assignmentNew.boolAfternoon,
       resource: resource,
     };
     const assignment = this.store.createRecord('assignment', this.assignment);
@@ -251,11 +252,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     );
   }
 
-  @action
-  choosingDayLess() {
-    this.choosingDay = new Date(
-      this.choosingDay.setDate(this.choosingDay.getDate() - 7)
-    );
+  get choosingDateLess() {
+    return getWeek(subWeeks(this.choosingDay, 1), { weekStartsOn: 0 });
   }
 
   @action
@@ -291,6 +289,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   get monday() {
+    console.log(this.choosingDay, 'lundi');
     let monday = startOfWeek(this.choosingDay, {
       weekStartsOn: 0,
     });
@@ -306,12 +305,15 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   get wednesday() {
     let wednesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
+    console.log('a', this.choosingDay, wednesday, wednesday.getDate());
     wednesday.setDate(wednesday.getDate() + 3);
     return wednesday;
   }
 
   get thursday() {
+    console.log(this.choosingDay, 'coco');
     let thursday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
+    console.log(this.choosingDay, thursday, thursday.getDate());
     thursday.setDate(thursday.getDate() + 4);
     return thursday;
   }

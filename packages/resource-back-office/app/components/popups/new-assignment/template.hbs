@@ -33,13 +33,13 @@
           <div class="w-max">
             <label>
               Morning
-              <input id="morningInput" type="checkbox" checked={{@assignment.boolMorning}} {{on "click" this.selectedMorning}}/>
+              <input id="morningInput" type="checkbox" checked={{this.assignment.boolMorning}} {{on "click" this.selectedMorning}}/>
             </label>
           </div>
           <div class="w-max ml-5">
             <label>
               Afternoon
-              <input id="afternoonInput" type="checkbox" checked={{@assignment.boolAfternoon}} {{on "click" this.selectedAfternoon}}/>
+              <input id="afternoonInput" type="checkbox" checked={{this.assignment.boolAfternoon}} {{on "click" this.selectedAfternoon}}/>
             </label>
           </div>
         </div>
@@ -50,7 +50,7 @@
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
-                style="border: 1px solid {{@assignment.assignmentType.assignmentTypeColor}}"
+                style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
                 {{on "change" this.selectType}}
               >
             {{#each @model.assignmentType as |assignmentType|}}
@@ -77,7 +77,7 @@
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
-                style="border: 1px solid {{@assignment.assignmentType.assignmentTypeColor}}"
+                style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
                 {{on "change" this.selectTitle}}
               >
             {{#each @model.assignmentTitle as |assignmentTitle|}}
@@ -104,7 +104,7 @@
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
-                style="border: 1px solid {{@assignment.assignmentType.assignmentTypeColor}}"
+                style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
                 {{on "change" this.selectEnterprise}}
               >
             {{#each @model.enterprise as |enterprise|}}
@@ -159,7 +159,7 @@
         <button
               type="button"
               class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
-              {{on "click" (fn @addAssignment @choosingDay @assignment.resource this.boolMorning this.boolAfternoon)}}
+              {{on "click" (fn @addAssignment @choosingDay this.assignment.resource this.assignment)}}
             >
           <p>Add Assignment</p>
         </button>

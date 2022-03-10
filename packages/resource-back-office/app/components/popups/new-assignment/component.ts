@@ -30,6 +30,10 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @service declare store: Store;
   @tracked boolMorning: boolean = this.args.assignment.boolMorning;
   @tracked boolAfternoon: boolean = this.args.assignment.boolAfternoon;
+  @tracked assignmentColor: string = '';
+  @tracked assignment: Assignment = {
+    ...this.args.assignment,
+  };
 
   @action
   toggleComment() {
@@ -42,41 +46,44 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     let selected = await this.store.queryRecord('assignment-type', {
       name: value,
     });
-    this.args.assignment.assignmentType = {
-      assignmentTypeName: selected.assignmentTypeName,
-      assignmentTypeColor: selected.assignmentTypeColor,
+    this.assignment = {
+      ...this.assignment,
+      assignmentType: {
+        assignmentTypeName: selected.assignmentTypeName,
+        assignmentTypeColor: selected.assignmentTypeColor,
+      },
     };
   }
 
   @action
   selectTitle(event: { target: { value: string } }) {
-    this.args.assignment.assignmentTitle = {
+    this.assignment.assignmentTitle = {
       assignmentTitleName: event.target.value,
     };
   }
 
   @action
   selectEnterprise(event: { target: { value: string } }) {
-    this.args.assignment.enterprise = {
+    this.assignment.enterprise = {
       enterpriseName: event.target.value,
     };
   }
 
   @action
   selectedMorning() {
-    if (this.boolMorning) {
-      this.boolMorning = false;
+    if (this.assignment.boolMorning) {
+      this.assignment.boolMorning = false;
     } else {
-      this.boolMorning = true;
+      this.assignment.boolMorning = true;
     }
   }
 
   @action
   selectedAfternoon() {
-    if (this.boolAfternoon) {
-      this.boolAfternoon = false;
+    if (this.assignment.boolAfternoon) {
+      this.assignment.boolAfternoon = false;
     } else {
-      this.boolAfternoon = true;
+      this.assignment.boolAfternoon = true;
     }
   }
 }
