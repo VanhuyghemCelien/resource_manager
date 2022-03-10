@@ -211,12 +211,12 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  async deleteEnterprise(enterpriseId: number) {
+  async deleteEnterprise(enterprise: EnterpriseModel) {
     const enterpriseToDelete = await this.store.peekRecord(
       'enterprise',
-      enterpriseId
+      enterprise.enterpriseid
     );
-    if (enterpriseId) {
+    if (enterpriseToDelete) {
       enterpriseToDelete!.deleteRecord();
       this.toggleDisplayDeleteEnterpriseModal();
       enterpriseToDelete!.unloadRecord();

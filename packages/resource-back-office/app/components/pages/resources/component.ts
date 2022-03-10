@@ -8,11 +8,11 @@ export interface ResourceModel {
   resourceid: number;
   image: string;
   emailaddress: string;
-  emailaddress2: string;
+  emailaddress2?: string;
   firstname: string;
   lastname: string;
   phonenumber: string;
-  phonenumber2: string;
+  phonenumber2?: string;
   roleuser: string;
   enterprise: string;
 }
@@ -204,12 +204,12 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   }
 
   @action
-  async deleteResource(resourceId: number) {
+  async deleteResource(resource: ResourceModel) {
     const resourceToDelete = await this.store.peekRecord(
       'resource',
-      resourceId
+      resource.resourceid
     );
-    if (resourceId) {
+    if (resourceToDelete) {
       resourceToDelete!.deleteRecord();
       this.toggleDisplayDeleteResourceModal();
       resourceToDelete!.unloadRecord();

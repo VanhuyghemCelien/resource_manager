@@ -4,11 +4,11 @@ export default class ResourceModel extends Model {
   @attr() declare resourceid: number;
   @attr() declare image: string;
   @attr() declare emailaddress: string;
-  @attr() declare emailaddress2: string;
+  @attr() declare emailaddress2?: string;
   @attr() declare firstname: string;
   @attr() declare lastname: string;
   @attr() declare phonenumber: string;
-  @attr() declare phonenumber2: string;
+  @attr() declare phonenumber2?: string;
   @attr() declare roleuser: string;
   @attr() declare enterprise: string;
 }
