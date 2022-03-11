@@ -7,6 +7,9 @@
       class="hover:text-navbarBg my-auto"
       {{on "click" (fn @displayDetails "details" @object)}}
     >
+      {{!-- 
+        propriété => valuer
+       --}}
       {{#if (eq @type "enterprise")}}
         {{@object.name}}
       {{/if}}
