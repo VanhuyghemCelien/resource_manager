@@ -15,7 +15,7 @@ export default class DashboardWeek extends Route {
     const [resource, assignmentType, assignmentTitle, enterprise, assignment] =
       await Promise.all([
         this.store.findAll('resource', { include: 'assignments' }),
-        this.store.findAll('assignment-type'),
+        this.store.findAll('assignment-type'), // plus besoin de tout ça
         this.store.findAll('assignment-title'),
         this.store.findAll('enterprise'),
         this.store.findAll('assignment'),

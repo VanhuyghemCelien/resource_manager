@@ -4,6 +4,7 @@
       Month :
       {{this.currentMonth}}
     </h1>
+    {{!-- link dynamique pls --}}
     <a href="/dashboard/month/1" class="h-full ml-4 mt-auto text-secondary">
       Show by Month
     </a>
@@ -13,7 +14,9 @@
       {{!-- template-lint-disable no-log --}}
       {{log this.thursday}}
       <LinkTo
+        {{!-- { week : this.choosingMachin } --}}
         @query={{hash week=this.choosingDateLess}}
+        {{!-- Doucement avec les variants CSS, genre utilise h-24 w-12, c'est plus pour les exceptions  --}}
         class="block text-center h-[34px] w-[34px] pr-[2px] ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
       >
         <p class="w-full text-center">&#x276E;</p>
@@ -54,6 +57,7 @@
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
       <div class="text-center">Semaine</div>
+      {{!-- Faire un composant pour chaque jour --}}
       <div class="text-center">
         {{dayFormat this.monday}}
         {{#if (eq (dayFormat this.monday) (dayFormat this.today))}}

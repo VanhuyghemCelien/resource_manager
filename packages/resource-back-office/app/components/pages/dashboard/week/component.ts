@@ -39,6 +39,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @service declare store: Store;
 
   today: Date = new Date();
+  // Nomenclature variables
   @tracked displayNewAssignmentModal: boolean = false;
   @tracked displayNewTypeModal: boolean = false;
   @tracked displayNewTitleModal: boolean = false;
@@ -59,6 +60,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked enterprise: Enterprise = {
     enterpriseName: '',
   };
+  // à exploser
   @tracked colorFormat =
     'border-[' + this.assignmentType.assignmentTypeColor + ']';
   @tracked assignment: Assignment = {
@@ -79,6 +81,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     resource: undefined,
   };
 
+  // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
   addAssignment(
     date: Date,
@@ -121,6 +124,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       boolAfternoon: false,
       resource: undefined,
     };
+    // rajouter async await + gestion erreurs
     assignment.save();
     this.toggleDisplayNewAssignmentModal(this.today, resource, false, false);
   }
@@ -163,6 +167,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       'assignment-type',
       this.assignmentType
     );
+    // changeset
     this.assignmentType = {
       assignmentTypeName: '',
       assignmentTypeColor: '',
@@ -197,7 +202,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleColor() {
-    this.color ? (this.color = false) : (this.color = true);
+    this.color = this.color ? false : true;
   }
 
   @action
@@ -268,11 +273,13 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.choosingDay = new Date(this.specificDay);
   }
 
+  // nettoyage
   get columns() {
     let cols: number[] = Array(5);
     return cols;
   }
 
+  // nettoyage
   get resources() {
     let resources: number[] = Array(8);
     return resources;
@@ -288,6 +295,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     return numDay;
   }
 
+  // component pls
   get monday() {
     console.log(this.choosingDay, 'lundi');
     let monday = startOfWeek(this.choosingDay, {
