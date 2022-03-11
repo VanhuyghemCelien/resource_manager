@@ -1,0 +1,13 @@
+<button
+    type="button"
+    class=" bg-opacity-100 hover:border-2 h-[52px] hover:border-navbarBg text-center rounded-t-xl text-white "
+    {{! template-lint-disable no-inline-styles }}
+    {{! template-lint-disable style-concatenation }}
+    style="background-color:{{if this.assignment.boolMorning this.assignment.assignmentType.assignmentTypeColor "#F0F0F0"}} "
+    {{on "click" (fn @toggleDisplayNewAssignmentModal this.monday @resource @boolMorning this.inverseBoolMorning)}}
+    title="title"
+>
+  {{#if this.assignment.boolMorning}}
+    <p>{{this.assignment.assignmentType.assignmentTypeName}}<br>{{this.assignment.assignmentTitle.assignmentTitleName}}-{{this.assignment.enterprise.enterpriseName}}</p>
+  {{/if}}
+</button>
