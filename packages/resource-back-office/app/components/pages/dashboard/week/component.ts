@@ -217,7 +217,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         boolAfternoon: false,
       };
     } else {
-      console.log(choosingdate);
       this.displayNewAssignmentModal = true;
       this.choosingDay = new Date(choosingdate!);
       this.assignment.resource = resource;
@@ -272,7 +271,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   get currentMonth() {
-    console.log(this.choosingDay);
     let month: string = format(this.choosingDay, 'MMMM - yyyy');
     return month;
   }

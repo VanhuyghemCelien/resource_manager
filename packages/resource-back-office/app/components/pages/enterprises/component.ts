@@ -154,22 +154,22 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       case 'city':
         this.enterprise.city = event.target.value;
         break;
-      case 'emailaddress':
+      case 'emailAddress':
         this.enterprise.emailAddress = event.target.value;
         break;
-      case 'phonenumber':
+      case 'phoneNumber':
         this.enterprise.phoneNumber = event.target.value;
         break;
-      case 'phonenumber2':
+      case 'phoneNumber2':
         this.enterprise.phoneNumber2 = event.target.value;
         break;
-      case 'emailaddress2':
+      case 'emailAddress2':
         this.enterprise.emailAddress2 = event.target.value;
         break;
-      case 'enterprisenumber':
+      case 'enterpriseNumber':
         this.enterprise.enterpriseNumber = event.target.value;
         break;
-      case 'vatnumber':
+      case 'vatNumber':
         this.enterprise.vatNumber = event.target.value;
         break;
       case 'address':

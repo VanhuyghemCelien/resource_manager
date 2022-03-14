@@ -5,18 +5,10 @@ export default function (server) {
   */
   server.createList('user', 1);
 
-  server.createList('assignment-type', 3);
+  server.createList('assignment-type', 2);
   server.createList('assignment-title', 1);
-  server.createList('enterprise', 1);
-  server.create('resource', {
-    image: '/assets/icons/Users.svg',
-    emailAddress: 'second@gmail.com',
-    firstName: 'pastoto',
-    lastName: 'pasfitdevoie',
-    phoneNumber: '0456734526',
-    roleUser: 'user',
-    enterprise: 'TPK',
-  });
+  server.createList('enterprise', 2);
+  server.create('resource', 2);
   server.create('assignment', {
     resource: server.create('resource'),
   });
