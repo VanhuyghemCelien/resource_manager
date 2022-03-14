@@ -30,6 +30,10 @@ module.exports = {
       warn: '#ED6A6A',
       white: colors.white,
       black: colors.black,
+      grey: '#F0F0F0',
+      green: '#9EDCA0',
+      purple: '#C19DD2',
+      salmon: '#F49494',
     },
   },
 };

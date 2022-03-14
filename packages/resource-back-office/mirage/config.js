@@ -56,21 +56,44 @@ export default function () {
   });
 
   this.get('/assignment-types');
-  this.get('/assignment-types/:assignmenttypeid', (schema, request) => {
-    const assignmentTypeId = request.params.assignmenttypeid;
+  this.get('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
     return schema.types.findBy(assignmentTypeId);
   });
   this.post('/assignment-types');
-  this.patch('/assignment-types/:assignmenttypeid', (schema, request) => {
-    const assignmentTypeId = request.params.assignmenttypeid;
+  this.patch('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
     const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
     return assignmenttypeToEdit;
   });
-  this.del('/assignment-types/:assignmenttypeid', (schema, request) => {
-    const assignmentTypeId = request.params.assignmenttypeid;
+  this.del('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
     const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
     return assignmenttypeToEdit;
   });
+
+  this.get('/resources');
+  this.get('/assignment-types');
+  this.get('/assignment-titles');
+  this.get('/enterprises');
+  this.get('/assignment-types/:assignmentTypeName', (schema, request) => {
+    const assignmentTypeName = request.params.assignmentTypeName;
+    return schema.assignmentTypes.findBy({ assignmentTypeName });
+  });
+  this.get('/assignments');
+  this.get('/assignments/:week', (schema, request) => {
+    const assignment = request.params.assignmentTypeName;
+    return schema.assignments.findBy({ week });
+  });
+
+  this.post('/assignments');
+  this.post('/assignment-types');
+  this.post('/assignment-titles');
+  this.post('/enterprises');
+
+  this.get('/dashboard/week/:id');
+  this.put('/dashboard/week/:id'); // or this.patch
+  this.del('/dashboard/week/:id');
 
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);

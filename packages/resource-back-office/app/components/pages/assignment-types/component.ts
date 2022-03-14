@@ -5,10 +5,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export interface AssignmentTypeModel {
-  assignmenttypeid: number;
-  assignmenttypename: string;
-  multiplecolors: boolean;
-  assignmenttypecolor?: string;
+  assignmentTypeId: number;
+  assignmentTypeName: string;
+  multipleColors: boolean;
+  assignmentTypeColor?: string;
 }
 
 interface PagesAssignmentTypesArgs {}
@@ -21,27 +21,27 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @tracked displayDeleteAssignmentTypeModal: Boolean = false;
   @tracked modalName: string = '';
   @tracked assignmentType: AssignmentTypeModel = {
-    assignmenttypeid: 3,
-    assignmenttypename: '',
-    multiplecolors: false,
-    assignmenttypecolor: '',
+    assignmentTypeId: 3,
+    assignmentTypeName: '',
+    multipleColors: false,
+    assignmentTypeColor: '',
   };
 
   @action
   toggleMultipleColors() {
-    if (this.assignmentType.multiplecolors) {
-      this.assignmentType.multiplecolors = false;
+    if (this.assignmentType.multipleColors) {
+      this.assignmentType.multipleColors = false;
     } else {
-      this.assignmentType.multiplecolors = true;
+      this.assignmentType.multipleColors = true;
     }
   }
 
   reinitAssignmentType() {
     this.assignmentType = {
-      assignmenttypeid: 3,
-      assignmenttypename: '',
-      multiplecolors: false,
-      assignmenttypecolor: '',
+      assignmentTypeId: 3,
+      assignmentTypeName: '',
+      multipleColors: false,
+      assignmentTypeColor: '',
     };
   }
 
@@ -49,10 +49,10 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   displayDeleteAssignmentType(assignmentType: AssignmentTypeModel) {
     this.toggleDisplayDeleteAssignmentTypeModal();
     this.assignmentType = {
-      assignmenttypeid: assignmentType.assignmenttypeid,
-      assignmenttypename: assignmentType.assignmenttypename,
-      multiplecolors: assignmentType.multiplecolors,
-      assignmenttypecolor: assignmentType.assignmenttypecolor,
+      assignmentTypeId: assignmentType.assignmentTypeId,
+      assignmentTypeName: assignmentType.assignmentTypeName,
+      multipleColors: assignmentType.multipleColors,
+      assignmentTypeColor: assignmentType.assignmentTypeColor,
     };
   }
 
@@ -97,10 +97,10 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @action
   displayAssignmentTypeDetails(assignmentTypeReceived: AssignmentTypeModel) {
     const assignmentTypeToEdit: AssignmentTypeModel = {
-      assignmenttypeid: assignmentTypeReceived.assignmenttypeid,
-      assignmenttypename: assignmentTypeReceived.assignmenttypename,
-      multiplecolors: assignmentTypeReceived.multiplecolors,
-      assignmenttypecolor: assignmentTypeReceived.assignmenttypecolor,
+      assignmentTypeId: assignmentTypeReceived.assignmentTypeId,
+      assignmentTypeName: assignmentTypeReceived.assignmentTypeName,
+      multipleColors: assignmentTypeReceived.multipleColors,
+      assignmentTypeColor: assignmentTypeReceived.assignmentTypeColor,
     };
     this.assignmentType = assignmentTypeToEdit;
     this.toggleDisplayEditAssignmentTypeModal();
@@ -110,13 +110,13 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
     switch (field) {
       case 'assignmenttypename':
-        this.assignmentType.assignmenttypename = event.target.value;
+        this.assignmentType.assignmentTypeName = event.target.value;
         break;
       case 'multiplecolors':
-        this.assignmentType.multiplecolors = Boolean(event.target.value);
+        this.assignmentType.multipleColors = Boolean(event.target.value);
         break;
       case 'assignmenttypecolor':
-        this.assignmentType.assignmenttypecolor = event.target.value;
+        this.assignmentType.assignmentTypeColor = event.target.value;
         break;
       default:
         break;
@@ -139,13 +139,13 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
     const editedAssignmentType = this.assignmentType;
     const assignmentType = await this.store.findRecord(
       'assignment-type',
-      editedAssignmentType.assignmenttypeid
+      editedAssignmentType.assignmentTypeId
     );
 
-    assignmentType.assignmenttypename = editedAssignmentType.assignmenttypename;
-    assignmentType.multiplecolors = editedAssignmentType.multiplecolors;
+    assignmentType.assignmentTypeName = editedAssignmentType.assignmentTypeName;
+    assignmentType.multipleColors = editedAssignmentType.multipleColors;
     assignmentType.emaiassignmenttypecolorladdress =
-      editedAssignmentType.assignmenttypecolor;
+      editedAssignmentType.assignmentTypeColor;
     assignmentType.save();
     this.toggleDisplayAssignmentTypeModal('edit');
   }
@@ -154,7 +154,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   async deleteAssignmentType(assignmentType: AssignmentTypeModel) {
     const assignmentTypeToDelete = await this.store.peekRecord(
       'assignment-type',
-      assignmentType.assignmenttypeid
+      assignmentType.assignmentTypeId
     );
     if (assignmentTypeToDelete) {
       assignmentTypeToDelete!.deleteRecord();

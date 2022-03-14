@@ -1,17 +1,20 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
+import type AssignmentModel from './assignment';
 
 export default class ResourceModel extends Model {
   @attr() declare resourceid: number;
   @attr() declare image: string;
-  @attr() declare emailaddress: string;
-  @attr() declare emailaddress2?: string;
-  @attr() declare firstname: string;
-  @attr() declare lastname: string;
-  @attr() declare phonenumber: string;
-  @attr() declare phonenumber2?: string;
-  @attr() declare roleuser: string;
+  @attr() declare emailAddress: string;
+  @attr() declare emailAddress2?: string;
+  @attr() declare firstName: string;
+  @attr() declare lastName: string;
+  @attr() declare phoneNumber: string;
+  @attr() declare phoneNumber2?: string;
+  @attr() declare roleUser: string;
   @attr() declare enterprise: string;
   @attr() declare cost?: string;
+  @hasMany('assignment', { async: false })
+  declare assignments: AssignmentModel[];
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

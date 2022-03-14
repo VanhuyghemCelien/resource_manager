@@ -1,16 +1,16 @@
 import Model, { attr } from '@ember-data/model';
 
 export default class EnterpriseModel extends Model {
-  @attr() declare enterpriseid: number;
+  @attr() declare enterpriseId: number;
   @attr() declare name: string;
   @attr() declare city: string;
   @attr() declare address: string;
-  @attr() declare emailaddress: string;
-  @attr() declare phonenumber: string;
-  @attr() declare emailaddress2?: string;
-  @attr() declare phonenumber2?: string;
-  @attr() declare enterprisenumber?: string;
-  @attr() declare vatnumber?: string;
+  @attr() declare emailAddress: string;
+  @attr() declare phoneNumber: string;
+  @attr() declare emailAddress2?: string;
+  @attr() declare phoneNumber2?: string;
+  @attr() declare enterpriseNumber?: string;
+  @attr() declare vatNumber?: string;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

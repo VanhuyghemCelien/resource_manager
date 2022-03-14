@@ -5,16 +5,16 @@ import { service } from '@ember/service';
 import type Store from '@ember-data/store';
 
 export interface EnterpriseModel {
-  enterpriseid: number;
+  enterpriseId: number;
   name: string;
   city: string;
   address: string;
-  emailaddress: string;
-  phonenumber: string;
-  emailaddress2?: string;
-  phonenumber2?: string;
-  enterprisenumber?: string;
-  vatnumber?: string;
+  emailAddress: string;
+  phoneNumber: string;
+  emailAddress2?: string;
+  phoneNumber2?: string;
+  enterpriseNumber?: string;
+  vatNumber?: string;
 }
 
 interface PagesEnterprisesArgs {}
@@ -28,30 +28,30 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayDeleteEnterpriseModal: Boolean = false;
   @tracked modalName: string = '';
   @tracked enterprise: EnterpriseModel = {
-    enterpriseid: 3,
+    enterpriseId: 3,
     name: '',
     city: '',
     address: '',
-    emailaddress: '',
-    phonenumber: '',
-    emailaddress2: '',
-    phonenumber2: '',
-    enterprisenumber: '',
-    vatnumber: '',
+    emailAddress: '',
+    phoneNumber: '',
+    emailAddress2: '',
+    phoneNumber2: '',
+    enterpriseNumber: '',
+    vatNumber: '',
   };
 
   reinitEnterprise() {
     this.enterprise = {
-      enterpriseid: 3,
+      enterpriseId: 3,
       name: '',
       city: '',
       address: '',
-      emailaddress: '',
-      phonenumber: '',
-      emailaddress2: '',
-      phonenumber2: '',
-      enterprisenumber: '',
-      vatnumber: '',
+      emailAddress: '',
+      phoneNumber: '',
+      emailAddress2: '',
+      phoneNumber2: '',
+      enterpriseNumber: '',
+      vatNumber: '',
     };
   }
 
@@ -59,16 +59,16 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   displayDeleteEnterprise(enterprise: EnterpriseModel) {
     this.toggleDisplayDeleteEnterpriseModal();
     this.enterprise = {
-      enterpriseid: enterprise.enterpriseid,
+      enterpriseId: enterprise.enterpriseId,
       name: enterprise.name,
       city: enterprise.city,
       address: enterprise.address,
-      emailaddress: enterprise.emailaddress,
-      phonenumber: enterprise.phonenumber,
-      emailaddress2: enterprise.emailaddress2,
-      phonenumber2: enterprise.phonenumber2,
-      enterprisenumber: enterprise.enterprisenumber,
-      vatnumber: enterprise.vatnumber,
+      emailAddress: enterprise.emailAddress,
+      phoneNumber: enterprise.phoneNumber,
+      emailAddress2: enterprise.emailAddress2,
+      phoneNumber2: enterprise.phoneNumber2,
+      enterpriseNumber: enterprise.enterpriseNumber,
+      vatNumber: enterprise.vatNumber,
     };
   }
 
@@ -126,16 +126,16 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     enterpriseReceived: EnterpriseModel
   ) {
     const enterpriseToEdit: EnterpriseModel = {
-      enterpriseid: enterpriseReceived.enterpriseid,
+      enterpriseId: enterpriseReceived.enterpriseId,
       name: enterpriseReceived.name,
       city: enterpriseReceived.city,
       address: enterpriseReceived.address,
-      emailaddress: enterpriseReceived.emailaddress,
-      phonenumber: enterpriseReceived.phonenumber,
-      emailaddress2: enterpriseReceived.emailaddress2,
-      phonenumber2: enterpriseReceived.phonenumber2,
-      enterprisenumber: enterpriseReceived.enterprisenumber,
-      vatnumber: enterpriseReceived.vatnumber,
+      emailAddress: enterpriseReceived.emailAddress,
+      phoneNumber: enterpriseReceived.phoneNumber,
+      emailAddress2: enterpriseReceived.emailAddress2,
+      phoneNumber2: enterpriseReceived.phoneNumber2,
+      enterpriseNumber: enterpriseReceived.enterpriseNumber,
+      vatNumber: enterpriseReceived.vatNumber,
     };
     this.enterprise = enterpriseToEdit;
     if (modalName === 'edit') {
@@ -155,22 +155,22 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
         this.enterprise.city = event.target.value;
         break;
       case 'emailaddress':
-        this.enterprise.emailaddress = event.target.value;
+        this.enterprise.emailAddress = event.target.value;
         break;
       case 'phonenumber':
-        this.enterprise.phonenumber = event.target.value;
+        this.enterprise.phoneNumber = event.target.value;
         break;
       case 'phonenumber2':
-        this.enterprise.phonenumber2 = event.target.value;
+        this.enterprise.phoneNumber2 = event.target.value;
         break;
       case 'emailaddress2':
-        this.enterprise.emailaddress2 = event.target.value;
+        this.enterprise.emailAddress2 = event.target.value;
         break;
       case 'enterprisenumber':
-        this.enterprise.enterprisenumber = event.target.value;
+        this.enterprise.enterpriseNumber = event.target.value;
         break;
       case 'vatnumber':
-        this.enterprise.vatnumber = event.target.value;
+        this.enterprise.vatNumber = event.target.value;
         break;
       case 'address':
         this.enterprise.address = event.target.value;
@@ -193,18 +193,18 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     const editedEnterprise = this.enterprise;
     const enterprise = await this.store.findRecord(
       'enterprise',
-      editedEnterprise.enterpriseid
+      editedEnterprise.enterpriseId
     );
 
     enterprise.name = editedEnterprise.name;
     enterprise.city = editedEnterprise.city;
     enterprise.address = editedEnterprise.address;
-    enterprise.emailaddress = editedEnterprise.emailaddress;
-    enterprise.phonenumber = editedEnterprise.phonenumber;
-    enterprise.emailaddress2 = editedEnterprise.emailaddress2;
-    enterprise.phonenumber2 = editedEnterprise.phonenumber2;
-    enterprise.enterprisenumber = editedEnterprise.enterprisenumber;
-    enterprise.vatnumber = editedEnterprise.vatnumber;
+    enterprise.emailAddress = editedEnterprise.emailAddress;
+    enterprise.phoneNumber = editedEnterprise.phoneNumber;
+    enterprise.emailAddress2 = editedEnterprise.emailAddress2;
+    enterprise.phoneNumber2 = editedEnterprise.phoneNumber2;
+    enterprise.enterpriseNumber = editedEnterprise.enterpriseNumber;
+    enterprise.vatNumber = editedEnterprise.vatNumber;
 
     enterprise.save();
     this.toggleDisplayEnterpriseModal('edit');
@@ -214,7 +214,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   async deleteEnterprise(enterprise: EnterpriseModel) {
     const enterpriseToDelete = await this.store.peekRecord(
       'enterprise',
-      enterprise.enterpriseid
+      enterprise.enterpriseId
     );
     if (enterpriseToDelete) {
       enterpriseToDelete!.deleteRecord();

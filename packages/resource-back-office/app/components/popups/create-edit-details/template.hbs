@@ -72,7 +72,7 @@
                 {{@object.name}}
               {{/if}}
               {{#if (eq @objectType "Resource")}}
-                {{@object.firstname}}
+                {{@object.firstName}}
               {{/if}}
             </p>
           {{else}}
@@ -86,7 +86,7 @@
                 @object.name
                 (if
                   (and (eq @objectType "Resource") (eq @popupType "edit"))
-                  @object.firstname
+                  @object.firstName
                   ""
                 )
               }}
@@ -109,10 +109,10 @@
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
               {{#if (eq @objectType "Enterprise")}}
-                {{@object.enterprisenumber}}
+                {{@object.enterpriseNumber}}
               {{/if}}
               {{#if (eq @objectType "Resource")}}
-                {{@object.lastname}}
+                {{@object.lastName}}
               {{/if}}
             </p>
           {{else}}
@@ -122,10 +122,10 @@
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               value={{if
                 (and (eq @objectType "Enterprise") (eq @popupType "edit"))
-                @object.enterprisenumber
+                @object.enterpriseNumber
                 (if
                   (and (eq @objectType "Resource") (eq @popupType "edit"))
-                  @object.lastname
+                  @object.lastName
                   ""
                 )
               }}
@@ -148,7 +148,7 @@
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
               {{#if (eq @objectType "Enterprise")}}
-                {{@object.vatnumber}}
+                {{@object.vatNumber}}
               {{/if}}
               {{#if (eq @objectType "Resource")}}
                 {{@object.enterprise}}
@@ -161,7 +161,7 @@
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               value={{if
                 (and (eq @objectType "Enterprise") (eq @popupType "edit"))
-                @object.vatnumber
+                @object.vatNumber
                 (if
                   (and (eq @objectType "Resource") (eq @popupType "edit"))
                   @object.enterprise
@@ -231,7 +231,7 @@
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.emailaddress}}
+              {{@object.emailAddress}}
             </p>
           {{else}}
             <input
@@ -239,7 +239,7 @@
               type="email"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               required
-              value={{if (eq @popupType "new") "" @object.emailaddress}}
+              value={{if (eq @popupType "new") "" @object.emailAddress}}
               {{on "focus" (fn this.getFieldToEdit @objectType 5)}}
               {{on "change" (fn @editField this.fieldToEdit)}}
             />
@@ -251,14 +251,14 @@
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.emailaddress2}}
+              {{@object.emailAddress2}}
             </p>
           {{else}}
             <input
               id="emailAddress2Input"
               type="email"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              value={{if (eq @popupType "new") "" @object.emailaddress2}}
+              value={{if (eq @popupType "new") "" @object.emailAddress2}}
               {{on "focus" (fn this.getFieldToEdit @objectType 6)}}
               {{on "change" (fn @editField this.fieldToEdit)}}
             />
@@ -270,7 +270,7 @@
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.phonenumber}}
+              {{@object.phoneNumber}}
             </p>
           {{else}}
             <input
@@ -278,7 +278,7 @@
               type="tel"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
               required
-              value={{if (eq @popupType "new") "" @object.phonenumber}}
+              value={{if (eq @popupType "new") "" @object.phoneNumber}}
               {{on "focus" (fn this.getFieldToEdit @objectType 7)}}
               {{on "change" (fn @editField this.fieldToEdit)}}
             />
@@ -290,14 +290,14 @@
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
             >
-              {{@object.phonenumber2}}
+              {{@object.phoneNumber2}}
             </p>
           {{else}}
             <input
               id="phoneNumber2Input"
               type="tel"
               class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
-              value={{if (eq @popupType "new") "" @object.phonenumber2}}
+              value={{if (eq @popupType "new") "" @object.phoneNumber2}}
               {{on "focus" (fn this.getFieldToEdit @objectType 8)}}
               {{on "change" (fn @editField this.fieldToEdit)}}
             />

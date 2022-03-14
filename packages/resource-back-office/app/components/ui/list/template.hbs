@@ -18,8 +18,8 @@
             alt="resource's profile pic"
             class="inline h-6 w-6 object-cover rounded-full mr-2"
           />
-          {{@object.firstname}}
-          {{@object.lastname}}
+          {{@object.firstName}}
+          {{@object.lastName}}
         </div>
       {{/if}}
     </button>
@@ -33,10 +33,10 @@
     {{/if}}
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-    {{@object.emailaddress}}
+    {{@object.emailAddress}}
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
-    {{@object.phonenumber}}
+    {{@object.phoneNumber}}
   </td>
   <td class="w-[10%] text-center px-2 py-2">
     <div
@@ -45,7 +45,7 @@
       <button
         type="button"
         class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        id={{@object.enterpriseid}}
+        id={{@object.enterpriseId}}
         {{on "click" (fn @displayDetails "edit" @object)}}
       >
         <img

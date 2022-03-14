@@ -1,0 +1,34 @@
+<a href="/dashboard/week/1">
+  <h1>MONTH</h1>
+</a>
+{{#each this.resources as |resource|}}
+
+  <div class="grid grid-cols-11">
+    <div class="grid grid-cols-2">
+      <div class="text-center block">
+        <img
+          src="/assets/images/p5.png"
+          alt="portrait-icon"
+          class="rounded-full w-10 h-10 m-auto object-cover"
+        />
+      </div>
+      <div class="text-center">Ressource {{resource}}</div>
+    </div>
+
+    {{#each this.columns}}
+      <div class="grid grid-cols-2 gap-1 m-1">
+        <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+          <div class="bg-triptykblue text-center rounded-t-xl text-white">
+            1
+          </div>
+          <div class="bg-grey text-center rounded-b-xl text-white">1</div>
+        </div>
+        <div class="grid grid-rows-2 grid-flow-col">
+          <div class="bg-grey text-center rounded-t-xl text-white">2</div>
+          <div class="bg-green text-center rounded-b-xl text-white">2</div>
+        </div>
+      </div>
+    {{/each}}
+
+  </div>
+{{/each}}

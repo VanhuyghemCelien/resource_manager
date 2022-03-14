@@ -1,0 +1,38 @@
+{{! COMPONENT pour les jours }}
+<div class="grid grid-cols-6 gap-3 mt-3">
+  <div class="grid grid-cols-2">
+    <div class="flex flex-row justify-end mr-5 my-auto">
+      <img
+        src={{@resource.image}}
+        alt="portrait-icon"
+        class="rounded-full w-[50px] h-[50px] object-cover"
+      />
+    </div>
+    <div class="text-left my-auto">
+      <h1 class="text-primary">
+        {{@resource.firstName}}
+        {{@resource.lastName}}
+      </h1>
+      <p class="text-secondary text-left">{{@resource.enterprise}}</p>
+    </div>
+  </div>
+  {{#each this.tableDay as |numDay|}}
+    <div class="grid grid-rows-2 grid-flow-col rounded-r-xl text-white">
+      <Ui::Halfday
+        @resource={{@resource}}
+        @boolMorning={{true}}
+        @choosingDay={{@choosingDay}}
+        @numDay={{numDay}}
+        @toggleDisplayNewAssignmentModal={{@toggleDisplayNewAssignmentModal}}
+      />
+
+      <Ui::Halfday
+        @resource={{@resource}}
+        @boolMorning={{false}}
+        @choosingDay={{@choosingDay}}
+        @numDay={{numDay}}
+        @toggleDisplayNewAssignmentModal={{@toggleDisplayNewAssignmentModal}}
+      />
+    </div>
+  {{/each}}
+</div>

@@ -7,14 +7,14 @@ import { tracked } from '@glimmer/tracking';
 export interface ResourceModel {
   resourceid: number;
   image: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   enterprise: string;
-  emailaddress: string;
-  emailaddress2?: string;
-  phonenumber: string;
-  phonenumber2?: string;
-  roleuser: string;
+  emailAddress: string;
+  emailAddress2?: string;
+  phoneNumber: string;
+  phoneNumber2?: string;
+  roleUser: string;
   cost?: string;
 }
 
@@ -31,14 +31,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked resource: ResourceModel = {
     resourceid: 3,
     image: '/assets/images/resource1.png',
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     enterprise: '',
-    emailaddress: '',
-    emailaddress2: '',
-    phonenumber: '',
-    phonenumber2: '',
-    roleuser: 'user',
+    emailAddress: '',
+    emailAddress2: '',
+    phoneNumber: '',
+    phoneNumber2: '',
+    roleUser: 'user',
     cost: '',
   };
 
@@ -46,14 +46,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.resource = {
       resourceid: 3,
       image: '/assets/images/resource1.png',
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       enterprise: '',
-      emailaddress: '',
-      emailaddress2: '',
-      phonenumber: '',
-      phonenumber2: '',
-      roleuser: 'user',
+      emailAddress: '',
+      emailAddress2: '',
+      phoneNumber: '',
+      phoneNumber2: '',
+      roleUser: 'user',
       cost: '',
     };
   }
@@ -64,14 +64,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.resource = {
       resourceid: resource.resourceid,
       image: resource.image,
-      firstname: resource.firstname,
-      lastname: resource.lastname,
+      firstName: resource.firstName,
+      lastName: resource.lastName,
       enterprise: resource.enterprise,
-      emailaddress: resource.emailaddress,
-      emailaddress2: resource.emailaddress2,
-      phonenumber: resource.phonenumber,
-      phonenumber2: resource.phonenumber2,
-      roleuser: resource.roleuser,
+      emailAddress: resource.emailAddress,
+      emailAddress2: resource.emailAddress2,
+      phoneNumber: resource.phoneNumber,
+      phoneNumber2: resource.phoneNumber2,
+      roleUser: resource.roleUser,
       cost: resource.cost,
     };
   }
@@ -129,14 +129,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     const resourceToEdit: ResourceModel = {
       resourceid: resourceReceived.resourceid,
       image: resourceReceived.image,
-      firstname: resourceReceived.firstname,
-      lastname: resourceReceived.lastname,
+      firstName: resourceReceived.firstName,
+      lastName: resourceReceived.lastName,
       enterprise: resourceReceived.enterprise,
-      emailaddress: resourceReceived.emailaddress,
-      emailaddress2: resourceReceived.emailaddress2,
-      phonenumber: resourceReceived.phonenumber,
-      phonenumber2: resourceReceived.phonenumber2,
-      roleuser: resourceReceived.roleuser,
+      emailAddress: resourceReceived.emailAddress,
+      emailAddress2: resourceReceived.emailAddress2,
+      phoneNumber: resourceReceived.phoneNumber,
+      phoneNumber2: resourceReceived.phoneNumber2,
+      roleUser: resourceReceived.roleUser,
       cost: resourceReceived.cost,
     };
     this.resource = resourceToEdit;
@@ -156,23 +156,23 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       case 'enterprise':
         this.resource.enterprise = event.target.value;
         break;
-      case 'emailaddress':
-        this.resource.emailaddress = event.target.value;
+      case 'emailAddress':
+        this.resource.emailAddress = event.target.value;
         break;
-      case 'phonenumber':
-        this.resource.phonenumber = event.target.value;
+      case 'phoneNumber':
+        this.resource.phoneNumber = event.target.value;
         break;
       case 'phonenumber2':
-        this.resource.phonenumber2 = event.target.value;
+        this.resource.phoneNumber2 = event.target.value;
         break;
       case 'emailaddress2':
-        this.resource.emailaddress2 = event.target.value;
+        this.resource.emailAddress2 = event.target.value;
         break;
       case 'firstname':
-        this.resource.firstname = event.target.value;
+        this.resource.firstName = event.target.value;
         break;
       case 'lastname':
-        this.resource.lastname = event.target.value;
+        this.resource.lastName = event.target.value;
         break;
       case 'cost':
         this.resource.cost = event.target.value;
@@ -199,13 +199,13 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     );
 
     resource.image = editedResource.image;
-    resource.firstname = editedResource.firstname;
-    resource.lastname = editedResource.lastname;
+    resource.firstName = editedResource.firstName;
+    resource.lastName = editedResource.lastName;
     resource.enterprise = editedResource.enterprise;
-    resource.emailaddress = editedResource.emailaddress;
-    resource.emailaddress2 = editedResource.emailaddress2;
-    resource.phonenumber = editedResource.phonenumber;
-    resource.phonenumber2 = editedResource.phonenumber2;
+    resource.emailAddress = editedResource.emailAddress;
+    resource.emailAddress2 = editedResource.emailAddress2;
+    resource.phoneNumber = editedResource.phoneNumber;
+    resource.phoneNumber2 = editedResource.phoneNumber2;
     resource.cost = editedResource.cost;
 
     resource.save();

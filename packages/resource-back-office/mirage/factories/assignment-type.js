@@ -1,25 +1,14 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  assignmenttypeid(i) {
-    return i + 1;
-  },
-  assignmenttypename(i) {
-    if (i === 0) {
-      return 'Formation';
+  assignmentTypeName() {
+    const xexe = Math.floor(Math.random() * 8);
+    if (xexe > 4) {
+      return 'dede';
     }
-    return 'Projet';
+    return 'Formation';
   },
-  multiplecolors(i) {
-    if (i === 0) {
-      return true;
-    }
-    return false;
-  },
-  assignmenttypecolor(i) {
-    if (i === 0) {
-      return undefined;
-    }
-    return '#9EDCA0';
+  assignmentTypeColor() {
+    return '#ff0000';
   },
 });

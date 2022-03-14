@@ -1,55 +1,25 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  resourceid(i) {
-    return i + 1;
+  image() {
+    return '/assets/icons/Users.svg';
   },
-  image(i) {
-    if (i === 0) {
-      return '/assets/images/resource1.png';
-    }
-    return '/assets/images/resource2.png';
+  emailAddress() {
+    return 'toto@gmail.com';
   },
-  emailaddress(i) {
-    if (i === 0) {
-      return 'toto@gmail.com';
-    }
-    return 'tata@gmail.com';
+  firstName() {
+    return 'toto';
   },
-  emailaddress2(i) {
-    if (i === 0) {
-      return 'toto@triptyk.eu';
-    }
-    return 'tata@triptyk.eu';
+  lastName() {
+    return 'fitdevoie';
   },
-  firstname(i) {
-    if (i === 0) {
-      return 'toto';
-    }
-    return 'tata';
+  phoneNumber() {
+    return '0456783456';
   },
-  lastname(i) {
-    if (i === 0) {
-      return 'fitdevoie';
-    }
-    return 'test';
-  },
-  phonenumber() {
-    return '0456/78.34.56';
-  },
-  phonenumber2() {
-    return '0457/89.01.23';
-  },
-  roleuser() {
+  roleUser() {
     return 'user';
   },
-  enterprise(i) {
-    if (i === 0) {
-      return 'Triptyk';
-    }
-    return 'Technocité';
-  },
-  cost() {
-    return '20';
+  enterprise() {
+    return 'tpk';
   },
 });

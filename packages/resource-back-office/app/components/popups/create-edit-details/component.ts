@@ -81,7 +81,7 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
         break;
       case 5:
         if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'emailaddress';
+          valueToReturn = 'emailAddress';
         }
         break;
       case 6:
