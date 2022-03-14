@@ -4,9 +4,7 @@
   <div class="flex h-screen justify-center items-center">
     <div class="bg-white p-5 rounded-3xl w-[500px]">
       <div class="flex flex-row justify-end">
-        <h1
-          class="ml-[19px] w-full text-2xl font-bold text-primary text-center"
-        >
+        <h1 class="ml-5 w-full text-2xl font-bold text-primary text-center">
           {{this.popupName}}
         </h1>
         <button
@@ -23,18 +21,18 @@
               <img
                 src={{@object.image}}
                 alt="Resource's profile pic"
-                class="h-[100px] w-[100px] rounded-full object-cover border-2 border-secondary mx-auto"
+                class="h-28 w-28 rounded-full object-cover border-2 border-secondary mx-auto"
               />
             {{else}}
               <label
                 for="resourcePic"
-                class="relative z-0 text-center text-sm flex flex-col justify-center h-[100px] w-[100px] rounded-full border-2 border-primary mx-auto cursor-pointer"
+                class="relative z-0 text-center text-sm flex flex-col justify-center h-28 w-28 rounded-full border-2 border-primary mx-auto cursor-pointer"
               >
                 {{#if (eq @popupType "edit")}}
                   <img
                     src={{@object.image}}
                     alt="Resource's profile pic"
-                    class="h-[100px] w-[100px] object-cover z-0 rounded-full"
+                    class="h-28 w-28 object-cover z-0 rounded-full"
                   />
                 {{/if}}
                 <div
@@ -47,8 +45,8 @@
                 >
                   {{if
                     (eq @popupType "edit")
-                    "Edit profile picture"
-                    "Add profile picture"
+                    "Modifier la photo"
+                    "Ajouter une photo"
                   }}
                 </div>
 
@@ -60,10 +58,10 @@
         <div class="flex flex-row items-stretch mt-4">
           <p class="my-auto">
             {{#if (eq @objectType "Enterprise")}}
-              Name
+              Nom
             {{/if}}
             {{#if (eq @objectType "Resource")}}
-              First Name
+              Prénom
             {{/if}}
           </p>
           {{#if (eq @popupType "details")}}
@@ -100,10 +98,10 @@
         <div class="flex flex-row items-stretch mt-4">
           <p class="my-auto">
             {{#if (eq @objectType "Enterprise")}}
-              Enterprise Number
+              N° d'entreprise
             {{/if}}
             {{#if (eq @objectType "Resource")}}
-              Last Name
+              Nom de famille
             {{/if}}
           </p>
           {{#if (eq @popupType "details")}}
@@ -139,10 +137,10 @@
         <div class="flex flex-row items-stretch mt-4">
           <p class="my-auto">
             {{#if (eq @objectType "Enterprise")}}
-              VAT Number
+              N° de TVA
             {{/if}}
             {{#if (eq @objectType "Resource")}}
-              Enterprise
+              Entreprise
             {{/if}}
           </p>
           {{#if (eq @popupType "details")}}
@@ -177,7 +175,7 @@
         </div>
         {{#if (eq @objectType "Enterprise")}}
           <div class="flex flex-row items-stretch mt-4">
-            <p class="my-auto">City</p>
+            <p class="my-auto">Ville</p>
             {{#if (eq @popupType "details")}}
               <p
                 class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -203,7 +201,7 @@
         {{/if}}
         {{#if (eq @objectType "Enterprise")}}
           <div class="flex flex-row items-stretch mt-4">
-            <p class="my-auto">Address</p>
+            <p class="my-auto">Adresse</p>
             {{#if (eq @popupType "details")}}
               <p
                 class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -228,7 +226,7 @@
           </div>
         {{/if}}
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Email Address</p>
+          <p class="my-auto">Adresse email</p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -248,7 +246,7 @@
           {{/if}}
         </div>
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Email Address n°2</p>
+          <p class="my-auto">Adresse email n°2</p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -267,7 +265,7 @@
           {{/if}}
         </div>
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Phone Number</p>
+          <p class="my-auto">N° de téléphone</p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -287,7 +285,7 @@
           {{/if}}
         </div>
         <div class="flex flex-row items-stretch mt-4">
-          <p class="my-auto">Phone Number n°2</p>
+          <p class="my-auto">N° de téléphone n°2</p>
           {{#if (eq @popupType "details")}}
             <p
               class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
@@ -307,7 +305,7 @@
         </div>
         {{#if (eq @objectType "Resource")}}
           <div class="flex flex-row items-stretch mt-4">
-            <p class="my-auto">Cost (€/h)</p>
+            <p class="my-auto">Coût (€/h)</p>
             {{#if (eq @popupType "details")}}
               <p
                 class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"

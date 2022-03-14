@@ -2,15 +2,15 @@
   class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
 >
   <div class="flex h-screen justify-center items-center">
-    <div class="bg-white p-5 rounded-3xl w-[500px]">
+    <div class="bg-white p-5 rounded-3xl w-[525px]">
       <div class="flex flex-row justify-end">
         <button type="button" {{on "click" @toggleDisplayDeleteModal}}>
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <p class="text-center text-lg">
-        Do you really want to delete this
-        {{@type}}
+        Voulez-vous vraiment supprimer
+        {{this.message}}
         ?
       </p>
       <div class="flex flex-row w-max mx-auto mt-3">
@@ -19,14 +19,14 @@
           class="w-max px-10 py-2 bg-navbarBg text-white rounded-full"
           {{on "click" @toggleDisplayDeleteModal}}
         >
-          No
+          Non
         </button>
         <button
           type="button"
           class="w-max px-10 py-2 bg-warn text-white ml-3 rounded-full"
           {{on "click" (fn @deleteFunction @objectToDelete)}}
         >
-          Yes
+          Oui
         </button>
       </div>
     </div>

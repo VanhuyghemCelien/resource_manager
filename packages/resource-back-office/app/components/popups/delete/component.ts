@@ -11,4 +11,15 @@ interface PopupsDeleteArgs {
 }
 
 // eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class PopupsDelete extends Component<PopupsDeleteArgs> {}
+export default class PopupsDelete extends Component<PopupsDeleteArgs> {
+  get message() {
+    if (this.args.type === 'enterprise') {
+      return ' cette entreprise ';
+    } else if (this.args.type === 'resource') {
+      return ' cette ressource ';
+    } else if (this.args.type === 'assignment type') {
+      return " ce type d'occupation ";
+    }
+    return 'None';
+  }
+}

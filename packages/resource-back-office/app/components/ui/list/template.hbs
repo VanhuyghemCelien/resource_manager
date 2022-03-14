@@ -7,9 +7,7 @@
       class="hover:text-navbarBg my-auto"
       {{on "click" (fn @displayDetails "details" @object)}}
     >
-      {{!-- 
-        propriété => valuer
-       --}}
+      {{! propriété => valeur }}
       {{#if (eq @type "enterprise")}}
         {{@object.name}}
       {{/if}}
@@ -55,7 +53,7 @@
           alt="edit button icon"
           class="inline h-5 w-auto mr-1"
         />
-        Edit
+        Modifier
       </button>
     </div>
   </td>
@@ -71,7 +69,7 @@
           alt="delete button icon"
           class="inline h-5 w-auto mr-1"
         />
-        Delete
+        Supprimer
       </button>
     </div>
   </td>

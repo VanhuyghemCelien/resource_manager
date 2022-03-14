@@ -1,6 +1,6 @@
-{{!-- Eviter les ifs à répétition ca nique le principe du component et c'est redondant --}}
+{{! Eviter les ifs à répétition ca nique le principe du component et c'est redondant }}
 <div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
-  <h1 class="text-3xl font-black text-primary">Resources</h1>
+  <h1 class="text-3xl font-black text-primary">Ressources</h1>
   <div
     class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
   >
@@ -16,16 +16,16 @@
           alt="plus button icon"
           class="inline h-6 w-6 my-auto"
         />
-        <p class="ml-1">Add a resource</p>
+        <p class="ml-1">Ajouter une ressource</p>
       </div>
     </button>
   </div>
-  <table class="w-[100%] min-w-[850px]">
+  <table class="w-full min-w-[850px]">
     <thead>
-      <th class="text-primary text-lg">Complete Name</th>
-      <th class="text-primary text-lg">Enterprise</th>
-      <th class="text-primary text-lg">Email Address</th>
-      <th class="text-primary text-lg">Phone Number</th>
+      <th class="text-primary text-lg">Nom complet</th>
+      <th class="text-primary text-lg">Entreprise</th>
+      <th class="text-primary text-lg">Adresse email</th>
+      <th class="text-primary text-lg">N° de téléphone</th>
     </thead>
     <tbody>
       {{#each @model as |resource|}}
@@ -68,7 +68,7 @@
   {{/if}}
   {{#if this.displayDeleteResourceModal}}
     <Popups::Delete
-      @type="enterprise"
+      @type="resource"
       @toggleDisplayDeleteModal={{this.toggleDisplayDeleteResourceModal}}
       @deleteFunction={{this.deleteResource}}
       @objectToDelete={{this.resource}}

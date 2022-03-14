@@ -1,5 +1,5 @@
 <div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
-  <h1 class="text-3xl font-black text-primary">Assignment Types</h1>
+  <h1 class="text-3xl font-black text-primary">Types d'occupations</h1>
   <div
     class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
   >
@@ -14,15 +14,15 @@
           alt="plus button icon"
           class="inline h-6 w-6 my-auto"
         />
-        <p class="ml-1">Add an assignment type</p>
+        <p class="ml-1">Ajouter un type d'occupation</p>
       </div>
     </button>
   </div>
-  <table class="w-[100%] min-w-[850px]">
+  <table class="w-full min-w-[850px]">
     <thead>
-      <th class="text-primary text-lg">Name</th>
-      <th class="text-primary text-lg">Multiple Colors</th>
-      <th class="text-primary text-lg">Color</th>
+      <th class="text-primary text-lg">Nom</th>
+      <th class="text-primary text-lg">Plusieurs couleurs</th>
+      <th class="text-primary text-lg">Couleur</th>
     </thead>
     <tbody>
       {{#each @model as |assignmenttype|}}
@@ -35,7 +35,7 @@
             {{assignmenttype.assignmenttypename}}
           </td>
           <td class="w-1/4 text-center text-secondary px-2 text-base py-2">
-            {{if assignmenttype.multiplecolors "Mutliple Colors" "One Color"}}
+            {{if assignmenttype.multiplecolors "Oui" "Non"}}
           </td>
           <td class="w-1/4 text-center text-secondary px-2 text-base py-2">
             {{#if (eq assignmenttype.multiplecolors false)}}
@@ -64,7 +64,7 @@
                   alt="edit button icon"
                   class="inline h-5 w-auto mr-1"
                 />
-                Edit
+                Modifier
               </button>
             </div>
           </td>
@@ -85,7 +85,7 @@
                   alt="delete button icon"
                   class="inline h-5 w-auto mr-1"
                 />
-                Delete
+                Supprimer
               </button>
             </div>
           </td>

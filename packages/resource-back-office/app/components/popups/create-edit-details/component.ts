@@ -21,11 +21,23 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
 
   get popupName() {
     if (this.args.popupType === 'details') {
-      return this.args.objectType + ' Details';
+      if (this.args.objectType === 'Enterprise') {
+        return "Détails de l'entreprise";
+      } else if (this.args.objectType === 'Resource') {
+        return 'Détails de la ressource';
+      }
     } else if (this.args.popupType === 'edit') {
-      return 'Edit ' + this.args.objectType;
+      if (this.args.objectType === 'Enterprise') {
+        return "Modifier l'entreprise";
+      } else if (this.args.objectType === 'Resource') {
+        return 'Modifier la ressource';
+      }
     } else if (this.args.popupType === 'new') {
-      return 'Add ' + this.args.objectType;
+      if (this.args.objectType === 'Enterprise') {
+        return 'Ajouter une entreprise';
+      } else if (this.args.objectType === 'Resource') {
+        return 'Ajouter une ressource';
+      }
     }
     return 'None';
   }
