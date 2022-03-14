@@ -21,6 +21,56 @@ export default function () {
     https://www.ember-cli-mirage.com/docs/route-handlers/shorthands
     */
   this.get('/users');
+  this.get('/enterprises');
+  this.get('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    return schema.enterprises.findBy(enterpriseId);
+  });
+  this.post('/enterprises');
+  this.patch('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToEdit = schema.enterprises.findBy(enterpriseId);
+    return enterpriseToEdit;
+  });
+  this.del('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToDelete = schema.enterprises.findBy(enterpriseId);
+    return enterpriseToDelete;
+  });
+
+  this.get('/resources');
+  this.get('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    return schema.resources.findBy(resourceId);
+  });
+  this.post('/resources');
+  this.patch('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.resources.findBy(resourceId);
+    return resourceToEdit;
+  });
+  this.del('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.resources.findBy(resourceId);
+    return resourceToEdit;
+  });
+
+  this.get('/assignment-types');
+  this.get('/assignment-types/:assignmenttypeid', (schema, request) => {
+    const assignmentTypeId = request.params.assignmenttypeid;
+    return schema.types.findBy(assignmentTypeId);
+  });
+  this.post('/assignment-types');
+  this.patch('/assignment-types/:assignmenttypeid', (schema, request) => {
+    const assignmentTypeId = request.params.assignmenttypeid;
+    const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
+    return assignmenttypeToEdit;
+  });
+  this.del('/assignment-types/:assignmenttypeid', (schema, request) => {
+    const assignmentTypeId = request.params.assignmenttypeid;
+    const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
+    return assignmenttypeToEdit;
+  });
 
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);

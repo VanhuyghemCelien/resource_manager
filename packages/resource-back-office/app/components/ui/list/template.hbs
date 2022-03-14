@@ -1,0 +1,76 @@
+<tr
+  class="border-b border-primary border-opacity-25 hover:bg-secondary hover:bg-opacity-10 transition-all duration-200"
+>
+  <td class="w-1/5 text-center text-primary font-medium px-2 text-base py-2">
+    <button
+      type="button"
+      class="hover:text-navbarBg my-auto"
+      {{on "click" (fn @displayDetails "details" @object)}}
+    >
+      {{! propriété => valeur }}
+      {{#if (eq @type "enterprise")}}
+        {{@object.name}}
+      {{/if}}
+      {{#if (eq @type "resource")}}
+        <div class="flex flex-row py-2">
+          <img
+            src={{@object.image}}
+            alt="resource's profile pic"
+            class="inline h-6 w-6 object-cover rounded-full mr-2"
+          />
+          {{@object.firstname}}
+          {{@object.lastname}}
+        </div>
+      {{/if}}
+    </button>
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{#if (eq @type "enterprise")}}
+      {{@object.city}}
+    {{/if}}
+    {{#if (eq @type "resource")}}
+      {{@object.enterprise}}
+    {{/if}}
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{@object.emailaddress}}
+  </td>
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    {{@object.phonenumber}}
+  </td>
+  <td class="w-[10%] text-center px-2 py-2">
+    <div
+      class="w-max rounded-full hover:bg-navbarBg transition-all duration-200"
+    >
+      <button
+        type="button"
+        class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        id={{@object.enterpriseid}}
+        {{on "click" (fn @displayDetails "edit" @object)}}
+      >
+        <img
+          src="/assets/icons/edit-button.svg"
+          alt="edit button icon"
+          class="inline h-5 w-auto mr-1"
+        />
+        Modifier
+      </button>
+    </div>
+  </td>
+  <td class="w-[10%] text-center px-2 py-2">
+    <div class="w-max rounded-full hover:bg-warn transition-all duration-200">
+      <button
+        type="button"
+        class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn @displayDelete @object)}}
+      >
+        <img
+          src="/assets/icons/delete-button.svg"
+          alt="delete button icon"
+          class="inline h-5 w-auto mr-1"
+        />
+        Supprimer
+      </button>
+    </div>
+  </td>
+</tr>

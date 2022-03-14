@@ -1,5 +1,11 @@
+import type Store from '@ember-data/store';
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 
 export default class AssignmentType extends Route {
-  // normal class body definition here
+  @service declare store: Store;
+
+  model() {
+    return this.store.findAll('assignment-type');
+  }
 }

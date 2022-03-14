@@ -27,7 +27,7 @@ module.exports = {
       text: '#647377',
       'text-secondary': '#384043',
       error: '#D72F33',
-      warn: '#ffcc00',
+      warn: '#ED6A6A',
       white: colors.white,
       black: colors.black,
     },
