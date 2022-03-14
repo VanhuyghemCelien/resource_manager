@@ -57,10 +57,10 @@ export class UserModel implements JsonApiModelInterface {
   })
     refreshToken?: RefreshTokenModel;
 
-    @ManyToMany('DocumentModel')
-      documents = new Collection<DocumentModel>(this);
+  @ManyToMany('DocumentModel')
+    documents = new Collection<DocumentModel>(this);
 
-    public passwordMatches (password: string): Promise<boolean> {
-      return bcrypt.compare(password, this.password);
-    }
+  public passwordMatches (password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }
