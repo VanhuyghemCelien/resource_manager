@@ -8,13 +8,13 @@ export interface EnterpriseModel {
   enterpriseid: number;
   name: string;
   city: string;
+  address: string;
   emailaddress: string;
   phonenumber: string;
   emailaddress2?: string;
   phonenumber2?: string;
   enterprisenumber?: string;
   vatnumber?: string;
-  address: string;
 }
 
 interface PagesEnterprisesArgs {}
@@ -31,13 +31,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     enterpriseid: 3,
     name: '',
     city: '',
+    address: '',
     emailaddress: '',
     phonenumber: '',
     emailaddress2: '',
     phonenumber2: '',
     enterprisenumber: '',
     vatnumber: '',
-    address: '',
   };
 
   reinitEnterprise() {
@@ -45,13 +45,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       enterpriseid: 3,
       name: '',
       city: '',
+      address: '',
       emailaddress: '',
       phonenumber: '',
       emailaddress2: '',
       phonenumber2: '',
       enterprisenumber: '',
       vatnumber: '',
-      address: '',
     };
   }
 
@@ -62,13 +62,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       enterpriseid: enterprise.enterpriseid,
       name: enterprise.name,
       city: enterprise.city,
+      address: enterprise.address,
       emailaddress: enterprise.emailaddress,
       phonenumber: enterprise.phonenumber,
       emailaddress2: enterprise.emailaddress2,
       phonenumber2: enterprise.phonenumber2,
       enterprisenumber: enterprise.enterprisenumber,
       vatnumber: enterprise.vatnumber,
-      address: enterprise.address,
     };
   }
 
@@ -129,13 +129,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       enterpriseid: enterpriseReceived.enterpriseid,
       name: enterpriseReceived.name,
       city: enterpriseReceived.city,
+      address: enterpriseReceived.address,
       emailaddress: enterpriseReceived.emailaddress,
       phonenumber: enterpriseReceived.phonenumber,
       emailaddress2: enterpriseReceived.emailaddress2,
       phonenumber2: enterpriseReceived.phonenumber2,
       enterprisenumber: enterpriseReceived.enterprisenumber,
       vatnumber: enterpriseReceived.vatnumber,
-      address: enterpriseReceived.address,
     };
     this.enterprise = enterpriseToEdit;
     if (modalName === 'edit') {
@@ -198,13 +198,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
     enterprise.name = editedEnterprise.name;
     enterprise.city = editedEnterprise.city;
+    enterprise.address = editedEnterprise.address;
     enterprise.emailaddress = editedEnterprise.emailaddress;
     enterprise.phonenumber = editedEnterprise.phonenumber;
     enterprise.emailaddress2 = editedEnterprise.emailaddress2;
     enterprise.phonenumber2 = editedEnterprise.phonenumber2;
     enterprise.enterprisenumber = editedEnterprise.enterprisenumber;
     enterprise.vatnumber = editedEnterprise.vatnumber;
-    enterprise.address = editedEnterprise.address;
 
     enterprise.save();
     this.toggleDisplayEnterpriseModal('edit');

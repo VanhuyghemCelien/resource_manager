@@ -7,14 +7,14 @@ import { tracked } from '@glimmer/tracking';
 export interface ResourceModel {
   resourceid: number;
   image: string;
-  emailaddress: string;
-  emailaddress2?: string;
   firstname: string;
   lastname: string;
+  enterprise: string;
+  emailaddress: string;
+  emailaddress2?: string;
   phonenumber: string;
   phonenumber2?: string;
   roleuser: string;
-  enterprise: string;
   cost?: string;
 }
 
@@ -31,14 +31,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked resource: ResourceModel = {
     resourceid: 3,
     image: '/assets/images/resource1.png',
-    emailaddress: '',
-    emailaddress2: '',
     firstname: '',
     lastname: '',
+    enterprise: '',
+    emailaddress: '',
+    emailaddress2: '',
     phonenumber: '',
     phonenumber2: '',
     roleuser: 'user',
-    enterprise: '',
     cost: '',
   };
 
@@ -46,14 +46,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.resource = {
       resourceid: 3,
       image: '/assets/images/resource1.png',
-      emailaddress: '',
-      emailaddress2: '',
       firstname: '',
       lastname: '',
+      enterprise: '',
+      emailaddress: '',
+      emailaddress2: '',
       phonenumber: '',
       phonenumber2: '',
       roleuser: 'user',
-      enterprise: '',
       cost: '',
     };
   }
@@ -64,14 +64,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.resource = {
       resourceid: resource.resourceid,
       image: resource.image,
-      emailaddress: resource.emailaddress,
-      emailaddress2: resource.emailaddress2,
       firstname: resource.firstname,
       lastname: resource.lastname,
+      enterprise: resource.enterprise,
+      emailaddress: resource.emailaddress,
+      emailaddress2: resource.emailaddress2,
       phonenumber: resource.phonenumber,
       phonenumber2: resource.phonenumber2,
       roleuser: resource.roleuser,
-      enterprise: resource.enterprise,
       cost: resource.cost,
     };
   }
@@ -129,14 +129,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     const resourceToEdit: ResourceModel = {
       resourceid: resourceReceived.resourceid,
       image: resourceReceived.image,
-      emailaddress: resourceReceived.emailaddress,
-      emailaddress2: resourceReceived.emailaddress2,
       firstname: resourceReceived.firstname,
       lastname: resourceReceived.lastname,
+      enterprise: resourceReceived.enterprise,
+      emailaddress: resourceReceived.emailaddress,
+      emailaddress2: resourceReceived.emailaddress2,
       phonenumber: resourceReceived.phonenumber,
       phonenumber2: resourceReceived.phonenumber2,
       roleuser: resourceReceived.roleuser,
-      enterprise: resourceReceived.enterprise,
       cost: resourceReceived.cost,
     };
     this.resource = resourceToEdit;
@@ -199,13 +199,13 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     );
 
     resource.image = editedResource.image;
-    resource.enterprise = editedResource.enterprise;
-    resource.emailaddress = editedResource.emailaddress;
-    resource.phonenumber = editedResource.phonenumber;
-    resource.emailaddress2 = editedResource.emailaddress2;
-    resource.phonenumber2 = editedResource.phonenumber2;
     resource.firstname = editedResource.firstname;
     resource.lastname = editedResource.lastname;
+    resource.enterprise = editedResource.enterprise;
+    resource.emailaddress = editedResource.emailaddress;
+    resource.emailaddress2 = editedResource.emailaddress2;
+    resource.phonenumber = editedResource.phonenumber;
+    resource.phonenumber2 = editedResource.phonenumber2;
     resource.cost = editedResource.cost;
 
     resource.save();
