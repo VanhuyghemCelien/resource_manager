@@ -1,7 +1,7 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  enterpriseName() {
+  name() {
     return 'Technocité';
   },
 });

@@ -65,7 +65,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @action
   selectEnterprise(event: { target: { value: string } }) {
     this.assignment.enterprise = {
-      enterpriseName: event.target.value,
+      name: event.target.value,
     };
   }
 

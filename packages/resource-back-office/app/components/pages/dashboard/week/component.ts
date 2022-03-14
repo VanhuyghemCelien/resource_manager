@@ -28,7 +28,7 @@ export interface AssignmentTitle {
 }
 
 export interface Enterprise {
-  enterpriseName: string;
+  name: string;
 }
 
 interface PagesDashboardWeekArgs {
@@ -58,7 +58,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     assignmentTitleColor: '',
   };
   @tracked enterprise: Enterprise = {
-    enterpriseName: '',
+    name: '',
   };
   @tracked assignment: Assignment = {
     assignmentType: {
@@ -70,7 +70,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       assignmentTitleColor: '',
     },
     enterprise: {
-      enterpriseName: '',
+      name: '',
     },
     date: new Date(),
     boolMorning: false,
@@ -96,7 +96,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
           assignmentNew.assignmentTitle.assignmentTitleColor,
       },
       enterprise: {
-        enterpriseName: assignmentNew.enterprise.enterpriseName,
+        name: assignmentNew.enterprise.name,
       },
       date: date,
       boolMorning: assignmentNew.boolMorning,
@@ -114,7 +114,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         assignmentTitleColor: '',
       },
       enterprise: {
-        enterpriseName: '',
+        name: '',
       },
       date: new Date(),
       boolMorning: false,
@@ -155,7 +155,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   editEnterpriseField(event: { target: { value: string } }) {
-    this.enterprise.enterpriseName = event.target.value;
+    this.enterprise.name = event.target.value;
   }
 
   @action
@@ -191,7 +191,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   addEnterprise() {
     const enterprise = this.store.createRecord('enterprise', this.enterprise);
     this.enterprise = {
-      enterpriseName: '',
+      name: '',
     };
     enterprise.save();
     this.toggleDisplayNewEnterpriseModal();
@@ -221,7 +221,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       this.displayNewAssignmentModal = true;
       this.choosingDay = new Date(choosingdate!);
       this.assignment.resource = resource;
-      this.resourceName = resource!.firstname + ' ' + resource!.lastname;
+      this.resourceName = resource!.firstName + ' ' + resource!.lastName;
       this.assignment.boolMorning = boolMorning!;
       this.assignment.boolAfternoon = boolAfternoon!;
     }

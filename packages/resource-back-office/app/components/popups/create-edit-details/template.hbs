@@ -1,0 +1,344 @@
+<div
+  class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+>
+  <div class="flex h-screen justify-center items-center">
+    <div class="bg-white p-5 rounded-3xl w-[500px]">
+      <div class="flex flex-row justify-end">
+        <h1 class="ml-5 w-full text-2xl font-bold text-primary text-center">
+          {{this.popupName}}
+        </h1>
+        <button
+          type="button"
+          {{on "click" (fn @toggleDisplayModal @popupType)}}
+        >
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
+        </button>
+      </div>
+      <form aria-label="form">
+        {{#if (eq @objectType "Resource")}}
+          <div class="flex flex-row items-stretch mt-4">
+            {{#if (eq @popupType "details")}}
+              <img
+                src={{@object.image}}
+                alt="Resource's profile pic"
+                class="h-28 w-28 rounded-full object-cover border-2 border-secondary mx-auto"
+              />
+            {{else}}
+              <label
+                for="resourcePic"
+                class="relative z-0 text-center text-sm flex flex-col justify-center h-28 w-28 rounded-full border-2 border-primary mx-auto cursor-pointer"
+              >
+                {{#if (eq @popupType "edit")}}
+                  <img
+                    src={{@object.image}}
+                    alt="Resource's profile pic"
+                    class="h-28 w-28 object-cover z-0 rounded-full"
+                  />
+                {{/if}}
+                <div
+                  class="absolute inset-0 flex justify-center items-center z-10 h-full w-full rounded-full hover:bg-primary hover:bg-opacity-20
+                    {{if
+                      (eq @popupType "edit")
+                      "text-white/0 hover:text-white/100"
+                      "text-secondary hover:text-primary"
+                    }}"
+                >
+                  {{if
+                    (eq @popupType "edit")
+                    "Modifier la photo"
+                    "Ajouter une photo"
+                  }}
+                </div>
+
+                <input type="file" id="resourcePic" class="hidden" />
+              </label>
+            {{/if}}
+          </div>
+        {{/if}}
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              Nom
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              Prénom
+            {{/if}}
+          </p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.name}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.firstName}}
+              {{/if}}
+            </p>
+          {{else}}
+            <input
+              id="nameInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.name
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.firstName
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 0)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              N° d'entreprise
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              Nom de famille
+            {{/if}}
+          </p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.enterpriseNumber}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.lastName}}
+              {{/if}}
+            </p>
+          {{else}}
+            <input
+              id="enterpriseNumberInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.enterpriseNumber
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.lastName
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 1)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">
+            {{#if (eq @objectType "Enterprise")}}
+              N° de TVA
+            {{/if}}
+            {{#if (eq @objectType "Resource")}}
+              Entreprise
+            {{/if}}
+          </p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{#if (eq @objectType "Enterprise")}}
+                {{@object.vatNumber}}
+              {{/if}}
+              {{#if (eq @objectType "Resource")}}
+                {{@object.enterprise}}
+              {{/if}}
+            </p>
+          {{else}}
+            <input
+              id="vatNumberInput"
+              type="text"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if
+                (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                @object.vatNumber
+                (if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.enterprise
+                  ""
+                )
+              }}
+              {{on "focus" (fn this.getFieldToEdit @objectType 2)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        {{#if (eq @objectType "Enterprise")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">Ville</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.city}}
+              </p>
+            {{else}}
+              <input
+                id="cityInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                  @object.city
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 3)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
+        {{#if (eq @objectType "Enterprise")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">Adresse</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.address}}
+              </p>
+            {{else}}
+              <input
+                id="addressInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Enterprise") (eq @popupType "edit"))
+                  @object.address
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 4)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Adresse email</p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@object.emailAddress}}
+            </p>
+          {{else}}
+            <input
+              id="emailAddressInput"
+              type="email"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @popupType "new") "" @object.emailAddress}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 5)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">Adresse email n°2</p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@object.emailAddress2}}
+            </p>
+          {{else}}
+            <input
+              id="emailAddress2Input"
+              type="email"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @popupType "new") "" @object.emailAddress2}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 6)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">N° de téléphone</p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@object.phoneNumber}}
+            </p>
+          {{else}}
+            <input
+              id="phoneNumberInput"
+              type="tel"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              required
+              value={{if (eq @popupType "new") "" @object.phoneNumber}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 7)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        <div class="flex flex-row items-stretch mt-4">
+          <p class="my-auto">N° de téléphone n°2</p>
+          {{#if (eq @popupType "details")}}
+            <p
+              class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+            >
+              {{@object.phoneNumber2}}
+            </p>
+          {{else}}
+            <input
+              id="phoneNumber2Input"
+              type="tel"
+              class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+              value={{if (eq @popupType "new") "" @object.phoneNumber2}}
+              {{on "focus" (fn this.getFieldToEdit @objectType 8)}}
+              {{on "change" (fn @editField this.fieldToEdit)}}
+            />
+          {{/if}}
+        </div>
+        {{#if (eq @objectType "Resource")}}
+          <div class="flex flex-row items-stretch mt-4">
+            <p class="my-auto">Coût (€/h)</p>
+            {{#if (eq @popupType "details")}}
+              <p
+                class="border-2 h-9 rounded-md w-60 px-3 py-1 mr-0 ml-auto text-secondary border-secondary"
+              >
+                {{@object.cost}}
+              </p>
+            {{else}}
+              <input
+                id="costInput"
+                type="text"
+                class="border-2 border-primary rounded-md w-60 px-3 py-1 mr-0 ml-auto focus:outline-none focus:border-navbarBg"
+                required
+                value={{if
+                  (and (eq @objectType "Resource") (eq @popupType "edit"))
+                  @object.cost
+                  ""
+                }}
+                {{on "focus" (fn this.getFieldToEdit @objectType 3)}}
+                {{on "change" (fn @editField this.fieldToEdit)}}
+              />
+            {{/if}}
+          </div>
+        {{/if}}
+        {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
+          <button
+            type="submit"
+            class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            {{on "click" @saveFunction}}
+          >
+            <p>{{this.popupName}}</p>
+          </button>
+        {{/if}}
+      </form>
+    </div>
+  </div>
+</div>

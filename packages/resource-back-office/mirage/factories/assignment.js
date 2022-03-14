@@ -16,7 +16,7 @@ export default Factory.extend({
 
   enterprise() {
     return {
-      enterpriseName: 'Technocité',
+      name: 'Technocité',
     };
   },
 

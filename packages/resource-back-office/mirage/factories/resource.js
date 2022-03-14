@@ -4,19 +4,19 @@ export default Factory.extend({
   image() {
     return '/assets/icons/Users.svg';
   },
-  emailaddress() {
+  emailAddress() {
     return 'toto@gmail.com';
   },
-  firstname() {
+  firstName() {
     return 'toto';
   },
-  lastname() {
+  lastName() {
     return 'fitdevoie';
   },
-  phonenumber() {
+  phoneNumber() {
     return '0456783456';
   },
-  roleuser() {
+  roleUser() {
     return 'user';
   },
   enterprise() {
