@@ -1,10 +1,18 @@
 import Component from '@glimmer/component';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import startOfWeek from 'date-fns/startOfWeek';
 
 interface UiHalfdayArgs {
   resource: ResourceModel;
   boolMorning: boolean;
+  choosingDay: Date;
   numDay: number;
+  toggleDisplayNewAssignmentModal: (
+    choosingdate: Date,
+    resource: ResourceModel,
+    boolMorning: boolean,
+    boolAfternoon: boolean
+  ) => void;
 }
 
 export default class UiHalfday extends Component<UiHalfdayArgs> {
@@ -19,5 +27,12 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
       return e.date.getDay() === this.args.numDay && e.boolAfternoon;
     });
     return res;
+  }
+
+  get day() {
+    let day = startOfWeek(this.args.choosingDay, { weekStartsOn: 0 });
+    day.setDate(day.getDate() + this.args.numDay);
+    day.setHours(1);
+    return day;
   }
 }

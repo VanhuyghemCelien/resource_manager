@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { format, startOfWeek, subWeeks } from 'date-fns';
+import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
 import { service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
@@ -60,9 +60,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked enterprise: Enterprise = {
     enterpriseName: '',
   };
-  // à exploser
-  @tracked colorFormat =
-    'border-[' + this.assignmentType.assignmentTypeColor + ']';
   @tracked assignment: Assignment = {
     assignmentType: {
       assignmentTypeName: '',
@@ -220,6 +217,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         boolAfternoon: false,
       };
     } else {
+      console.log(choosingdate);
       this.displayNewAssignmentModal = true;
       this.choosingDay = new Date(choosingdate!);
       this.assignment.resource = resource;
@@ -273,19 +271,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.choosingDay = new Date(this.specificDay);
   }
 
-  // nettoyage
-  get columns() {
-    let cols: number[] = Array(5);
-    return cols;
-  }
-
-  // nettoyage
-  get resources() {
-    let resources: number[] = Array(8);
-    return resources;
-  }
-
   get currentMonth() {
+    console.log(this.choosingDay);
     let month: string = format(this.choosingDay, 'MMMM - yyyy');
     return month;
   }
@@ -293,42 +280,5 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   get numDay() {
     let numDay: number = this.today.getDay();
     return numDay;
-  }
-
-  // component pls
-  get monday() {
-    console.log(this.choosingDay, 'lundi');
-    let monday = startOfWeek(this.choosingDay, {
-      weekStartsOn: 0,
-    });
-    monday.setDate(monday.getDate() + 1);
-    return monday;
-  }
-
-  get tuesday() {
-    let tuesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
-    tuesday.setDate(tuesday.getDate() + 2);
-    return tuesday;
-  }
-
-  get wednesday() {
-    let wednesday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
-    console.log('a', this.choosingDay, wednesday, wednesday.getDate());
-    wednesday.setDate(wednesday.getDate() + 3);
-    return wednesday;
-  }
-
-  get thursday() {
-    console.log(this.choosingDay, 'coco');
-    let thursday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
-    console.log(this.choosingDay, thursday, thursday.getDate());
-    thursday.setDate(thursday.getDate() + 4);
-    return thursday;
-  }
-
-  get friday() {
-    let friday = startOfWeek(this.choosingDay, { weekStartsOn: 0 });
-    friday.setDate(friday.getDate() + 5);
-    return friday;
   }
 }
