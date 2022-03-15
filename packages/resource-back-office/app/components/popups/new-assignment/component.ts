@@ -50,6 +50,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       ...this.assignment,
       assignmentType: {
         assignmentTypeName: selected.assignmentTypeName,
+        multipleColors: false,
         assignmentTypeColor: selected.assignmentTypeColor,
       },
     };

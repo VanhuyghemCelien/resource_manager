@@ -1,27 +1,27 @@
-<div class="mt-12 ml-28 max-w-[90%] font-normal">
+<div class="mt-12 ml-28 max-w-[90%] w- font-normal">
   <div class="flex flex-row">
     <h1 class="text-3xl font-black text-primary">
       Month :
       {{this.currentMonth}}
     </h1>
-    {{!-- template-lint-disable no-log --}}
+    {{! template-lint-disable no-log }}
     {{log this.choosingDay "hello"}}
-    {{!-- link dynamique pls --}}
+    {{! link dynamique pls }}
     <a href="/dashboard/month/1" class="h-full ml-4 mt-auto text-secondary">
       Show by Month
     </a>
   </div>
   <div class="flex flex-row h-max mt-4">
     <div class="flex flex-row w-max">
-      {{!-- template-lint-disable no-log --}}
+      {{! template-lint-disable no-log }}
       {{log this.thursday}}
       <LinkTo
-        {{!-- { week : this.choosingMachin } --}}
+        {{! { week : this.choosingMachin } }}
         @query={{hash week=this.choosingDateLess}}
-        {{!-- Doucement avec les variants CSS, genre utilise h-24 w-12, c'est plus pour les exceptions  --}}
-        class="block text-center h-[34px] w-[34px] pr-[2px] ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+        {{! Doucement avec les variants CSS, genre utilise h-24 w-12, c'est plus pour les exceptions  }}
+        class="block text-center h-9 w-9 pr-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
       >
-        <p class="w-full text-center">&#x276E;</p>
+        <p class="w-full text-center mt-1.5">&#x276E;</p>
       </LinkTo>
       <button
         class="block text-center py-1 px-5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
@@ -31,7 +31,7 @@
         Actual
       </button>
       <button
-        class="block text-center h-[34px] w-[34px] pl-[2px] ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+        class="block text-center h-9 w-9 pl-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"
         {{on "click" this.choosingDayPlus}}
       >
@@ -48,7 +48,7 @@
           required
           onkeydown="return false"
           label="specificDay"
-          class="border border-navbarBg h-[34px] rounded-full text-navbarBg px-2 text-center ml-1"
+          class="border border-navbarBg h-9 rounded-full text-navbarBg px-2 text-center ml-1"
           value={{this.specificDay}}
           {{on "change" this.choosingSpecificDay}}
         />
@@ -59,78 +59,44 @@
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
       <div class="text-center">Semaine</div>
-      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{1}}></Ui::Dayhead>
-      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{2}}></Ui::Dayhead>
-      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{3}}></Ui::Dayhead>
-      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{4}}></Ui::Dayhead>
-      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{5}}></Ui::Dayhead>
+      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{1}} />
+      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{2}} />
+      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{3}} />
+      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{4}} />
+      <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{5}} />
     </div>
     {{#each @model.resource as |resource|}}
-      <Ui::Assignment @resource={{resource}} @choosingDay={{this.choosingDay}} @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}></Ui::Assignment>
+      <Ui::Assignment
+        @resource={{resource}}
+        @choosingDay={{this.choosingDay}}
+        @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
+      />
     {{/each}}
   </div>
   {{#if this.displayNewAssignmentModal}}
-    <Popups::NewAssignment @model={{@model}} @displayNewTypeModal={{this.displayNewTypeModal}} @displayNewTitleModal={{this.displayNewTitleModal}} @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}} @resourceName={{this.resourceName}} @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}} @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}} @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}} @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}} @addAssignment={{this.addAssignment}} @assignment={{this.assignment}} @choosingDay={{this.choosingDay}}></Popups::NewAssignment>
+    <Popups::NewAssignment
+      @model={{@model}}
+      @displayNewTypeModal={{this.displayNewTypeModal}}
+      @displayNewTitleModal={{this.displayNewTitleModal}}
+      @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
+      @resourceName={{this.resourceName}}
+      @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
+      @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
+      @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
+      @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
+      @addAssignment={{this.addAssignment}}
+      @assignment={{this.assignment}}
+      @choosingDay={{this.choosingDay}}
+    />
   {{/if}}
   {{#if this.displayNewTypeModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-[314px]">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Type:
-            </h1>
-            <button type="button" {{on "click" this.toggleDisplayNewTypeModal}}>
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <input
-            type="text"
-            id="typeInput"
-            class="border border-primary rounded mx-auto w-full mt-4"
-            {{on "change" (fn this.editAssignmentTypeField "name")}}
-          />
-          <div class="flex flex-row mt-2 justify-between">
-            <p>Multiple colors for this type* ?</p>
-            <input
-              type="checkbox"
-              id="multicolorsInput"
-              class="my-auto ml-4"
-              {{on "click" this.toggleColor}}
-            />
-          </div>
-          {{#if (eq this.color false)}}
-            <div class="flex flex-row mt-2 justify-between">
-              <p>Select the color to apply<br />for this type of assignment</p>
-              <input
-                type="color"
-                id="colorInput"
-                class="my-auto ml-4"
-                {{on "change" (fn this.editAssignmentTypeField "color")}}
-              />
-            </div>
-          {{/if}}
-          <button
-            type="button"
-            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            {{on "click" this.addAssignmentType}}
-          >
-            <p>Create type</p>
-          </button>
-          <p class="text-xs text-secondary mt-2">
-            *If checked, you will have to select a color for each title created
-            for this type of assignment
-          </p>
-        </div>
-      </div>
-    </div>
+    <Popups::AssignmentType
+      @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
+      @editAssignmentTypeField={{this.editAssignmentTypeField}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentType}}
+      @isColorChecked={{this.color}}
+    />
   {{/if}}
   {{#if this.displayNewTitleModal}}
     <div

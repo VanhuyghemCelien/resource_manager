@@ -5,7 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export interface ResourceModel {
-  resourceid: number;
+  resourceId: number;
   image: string;
   firstName: string;
   lastName: string;
@@ -29,7 +29,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked displayDeleteResourceModal: Boolean = false;
   @tracked modalName: string = '';
   @tracked resource: ResourceModel = {
-    resourceid: 3,
+    resourceId: 3,
     image: '/assets/images/resource1.png',
     firstName: '',
     lastName: '',
@@ -44,7 +44,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
 
   reinitResource() {
     this.resource = {
-      resourceid: 3,
+      resourceId: 3,
       image: '/assets/images/resource1.png',
       firstName: '',
       lastName: '',
@@ -62,7 +62,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   displayDeleteResource(resource: ResourceModel) {
     this.toggleDisplayDeleteResourceModal();
     this.resource = {
-      resourceid: resource.resourceid,
+      resourceId: resource.resourceId,
       image: resource.image,
       firstName: resource.firstName,
       lastName: resource.lastName,
@@ -127,7 +127,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @action
   displayResourceDetails(modalName: string, resourceReceived: ResourceModel) {
     const resourceToEdit: ResourceModel = {
-      resourceid: resourceReceived.resourceid,
+      resourceId: resourceReceived.resourceId,
       image: resourceReceived.image,
       firstName: resourceReceived.firstName,
       lastName: resourceReceived.lastName,
@@ -162,16 +162,16 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       case 'phoneNumber':
         this.resource.phoneNumber = event.target.value;
         break;
-      case 'phonenumber2':
+      case 'phoneNumber2':
         this.resource.phoneNumber2 = event.target.value;
         break;
-      case 'emailaddress2':
+      case 'emailAddress2':
         this.resource.emailAddress2 = event.target.value;
         break;
-      case 'firstname':
+      case 'firstName':
         this.resource.firstName = event.target.value;
         break;
-      case 'lastname':
+      case 'lastName':
         this.resource.lastName = event.target.value;
         break;
       case 'cost':
@@ -195,7 +195,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     const editedResource = this.resource;
     const resource = await this.store.findRecord(
       'resource',
-      editedResource.resourceid
+      editedResource.resourceId
     );
 
     resource.image = editedResource.image;
@@ -216,7 +216,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   async deleteResource(resource: ResourceModel) {
     const resourceToDelete = await this.store.peekRecord(
       'resource',
-      resource.resourceid
+      resource.resourceId
     );
     if (resourceToDelete) {
       resourceToDelete!.deleteRecord();

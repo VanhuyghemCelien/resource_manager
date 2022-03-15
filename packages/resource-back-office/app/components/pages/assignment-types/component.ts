@@ -109,13 +109,13 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @action
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
     switch (field) {
-      case 'assignmenttypename':
+      case 'assignmentTypeName':
         this.assignmentType.assignmentTypeName = event.target.value;
         break;
-      case 'multiplecolors':
+      case 'multipleColors':
         this.assignmentType.multipleColors = Boolean(event.target.value);
         break;
-      case 'assignmenttypecolor':
+      case 'assignmentTypeColor':
         this.assignmentType.assignmentTypeColor = event.target.value;
         break;
       default:
@@ -144,7 +144,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
 
     assignmentType.assignmentTypeName = editedAssignmentType.assignmentTypeName;
     assignmentType.multipleColors = editedAssignmentType.multipleColors;
-    assignmentType.emaiassignmenttypecolorladdress =
+    assignmentType.assignmentTypeColor =
       editedAssignmentType.assignmentTypeColor;
     assignmentType.save();
     this.toggleDisplayAssignmentTypeModal('edit');

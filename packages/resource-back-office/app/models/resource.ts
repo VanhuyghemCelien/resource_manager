@@ -2,7 +2,7 @@ import Model, { attr, hasMany } from '@ember-data/model';
 import type AssignmentModel from './assignment';
 
 export default class ResourceModel extends Model {
-  @attr() declare resourceid: number;
+  @attr() declare resourceId: number;
   @attr() declare image: string;
   @attr() declare emailAddress: string;
   @attr() declare emailAddress2?: string;

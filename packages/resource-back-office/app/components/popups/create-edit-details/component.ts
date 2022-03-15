@@ -50,19 +50,19 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
         if (objectType === 'Enterprise') {
           valueToReturn = 'name';
         } else if (objectType === 'Resource') {
-          valueToReturn = 'firstname';
+          valueToReturn = 'firstName';
         }
         break;
       case 1:
         if (objectType === 'Enterprise') {
-          valueToReturn = 'enterprisenumber';
+          valueToReturn = 'enterpriseNumber';
         } else if (objectType === 'Resource') {
-          valueToReturn = 'lastname';
+          valueToReturn = 'lastName';
         }
         break;
       case 2:
         if (objectType === 'Enterprise') {
-          valueToReturn = 'vatnumber';
+          valueToReturn = 'vatNumber';
         } else if (objectType === 'Resource') {
           valueToReturn = 'enterprise';
         }
@@ -86,17 +86,17 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
         break;
       case 6:
         if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'emailaddress2';
+          valueToReturn = 'emailAddress2';
         }
         break;
       case 7:
         if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'phonenumber';
+          valueToReturn = 'phoneNumber';
         }
         break;
       case 8:
         if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'phonenumber2';
+          valueToReturn = 'phoneNumber2';
         }
         break;
       default:

@@ -13,7 +13,6 @@ interface UiAssignmentArgs {
   ) => void;
 }
 
-// eslint-disable-next-line ember/no-empty-glimmer-component-classes
 export default class UiAssignment extends Component<UiAssignmentArgs> {
   @tracked tableDay: number[] = [1, 2, 3, 4, 5];
 }
