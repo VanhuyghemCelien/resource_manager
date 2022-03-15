@@ -1,0 +1,57 @@
+<div
+  class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+>
+  <div
+    class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
+  >
+    <div class="bg-white p-5 rounded-3xl w-[314px]">
+      <div class="flex flex-row justify-center">
+        <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
+          Nouveau type d'occupation :
+        </h1>
+        <button type="button" {{on "click" @toggleDisplayModal}}>
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
+        </button>
+      </div>
+      <input
+        type="text"
+        id="typeInput"
+        class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
+        {{on "change" (fn @editAssignmentTypeField "assignmentTypeName")}}
+      />
+      <div class="flex flex-row mt-2 justify-between">
+        <p>Plusieurs couleurs pour ce type d'occupation* ?</p>
+        <input
+          type="checkbox"
+          id="multicolorsInput"
+          class="my-auto ml-4"
+          {{on "click" @toggleIsColorChecked}}
+        />
+      </div>
+      {{#if (eq @isColorChecked false)}}
+        <div class="flex flex-row mt-2 justify-between">
+          <p class="w-10/12">
+            Sélectionnez la couleur à appliquer pour ce type d'occupation
+          </p>
+          <input
+            type="color"
+            id="colorInput"
+            class="my-auto w-2/12"
+            {{on "change" (fn @editAssignmentTypeField "assignmentTypeColor")}}
+          />
+        </div>
+      {{/if}}
+      <button
+        type="button"
+        class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+        {{on "click" @saveFunction}}
+      >
+        <p>Créer</p>
+      </button>
+      <p class="text-xs text-secondary mt-2">
+        *Si coché, vous devrez sélectionner une couleur pour chaque titre créé
+        pour ce type d'occupation
+      </p>
+    </div>
+  </div>
+</div>

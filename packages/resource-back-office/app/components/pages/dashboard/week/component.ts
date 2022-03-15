@@ -19,6 +19,7 @@ export interface Assignment {
 
 export interface AssignmentType {
   assignmentTypeName: string;
+  multipleColors: boolean;
   assignmentTypeColor?: string;
 }
 
@@ -51,6 +52,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked resourceName: string = '';
   @tracked assignmentType: AssignmentType = {
     assignmentTypeName: '',
+    multipleColors: false,
     assignmentTypeColor: '#adab32',
   };
   @tracked assignmentTitle: AssignmentTitle = {
@@ -63,6 +65,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked assignment: Assignment = {
     assignmentType: {
       assignmentTypeName: '',
+      multipleColors: false,
       assignmentTypeColor: '',
     },
     assignmentTitle: {
@@ -88,6 +91,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.assignment = {
       assignmentType: {
         assignmentTypeName: assignmentNew.assignmentType.assignmentTypeName,
+        multipleColors: false,
         assignmentTypeColor: assignmentNew.assignmentType.assignmentTypeColor,
       },
       assignmentTitle: {
@@ -107,6 +111,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.assignment = {
       assignmentType: {
         assignmentTypeName: '',
+        multipleColors: false,
         assignmentTypeColor: '',
       },
       assignmentTitle: {
@@ -129,10 +134,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @action
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
     switch (field) {
-      case 'name':
+      case 'assignmentTypeName':
         this.assignmentType.assignmentTypeName = event.target.value;
         break;
-      case 'color':
+      case 'assignmentTypeColor':
         this.assignmentType.assignmentTypeColor = event.target.value;
         break;
     }
@@ -167,6 +172,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     // changeset
     this.assignmentType = {
       assignmentTypeName: '',
+      multipleColors: false,
       assignmentTypeColor: '',
     };
     assignmentType.save();

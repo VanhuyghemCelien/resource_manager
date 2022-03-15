@@ -90,64 +90,13 @@
     />
   {{/if}}
   {{#if this.displayNewTypeModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-[314px]">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Type:
-            </h1>
-            <button type="button" {{on "click" this.toggleDisplayNewTypeModal}}>
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <input
-            type="text"
-            id="typeInput"
-            class="border border-primary rounded mx-auto w-full mt-4"
-            {{on "change" (fn this.editAssignmentTypeField "name")}}
-          />
-          <div class="flex flex-row mt-2 justify-between">
-            <p>Multiple colors for this type* ?</p>
-            <input
-              type="checkbox"
-              id="multicolorsInput"
-              class="my-auto ml-4"
-              {{on "click" this.toggleColor}}
-            />
-          </div>
-          {{#if (eq this.color false)}}
-            <div class="flex flex-row mt-2 justify-between">
-              <p>Select the color to apply<br />for this type of assignment</p>
-              <input
-                type="color"
-                id="colorInput"
-                class="my-auto ml-4"
-                {{on "change" (fn this.editAssignmentTypeField "color")}}
-              />
-            </div>
-          {{/if}}
-          <button
-            type="button"
-            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            {{on "click" this.addAssignmentType}}
-          >
-            <p>Create type</p>
-          </button>
-          <p class="text-xs text-secondary mt-2">
-            *If checked, you will have to select a color for each title created
-            for this type of assignment
-          </p>
-        </div>
-      </div>
-    </div>
+    <Popups::AssignmentType
+      @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
+      @editAssignmentTypeField={{this.editAssignmentTypeField}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentType}}
+      @isColorChecked={{this.color}}
+    />
   {{/if}}
   {{#if this.displayNewTitleModal}}
     <div
