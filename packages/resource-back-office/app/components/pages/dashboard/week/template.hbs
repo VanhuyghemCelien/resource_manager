@@ -1,4 +1,4 @@
-<div class="mt-12 ml-28 max-w-[90%] w- font-normal">
+<div class="mt-12 ml-28 max-w-[90%] font-normal">
   <div class="flex flex-row">
     <h1 class="text-3xl font-black text-primary">
       Month :
@@ -7,14 +7,12 @@
     {{! template-lint-disable no-log }}
     {{log this.choosingDay "hello"}}
     {{! link dynamique pls }}
-    <a href="/dashboard/month/1" class="h-full ml-4 mt-auto text-secondary">
-      Show by Month
-    </a>
+    <LinkTo @route="dashboard.month" class="h-full ml-4 mt-auto text-secondary">
+      <p>Show by Month</p>
+    </LinkTo>
   </div>
   <div class="flex flex-row h-max mt-4">
     <div class="flex flex-row w-max">
-      {{! template-lint-disable no-log }}
-      {{log this.thursday}}
       <LinkTo
         {{! { week : this.choosingMachin } }}
         @query={{hash week=this.choosingDateLess}}
