@@ -9,8 +9,8 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('login');
   this.route('dashboard', function () {
-    this.route('week');
     this.route('month');
+    this.route('week');
   });
   this.route('404', { path: '/*path' });
   this.route('resources');
