@@ -8,10 +8,16 @@
         <h2 class="ml-3">Intranet</h2>
       </div>
       <LinkTo
-        @route="dashboard"
+        @route={{if
+          (eq this.route "dashboard.week")
+          "dashboard.week"
+          "dashboard.month"
+        }}
         class="flex mx-1 my-2 items-center rounded-full py-2
           {{if
-            (eq this.route "dashboard")
+            (or
+              (eq this.route "dashboard.week") (eq this.route "dashboard.month")
+            )
             "bg-white text-navbarBg transition-all"
             "brightness-0 invert transition-all hover:bg-navbarSelected hover:bg-opacity-20"
           }}"

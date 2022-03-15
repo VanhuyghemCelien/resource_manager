@@ -10,7 +10,7 @@ export default class PagesBase extends Component<PagesBaseArgs> {
 
   get route() {
     let route: string = this.router.currentRouteName;
-    let tableroute: string[] = route.split('.');
-    return tableroute[0];
+    // let tableroute: string[] = route.split('.');
+    return route;
   }
 }
