@@ -1,6 +1,7 @@
 import type { JsonApiModelInterface } from './../../json-api/interfaces/model.interface';
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { BeforeDelete, Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import * as Fs from 'fs/promises';
 
 @Entity({
   tableName: 'resources',
@@ -32,6 +33,11 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare cost?: number;
 
+    @BeforeDelete()
+    public removeFromDisk (): Promise<void> {
+      return Fs.unlink(this.id);
+    }
+
   // @OneToOne({
   //   entity: () => ResourcePictureModel,
   //   mappedBy: 'user',
@@ -39,6 +45,6 @@ export class ResourceModel implements JsonApiModelInterface {
   // })
   //   resourcePicture?: ResourcePictureModel;
 
-  //   @OneToMany('DocumentModel')
-  //     documents = new Collection<EnterpriseModel>(this);
+  //   @ManytoOne('EnterpriseModel')
+  //     enterprises = new Collection<EnterpriseModel>(this);
 }
