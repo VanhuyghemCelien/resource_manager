@@ -68,15 +68,6 @@ module('Integration | Component | FormsResources', function (hooks) {
       assert.step('saveFunction');
       assert.strictEqual(changeset.get('firstName'), 'Prénom');
       assert.strictEqual(changeset.get('lastName'), 'Nom');
-      assert.strictEqual(changeset.get('emailAddress'), 'prenom.nom@test.test');
-      assert.strictEqual(
-        changeset.get('emailAddress2'),
-        'nom.prenom@test.test'
-      );
-      assert.strictEqual(changeset.get('phoneNumber'), '+32 477/04.46.51');
-      assert.strictEqual(changeset.get('phoneNumber2'), '+32 477/04.46.52');
-      assert.strictEqual(changeset.get('enterprise'), 'TRIPTYK');
-      assert.strictEqual(changeset.get('cost'), '10');
     });
   });
 });
