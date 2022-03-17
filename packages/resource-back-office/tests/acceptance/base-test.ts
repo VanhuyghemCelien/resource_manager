@@ -8,7 +8,7 @@ module('Acceptance | base', function (hooks) {
   test('visiting /resources', async function (assert) {
     assert.expect(1);
 
-    await visit('/dashboard/month/1');
+    await visit('/dashboard/month');
     await click('[data-test-linktousers]');
 
     assert.strictEqual(currentURL(), '/users');

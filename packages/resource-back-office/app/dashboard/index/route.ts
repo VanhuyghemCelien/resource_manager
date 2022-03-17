@@ -5,8 +5,7 @@ import { service } from '@ember/service';
 export default class DashboardIndex extends Route {
   @service declare router: RouterService;
 
-  x = 1;
   beforeModel() {
-    this.router.transitionTo('dashboard.month', this.x);
+    this.router.transitionTo('dashboard.month');
   }
 }

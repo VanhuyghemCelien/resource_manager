@@ -33,7 +33,8 @@ module('Integration | Component | FormsLogin', function (hooks) {
     });
 
     await render(
-      hbs`<Forms::Login @changeset={{this.changeset}} @saveFunction={{this.saveFunction}} />`
+      hbs`
+<Forms::Login @changeset={{this.changeset}} @saveFunction={{this.saveFunction}} />`
     );
 
     assert.dom('[data-test-input="email"]').hasValue('');
@@ -66,7 +67,8 @@ module('Integration | Component | FormsLogin', function (hooks) {
     });
 
     await render(
-      hbs`<Forms::Login @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`
+      hbs`
+<Forms::Login @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`
     );
 
     assert.dom('[data-test-input="email"]').hasValue('hello');
