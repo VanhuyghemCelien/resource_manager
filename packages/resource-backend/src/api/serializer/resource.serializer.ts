@@ -12,7 +12,7 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
     super(configurationService);
 
     this.serializer.register('resources', {
-      whitelist: ['firstName', 'lastName', 'email1', 'email2', 'phone1', 'phone2', 'cost'] as (keyof ResourceModel)[],
+      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost'] as (keyof ResourceModel)[],
     });
   }
 

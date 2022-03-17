@@ -6,6 +6,6 @@ export default class Resources extends Route {
   @service declare store: Store;
 
   model() {
-    return this.store.findAll('resource');
+    return this.store.query('resource', {});
   }
 }

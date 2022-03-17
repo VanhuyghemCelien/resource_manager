@@ -1,8 +1,9 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 
 export interface ResourceModel {
   resourceId: number;
@@ -182,12 +183,17 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     }
   }
 
+  @inject declare flashMessages: FlashMessageService;
   @action
-  addResource() {
-    const resource = this.store.createRecord('resource', this.resource);
+  async addResource() {
+    const resource = await this.store.createRecord('resource', this.resource);
     this.reinitResource();
-    resource.save();
-    this.toggleDisplayResourceModal('new');
+    try {
+      resource.save();
+      this.toggleDisplayResourceModal('new');
+    } catch (e) {
+      this.flashMessages.danger('erreur');
+    }
   }
 
   @action

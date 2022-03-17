@@ -1,7 +1,6 @@
 import {
   Schema,
   SchemaBase,
-  Number,
   String,
 } from 'fastest-validator-decorators';
 
@@ -14,20 +13,17 @@ export class ValidatedResource extends SchemaBase {
     declare lastName: string;
 
     @String()
-    declare path: string;
+    declare emailAddress: string;
 
     @String()
-    declare email1: string;
+    declare emailAddress2: string;
 
     @String()
-    declare email2: string;
+    declare phoneNumber: string;
 
     @String()
-    declare phone1: string;
+    declare phoneNumber2: string;
 
     @String()
-    declare phone2: string;
-
-    @Number()
-    declare cost: number;
+    declare cost: string;
 }
