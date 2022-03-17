@@ -25,8 +25,4 @@ export default class FormsEnterprise extends BaseForm<
   @action changeInput(field: string, value: string) {
     this.args.changeset.set(field as keyof FormsEnterpriseDTO, value);
   }
-  @action
-  saveFunction() {
-    this.args.isDisplayed = false;
-  }
 }
