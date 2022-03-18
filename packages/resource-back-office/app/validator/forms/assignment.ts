@@ -1,4 +1,7 @@
-import { validatePresence } from 'ember-changeset-validations/validators';
+import {
+  validateLength,
+  validatePresence,
+} from 'ember-changeset-validations/validators';
 
 export default {
   resource: [validatePresence(true)],
@@ -8,5 +11,5 @@ export default {
   isMorning: [validatePresence(true)],
   isAfternoon: [validatePresence(true)],
   isRemote: [validatePresence(true)],
-  comment: [validatePresence(false)],
+  comment: [validateLength({ allowBlank: true })],
 };

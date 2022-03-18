@@ -1,0 +1,4 @@
+<form {{on "submit" this.submit}} ...attributes>
+  <p>User's form</p>
+  <button type="submit" disabled={{@changeset.isInvalid}}>submit</button>
+</form>
