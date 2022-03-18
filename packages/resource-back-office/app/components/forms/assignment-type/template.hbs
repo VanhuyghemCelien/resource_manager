@@ -14,12 +14,6 @@
         </button>
       </div>
       <form {{on "submit" @saveFunction}} ...attributes>
-        <input
-          type="text"
-          id="typeInput"
-          class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
-          {{on "change" (fn @editAssignmentTypeField "assignmentTypeName")}}
-        />
         <Ui::Input
           @label="Nom"
           @name="name"
