@@ -14,9 +14,7 @@ export interface FormsEnterpriseDTO {
   vatNumber: string;
 }
 
-interface FormsEnterpriseArgs extends BaseFormArgs<FormsEnterpriseDTO> {
-  isDisplayed: boolean;
-}
+interface FormsEnterpriseArgs extends BaseFormArgs<FormsEnterpriseDTO> {}
 
 export default class FormsEnterprise extends BaseForm<
   FormsEnterpriseArgs,

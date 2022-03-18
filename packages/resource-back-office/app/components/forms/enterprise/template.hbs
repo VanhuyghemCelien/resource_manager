@@ -8,7 +8,7 @@
           {{@popupName}}
         </h1>
       </div>
-      <form {{on "submit" this.saveFunction}} ...attributes>
+      <form {{on "submit" this.submit}} ...attributes>
         <div class="flex flex-col items-stretch mt-4">
           <Ui::Input
             @label="Nom"
@@ -22,6 +22,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="name"
           />
           <Ui::Input
             @label="N° d'entreprise"
@@ -35,6 +36,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{false}}
             type="text"
+            data-test-input="enterpriseNumber"
           />
           <Ui::Input
             @label="N° de TVA"
@@ -48,6 +50,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{false}}
             type="text"
+            data-test-input="vatNumber"
           />
           <Ui::Input
             @label="Ville"
@@ -61,6 +64,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="city"
           />
           <Ui::Input
             @label="Adresse"
@@ -74,6 +78,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="address"
           />
           <Ui::Input
             @label="Adresse mail"
@@ -87,6 +92,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="emailAddress"
           />
           <Ui::Input
             @label="Adresse mail n°2"
@@ -100,6 +106,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{false}}
             type="text"
+            data-test-input="emailAddress2"
           />
           <Ui::Input
             @label="N° de téléphone"
@@ -113,6 +120,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="phoneNumber"
           />
           <Ui::Input
             @label="N° de téléphone n°2"
@@ -126,17 +134,17 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{false}}
             type="text"
+            data-test-input="phoneNumber2"
           />
         </div>
-        {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
-          <button
-            type="submit"
-            class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            disabled={{@changeset.isInvalid}}
-          >
-            {{@popupName}}
-          </button>
-        {{/if}}
+        <button
+          type="submit"
+          class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+          disabled={{@changeset.isInvalid}}
+          data-test-submit
+        >
+          {{@popupName}}
+        </button>
       </form>
     </div>
   </div>
