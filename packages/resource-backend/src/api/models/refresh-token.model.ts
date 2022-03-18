@@ -8,15 +8,15 @@ import type { UserModel } from './user.model.js';
   tableName: 'refresh-token',
   customRepository: () => RefreshTokenRepository,
 })
-@Filter({ name: 'admin_access', cond: args => {} })
+@Filter({ name: 'admin_access', cond: () => {} })
 @Filter({
   name: 'user_access',
   args: false,
-  cond: args => {
+  cond: () => {
     return {};
   },
 })
-@Filter({ name: 'anonymous_access', args: false, cond: args => ({}) })
+@Filter({ name: 'anonymous_access', args: false, cond: () => ({}) })
 export class RefreshTokenModel implements JsonApiModelInterface {
   @PrimaryKey()
     id: string = v4();

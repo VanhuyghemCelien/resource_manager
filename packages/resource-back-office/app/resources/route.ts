@@ -6,6 +6,9 @@ export default class Resources extends Route {
   @service declare store: Store;
 
   model() {
-    return this.store.query('resource', {});
+    return this.store.query('resource', {
+      fields:
+        'firstName,lastName,cost,image,enterprise,phoneNumber,phoneNumber2,roleUser,emailAddress,emailAddress2',
+    });
   }
 }
