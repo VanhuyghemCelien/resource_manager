@@ -20,7 +20,7 @@ module.exports = function (env) {
   csp.policy['img-src'].push('https://tailwindui.com');
 
   if (env === 'development') {
-    csp.policy['connect-src'].push("'http://localhost:8080'");
+    csp.policy['connect-src'].push('http://localhost:8000');
     csp.policy['script-src'].push("'unsafe-eval'");
   }
 

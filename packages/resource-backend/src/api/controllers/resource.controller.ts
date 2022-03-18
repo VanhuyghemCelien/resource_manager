@@ -1,84 +1,80 @@
-import type { EntityDTO } from '@mikro-orm/core';
+import { deserialize } from './../middlewares/deserialize.middleware.js';
 import {
   Controller,
   DELETE,
   GET,
+  inject,
   injectable,
   InjectRepository,
   Param,
+  PATCH,
   POST,
-  PUT,
   UseErrorHandler,
   UseGuard,
   UseMiddleware,
   UseResponseHandler,
 } from '@triptyk/nfw-core';
-import type { ValidatedJsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
-import { JsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
 import { JsonApiErrorHandler } from '../../json-api/error-handler/json-api.error-handler.js';
 import { ContentGuard } from '../../json-api/guards/content.guard.js';
 import { JsonApiResponsehandler } from '../../json-api/response-handlers/json-api.response-handler.js';
-import { ValidatedFile } from '../decorators/file.decorator.js';
-import { fileUploadMiddleware } from '../middlewares/file-upload.middleware.js';
+import { EntityFromBody } from '../decorators/entity-from-body.decorator.js';
 import { ResourceModel } from '../models/resource.model.js';
-import { ResourceQueryParamsSchema } from '../query-params-schema/resource.schema.js';
 import type { ResourceRepository } from '../repositories/resource.repository.js';
 import { ResourceSerializer } from '../serializer/resource.serializer.js';
-import { ValidatedResource } from '../validators/resource.validator.js';
+import { ValidatedResource, ValidatedResourceUpdate } from '../validators/resource.validator.js';
+import { AclService } from '../services/acl.service.js';
+import { ResourceDeserializer } from '../deserializer/resource.deserializer.js';
+import { ResourceQueryParamsSchema } from '../query-params-schema/resource.schema.js';
+import type { ValidatedJsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
+import { JsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
+import { CurrentUser } from '../decorators/current-user.decorator.js';
+import type { UserModel } from '../models/user.model.js';
+import { EntityFromParam } from '../decorators/entity-from-param.decorator.js';
 
 @Controller('/resources')
 @UseErrorHandler(JsonApiErrorHandler)
 @UseGuard(ContentGuard, true)
 @UseResponseHandler(JsonApiResponsehandler, ResourceSerializer)
 @injectable()
-export class DocumentController {
+export class ResourceController {
   // eslint-disable-next-line no-useless-constructor
   constructor (
     @InjectRepository(ResourceModel)
     private resourceRepository: ResourceRepository,
+    @inject(AclService) private aclService: AclService,
   ) {}
 
-  @GET('/:id')
-  async get (
-    @Param('id') id: string,
-    @JsonApiQueryParams(ResourceQueryParamsSchema)
-      queryParams: ValidatedJsonApiQueryParams,
-  ) {
-    return this.resourceRepository.jsonApiFindOne(
-      {
-        id,
-      },
-      queryParams,
-    );
-  }
-
   @POST('/')
-  @UseMiddleware(fileUploadMiddleware)
-  async create (@ValidatedFile('file', ValidatedResource) file: ValidatedResource) {
-    return this.resourceRepository.jsonApiCreate(file);
+  @UseMiddleware(deserialize(ResourceDeserializer))
+  async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
+    // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
+    console.log(body);
+    return this.resourceRepository.jsonApiCreate(body);
   }
 
-  @PUT('/:id')
-  @UseMiddleware(fileUploadMiddleware)
-  async replace (
-    @Param('id') id: string,
-    @ValidatedFile('file', ValidatedResource) document: Partial<EntityDTO<ResourceModel>>,
-  ) {
-    await this.resourceRepository.findOneOrFail({ id }).then(file => file?.removeFromDisk());
-    const up = await this.resourceRepository.jsonApiUpdate(document, { id });
-    return up;
+  @PATCH('/:id')
+  @UseMiddleware(deserialize(ResourceDeserializer))
+  async update (@EntityFromBody(ValidatedResourceUpdate, ResourceModel) user: UserModel, @Param('id') id: string, @CurrentUser() currentUser?: UserModel) {
+    return this.resourceRepository.jsonApiUpdate(user as any, { id }, currentUser);
   }
 
   @DELETE('/:id')
-  async delete (@Param('id') id: string) {
-    return this.resourceRepository.jsonApiRemove({ id });
+  async delete (@EntityFromParam('id', ResourceModel) resource : ResourceModel) {
+    console.log('coucou');
+    return this.resourceRepository.jsonApiRemove({ id: resource.id });
   }
 
   @GET('/')
-  public async list (
-    @JsonApiQueryParams(ResourceQueryParamsSchema)
-      queryParams: ValidatedJsonApiQueryParams,
-  ) {
+  public async list (@JsonApiQueryParams(ResourceQueryParamsSchema) queryParams: ValidatedJsonApiQueryParams) {
+    console.log('all');
     return this.resourceRepository.jsonApiFind(queryParams);
+  }
+
+  @GET('/:id')
+  async get (@JsonApiQueryParams(ResourceQueryParamsSchema) queryParams: ValidatedJsonApiQueryParams, @Param('id') id : string, @CurrentUser() currentUser?: UserModel) {
+    console.log('one');
+    return this.resourceRepository.jsonApiFindOne({
+      id,
+    }, queryParams, currentUser);
   }
 }

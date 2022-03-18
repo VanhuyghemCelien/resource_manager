@@ -1,22 +1,10 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-
-export interface ResourceModel {
-  resourceId: number;
-  image: string;
-  firstName: string;
-  lastName: string;
-  enterprise: string;
-  emailAddress: string;
-  emailAddress2?: string;
-  phoneNumber: string;
-  phoneNumber2?: string;
-  roleUser: string;
-  cost?: string;
-}
+import type ResourceModel from 'ember-boilerplate/models/resource';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 
 interface PagesResourcesArgs {}
 
@@ -28,8 +16,8 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked displayDetailsResourceModal: Boolean = false;
   @tracked displayDeleteResourceModal: Boolean = false;
   @tracked modalName: string = '';
-  @tracked resource: ResourceModel = {
-    resourceId: 3,
+  @tracked resource: Partial<ResourceModel> = {
+    id: '',
     image: '/assets/images/resource1.png',
     firstName: '',
     lastName: '',
@@ -44,7 +32,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
 
   reinitResource() {
     this.resource = {
-      resourceId: 3,
+      id: '',
       image: '/assets/images/resource1.png',
       firstName: '',
       lastName: '',
@@ -62,7 +50,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   displayDeleteResource(resource: ResourceModel) {
     this.toggleDisplayDeleteResourceModal();
     this.resource = {
-      resourceId: resource.resourceId,
+      id: resource.id,
       image: resource.image,
       firstName: resource.firstName,
       lastName: resource.lastName,
@@ -125,9 +113,12 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   }
 
   @action
-  displayResourceDetails(modalName: string, resourceReceived: ResourceModel) {
-    const resourceToEdit: ResourceModel = {
-      resourceId: resourceReceived.resourceId,
+  displayResourceDetails(
+    modalName: string,
+    resourceReceived: Partial<ResourceModel>
+  ) {
+    const resourceToEdit: Partial<ResourceModel> = {
+      id: resourceReceived.id,
       image: resourceReceived.image,
       firstName: resourceReceived.firstName,
       lastName: resourceReceived.lastName,
@@ -182,29 +173,35 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     }
   }
 
+  @inject declare flashMessages: FlashMessageService;
   @action
-  addResource() {
-    const resource = this.store.createRecord('resource', this.resource);
+  async addResource() {
+    const resource = await this.store.createRecord('resource', this.resource);
     this.reinitResource();
-    resource.save();
-    this.toggleDisplayResourceModal('new');
+    try {
+      resource.save();
+      this.toggleDisplayResourceModal('new');
+    } catch (e) {
+      this.flashMessages.danger('erreur');
+    }
   }
 
   @action
   async editResource() {
     const editedResource = this.resource;
+    console.log(editedResource);
     const resource = await this.store.findRecord(
       'resource',
-      editedResource.resourceId
+      editedResource.id!
     );
-
-    resource.image = editedResource.image;
-    resource.firstName = editedResource.firstName;
-    resource.lastName = editedResource.lastName;
-    resource.enterprise = editedResource.enterprise;
-    resource.emailAddress = editedResource.emailAddress;
+    console.log(resource);
+    resource.image = editedResource.image!;
+    resource.firstName = editedResource.firstName!;
+    resource.lastName = editedResource.lastName!;
+    resource.enterprise = editedResource.enterprise!;
+    resource.emailAddress = editedResource.emailAddress!;
     resource.emailAddress2 = editedResource.emailAddress2;
-    resource.phoneNumber = editedResource.phoneNumber;
+    resource.phoneNumber = editedResource.phoneNumber!;
     resource.phoneNumber2 = editedResource.phoneNumber2;
     resource.cost = editedResource.cost;
 
@@ -214,15 +211,13 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
 
   @action
   async deleteResource(resource: ResourceModel) {
-    const resourceToDelete = await this.store.peekRecord(
-      'resource',
-      resource.resourceId
-    );
+    const resourceToDelete = await this.store.queryRecord('resource', {
+      id: resource.id,
+    });
+
     if (resourceToDelete) {
-      resourceToDelete!.deleteRecord();
+      resourceToDelete.destroyRecord();
       this.toggleDisplayDeleteResourceModal();
-      resourceToDelete!.unloadRecord();
-      resourceToDelete!.save();
     }
   }
 }

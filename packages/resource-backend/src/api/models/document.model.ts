@@ -16,9 +16,9 @@ import * as Fs from 'fs/promises';
   tableName: 'documents',
   customRepository: () => DocumentRepository,
 })
-@Filter({ name: 'admin_access', cond: args => {} })
+@Filter({ name: 'admin_access', cond: () => {} })
 @Filter({ name: 'user_access', cond: args => ({ owner_id: args.user.id }) })
-@Filter({ name: 'anonymous_access', args: false, cond: args => ({}) })
+@Filter({ name: 'anonymous_access', args: false, cond: () => ({}) })
 export class DocumentModel implements JsonApiModelInterface {
   @PrimaryKey()
     id: string = v4();

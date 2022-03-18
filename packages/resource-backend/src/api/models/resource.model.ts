@@ -1,11 +1,11 @@
-import type { JsonApiModelInterface } from './../../json-api/interfaces/model.interface';
-import { BeforeDelete, Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import type { JsonApiModelInterface } from './../../json-api/interfaces/model.interface.js';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import * as Fs from 'fs/promises';
+import { ResourceRepository } from '../repositories/resource.repository.js';
 
 @Entity({
   tableName: 'resources',
-  // customRepository: () => ResourceRepository,
+  customRepository: () => ResourceRepository,
 })
 
 export class ResourceModel implements JsonApiModelInterface {
@@ -19,24 +19,28 @@ export class ResourceModel implements JsonApiModelInterface {
     declare lastName: string;
 
     @Property()
-    declare email1: string;
+    declare emailAddress: string;
 
     @Property()
-    declare email2?: string;
+    declare emailAddress2?: string;
 
     @Property()
-    declare phone1: string;
+    declare phoneNumber: string;
 
     @Property()
-    declare phone2?: string;
+    declare phoneNumber2?: string;
 
     @Property()
-    declare cost?: number;
+    declare cost?: string;
 
-    @BeforeDelete()
-    public removeFromDisk (): Promise<void> {
-      return Fs.unlink(this.id);
-    }
+    @Property()
+    declare image: string;
+
+    @Property()
+    declare enterprise: string;
+
+    @Property()
+    declare roleUser: string;
 
   // @OneToOne({
   //   entity: () => ResourcePictureModel,

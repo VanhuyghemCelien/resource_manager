@@ -1,11 +1,10 @@
 import {
   Schema,
   SchemaBase,
-  Number,
   String,
 } from 'fastest-validator-decorators';
 
-@Schema()
+@Schema(true)
 export class ValidatedResource extends SchemaBase {
     @String()
   declare firstName: string;
@@ -14,20 +13,53 @@ export class ValidatedResource extends SchemaBase {
     declare lastName: string;
 
     @String()
-    declare path: string;
+    declare emailAddress: string;
+
+    @String({ optional: true })
+    declare emailAddress2: string;
 
     @String()
-    declare email1: string;
+    declare phoneNumber: string;
+
+    @String({ optional: true })
+    declare phoneNumber2: string;
+
+    @String({ optional: true })
+    declare cost: string;
 
     @String()
-    declare email2: string;
+    declare image: string;
 
     @String()
-    declare phone1: string;
+    declare roleUser: string;
 
     @String()
-    declare phone2: string;
+    declare enterprise: string;
+}
 
-    @Number()
-    declare cost: number;
+@Schema(true)
+export class ValidatedResourceUpdate extends SchemaBase {
+    @String()
+  declare id: string;
+
+    @String({ optional: true })
+    declare firstName: string;
+
+    @String({ optional: true })
+    declare lastName: string;
+
+    @String({ optional: true })
+    declare emailAddress: string;
+
+    @String({ optional: true })
+    declare emailAddress2: string;
+
+    @String({ optional: true })
+    declare phoneNumber: string;
+
+    @String({ optional: true })
+    declare phoneNumber2: string;
+
+    @String({ optional: true })
+    declare cost: string;
 }
