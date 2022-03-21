@@ -6,6 +6,9 @@ export default class Enterprises extends Route {
   @service declare store: Store;
 
   model() {
-    return this.store.findAll('enterprise');
+    return this.store.query('enterprise', {
+      fields:
+        'name,city,address,phoneNumber,phoneNumber2,emailAddress,emailAddress2,enterpriseNumber,vatNumber',
+    });
   }
 }

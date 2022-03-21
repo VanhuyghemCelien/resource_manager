@@ -1,13 +1,14 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface';
+import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface.js';
+import { AssignmentTypeRepository } from '../repositories/assignment-type.repository.js';
 
 @Entity({
   tableName: 'assignment-type',
-  // customRepository: () => AssignmentTypeRepository,
+  customRepository: () => AssignmentTypeRepository,
 })
 
-export class AssignemntModel implements JsonApiModelInterface {
+export class AssignmentTypeModel implements JsonApiModelInterface {
         @PrimaryKey()
           id: string = v4();
 
@@ -15,5 +16,5 @@ export class AssignemntModel implements JsonApiModelInterface {
         declare name: string;
 
         @Property()
-        declare color: string;
+        declare color?: string;
 }

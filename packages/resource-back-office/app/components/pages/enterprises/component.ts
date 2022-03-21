@@ -1,21 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type Store from '@ember-data/store';
-
-export interface EnterpriseModel {
-  enterpriseId: number;
-  name: string;
-  city: string;
-  address: string;
-  emailAddress: string;
-  phoneNumber: string;
-  emailAddress2?: string;
-  phoneNumber2?: string;
-  enterpriseNumber?: string;
-  vatNumber?: string;
-}
+import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 
 interface PagesEnterprisesArgs {}
 
@@ -27,8 +16,8 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayDetailsEnterpriseModal: Boolean = false;
   @tracked displayDeleteEnterpriseModal: Boolean = false;
   @tracked modalName: string = '';
-  @tracked enterprise: EnterpriseModel = {
-    enterpriseId: 3,
+  @tracked enterprise: Partial<EnterpriseModel> = {
+    id: '',
     name: '',
     city: '',
     address: '',
@@ -42,7 +31,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   reinitEnterprise() {
     this.enterprise = {
-      enterpriseId: 3,
+      id: '',
       name: '',
       city: '',
       address: '',
@@ -56,10 +45,10 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  displayDeleteEnterprise(enterprise: EnterpriseModel) {
+  displayDeleteEnterprise(enterprise: Partial<EnterpriseModel>) {
     this.toggleDisplayDeleteEnterpriseModal();
     this.enterprise = {
-      enterpriseId: enterprise.enterpriseId,
+      id: enterprise.id,
       name: enterprise.name,
       city: enterprise.city,
       address: enterprise.address,
@@ -125,8 +114,8 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     modalName: string,
     enterpriseReceived: EnterpriseModel
   ) {
-    const enterpriseToEdit: EnterpriseModel = {
-      enterpriseId: enterpriseReceived.enterpriseId,
+    const enterpriseToEdit: Partial<EnterpriseModel> = {
+      id: enterpriseReceived.id,
       name: enterpriseReceived.name,
       city: enterpriseReceived.city,
       address: enterpriseReceived.address,
@@ -180,27 +169,37 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     }
   }
 
+  @inject declare flashMessage: FlashMessageService;
   @action
-  addEnterprise() {
-    const enterprise = this.store.createRecord('enterprise', this.enterprise);
+  async addEnterprise(e: Event) {
+    e.preventDefault();
+    const enterprise = await this.store.createRecord(
+      'enterprise',
+      this.enterprise
+    );
     this.reinitEnterprise();
-    enterprise.save();
-    this.toggleDisplayEnterpriseModal('new');
+    try {
+      enterprise.save();
+      this.toggleDisplayEnterpriseModal('new');
+    } catch (e) {
+      this.flashMessage.danger('erreur');
+    }
   }
 
   @action
   async editEnterprise() {
     const editedEnterprise = this.enterprise;
+    console.log(editedEnterprise.id);
     const enterprise = await this.store.findRecord(
       'enterprise',
-      editedEnterprise.enterpriseId
+      editedEnterprise.id!
     );
 
-    enterprise.name = editedEnterprise.name;
-    enterprise.city = editedEnterprise.city;
-    enterprise.address = editedEnterprise.address;
-    enterprise.emailAddress = editedEnterprise.emailAddress;
-    enterprise.phoneNumber = editedEnterprise.phoneNumber;
+    enterprise.name = editedEnterprise.name!;
+    enterprise.city = editedEnterprise.city!;
+    enterprise.address = editedEnterprise.address!;
+    enterprise.emailAddress = editedEnterprise.emailAddress!;
+    enterprise.phoneNumber = editedEnterprise.phoneNumber!;
     enterprise.emailAddress2 = editedEnterprise.emailAddress2;
     enterprise.phoneNumber2 = editedEnterprise.phoneNumber2;
     enterprise.enterpriseNumber = editedEnterprise.enterpriseNumber;
@@ -212,15 +211,12 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   async deleteEnterprise(enterprise: EnterpriseModel) {
-    const enterpriseToDelete = await this.store.peekRecord(
-      'enterprise',
-      enterprise.enterpriseId
-    );
+    const enterpriseToDelete = await this.store.queryRecord('enterprise', {
+      id: enterprise.id,
+    });
     if (enterpriseToDelete) {
-      enterpriseToDelete!.deleteRecord();
+      enterpriseToDelete.destroyRecord();
       this.toggleDisplayDeleteEnterpriseModal();
-      enterpriseToDelete!.unloadRecord();
-      enterpriseToDelete!.save();
     }
   }
 }

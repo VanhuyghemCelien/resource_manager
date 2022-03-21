@@ -62,4 +62,10 @@ export class ValidatedResourceUpdate extends SchemaBase {
 
     @String({ optional: true })
     declare cost: string;
+
+    @String()
+    declare enterprise: string;
+
+    @String()
+    declare image: string;
 }
