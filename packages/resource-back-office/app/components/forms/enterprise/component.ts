@@ -14,9 +14,7 @@ export interface FormsEnterpriseDTO {
   vatNumber: string;
 }
 
-interface FormsEnterpriseArgs extends BaseFormArgs<FormsEnterpriseDTO> {
-  isDisplayed: boolean;
-}
+interface FormsEnterpriseArgs extends BaseFormArgs<FormsEnterpriseDTO> {}
 
 export default class FormsEnterprise extends BaseForm<
   FormsEnterpriseArgs,
@@ -24,9 +22,5 @@ export default class FormsEnterprise extends BaseForm<
 > {
   @action changeInput(field: string, value: string) {
     this.args.changeset.set(field as keyof FormsEnterpriseDTO, value);
-  }
-  @action
-  saveFunction() {
-    this.args.isDisplayed = false;
   }
 }

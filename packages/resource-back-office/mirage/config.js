@@ -83,7 +83,7 @@ export default function () {
   this.get('/assignments');
   this.get('/assignments/:week', (schema, request) => {
     const assignment = request.params.assignmentTypeName;
-    return schema.assignments.findBy({ week });
+    return schema.assignments.findBy({ assignment });
   });
 
   this.post('/assignments');

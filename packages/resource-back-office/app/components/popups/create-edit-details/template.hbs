@@ -14,7 +14,7 @@
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
-      <form aria-label="form">
+      {{!-- <form aria-label="form">
         {{#if (eq @objectType "Resource")}}
           <div class="flex flex-row items-stretch mt-4">
             {{#if (eq @popupType "details")}}
@@ -338,7 +338,17 @@
             <p>{{this.popupName}}</p>
           </button>
         {{/if}}
-      </form>
+      </form> --}}
+      {{#if (eq @objectType "Enterprise")}}
+        <Forms::Enterprise
+          @changeset={{@changeset}}
+          @saveFunction={{@saveFunction}}
+          @popupType={{@popupType}}
+          @popupName={{this.popupName}}
+        />
+      {{else}}
+
+      {{/if}}
     </div>
   </div>
 </div>

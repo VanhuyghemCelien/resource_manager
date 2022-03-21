@@ -10,6 +10,7 @@ interface PagesEnterprisesArgs {}
 
 export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @service declare store: Store;
+  @tracked declare flashMessages: FlashMessageService;
 
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
@@ -29,36 +30,50 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     vatNumber: '',
   };
 
+  @tracked changeset: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  constructor(owner: unknown, args: PagesEnterprisesArgs) {
+    super(owner, args);
+    this.changeset = Changeset(
+      {
+        name: '',
+        city: '',
+        address: '',
+        emailAddress: '',
+        phoneNumber: '',
+        emailAddress2: '',
+        phoneNumber2: '',
+        enterpriseNumber: '',
+        vatNumber: '',
+      },
+      lookupValidator(EnterpriseValidation),
+      EnterpriseValidation
+    ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
+  }
+
   reinitEnterprise() {
-    this.enterprise = {
-      id: '',
-      name: '',
-      city: '',
-      address: '',
-      emailAddress: '',
-      phoneNumber: '',
-      emailAddress2: '',
-      phoneNumber2: '',
-      enterpriseNumber: '',
-      vatNumber: '',
-    };
+    this.changeset.set('name', '');
+    this.changeset.set('city', '');
+    this.changeset.set('address', '');
+    this.changeset.set('emailAddress', '');
+    this.changeset.set('phoneNumber', '');
+    this.changeset.set('emailAddress2', '');
+    this.changeset.set('phoneNumber2', '');
+    this.changeset.set('enterpriseNumber', '');
+    this.changeset.set('vatNumber', '');
   }
 
   @action
   displayDeleteEnterprise(enterprise: Partial<EnterpriseModel>) {
     this.toggleDisplayDeleteEnterpriseModal();
-    this.enterprise = {
-      id: enterprise.id,
-      name: enterprise.name,
-      city: enterprise.city,
-      address: enterprise.address,
-      emailAddress: enterprise.emailAddress,
-      phoneNumber: enterprise.phoneNumber,
-      emailAddress2: enterprise.emailAddress2,
-      phoneNumber2: enterprise.phoneNumber2,
-      enterpriseNumber: enterprise.enterpriseNumber,
-      vatNumber: enterprise.vatNumber,
-    };
+    this.changeset.set('name', enterprise.name);
+    this.changeset.set('city', enterprise.city);
+    this.changeset.set('address', enterprise.address);
+    this.changeset.set('emailAddress', enterprise.emailAddress);
+    this.changeset.set('phoneNumber', enterprise.phoneNumber);
+    this.changeset.set('emailAddress2', enterprise.emailAddress2);
+    this.changeset.set('phoneNumber2', enterprise.phoneNumber2);
+    this.changeset.set('enterpriseNumber', enterprise.enterpriseNumber);
+    this.changeset.set('vatNumber', enterprise.vatNumber);
   }
 
   @action
@@ -114,19 +129,15 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     modalName: string,
     enterpriseReceived: EnterpriseModel
   ) {
-    const enterpriseToEdit: Partial<EnterpriseModel> = {
-      id: enterpriseReceived.id,
-      name: enterpriseReceived.name,
-      city: enterpriseReceived.city,
-      address: enterpriseReceived.address,
-      emailAddress: enterpriseReceived.emailAddress,
-      phoneNumber: enterpriseReceived.phoneNumber,
-      emailAddress2: enterpriseReceived.emailAddress2,
-      phoneNumber2: enterpriseReceived.phoneNumber2,
-      enterpriseNumber: enterpriseReceived.enterpriseNumber,
-      vatNumber: enterpriseReceived.vatNumber,
-    };
-    this.enterprise = enterpriseToEdit;
+    this.changeset.set('name', enterpriseReceived.name);
+    this.changeset.set('city', enterpriseReceived.city);
+    this.changeset.set('address', enterpriseReceived.address);
+    this.changeset.set('emailAddress', enterpriseReceived.emailAddress);
+    this.changeset.set('phoneNumber', enterpriseReceived.phoneNumber);
+    this.changeset.set('emailAddress2', enterpriseReceived.emailAddress2);
+    this.changeset.set('phoneNumber2', enterpriseReceived.phoneNumber2);
+    this.changeset.set('enterpriseNumber', enterpriseReceived.enterpriseNumber);
+    this.changeset.set('vatNumber', enterpriseReceived.vatNumber);
     if (modalName === 'edit') {
       this.toggleDisplayEditEnterpriseModal();
     } else if (modalName === 'details') {

@@ -5,7 +5,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import Validation from 'ember-boilerplate/validator/forms/login';
+import LoginValidation from 'ember-boilerplate/validator/forms/login';
 import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import click from '@ember/test-helpers/dom/click';
 import fillIn from '@ember/test-helpers/dom/fill-in';
@@ -20,9 +20,9 @@ module('Integration | Component | FormsLogin', function (hooks) {
         {
           email: '',
           password: '',
-        } as Record<keyof typeof Validation, unknown>,
-        lookupValidator(Validation),
-        Validation
+        } as Record<keyof typeof LoginValidation, unknown>,
+        lookupValidator(LoginValidation),
+        LoginValidation
       )
     );
 
@@ -54,9 +54,9 @@ module('Integration | Component | FormsLogin', function (hooks) {
         {
           email: 'hello',
           password: 'hello',
-        } as Record<keyof typeof Validation, unknown>,
-        lookupValidator(Validation),
-        Validation
+        } as Record<keyof typeof LoginValidation, unknown>,
+        lookupValidator(LoginValidation),
+        LoginValidation
       )
     );
 

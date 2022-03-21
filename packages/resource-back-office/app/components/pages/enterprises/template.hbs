@@ -38,16 +38,17 @@
   </table>
   {{#if this.displayNewEnterpriseModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="new"
       @objectType="Enterprise"
       @object={{this.enterprise}}
       @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
-      @editField={{this.editEnterpriseField}}
       @saveFunction={{this.addEnterprise}}
     />
   {{/if}}
   {{#if this.displayEditEnterpriseModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="edit"
       @objectType="Enterprise"
       @object={{this.enterprise}}
@@ -58,6 +59,7 @@
   {{/if}}
   {{#if this.displayDetailsEnterpriseModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="details"
       @objectType="Enterprise"
       @object={{this.enterprise}}
