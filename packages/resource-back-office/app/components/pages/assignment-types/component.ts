@@ -157,10 +157,8 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       assignmentType.assignmentTypeId
     );
     if (assignmentTypeToDelete) {
-      assignmentTypeToDelete!.deleteRecord();
+      assignmentTypeToDelete.destroyRecord();
       this.toggleDisplayDeleteAssignmentTypeModal();
-      assignmentTypeToDelete!.unloadRecord();
-      assignmentTypeToDelete!.save();
     }
   }
 }

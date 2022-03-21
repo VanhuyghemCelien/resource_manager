@@ -3,7 +3,7 @@ import type { AccessPermisions, EntityAbility } from './base.js';
 import { baseAbilityFor } from './base.js';
 
 const userAccessPermissions: AccessPermisions = {
-  admin: (user, { can }) => {
+  admin: (_user, { can }) => {
     can('manage', 'all');
   },
   user: (user, { can }) => {

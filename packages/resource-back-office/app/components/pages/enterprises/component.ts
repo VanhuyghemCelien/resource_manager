@@ -1,27 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type Store from '@ember-data/store';
-import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
-import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/enterprise/component';
-import { Changeset } from 'ember-changeset';
-import lookupValidator from 'ember-changeset-validations';
-import EnterpriseValidation from '../../../validator/forms/enterprise';
+import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
-
-export interface EnterpriseModel {
-  enterpriseId: number;
-  name: string;
-  city: string;
-  address: string;
-  emailAddress: string;
-  phoneNumber: string;
-  emailAddress2?: string;
-  phoneNumber2?: string;
-  enterpriseNumber?: string;
-  vatNumber?: string;
-}
 
 interface PagesEnterprisesArgs {}
 
@@ -34,8 +17,8 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayDetailsEnterpriseModal: Boolean = false;
   @tracked displayDeleteEnterpriseModal: Boolean = false;
   @tracked modalName: string = '';
-  @tracked enterprise: EnterpriseModel = {
-    enterpriseId: 3,
+  @tracked enterprise: Partial<EnterpriseModel> = {
+    id: '',
     name: '',
     city: '',
     address: '',
@@ -80,7 +63,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  displayDeleteEnterprise(enterprise: EnterpriseModel) {
+  displayDeleteEnterprise(enterprise: Partial<EnterpriseModel>) {
     this.toggleDisplayDeleteEnterpriseModal();
     this.changeset.set('name', enterprise.name);
     this.changeset.set('city', enterprise.city);
@@ -197,31 +180,37 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     }
   }
 
+  @inject declare flashMessage: FlashMessageService;
   @action
-  async addEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
+  async addEnterprise(e: Event) {
+    e.preventDefault();
+    const enterprise = await this.store.createRecord(
+      'enterprise',
+      this.enterprise
+    );
+    this.reinitEnterprise();
     try {
-      const enterprise = await this.store.createRecord('enterprise', changeset);
-      this.reinitEnterprise();
       enterprise.save();
       this.toggleDisplayEnterpriseModal('new');
     } catch (e) {
-      this.flashMessages.danger('Erreur ajout entreprise');
+      this.flashMessage.danger('erreur');
     }
   }
 
   @action
   async editEnterprise() {
     const editedEnterprise = this.enterprise;
+    console.log(editedEnterprise.id);
     const enterprise = await this.store.findRecord(
       'enterprise',
-      editedEnterprise.enterpriseId
+      editedEnterprise.id!
     );
 
-    enterprise.name = editedEnterprise.name;
-    enterprise.city = editedEnterprise.city;
-    enterprise.address = editedEnterprise.address;
-    enterprise.emailAddress = editedEnterprise.emailAddress;
-    enterprise.phoneNumber = editedEnterprise.phoneNumber;
+    enterprise.name = editedEnterprise.name!;
+    enterprise.city = editedEnterprise.city!;
+    enterprise.address = editedEnterprise.address!;
+    enterprise.emailAddress = editedEnterprise.emailAddress!;
+    enterprise.phoneNumber = editedEnterprise.phoneNumber!;
     enterprise.emailAddress2 = editedEnterprise.emailAddress2;
     enterprise.phoneNumber2 = editedEnterprise.phoneNumber2;
     enterprise.enterpriseNumber = editedEnterprise.enterpriseNumber;
@@ -233,15 +222,12 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   async deleteEnterprise(enterprise: EnterpriseModel) {
-    const enterpriseToDelete = await this.store.peekRecord(
-      'enterprise',
-      enterprise.enterpriseId
-    );
+    const enterpriseToDelete = await this.store.queryRecord('enterprise', {
+      id: enterprise.id,
+    });
     if (enterpriseToDelete) {
-      enterpriseToDelete!.deleteRecord();
+      enterpriseToDelete.destroyRecord();
       this.toggleDisplayDeleteEnterpriseModal();
-      enterpriseToDelete!.unloadRecord();
-      enterpriseToDelete!.save();
     }
   }
 }
