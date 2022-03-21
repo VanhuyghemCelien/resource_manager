@@ -6,9 +6,11 @@ import {
 
 export default {
   assignmentType: [validatePresence(true)],
-  name: [validatePresence(true), validateLength({ max: 30 })],
+  name: [validateLength({ max: 30, allowBlank: false })],
   color: [
-    validatePresence(true),
-    validateFormat({ regex: /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/ }),
+    validateFormat({
+      regex: /^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+      allowBlank: false,
+    }),
   ],
 };

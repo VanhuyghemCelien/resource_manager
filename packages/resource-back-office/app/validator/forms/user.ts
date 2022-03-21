@@ -7,11 +7,9 @@ import {
 export default {
   role: [validatePresence(true)],
   resource: [validatePresence(true)],
-  login: [validatePresence(true), validateLength({ max: 60 })],
-  password: [validatePresence(true), validateLength({ max: 255 })],
+  login: [validateLength({ max: 60, allowBlank: false })],
+  password: [validateLength({ max: 255, allowBlank: false })],
   passwordConfirmation: [
-    validatePresence(true),
-    validateLength({ max: 255 }),
-    validateConfirmation({ on: 'password' }),
+    validateConfirmation({ on: 'password', allowBlank: false }),
   ],
 };
