@@ -1,13 +1,17 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property, Collection } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface';
+import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface.js';
+import { AssignmentRepository } from '../repositories/assignment.repository.js';
+import type { AssignmentTypeModel } from './assignment-type.model.js';
+import type { EnterpriseModel } from './enterprise.model.js';
+import type { ResourceModel } from './resource.model.js';
 
 @Entity({
   tableName: 'assignment',
-  // customRepository: () => AssignmentRepository,
+  customRepository: () => AssignmentRepository,
 })
 
-export class AssignemntModel implements JsonApiModelInterface {
+export class AssignmentModel implements JsonApiModelInterface {
       @PrimaryKey()
         id: string = v4();
 
@@ -27,12 +31,12 @@ export class AssignemntModel implements JsonApiModelInterface {
       // eslint-disable-next-line no-undef
       declare comment?: Text;
 
-  //   @ManytoOne('EnterpriseModel')
-  //     enterprises = new Collection<EnterpriseModel>(this);
+      @ManyToOne('EnterpriseModel')
+        enterprises = new Collection<EnterpriseModel>(this);
 
-  //   @ManytoOne('ResourceModel')
-  //     resources = new Collection<ResourceModel>(this);
+     @ManyToOne('ResourceModel')
+       resources = new Collection<ResourceModel>(this);
 
-  //   @ManytoOne('AssignmentTypeModel')
-  //     types = new Collection<AssignmentTypeModel>(this);
+     @ManyToOne('AssignmentTypeModel')
+       types = new Collection<AssignmentTypeModel>(this);
 }
