@@ -1,7 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
 export default class EnterpriseModel extends Model {
-  @attr() declare enterpriseId: number;
   @attr() declare name: string;
   @attr() declare city: string;
   @attr() declare address: string;

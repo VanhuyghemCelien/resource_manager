@@ -1,13 +1,14 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface';
+import { EnterpriseRepository } from '../repositories/enterprise.repository.js';
 
 @Entity({
-  tableName: 'assignment',
-  // customRepository: () => AssignmentRepository,
+  tableName: 'enterprises',
+  customRepository: () => EnterpriseRepository,
 })
 
-export class AssignemntModel implements JsonApiModelInterface {
+export class EnterpriseModel implements JsonApiModelInterface {
         @PrimaryKey()
           id: string = v4();
 
@@ -15,16 +16,16 @@ export class AssignemntModel implements JsonApiModelInterface {
         declare name:string;
 
         @Property()
-        declare email1: string;
+        declare emailAddress: string;
 
         @Property()
-        declare email2?: string;
+        declare emailAddress2?: string;
 
         @Property()
-        declare phone1: string;
+        declare phoneNumber: string;
 
         @Property()
-        declare phone2?: string;
+        declare phoneNumber2?: string;
 
         @Property()
         declare city: string;
@@ -33,7 +34,7 @@ export class AssignemntModel implements JsonApiModelInterface {
         declare address: string;
 
         @Property()
-        declare number?: string;
+        declare enterpriseNumber?: string;
 
         @Property()
         declare vatNumber?: string;
