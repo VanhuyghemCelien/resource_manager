@@ -176,37 +176,40 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @inject declare flashMessages: FlashMessageService;
   @action
   async addResource() {
-    const resource = await this.store.createRecord('resource', this.resource);
-    this.reinitResource();
     try {
+      const resource = await this.store.createRecord('resource', this.resource);
+      this.reinitResource();
       resource.save();
       this.toggleDisplayResourceModal('new');
     } catch (e) {
-      this.flashMessages.danger('erreur');
+      this.flashMessages.danger('Erreur à la création de la ressource');
     }
   }
 
   @action
   async editResource() {
-    const editedResource = this.resource;
-    console.log(editedResource);
-    const resource = await this.store.findRecord(
-      'resource',
-      editedResource.id!
-    );
-    console.log(resource);
-    resource.image = editedResource.image!;
-    resource.firstName = editedResource.firstName!;
-    resource.lastName = editedResource.lastName!;
-    resource.enterprise = editedResource.enterprise!;
-    resource.emailAddress = editedResource.emailAddress!;
-    resource.emailAddress2 = editedResource.emailAddress2;
-    resource.phoneNumber = editedResource.phoneNumber!;
-    resource.phoneNumber2 = editedResource.phoneNumber2;
-    resource.cost = editedResource.cost;
+    try {
+      const editedResource = this.resource;
+      const resource = await this.store.findRecord(
+        'resource',
+        editedResource.id!
+      );
+      console.log(resource);
+      resource.image = editedResource.image!;
+      resource.firstName = editedResource.firstName!;
+      resource.lastName = editedResource.lastName!;
+      resource.enterprise = editedResource.enterprise!;
+      resource.emailAddress = editedResource.emailAddress!;
+      resource.emailAddress2 = editedResource.emailAddress2;
+      resource.phoneNumber = editedResource.phoneNumber!;
+      resource.phoneNumber2 = editedResource.phoneNumber2;
+      resource.cost = editedResource.cost;
 
-    resource.save();
-    this.toggleDisplayResourceModal('edit');
+      await resource.save();
+      this.toggleDisplayResourceModal('edit');
+    } catch (e) {
+      this.flashMessages.danger('erreur edit');
+    }
   }
 
   @action
