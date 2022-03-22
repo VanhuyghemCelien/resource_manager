@@ -7,7 +7,7 @@ export default function () {
 
     Note: these only affect routes defined *after* them!
   */
-  this.urlPrefix = 'http://localhost:8080'; // make this `http://localhost:8080`, for example, if your API is on a different server
+  this.urlPrefix = 'http://localhost:8000'; // make this `http://localhost:8080`, for example, if your API is on a different server
   this.namespace = 'api/v1'; // make this `/api`, for example, if your API is namespaced
   // this.timing = 400;      // delay for each request, automatically set to 0 during testing
   /*
@@ -21,6 +21,79 @@ export default function () {
     https://www.ember-cli-mirage.com/docs/route-handlers/shorthands
     */
   this.get('/users');
+  this.get('/enterprises');
+  this.get('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    return schema.enterprises.findBy(enterpriseId);
+  });
+  this.post('/enterprises');
+  this.patch('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToEdit = schema.enterprises.findBy(enterpriseId);
+    return enterpriseToEdit;
+  });
+  this.del('/enterprises/:enterpriseId', (schema, request) => {
+    const enterpriseId = request.params.enterpriseId;
+    const enterpriseToDelete = schema.enterprises.findBy(enterpriseId);
+    return enterpriseToDelete;
+  });
+
+  this.get('/resources');
+  this.get('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    return schema.resources.findBy(resourceId);
+  });
+  this.post('/resources');
+  this.patch('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.resources.findBy(resourceId);
+    return resourceToEdit;
+  });
+  this.del('/resources/:resourceId', (schema, request) => {
+    const resourceId = request.params.resourceId;
+    const resourceToEdit = schema.resources.findBy(resourceId);
+    return resourceToEdit;
+  });
+
+  this.get('/assignment-types');
+  this.get('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
+    return schema.types.findBy(assignmentTypeId);
+  });
+  this.post('/assignment-types');
+  this.patch('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
+    const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
+    return assignmenttypeToEdit;
+  });
+  this.del('/assignment-types/:assignmentTypeId', (schema, request) => {
+    const assignmentTypeId = request.params.assignmentTypeId;
+    const assignmenttypeToEdit = schema.types.findBy(assignmentTypeId);
+    return assignmenttypeToEdit;
+  });
+
+  this.get('/resources');
+  this.get('/assignment-types');
+  this.get('/assignment-titles');
+  this.get('/enterprises');
+  this.get('/assignment-types/:assignmentTypeName', (schema, request) => {
+    const assignmentTypeName = request.params.assignmentTypeName;
+    return schema.assignmentTypes.findBy({ assignmentTypeName });
+  });
+  this.get('/assignments');
+  this.get('/assignments/:week', (schema, request) => {
+    const assignment = request.params.assignmentTypeName;
+    return schema.assignments.findBy({ assignment });
+  });
+
+  this.post('/assignments');
+  this.post('/assignment-types');
+  this.post('/assignment-titles');
+  this.post('/enterprises');
+
+  this.get('/dashboard/week/:id');
+  this.put('/dashboard/week/:id'); // or this.patch
+  this.del('/dashboard/week/:id');
 
   this.get('/users/profile', (schema) => {
     return schema.users.find(1);

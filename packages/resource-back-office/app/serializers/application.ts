@@ -14,13 +14,13 @@ export default class Application extends JSONAPISerializer {
     }
   }
 
-  keyForAttribute(key: string) {
-    return key;
-  }
+  // keyForAttribute(key: string) {
+  //   return key;
+  // }
 
-  keyForRelationship(key: string) {
-    return key;
-  }
+  // keyForRelationship(key: string) {
+  //   return key;
+  // }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your serializers.

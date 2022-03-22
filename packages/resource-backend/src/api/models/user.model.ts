@@ -21,14 +21,14 @@ import type { DocumentModel } from './document.model.js';
   tableName: 'users',
   customRepository: () => UserRepository,
 })
-@Filter({ name: 'admin_access', args: false, cond: args => {} })
+@Filter({ name: 'admin_access', args: false, cond: () => {} })
 @Filter({
   name: 'user_access',
   cond: args => {
     return { id: args.user.id };
   },
 })
-@Filter({ name: 'anonymous_access', args: false, cond: args => ({ 1: 0 }) })
+@Filter({ name: 'anonymous_access', args: false, cond: () => ({ 1: 0 }) })
 export class UserModel implements JsonApiModelInterface {
   public static ability = defineAbilityForUser;
 
@@ -57,10 +57,10 @@ export class UserModel implements JsonApiModelInterface {
   })
     refreshToken?: RefreshTokenModel;
 
-    @ManyToMany('DocumentModel')
-      documents = new Collection<DocumentModel>(this);
+  @ManyToMany('DocumentModel')
+    documents = new Collection<DocumentModel>(this);
 
-    public passwordMatches (password: string): Promise<boolean> {
-      return bcrypt.compare(password, this.password);
-    }
+  public passwordMatches (password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }

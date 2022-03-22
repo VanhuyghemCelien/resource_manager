@@ -1,0 +1,28 @@
+<button
+  type="button"
+  class="bg-opacity-100 hover:border-2 h-[52px] w-60 hover:border-navbarBg text-center text-white bg-navbarSelected
+    {{if @boolMorning "rounded-t-xl" "rounded-b-xl"}}"
+  {{! template-lint-disable no-inline-styles }}
+  {{! template-lint-disable style-concatenation }}
+  style="background-color:{{if
+    this.assignment.boolMorning
+    this.assignment.assignmentType.assignmentTypeColor
+  }}"
+  {{on
+    "click"
+    (fn
+      @toggleDisplayNewAssignmentModal
+      this.day
+      @resource
+      @boolMorning
+      this.inverseBoolMorning
+    )
+  }}
+>
+  {{#if this.assignment.boolMorning}}
+    <p>
+      {{this.assignment.assignmentType.assignmentTypeName}}<br
+      />{{this.assignment.assignmentTitle.assignmentTitleName}}-{{this.assignment.enterprise.name}}
+    </p>
+  {{/if}}
+</button>

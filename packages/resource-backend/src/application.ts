@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import { AssignmentTypeController } from './api/controllers/assignment-type.controller.js';
+import { ResourceModel } from './api/models/resource.model.js';
 import { LoadStrategy, MikroORM } from '@mikro-orm/core';
 import createApplication, { container } from '@triptyk/nfw-core';
 import { AuthController } from './api/controllers/auth.controller.js';
@@ -24,6 +27,10 @@ import { createRateLimitMiddleware } from './api/middlewares/rate-limit.middlewa
 import helmet from 'koa-helmet';
 import koaBody from 'koa-body';
 import Koa from 'koa';
+import { ResourceController } from './api/controllers/resource.controller.js';
+import { EnterpriseModel } from './api/models/enterprise.model.js';
+import { EnterpriseController } from './api/controllers/enterprise.controller.js';
+import { AssignmentTypeModel } from './api/models/assignment-type.model.js';
 
 export async function runApplication () {
   /**
@@ -40,7 +47,7 @@ export async function runApplication () {
   const logger = container.resolve(LoggerService);
 
   const orm = await MikroORM.init({
-    entities: [UserModel, RefreshTokenModel, DocumentModel],
+    entities: [UserModel, RefreshTokenModel, DocumentModel, ResourceModel, AssignmentTypeModel, EnterpriseModel],
     dbName: database.database,
     host: database.host,
     port: database.port,
@@ -60,7 +67,7 @@ export async function runApplication () {
     throw new Error('Failed to connect to database');
   }
 
-  //comment this section after first run
+  // comment this section after first run
   if (env === 'test' || env === 'development') {
     const generator = orm.getSchemaGenerator();
     await generator.dropSchema();
@@ -71,7 +78,7 @@ export async function runApplication () {
 
   const koaApp = await createApplication({
     server: new Koa(),
-    controllers: [AuthController, UsersController, DocumentController],
+    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController],
     globalGuards: [],
     globalMiddlewares: [
       helmet(),

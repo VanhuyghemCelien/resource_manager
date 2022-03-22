@@ -1,14 +1,16 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import { click, currentURL, visit } from '@ember/test-helpers';
 
 module('Acceptance | base', function (hooks) {
   setupApplicationTest(hooks);
 
   test('visiting /resources', async function (assert) {
-    await visit('/dashboard/month/1');
-    await click('[data-test-letestdesacha]');
+    assert.expect(1);
 
-    assert.strictEqual(currentURL(), '/resources');
+    await visit('/dashboard/month');
+    await click('[data-test-linktousers]');
+
+    assert.strictEqual(currentURL(), '/users');
   });
 });

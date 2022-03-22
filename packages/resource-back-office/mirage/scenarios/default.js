@@ -4,4 +4,12 @@ export default function (server) {
     This data will not be loaded in your tests.
   */
   server.createList('user', 1);
+
+  server.createList('assignment-type', 2);
+  server.createList('assignment-title', 1);
+  server.createList('enterprise', 2);
+  server.create('resource', 2);
+  server.create('assignment', {
+    resource: server.create('resource'),
+  });
 }

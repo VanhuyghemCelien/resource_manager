@@ -9,9 +9,10 @@ module.exports = function (env) {
       'font-src': ["'self'", 'https://fonts.gstatic.com'],
       'connect-src': ["'self'"],
       'img-src': ["'self'"],
-      'style-src': ["'self'"],
+      'style-src': ["'self'", 'https://fonts.googleapis.com'],
       'media-src': ["'self'"],
       'style-src-elem': ["'self'", 'https://fonts.googleapis.com'],
+      'style-src-attr': ["'self'", "'unsafe-inline'"],
     },
     reportOnly: true,
   };
@@ -19,7 +20,7 @@ module.exports = function (env) {
   csp.policy['img-src'].push('https://tailwindui.com');
 
   if (env === 'development') {
-    csp.policy['connect-src'].push("'http://localhost:8080'");
+    csp.policy['connect-src'].push('http://localhost:8000');
     csp.policy['script-src'].push("'unsafe-eval'");
   }
 
