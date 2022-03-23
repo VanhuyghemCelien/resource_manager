@@ -1,15 +1,24 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
 import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import type { FormsResourcesDTO } from 'ember-boilerplate/components/forms/resources/component';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import { Changeset } from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import { loading } from 'ember-loading';
+import ResourceValidation from '../../../validator/forms/resources';
 
 interface PagesResourcesArgs {}
 
 export default class PagesResources extends Component<PagesResourcesArgs> {
   @service declare store: Store;
+  @service declare router: RouterService;
+  @inject declare flashMessages: FlashMessageService;
 
   @tracked displayNewResourceModal: Boolean = false;
   @tracked displayEditResourceModal: Boolean = false;
@@ -30,38 +39,31 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     cost: '',
   };
 
-  reinitResource() {
-    this.resource = {
-      id: '',
-      image: '/assets/images/resource1.png',
-      firstName: '',
-      lastName: '',
-      enterprise: '',
-      emailAddress: '',
-      emailAddress2: '',
-      phoneNumber: '',
-      phoneNumber2: '',
-      roleUser: 'user',
-      cost: '',
-    };
+  @tracked changeset: TypedBufferedChangeset<FormsResourcesDTO>;
+  constructor(owner: unknown, args: PagesResourcesArgs) {
+    super(owner, args);
+    this.changeset = Changeset(
+      {
+        image: '/assets/images/resource1.png',
+        firstName: '',
+        lastName: '',
+        enterprise: '',
+        emailAddress: '',
+        emailAddress2: '',
+        phoneNumber: '',
+        phoneNumber2: '',
+        roleUser: 'user',
+        cost: '',
+      },
+      lookupValidator(ResourceValidation),
+      ResourceValidation
+    ) as TypedBufferedChangeset<FormsResourcesDTO>;
   }
 
   @action
-  displayDeleteResource(resource: ResourceModel) {
+  displayDeleteResource(id: string) {
     this.toggleDisplayDeleteResourceModal();
-    this.resource = {
-      id: resource.id,
-      image: resource.image,
-      firstName: resource.firstName,
-      lastName: resource.lastName,
-      enterprise: resource.enterprise,
-      emailAddress: resource.emailAddress,
-      emailAddress2: resource.emailAddress2,
-      phoneNumber: resource.phoneNumber,
-      phoneNumber2: resource.phoneNumber2,
-      roleUser: resource.roleUser,
-      cost: resource.cost,
-    };
+    this.changeset.set('id', id);
   }
 
   @action
@@ -77,7 +79,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
 
   @action
   async toggleDisplayDeleteResourceModal() {
-    this.reinitResource();
+    this.changeset.rollback();
     if (this.displayDeleteResourceModal) {
       this.displayDeleteResourceModal = false;
     } else {
@@ -88,7 +90,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   toggleDisplayNewResourceModal() {
     if (this.displayNewResourceModal) {
       this.displayNewResourceModal = false;
-      this.reinitResource();
+      this.changeset.rollback();
     } else {
       this.displayNewResourceModal = true;
     }
@@ -97,7 +99,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   toggleDisplayEditResourceModal() {
     if (this.displayEditResourceModal) {
       this.displayEditResourceModal = false;
-      this.reinitResource();
+      this.changeset.rollback();
     } else {
       this.displayEditResourceModal = true;
     }
@@ -106,31 +108,28 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   toggleDisplayDetailsResourceModal() {
     if (this.displayDetailsResourceModal) {
       this.displayDetailsResourceModal = false;
-      this.reinitResource();
+      this.changeset.rollback();
     } else {
       this.displayDetailsResourceModal = true;
     }
   }
 
   @action
-  displayResourceDetails(
-    modalName: string,
-    resourceReceived: Partial<ResourceModel>
-  ) {
-    const resourceToEdit: Partial<ResourceModel> = {
-      id: resourceReceived.id,
-      image: resourceReceived.image,
-      firstName: resourceReceived.firstName,
-      lastName: resourceReceived.lastName,
-      enterprise: resourceReceived.enterprise,
-      emailAddress: resourceReceived.emailAddress,
-      emailAddress2: resourceReceived.emailAddress2,
-      phoneNumber: resourceReceived.phoneNumber,
-      phoneNumber2: resourceReceived.phoneNumber2,
-      roleUser: resourceReceived.roleUser,
-      cost: resourceReceived.cost,
-    };
-    this.resource = resourceToEdit;
+  async displayResourceDetails(modalName: string, resourceIdReceived: string) {
+    const resourceReceived = await this.store.queryRecord('resource', {
+      id: resourceIdReceived,
+    });
+    this.changeset.set('id', resourceReceived.id);
+    this.changeset.set('image', resourceReceived.image);
+    this.changeset.set('firstName', resourceReceived.firstName);
+    this.changeset.set('lastName', resourceReceived.lastName);
+    this.changeset.set('enterprise', resourceReceived.enterprise);
+    this.changeset.set('emailAddress', resourceReceived.emailAddress);
+    this.changeset.set('emailAddress2', resourceReceived.emailAddress2);
+    this.changeset.set('phoneNumber', resourceReceived.phoneNumber);
+    this.changeset.set('phoneNumber2', resourceReceived.phoneNumber2);
+    this.changeset.set('roleUser', resourceReceived.roleUser);
+    this.changeset.set('cost', resourceReceived.cost);
     if (modalName === 'edit') {
       this.toggleDisplayEditResourceModal();
     } else if (modalName === 'details') {
@@ -139,88 +138,71 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   }
 
   @action
-  editResourceField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'image':
-        this.resource.image = event.target.value;
-        break;
-      case 'enterprise':
-        this.resource.enterprise = event.target.value;
-        break;
-      case 'emailAddress':
-        this.resource.emailAddress = event.target.value;
-        break;
-      case 'phoneNumber':
-        this.resource.phoneNumber = event.target.value;
-        break;
-      case 'phoneNumber2':
-        this.resource.phoneNumber2 = event.target.value;
-        break;
-      case 'emailAddress2':
-        this.resource.emailAddress2 = event.target.value;
-        break;
-      case 'firstName':
-        this.resource.firstName = event.target.value;
-        break;
-      case 'lastName':
-        this.resource.lastName = event.target.value;
-        break;
-      case 'cost':
-        this.resource.cost = event.target.value;
-        break;
-      default:
-        break;
-    }
-  }
-
-  @inject declare flashMessages: FlashMessageService;
-  @action
-  async addResource() {
+  @loading
+  async addResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
-      const resource = await this.store.createRecord('resource', this.resource);
-      this.reinitResource();
-      resource.save();
-      this.toggleDisplayResourceModal('new');
-    } catch (e) {
-      this.flashMessages.danger('Erreur à la création de la ressource');
-    }
-  }
-
-  @action
-  async editResource() {
-    try {
-      const editedResource = this.resource;
-      const resource = await this.store.findRecord(
+      const resourceToSave: Partial<ResourceModel> = {
+        image: '/assets/images/resource1.png',
+        firstName: changeset.get('firstName'),
+        lastName: changeset.get('lastName'),
+        enterprise: changeset.get('enterprise'),
+        emailAddress: changeset.get('emailAddress'),
+        emailAddress2: changeset.get('emailAddress2') ?? undefined,
+        phoneNumber: changeset.get('phoneNumber'),
+        phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
+        roleUser: 'user',
+        cost: changeset.get('cost'),
+      };
+      const resourceCreated = await this.store.createRecord(
         'resource',
-        editedResource.id!
+        resourceToSave
       );
-      console.log(resource);
-      resource.image = editedResource.image!;
-      resource.firstName = editedResource.firstName!;
-      resource.lastName = editedResource.lastName!;
-      resource.enterprise = editedResource.enterprise!;
-      resource.emailAddress = editedResource.emailAddress!;
-      resource.emailAddress2 = editedResource.emailAddress2;
-      resource.phoneNumber = editedResource.phoneNumber!;
-      resource.phoneNumber2 = editedResource.phoneNumber2;
-      resource.cost = editedResource.cost;
+      await resourceCreated.save();
+      this.changeset.rollback();
+      this.toggleDisplayResourceModal('new');
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
+  }
+
+  @action
+  @loading
+  async editResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
+    try {
+      const resource = await this.store.queryRecord('resource', {
+        id: this.changeset.get('id'),
+      });
+      resource.image = '/assets/images/resource1.png';
+      resource.firstName = changeset.get('firstName');
+      resource.lastName = changeset.get('lastName');
+      resource.enterprise = changeset.get('enterprise');
+      resource.emailAddress = changeset.get('emailAddress');
+      resource.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
+      resource.phoneNumber = changeset.get('phoneNumber');
+      resource.phoneNumber2 = changeset.get('phoneNumber2') ?? undefined;
+      resource.roleUser = 'user';
+      resource.cost = changeset.get('cost');
 
       await resource.save();
+      this.changeset.rollback();
       this.toggleDisplayResourceModal('edit');
     } catch (e) {
-      this.flashMessages.danger('erreur edit');
+      this.flashMessages.danger(e.message);
     }
   }
 
   @action
-  async deleteResource(resource: ResourceModel) {
-    const resourceToDelete = await this.store.queryRecord('resource', {
-      id: resource.id,
-    });
-
-    if (resourceToDelete) {
+  async deleteResource() {
+    try {
+      const resourceToDelete = await this.store.queryRecord('resource', {
+        id: this.changeset.get('id'),
+      });
       resourceToDelete.destroyRecord();
+      this.changeset.rollback();
       this.toggleDisplayDeleteResourceModal();
+    } catch (e) {
+      this.flashMessages.danger(e.message);
     }
   }
 }

@@ -12,11 +12,13 @@ import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../validator/forms/enterprise';
 import { inject } from '@ember/controller';
 import { loading } from 'ember-loading';
+import type RouterService from '@ember/routing/router-service';
 
 interface PagesEnterprisesArgs {}
 
 export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @service declare store: Store;
+  @service declare router: RouterService;
   @inject declare flashMessages: FlashMessageService;
 
   @tracked displayNewEnterpriseModal: Boolean = false;
@@ -57,15 +59,9 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
   }
 
-  reinitEnterprise() {
-    this.changeset.rollback();
-  }
-
   @action
   displayDeleteEnterprise(id: string) {
     this.toggleDisplayDeleteEnterpriseModal();
-    console.log(id);
-
     this.changeset.set('id', id);
   }
 
@@ -82,7 +78,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   async toggleDisplayDeleteEnterpriseModal() {
-    this.reinitEnterprise();
+    this.changeset.rollback();
     if (this.displayDeleteEnterpriseModal) {
       this.displayDeleteEnterpriseModal = false;
     } else {
@@ -93,7 +89,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayNewEnterpriseModal() {
     if (this.displayNewEnterpriseModal) {
       this.displayNewEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayNewEnterpriseModal = true;
     }
@@ -102,7 +98,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayEditEnterpriseModal() {
     if (this.displayEditEnterpriseModal) {
       this.displayEditEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayEditEnterpriseModal = true;
     }
@@ -111,7 +107,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayDetailsEnterpriseModal() {
     if (this.displayDetailsEnterpriseModal) {
       this.displayDetailsEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayDetailsEnterpriseModal = true;
     }
@@ -151,25 +147,27 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
         city: changeset.get('city'),
         emailAddress: changeset.get('emailAddress'),
         phoneNumber: changeset.get('phoneNumber'),
-        phoneNumber2: changeset.get('phoneNumber2'),
-        emailAddress2: changeset.get('emailAddress2'),
-        enterpriseNumber: changeset.get('enterpriseNumber'),
-        vatNumber: changeset.get('vatNumber'),
+        phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
+        emailAddress2: changeset.get('emailAddress2') ?? undefined,
+        enterpriseNumber: changeset.get('enterpriseNumber') ?? undefined,
+        vatNumber: changeset.get('vatNumber') ?? undefined,
         address: changeset.get('address'),
       };
       const enterpriseCreated = await this.store.createRecord(
         'enterprise',
         enterpriseToSave
       );
-      this.reinitEnterprise();
-      enterpriseCreated.save();
+      await enterpriseCreated.save();
+      this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
+      this.router.refresh();
     } catch (e) {
       this.flashMessages.danger(e.message);
     }
   }
 
   @action
+  @loading
   async editEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
     try {
       const enterprise = await this.store.queryRecord('enterprise', {
@@ -181,12 +179,13 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       enterprise.address = changeset.get('address');
       enterprise.emailAddress = changeset.get('emailAddress');
       enterprise.phoneNumber = changeset.get('phoneNumber');
-      enterprise.emailAddress2 = changeset.get('emailAddress2');
-      enterprise.phoneNumber2 = changeset.get('phoneNumber2');
-      enterprise.enterpriseNumber = changeset.get('enterpriseNumber');
-      enterprise.vatNumber = changeset.get('vatNumber');
+      enterprise.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
+      enterprise.phoneNumber2 = changeset.get('phoneNumber2') ?? undefined;
+      enterprise.enterpriseNumber =
+        changeset.get('enterpriseNumber') ?? undefined;
+      enterprise.vatNumber = changeset.get('vatNumber') ?? undefined;
 
-      enterprise.save();
+      await enterprise.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('edit');
     } catch (e) {

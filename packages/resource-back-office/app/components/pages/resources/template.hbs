@@ -40,29 +40,27 @@
   </table>
   {{#if this.displayNewResourceModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="new"
       @objectType="Resource"
-      @object={{this.resource}}
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
-      @editField={{this.editResourceField}}
       @saveFunction={{this.addResource}}
     />
   {{/if}}
   {{#if this.displayEditResourceModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="edit"
       @objectType="Resource"
-      @object={{this.resource}}
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
-      @editField={{this.editResourceField}}
       @saveFunction={{this.editResource}}
     />
   {{/if}}
   {{#if this.displayDetailsResourceModal}}
     <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
       @popupType="details"
       @objectType="Resource"
-      @object={{this.resource}}
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
     />
   {{/if}}
@@ -71,7 +69,7 @@
       @type="resource"
       @toggleDisplayDeleteModal={{this.toggleDisplayDeleteResourceModal}}
       @deleteFunction={{this.deleteResource}}
-      @objectToDelete={{this.resource}}
+      @objectIdToDelete={{this.resource.id}}
     />
   {{/if}}
 </div>
