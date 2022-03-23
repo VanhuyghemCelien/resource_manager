@@ -48,31 +48,27 @@ export class ResourceController {
   @UseMiddleware(deserialize(ResourceDeserializer))
   async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
     // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
-    console.log(body);
     return this.resourceRepository.jsonApiCreate(body);
   }
 
   @PATCH('/:id')
   @UseMiddleware(deserialize(ResourceDeserializer))
-  async update (@EntityFromBody(ValidatedResourceUpdate, ResourceModel) user: UserModel, @Param('id') id: string, @CurrentUser() currentUser?: UserModel) {
-    return this.resourceRepository.jsonApiUpdate(user as any, { id }, currentUser);
+  async update (@EntityFromBody(ValidatedResourceUpdate, ResourceModel) resource: ResourceModel, @Param('id') id: string, @CurrentUser() currentUser?: UserModel) {
+    return this.resourceRepository.jsonApiUpdate(resource as any, { id }, currentUser);
   }
 
   @DELETE('/:id')
   async delete (@EntityFromParam('id', ResourceModel) resource : ResourceModel) {
-    console.log('coucou');
     return this.resourceRepository.jsonApiRemove({ id: resource.id });
   }
 
   @GET('/')
   public async list (@JsonApiQueryParams(ResourceQueryParamsSchema) queryParams: ValidatedJsonApiQueryParams) {
-    console.log('all');
     return this.resourceRepository.jsonApiFind(queryParams);
   }
 
   @GET('/:id')
   async get (@JsonApiQueryParams(ResourceQueryParamsSchema) queryParams: ValidatedJsonApiQueryParams, @Param('id') id : string, @CurrentUser() currentUser?: UserModel) {
-    console.log('one');
     return this.resourceRepository.jsonApiFindOne({
       id,
     }, queryParams, currentUser);

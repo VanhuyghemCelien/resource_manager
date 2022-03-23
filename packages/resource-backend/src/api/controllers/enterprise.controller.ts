@@ -34,14 +34,13 @@ export class EnterpriseController {
   @UseMiddleware(deserialize(EnterpriseDeserializer))
   async create (@EntityFromBody(ValidatedEnterprise, EnterpriseModel) body: EnterpriseModel) {
     // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
-    console.log(body);
     return this.enterpriseRepository.jsonApiCreate(body);
   }
 
   @PATCH('/:id')
   @UseMiddleware(deserialize(EnterpriseDeserializer))
-  async update (@EntityFromBody(ValidatedEnterpriseUpdate, EnterpriseModel) user: UserModel, @Param('id') id: string, @CurrentUser() currentUser?: UserModel) {
-    return this.enterpriseRepository.jsonApiUpdate(user as any, { id }, currentUser);
+  async update (@EntityFromBody(ValidatedEnterpriseUpdate, EnterpriseModel) enterprise: EnterpriseModel, @Param('id') id: string, @CurrentUser() currentUser?: UserModel) {
+    return this.enterpriseRepository.jsonApiUpdate(enterprise as any, { id }, currentUser);
   }
 
   @DELETE('/:id')
