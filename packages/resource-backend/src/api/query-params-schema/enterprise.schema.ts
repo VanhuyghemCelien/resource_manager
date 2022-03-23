@@ -8,13 +8,13 @@ export class EnterpriseQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedIncludes (
     _context: ControllerParamsContext,
   ): string[] | Promise<string[]> {
-    return [];
+    return ['resources', 'assignments'];
   }
 
   allowedFields (
     _context: ControllerParamsContext,
-  ): string[] | Promise<string[]> {
-    return ['id', 'name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'];
+  ): CheckTypes[] | Promise<string[]> {
+    return ['id', /enterprises\.(.+)/, /resources\.(.+)/, /assignments\.(.+)/];
   }
 
   allowedSortFields (

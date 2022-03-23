@@ -14,13 +14,13 @@ export class ResourceQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedIncludes (
     _context: ControllerParamsContext,
   ): string[] | Promise<string[]> {
-    return [];
+    return ['enterprises', 'assignments'];
   }
 
   allowedFields (
     _context: ControllerParamsContext,
-  ): string[] | Promise<string[]> {
-    return ['id', 'firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image', 'roleUser', 'enterprise'];
+  ): CheckTypes[] | Promise<string[]> {
+    return ['id', /resources\.(.+)/, /enterprises\.(.+)/, /assignments\.(.+)/];
   }
 
   allowedSortFields (

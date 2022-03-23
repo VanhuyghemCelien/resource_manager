@@ -7,20 +7,20 @@ import {
   @Schema(true)
 export class ValidatedAssignmentType extends SchemaBase {
       @String()
-  declare name: string;
+  public declare name: string;
 
       @String({ optional: true })
-      declare color: string;
+      public declare color: string;
 }
 
   @Schema(true)
 export class ValidatedAssignmentTypeUpdate extends SchemaBase {
       @String()
-  declare id: string;
+  public declare id: string;
 
       @String({ optional: true })
-      declare name: string;
+      public declare name: string;
 
       @String({ optional: true })
-      declare color: string;
+      public declare color: string;
 }

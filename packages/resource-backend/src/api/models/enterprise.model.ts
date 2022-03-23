@@ -1,7 +1,9 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import type { JsonApiModelInterface } from '../../json-api/interfaces/model.interface';
 import { EnterpriseRepository } from '../repositories/enterprise.repository.js';
+import { AssignmentModel } from './assignment.model.js';
+import { ResourceModel } from './resource.model.js';
 
 @Entity({
   tableName: 'enterprises',
@@ -38,4 +40,10 @@ export class EnterpriseModel implements JsonApiModelInterface {
 
         @Property()
         declare vatNumber?: string;
+
+        @OneToMany({ entity: () => AssignmentModel, mappedBy: 'id' })
+          assignments = new Collection<AssignmentModel>(this);
+
+        @OneToMany({ entity: () => ResourceModel, mappedBy: 'id' })
+          resources = new Collection<ResourceModel>(this);
 }

@@ -12,21 +12,14 @@ export default class DashboardWeek extends Route {
   };
 
   async model({ week }: { week: string }) {
-    const [resource, assignmentType, assignmentTitle, enterprise, assignment] =
-      await Promise.all([
-        this.store.findAll('resource', { include: 'assignments' }),
-        this.store.findAll('assignment-type'), // plus besoin de tout ça
-        this.store.findAll('assignment-title'),
-        this.store.findAll('enterprise'),
-        this.store.findAll('assignment'),
-      ]);
-    console.log(week);
+    const [resource] = await Promise.all([
+      this.store.findAll('resource', {
+        include: 'assignments,assignments.assignmentTypes,enterprises',
+        $and:[ {assignment.date: {$lte: 1},},],
+      }),
+    ]);
     return {
       resource,
-      assignmentType,
-      assignmentTitle,
-      enterprise,
-      assignment,
       week,
     };
   }
