@@ -41,7 +41,6 @@
       @changeset={{this.changeset}}
       @popupType="new"
       @objectType="Enterprise"
-      @object={{this.enterprise}}
       @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
       @saveFunction={{this.addEnterprise}}
     />
@@ -51,9 +50,7 @@
       @changeset={{this.changeset}}
       @popupType="edit"
       @objectType="Enterprise"
-      @object={{this.enterprise}}
       @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
-      @editField={{this.editEnterpriseField}}
       @saveFunction={{this.editEnterprise}}
     />
   {{/if}}
@@ -62,7 +59,6 @@
       @changeset={{this.changeset}}
       @popupType="details"
       @objectType="Enterprise"
-      @object={{this.enterprise}}
       @toggleDisplayModal={{this.toggleDisplayEnterpriseModal}}
     />
   {{/if}}
@@ -71,7 +67,7 @@
       @type="enterprise"
       @toggleDisplayDeleteModal={{this.toggleDisplayDeleteEnterpriseModal}}
       @deleteFunction={{this.deleteEnterprise}}
-      @objectToDelete={{this.enterprise}}
+      @objectIdToDelete={{this.enterprise.id}}
     />
   {{/if}}
 </div>

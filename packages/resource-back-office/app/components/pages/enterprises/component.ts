@@ -1,16 +1,25 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { inject, service } from '@ember/service';
+import { service } from '@ember/service';
 import type Store from '@ember-data/store';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/enterprise/component';
+import { Changeset } from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
+import EnterpriseValidation from '../../../validator/forms/enterprise';
+import { inject } from '@ember/controller';
+import { loading } from 'ember-loading';
+import type RouterService from '@ember/routing/router-service';
 
 interface PagesEnterprisesArgs {}
 
 export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @service declare store: Store;
-  @tracked declare flashMessages: FlashMessageService;
+  @service declare router: RouterService;
+  @inject declare flashMessages: FlashMessageService;
 
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
@@ -50,30 +59,10 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
     ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
   }
 
-  reinitEnterprise() {
-    this.changeset.set('name', '');
-    this.changeset.set('city', '');
-    this.changeset.set('address', '');
-    this.changeset.set('emailAddress', '');
-    this.changeset.set('phoneNumber', '');
-    this.changeset.set('emailAddress2', '');
-    this.changeset.set('phoneNumber2', '');
-    this.changeset.set('enterpriseNumber', '');
-    this.changeset.set('vatNumber', '');
-  }
-
   @action
-  displayDeleteEnterprise(enterprise: Partial<EnterpriseModel>) {
+  displayDeleteEnterprise(id: string) {
     this.toggleDisplayDeleteEnterpriseModal();
-    this.changeset.set('name', enterprise.name);
-    this.changeset.set('city', enterprise.city);
-    this.changeset.set('address', enterprise.address);
-    this.changeset.set('emailAddress', enterprise.emailAddress);
-    this.changeset.set('phoneNumber', enterprise.phoneNumber);
-    this.changeset.set('emailAddress2', enterprise.emailAddress2);
-    this.changeset.set('phoneNumber2', enterprise.phoneNumber2);
-    this.changeset.set('enterpriseNumber', enterprise.enterpriseNumber);
-    this.changeset.set('vatNumber', enterprise.vatNumber);
+    this.changeset.set('id', id);
   }
 
   @action
@@ -89,7 +78,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
 
   @action
   async toggleDisplayDeleteEnterpriseModal() {
-    this.reinitEnterprise();
+    this.changeset.rollback();
     if (this.displayDeleteEnterpriseModal) {
       this.displayDeleteEnterpriseModal = false;
     } else {
@@ -100,7 +89,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayNewEnterpriseModal() {
     if (this.displayNewEnterpriseModal) {
       this.displayNewEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayNewEnterpriseModal = true;
     }
@@ -109,7 +98,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayEditEnterpriseModal() {
     if (this.displayEditEnterpriseModal) {
       this.displayEditEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayEditEnterpriseModal = true;
     }
@@ -118,17 +107,21 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   toggleDisplayDetailsEnterpriseModal() {
     if (this.displayDetailsEnterpriseModal) {
       this.displayDetailsEnterpriseModal = false;
-      this.reinitEnterprise();
+      this.changeset.rollback();
     } else {
       this.displayDetailsEnterpriseModal = true;
     }
   }
 
   @action
-  displayEnterpriseDetails(
+  async displayEnterpriseDetails(
     modalName: string,
-    enterpriseReceived: EnterpriseModel
+    enterpriseIdReceived: string
   ) {
+    const enterpriseReceived = await this.store.queryRecord('enterprise', {
+      id: enterpriseIdReceived,
+    });
+    this.changeset.set('id', enterpriseReceived.id);
     this.changeset.set('name', enterpriseReceived.name);
     this.changeset.set('city', enterpriseReceived.city);
     this.changeset.set('address', enterpriseReceived.address);
@@ -146,88 +139,71 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   }
 
   @action
-  editEnterpriseField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'name':
-        this.enterprise.name = event.target.value;
-        break;
-      case 'city':
-        this.enterprise.city = event.target.value;
-        break;
-      case 'emailAddress':
-        this.enterprise.emailAddress = event.target.value;
-        break;
-      case 'phoneNumber':
-        this.enterprise.phoneNumber = event.target.value;
-        break;
-      case 'phoneNumber2':
-        this.enterprise.phoneNumber2 = event.target.value;
-        break;
-      case 'emailAddress2':
-        this.enterprise.emailAddress2 = event.target.value;
-        break;
-      case 'enterpriseNumber':
-        this.enterprise.enterpriseNumber = event.target.value;
-        break;
-      case 'vatNumber':
-        this.enterprise.vatNumber = event.target.value;
-        break;
-      case 'address':
-        this.enterprise.address = event.target.value;
-        break;
-      default:
-        break;
-    }
-  }
-
-  @inject declare flashMessage: FlashMessageService;
-  @action
-  async addEnterprise(e: Event) {
-    e.preventDefault();
-    const enterprise = await this.store.createRecord(
-      'enterprise',
-      this.enterprise
-    );
-    this.reinitEnterprise();
+  @loading
+  async addEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
     try {
-      enterprise.save();
+      const enterpriseToSave: Partial<EnterpriseModel> = {
+        name: changeset.get('name'),
+        city: changeset.get('city'),
+        emailAddress: changeset.get('emailAddress'),
+        phoneNumber: changeset.get('phoneNumber'),
+        phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
+        emailAddress2: changeset.get('emailAddress2') ?? undefined,
+        enterpriseNumber: changeset.get('enterpriseNumber') ?? undefined,
+        vatNumber: changeset.get('vatNumber') ?? undefined,
+        address: changeset.get('address'),
+      };
+      const enterpriseCreated = await this.store.createRecord(
+        'enterprise',
+        enterpriseToSave
+      );
+      await enterpriseCreated.save();
+      this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
+      this.router.refresh();
     } catch (e) {
-      this.flashMessage.danger('erreur');
+      this.flashMessages.danger(e.message);
     }
   }
 
   @action
-  async editEnterprise() {
-    const editedEnterprise = this.enterprise;
-    console.log(editedEnterprise.id);
-    const enterprise = await this.store.findRecord(
-      'enterprise',
-      editedEnterprise.id!
-    );
+  @loading
+  async editEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
+    try {
+      const enterprise = await this.store.queryRecord('enterprise', {
+        id: this.changeset.get('id'),
+      });
 
-    enterprise.name = editedEnterprise.name!;
-    enterprise.city = editedEnterprise.city!;
-    enterprise.address = editedEnterprise.address!;
-    enterprise.emailAddress = editedEnterprise.emailAddress!;
-    enterprise.phoneNumber = editedEnterprise.phoneNumber!;
-    enterprise.emailAddress2 = editedEnterprise.emailAddress2;
-    enterprise.phoneNumber2 = editedEnterprise.phoneNumber2;
-    enterprise.enterpriseNumber = editedEnterprise.enterpriseNumber;
-    enterprise.vatNumber = editedEnterprise.vatNumber;
+      enterprise.name = changeset.get('name');
+      enterprise.city = changeset.get('city');
+      enterprise.address = changeset.get('address');
+      enterprise.emailAddress = changeset.get('emailAddress');
+      enterprise.phoneNumber = changeset.get('phoneNumber');
+      enterprise.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
+      enterprise.phoneNumber2 = changeset.get('phoneNumber2') ?? undefined;
+      enterprise.enterpriseNumber =
+        changeset.get('enterpriseNumber') ?? undefined;
+      enterprise.vatNumber = changeset.get('vatNumber') ?? undefined;
 
-    enterprise.save();
-    this.toggleDisplayEnterpriseModal('edit');
+      await enterprise.save();
+      this.changeset.rollback();
+      this.toggleDisplayEnterpriseModal('edit');
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
   }
 
   @action
-  async deleteEnterprise(enterprise: EnterpriseModel) {
-    const enterpriseToDelete = await this.store.queryRecord('enterprise', {
-      id: enterprise.id,
-    });
-    if (enterpriseToDelete) {
+  async deleteEnterprise() {
+    try {
+      const enterpriseToDelete = await this.store.queryRecord('enterprise', {
+        id: this.changeset.get('id'),
+      });
       enterpriseToDelete.destroyRecord();
+      this.changeset.rollback();
       this.toggleDisplayDeleteEnterpriseModal();
+    } catch (e) {
+      this.flashMessages.danger(e.message);
     }
   }
 }

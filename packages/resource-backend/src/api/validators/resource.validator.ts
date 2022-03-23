@@ -15,16 +15,16 @@ export class ValidatedResource extends SchemaBase {
     @String()
     declare emailAddress: string;
 
-    @String({ optional: true })
+    @String({ optional: true, empty: true })
     declare emailAddress2: string;
 
     @String()
     declare phoneNumber: string;
 
-    @String({ optional: true })
+    @String({ optional: true, empty: true })
     declare phoneNumber2: string;
 
-    @String({ optional: true })
+    @String({ optional: true, empty: true })
     declare cost: string;
 
     @String()
@@ -63,9 +63,9 @@ export class ValidatedResourceUpdate extends SchemaBase {
     @String({ optional: true })
     declare cost: string;
 
-    @String()
+    @String({ optional: true })
     declare enterprise: string;
 
-    @String()
+    @String({ optional: true })
     declare image: string;
 }

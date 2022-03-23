@@ -5,7 +5,7 @@
     <button
       type="button"
       class="hover:text-navbarBg my-auto"
-      {{on "click" (fn @displayDetails "details" @object)}}
+      {{on "click" (fn @displayDetails "details" @object.id)}}
     >
       {{! propriété => valeur }}
       {{#if (eq @type "enterprise")}}
@@ -45,8 +45,7 @@
       <button
         type="button"
         class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        id={{@object.enterpriseId}}
-        {{on "click" (fn @displayDetails "edit" @object)}}
+        {{on "click" (fn @displayDetails "edit" @object.id)}}
       >
         <img
           src="/assets/icons/edit-button.svg"
@@ -62,7 +61,7 @@
       <button
         type="button"
         class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        {{on "click" (fn @displayDelete @object)}}
+        {{on "click" (fn @displayDelete @object.id)}}
       >
         <img
           src="/assets/icons/delete-button.svg"
