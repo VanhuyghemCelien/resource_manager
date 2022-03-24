@@ -20,7 +20,7 @@ export class ResourceQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedFields (
     _context: ControllerParamsContext,
   ): string[] | Promise<string[]> {
-    return ['id', 'firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image', 'roleUser', 'enterprise'];
+    return ['id', 'firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image', 'enterprise'];
   }
 
   allowedSortFields (

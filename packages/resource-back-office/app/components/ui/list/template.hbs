@@ -4,7 +4,7 @@
   <td class="w-1/5 text-center text-primary font-medium px-2 text-base py-2">
     <button
       type="button"
-      class="hover:text-navbarBg my-auto"
+      class="hover:text-navbarBg my-auto w-full items-start"
       {{on "click" (fn @displayDetails "details" @object.id)}}
     >
       {{! propriété => valeur }}
@@ -12,7 +12,7 @@
         {{@object.name}}
       {{/if}}
       {{#if (eq @type "resource")}}
-        <div class="flex flex-row py-2">
+        <div class="flex flex-row items-center">
           <img
             src={{@object.image}}
             alt="resource's profile pic"

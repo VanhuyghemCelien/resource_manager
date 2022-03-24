@@ -27,7 +27,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked modalName: string = '';
   @tracked resource: Partial<ResourceModel> = {
     id: '',
-    image: '/assets/images/resource1.png',
+    image: '',
     firstName: '',
     lastName: '',
     enterprise: '',
@@ -35,7 +35,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     emailAddress2: '',
     phoneNumber: '',
     phoneNumber2: '',
-    roleUser: 'user',
     cost: '',
   };
 
@@ -44,7 +43,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     super(owner, args);
     this.changeset = Changeset(
       {
-        image: '/assets/images/resource1.png',
+        image: '',
         firstName: '',
         lastName: '',
         enterprise: '',
@@ -52,7 +51,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         emailAddress2: '',
         phoneNumber: '',
         phoneNumber2: '',
-        roleUser: 'user',
         cost: '',
       },
       lookupValidator(ResourceValidation),
@@ -128,7 +126,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.changeset.set('emailAddress2', resourceReceived.emailAddress2);
     this.changeset.set('phoneNumber', resourceReceived.phoneNumber);
     this.changeset.set('phoneNumber2', resourceReceived.phoneNumber2);
-    this.changeset.set('roleUser', resourceReceived.roleUser);
+    this.changeset.set('image', resourceReceived.image);
     this.changeset.set('cost', resourceReceived.cost);
     if (modalName === 'edit') {
       this.toggleDisplayEditResourceModal();
@@ -141,8 +139,10 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @loading
   async addResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
+      console.log(changeset);
+
       const resourceToSave: Partial<ResourceModel> = {
-        image: '/assets/images/resource1.png',
+        image: changeset.get('image'),
         firstName: changeset.get('firstName'),
         lastName: changeset.get('lastName'),
         enterprise: changeset.get('enterprise'),
@@ -150,7 +150,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         emailAddress2: changeset.get('emailAddress2') ?? undefined,
         phoneNumber: changeset.get('phoneNumber'),
         phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
-        roleUser: 'user',
         cost: changeset.get('cost'),
       };
       const resourceCreated = await this.store.createRecord(
@@ -173,7 +172,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       const resource = await this.store.queryRecord('resource', {
         id: this.changeset.get('id'),
       });
-      resource.image = '/assets/images/resource1.png';
+      resource.image = changeset.get('image');
       resource.firstName = changeset.get('firstName');
       resource.lastName = changeset.get('lastName');
       resource.enterprise = changeset.get('enterprise');
@@ -181,7 +180,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       resource.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
       resource.phoneNumber = changeset.get('phoneNumber');
       resource.phoneNumber2 = changeset.get('phoneNumber2') ?? undefined;
-      resource.roleUser = 'user';
       resource.cost = changeset.get('cost');
 
       await resource.save();

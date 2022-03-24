@@ -31,9 +31,6 @@ export class ValidatedResource extends SchemaBase {
     declare image: string;
 
     @String()
-    declare roleUser: string;
-
-    @String()
     declare enterprise: string;
 }
 

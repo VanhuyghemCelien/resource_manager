@@ -6,7 +6,11 @@
       @value={{changeset-get @changeset "name"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "name"}}
       @placeholder="Nom de l'entreprise"
       @disabled={{if (eq @popupType "details") true false}}
@@ -20,7 +24,11 @@
       @value={{changeset-get @changeset "enterpriseNumber"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "enterpriseNumber"}}
       @placeholder="0123456789"
       @disabled={{if (eq @popupType "details") true false}}
@@ -34,7 +42,11 @@
       @value={{changeset-get @changeset "vatNumber"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "vatNumber"}}
       @placeholder="BE0123456789"
       @disabled={{if (eq @popupType "details") true false}}
@@ -48,7 +60,11 @@
       @value={{changeset-get @changeset "city"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "city"}}
       @placeholder="Mons"
       @disabled={{if (eq @popupType "details") true false}}
@@ -62,7 +78,11 @@
       @value={{changeset-get @changeset "address"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "address"}}
       @placeholder="Rue, numéro"
       @disabled={{if (eq @popupType "details") true false}}
@@ -76,7 +96,11 @@
       @value={{changeset-get @changeset "emailAddress"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress"}}
       @placeholder="Adresse mail de l'entreprise"
       @disabled={{if (eq @popupType "details") true false}}
@@ -90,7 +114,11 @@
       @value={{changeset-get @changeset "emailAddress2"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress2"}}
       @placeholder="2e adresse mail de l'entreprise"
       @disabled={{if (eq @popupType "details") true false}}
@@ -104,7 +132,11 @@
       @value={{changeset-get @changeset "phoneNumber"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber"}}
       @placeholder="N° de téléphone de l'entreprise"
       @disabled={{if (eq @popupType "details") true false}}
@@ -118,7 +150,11 @@
       @value={{changeset-get @changeset "phoneNumber2"}}
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-primary focus:outline-none focus:ring-0"
+      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+        (eq @popupType "details")
+        "border-secondary text-secondary"
+        "border-primary focus:border-navbarBg text-primary"
+      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber2"}}
       @placeholder="2e n° de téléphone de l'entreprise"
       @disabled={{if (eq @popupType "details") true false}}
