@@ -57,6 +57,7 @@
       @placeholder="Prénom"
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
     />
     <Ui::Input
@@ -74,6 +75,7 @@
       @placeholder={{if (eq @popupType "details") "" "Nom de famille"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
     />
     <Ui::Input
@@ -91,6 +93,7 @@
       @placeholder={{if (eq @popupType "details") "" "Adresse mail"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
     />
     <Ui::Input
@@ -126,6 +129,7 @@
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
+      required
     />
     <Ui::Input
       @label="N° de téléphone n°2"
@@ -150,6 +154,7 @@
         class="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary text-primary pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
         {{on "change" this.changeEnterprise}}
         disabled={{if (eq @popupType "details") true false}}
+        required
       >
         <option
           value=""
@@ -199,7 +204,7 @@
     <button
       type="submit"
       class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-      disabled={{@changeset.isInvalid}}
+      {{!-- disabled={{@changeset.isInvalid}} --}}
     >
       {{@popupName}}
     </button>

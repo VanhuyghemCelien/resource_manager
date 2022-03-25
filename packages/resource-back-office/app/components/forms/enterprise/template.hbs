@@ -15,6 +15,7 @@
       @placeholder={{if (eq @popupType "details") "" "Nom de l'entreprise"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
       data-test-input="name"
     />
@@ -69,6 +70,7 @@
       @placeholder={{if (eq @popupType "details") "" "Mons"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
       data-test-input="city"
     />
@@ -87,6 +89,7 @@
       @placeholder={{if (eq @popupType "details") "" "Rue, numéro"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
       data-test-input="address"
     />
@@ -109,6 +112,7 @@
       }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
       data-test-input="emailAddress"
     />
@@ -153,6 +157,7 @@
       }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
+      required
       type="text"
       data-test-input="phoneNumber"
     />
