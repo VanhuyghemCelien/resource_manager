@@ -58,6 +58,7 @@
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       required
+      autocapitalize="on"
       type="text"
     />
     <Ui::Input
@@ -76,6 +77,7 @@
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       required
+      autocapitalize="on"
       type="text"
     />
     <Ui::Input
@@ -204,7 +206,7 @@
     <button
       type="submit"
       class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-      {{!-- disabled={{@changeset.isInvalid}} --}}
+      disabled={{@changeset.isInvalid}}
     >
       {{@popupName}}
     </button>

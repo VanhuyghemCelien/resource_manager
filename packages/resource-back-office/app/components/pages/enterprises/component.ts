@@ -160,9 +160,10 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       await enterpriseCreated.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
+      this.flashMessages.success("L'entreprise a correctement été ajoutée");
       this.router.refresh();
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 
@@ -189,7 +190,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('edit');
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 
@@ -203,7 +204,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       this.changeset.rollback();
       this.toggleDisplayDeleteEnterpriseModal();
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 }

@@ -17,7 +17,7 @@ interface PagesResourcesArgs {}
 
 export default class PagesResources extends Component<PagesResourcesArgs> {
   @service declare store: Store;
-  @service declare router: RouterService;
+  @inject declare router: RouterService;
   @inject declare flashMessages: FlashMessageService;
 
   @tracked displayNewResourceModal: Boolean = false;
@@ -161,7 +161,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.toggleDisplayResourceModal('new');
       this.router.refresh();
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning('Erreur lors de la création de la ressource');
     }
   }
 
@@ -186,7 +186,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.changeset.rollback();
       this.toggleDisplayResourceModal('edit');
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 
@@ -200,7 +200,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.changeset.rollback();
       this.toggleDisplayDeleteResourceModal();
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 }
