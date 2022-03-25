@@ -1,6 +1,5 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 import type { BaseFormArgs } from 'ember-form-changeset-validations/components/form';
 import BaseForm from 'ember-form-changeset-validations/components/form';
 
@@ -15,22 +14,20 @@ export interface FormsResourcesDTO {
   cost: string;
 }
 
-interface FormsResourcesArgs extends BaseFormArgs<FormsResourcesDTO> {}
+interface FormsResourcesArgs extends BaseFormArgs<FormsResourcesDTO> {
+  store: Store;
+}
 
 export default class FormsResources extends BaseForm<
   FormsResourcesArgs,
   FormsResourcesDTO
 > {
-  @service declare store: Store;
-
   @action changeInput(field: string, value: string) {
     this.args.changeset.set(field as keyof FormsResourcesDTO, value);
-    console.log(field.toUpperCase() + ': ' + value);
   }
   @action changeEnterprise(event: { target: { value: string } }) {
     const value = event.target.value;
     this.args.changeset.set('enterprise', value);
-    console.log('ENTERPRISE_ID: ' + value);
   }
   @action async logthis(event: { target: { files: FileList } }) {
     if (event.target.files[0]) {
@@ -38,20 +35,11 @@ export default class FormsResources extends BaseForm<
       console.log(file);
 
       const originalName: string = file.name;
-      const fileName: string = originalName;
+      var fileName: string[] = originalName.split('.');
+      const newName: string =
+        fileName[0] + Math.floor(Math.random() * 10000) + '.' + fileName[1];
       let mimeType: string = file.type;
       const size: number = file.size;
-      // try {
-      //   await this.store.createRecord('document', {
-      //     fileName: fileName,
-      //     originalName: originalName,
-      //     path: 'dist/uploads/' + fileName,
-      //     mimeType: 'image/png',
-      //     size: size,
-      //   });
-      // } catch (e) {
-      //   console.log(e.message);
-      // }
 
       console.log(
         'FILENAME: ' +
@@ -61,13 +49,12 @@ export default class FormsResources extends BaseForm<
           '\nTYPE: ' +
           mimeType +
           '\nSIZE: ' +
-          size
+          size +
+          '\nNEW_NAME: ' +
+          newName
       );
 
       this.args.changeset.set('image', '/assets/images/resource1.png');
     }
-  }
-  @action logchangeset() {
-    console.log('tetst');
   }
 }
