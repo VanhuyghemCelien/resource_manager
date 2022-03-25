@@ -12,7 +12,7 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "name"}}
-      @placeholder="Nom de l'entreprise"
+      @placeholder={{if (eq @popupType "details") "" "Nom de l'entreprise"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
@@ -30,7 +30,7 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "enterpriseNumber"}}
-      @placeholder="0123456789"
+      @placeholder={{if (eq @popupType "details") "" "0123456789"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{false}}
       type="text"
@@ -48,7 +48,7 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "vatNumber"}}
-      @placeholder="BE0123456789"
+      @placeholder={{if (eq @popupType "details") "" "BE0123456789"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{false}}
       type="text"
@@ -66,7 +66,7 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "city"}}
-      @placeholder="Mons"
+      @placeholder={{if (eq @popupType "details") "" "Mons"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
@@ -84,7 +84,7 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "address"}}
-      @placeholder="Rue, numéro"
+      @placeholder={{if (eq @popupType "details") "" "Rue, numéro"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
@@ -102,7 +102,11 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress"}}
-      @placeholder="Adresse mail de l'entreprise"
+      @placeholder={{if
+        (eq @popupType "details")
+        ""
+        "Adresse mail de l'entreprise"
+      }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
@@ -120,7 +124,11 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress2"}}
-      @placeholder="2e adresse mail de l'entreprise"
+      @placeholder={{if
+        (eq @popupType "details")
+        ""
+        "2e adresse mail de l'entreprise"
+      }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{false}}
       type="text"
@@ -138,7 +146,11 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber"}}
-      @placeholder="N° de téléphone de l'entreprise"
+      @placeholder={{if
+        (eq @popupType "details")
+        ""
+        "N° de téléphone de l'enterprise"
+      }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
@@ -156,7 +168,11 @@
         "border-primary focus:border-navbarBg text-primary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber2"}}
-      @placeholder="2e n° de téléphone de l'entreprise"
+      @placeholder={{if
+        (eq @popupType "details")
+        ""
+        "2e n° de téléphone de l'entreprise"
+      }}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{false}}
       type="text"
