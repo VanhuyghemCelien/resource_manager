@@ -4,7 +4,7 @@ import type { CheckTypes, QueryParamsSchemaInterface } from '../../json-api/inte
 
 @injectable()
 @singleton()
-export class AssignmentParamsSchema implements QueryParamsSchemaInterface {
+export class AssignmentQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedIncludes (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
     return ['enterprises', 'resources', 'assignmentTypes'];
   }

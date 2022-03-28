@@ -49,7 +49,9 @@ export class ResourceController {
   async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
     // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
     console.log(body);
-    return this.resourceRepository.jsonApiCreate(body);
+    const rt = await this.resourceRepository.jsonApiCreate(body);
+    console.log(rt);
+    return rt;
   }
 
   @PATCH('/:id')

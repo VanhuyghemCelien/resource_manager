@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type { Assignment } from 'ember-boilerplate/components/pages/dashboard/week/component';
+import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 
 interface PopupsNewAssignmentArgs {
@@ -34,6 +35,10 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @tracked assignment: Assignment = {
     ...this.args.assignment,
   };
+  @tracked assignmentType: Partial<AssignmentTypeModel> = {
+    name: '',
+    color: '',
+  };
 
   @action
   toggleComment() {
@@ -43,16 +48,15 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @action
   async selectType(event: { target: { value: string } }) {
     const value = event.target.value;
-    let selected = await this.store.queryRecord('assignment-type', {
-      name: value,
+    let selected = await this.store.query('assignmentType', {
+      filter: { name: value },
+      fields: 'name,color',
     });
-    this.assignment = {
-      ...this.assignment,
-      assignmentType: {
-        assignmentTypeName: selected.assignmentTypeName,
-        multipleColors: false,
-        assignmentTypeColor: selected.assignmentTypeColor,
-      },
+    console.log(selected);
+    this.assignmentType = {
+      ...this.assignmentType,
+      name: selected.name,
+      color: selected.color,
     };
   }
 

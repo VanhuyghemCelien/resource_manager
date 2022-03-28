@@ -48,5 +48,5 @@ export class ValidatedAssignmentUpdate extends SchemaBase {
 
     public declare resources: ResourceModel;
 
-    public declare assignmentTypes: AssignmentTypeModel;
+    public declare types: AssignmentTypeModel;
 }

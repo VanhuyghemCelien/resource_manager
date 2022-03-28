@@ -14,17 +14,17 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
     super(configurationService);
 
     this.serializer.register('resources', {
-      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'enterprise', 'image', 'roleUser'] as (keyof ResourceModel)[],
+      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image'] as (keyof ResourceModel)[],
       relationships: {
         enterprises: {
-          type: 'enterprise',
+          type: 'enterprises',
         },
         assignments: {
-          type: 'assignment',
+          type: 'assignments',
         },
       },
     });
-    this.serializer.register('enterprise', {
+    this.serializer.register('enterprises', {
       whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
     });
     this.serializer.register('assignments', {

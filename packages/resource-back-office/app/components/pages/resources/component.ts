@@ -21,12 +21,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     image: '/assets/images/resource1.png',
     firstName: '',
     lastName: '',
-    enterprise: '',
     emailAddress: '',
     emailAddress2: '',
     phoneNumber: '',
     phoneNumber2: '',
-    roleUser: 'user',
+    enterprises: undefined,
     cost: '',
   };
 
@@ -36,12 +35,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       image: '/assets/images/resource1.png',
       firstName: '',
       lastName: '',
-      enterprise: '',
       emailAddress: '',
       emailAddress2: '',
       phoneNumber: '',
       phoneNumber2: '',
-      roleUser: 'user',
+      enterprises: undefined,
       cost: '',
     };
   }
@@ -54,12 +52,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       image: resource.image,
       firstName: resource.firstName,
       lastName: resource.lastName,
-      enterprise: resource.enterprise,
       emailAddress: resource.emailAddress,
       emailAddress2: resource.emailAddress2,
       phoneNumber: resource.phoneNumber,
       phoneNumber2: resource.phoneNumber2,
-      roleUser: resource.roleUser,
+      enterprises: resource.enterprises,
       cost: resource.cost,
     };
   }
@@ -122,12 +119,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       image: resourceReceived.image,
       firstName: resourceReceived.firstName,
       lastName: resourceReceived.lastName,
-      enterprise: resourceReceived.enterprise,
       emailAddress: resourceReceived.emailAddress,
       emailAddress2: resourceReceived.emailAddress2,
       phoneNumber: resourceReceived.phoneNumber,
       phoneNumber2: resourceReceived.phoneNumber2,
-      roleUser: resourceReceived.roleUser,
+      enterprises: resourceReceived.enterprises,
       cost: resourceReceived.cost,
     };
     this.resource = resourceToEdit;
@@ -139,13 +135,10 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   }
 
   @action
-  editResourceField(field: string, event: { target: { value: string } }) {
+  async editResourceField(field: string, event: { target: { value: string } }) {
     switch (field) {
       case 'image':
         this.resource.image = event.target.value;
-        break;
-      case 'enterprise':
-        this.resource.enterprise = event.target.value;
         break;
       case 'emailAddress':
         this.resource.emailAddress = event.target.value;
@@ -165,6 +158,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       case 'lastName':
         this.resource.lastName = event.target.value;
         break;
+      case 'enterprise':
+        this.resource.enterprises = await this.store.queryRecord('enterprise', {
+          id: event.target.value,
+          fields: '*',
+        });
+        console.log(this.resource.enterprises, 'coucoutoi');
+
+        break;
       case 'cost':
         this.resource.cost = event.target.value;
         break;
@@ -176,6 +177,8 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @inject declare flashMessages: FlashMessageService;
   @action
   async addResource() {
+    console.log(this.resource);
+    console.log(this.resource.enterprises);
     const resource = await this.store.createRecord('resource', this.resource);
     this.reinitResource();
     try {
@@ -198,11 +201,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     resource.image = editedResource.image!;
     resource.firstName = editedResource.firstName!;
     resource.lastName = editedResource.lastName!;
-    resource.enterprise = editedResource.enterprise!;
     resource.emailAddress = editedResource.emailAddress!;
     resource.emailAddress2 = editedResource.emailAddress2;
     resource.phoneNumber = editedResource.phoneNumber!;
     resource.phoneNumber2 = editedResource.phoneNumber2;
+    resource.enterprises = editedResource.enterprises!;
     resource.cost = editedResource.cost;
 
     resource.save();

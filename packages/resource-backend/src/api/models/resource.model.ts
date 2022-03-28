@@ -3,7 +3,7 @@ import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '
 import { v4 } from 'uuid';
 import { ResourceRepository } from '../repositories/resource.repository.js';
 import { AssignmentModel } from './assignment.model.js';
-import { EnterpriseModel } from './enterprise.model.js';
+import type { EnterpriseModel } from './enterprise.model.js';
 
 @Entity({
   tableName: 'resources',
@@ -38,15 +38,9 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare image: string;
 
-    @Property()
-    declare enterprise: string;
-
-    @Property()
-    declare roleUser: string;
-
-    @OneToMany({ entity: () => AssignmentModel, mappedBy: 'id' })
+    @OneToMany({ entity: () => AssignmentModel, mappedBy: 'resources', nullable: true })
       assignments = new Collection<AssignmentModel>(this);
 
-      @ManyToOne(() => EnterpriseModel, { wrappedReference: true })
+      @ManyToOne('EnterpriseModel', { wrappedReference: true })
     declare enterprises: EnterpriseModel;
 }

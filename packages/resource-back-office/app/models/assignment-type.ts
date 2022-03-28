@@ -1,10 +1,8 @@
 import Model, { attr } from '@ember-data/model';
 
 export default class AssignmentTypeModel extends Model {
-  @attr() declare assignmentTypeId: number;
-  @attr() declare assignmentTypeName: string;
-  @attr() declare multipleColors: boolean;
-  @attr() declare assignmentTypeColor?: string;
+  @attr() declare name: string;
+  @attr() declare color?: string;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

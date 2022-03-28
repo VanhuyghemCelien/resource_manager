@@ -29,7 +29,7 @@ export class AssignmentModel implements JsonApiModelInterface {
 
       @Property({ nullable: true })
       // eslint-disable-next-line no-undef
-      declare comment?: Text;
+      declare comment?: String;
 
       @ManyToOne(() => EnterpriseModel, { wrappedReference: true })
       declare enterprises: EnterpriseModel;
@@ -38,5 +38,5 @@ export class AssignmentModel implements JsonApiModelInterface {
       declare resources: ResourceModel;
 
       @ManyToOne(() => AssignmentTypeModel, { wrappedReference: true })
-      declare types: AssignmentTypeModel;
+      declare assignmentTypes: AssignmentTypeModel;
 }

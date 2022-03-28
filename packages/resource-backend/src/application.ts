@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import { AssignmentController } from './api/controllers/assignment.controller.js';
+import { AssignmentModel } from './api/models/assignment.model.js';
 import { AssignmentTypeController } from './api/controllers/assignment-type.controller.js';
 import { ResourceModel } from './api/models/resource.model.js';
 import { LoadStrategy, MikroORM } from '@mikro-orm/core';
@@ -47,7 +49,7 @@ export async function runApplication () {
   const logger = container.resolve(LoggerService);
 
   const orm = await MikroORM.init({
-    entities: [UserModel, RefreshTokenModel, DocumentModel, ResourceModel, AssignmentTypeModel, EnterpriseModel],
+    entities: [UserModel, RefreshTokenModel, DocumentModel, EnterpriseModel, ResourceModel, AssignmentTypeModel, AssignmentModel],
     dbName: database.database,
     host: database.host,
     port: database.port,
@@ -78,7 +80,7 @@ export async function runApplication () {
 
   const koaApp = await createApplication({
     server: new Koa(),
-    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController],
+    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController, AssignmentController],
     globalGuards: [],
     globalMiddlewares: [
       helmet(),

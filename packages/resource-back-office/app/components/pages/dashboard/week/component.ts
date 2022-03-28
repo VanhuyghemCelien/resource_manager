@@ -6,21 +6,15 @@ import type Store from '@ember-data/store';
 import { service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
+import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 
 export interface Assignment {
-  assignmentType: AssignmentType;
   assignmentTitle: AssignmentTitle;
   enterprise: Enterprise;
   date: Date;
   boolMorning: boolean;
   boolAfternoon: boolean;
   resource?: ResourceModel;
-}
-
-export interface AssignmentType {
-  assignmentTypeName: string;
-  multipleColors: boolean;
-  assignmentTypeColor?: string;
 }
 
 export interface AssignmentTitle {
@@ -50,10 +44,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked color: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
-  @tracked assignmentType: AssignmentType = {
-    assignmentTypeName: '',
-    multipleColors: false,
-    assignmentTypeColor: '#adab32',
+  @tracked assignmentType: Partial<AssignmentTypeModel> = {
+    name: '',
+    color: '#adab32',
   };
   @tracked assignmentTitle: AssignmentTitle = {
     assignmentTitleName: '',
@@ -63,11 +56,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     name: '',
   };
   @tracked assignment: Assignment = {
-    assignmentType: {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
-    },
     assignmentTitle: {
       assignmentTitleName: '',
       assignmentTitleColor: '',
@@ -89,11 +77,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     assignmentNew: Assignment
   ) {
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: assignmentNew.assignmentType.assignmentTypeName,
-        multipleColors: false,
-        assignmentTypeColor: assignmentNew.assignmentType.assignmentTypeColor,
-      },
       assignmentTitle: {
         assignmentTitleName: assignmentNew.assignmentTitle.assignmentTitleName,
         assignmentTitleColor:
@@ -109,11 +92,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     const assignment = this.store.createRecord('assignment', this.assignment);
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: '',
-        multipleColors: false,
-        assignmentTypeColor: '',
-      },
       assignmentTitle: {
         assignmentTitleName: '',
         assignmentTitleColor: '',
@@ -135,10 +113,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
     switch (field) {
       case 'assignmentTypeName':
-        this.assignmentType.assignmentTypeName = event.target.value;
+        this.assignmentType.name = event.target.value;
         break;
       case 'assignmentTypeColor':
-        this.assignmentType.assignmentTypeColor = event.target.value;
+        this.assignmentType.color = event.target.value;
         break;
     }
   }
@@ -171,9 +149,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     );
     // changeset
     this.assignmentType = {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
+      name: '',
+      color: '',
     };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();

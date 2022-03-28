@@ -7,8 +7,8 @@ export default class Resources extends Route {
 
   model() {
     return this.store.query('resource', {
-      fields:
-        'firstName,lastName,cost,image,enterprise,phoneNumber,phoneNumber2,roleUser,emailAddress,emailAddress2',
+      fields: '*',
+      include: 'enterprises',
     });
   }
 }

@@ -3,8 +3,8 @@ import {
   SchemaBase,
   String,
 } from 'fastest-validator-decorators';
-import type { AssignmentModel } from '../models/assignment.model';
-import type { ResourceModel } from '../models/resource.model';
+import type { AssignmentModel } from '../models/assignment.model.js';
+import type { ResourceModel } from '../models/resource.model.js';
 
   @Schema(true)
 export class ValidatedEnterprise extends SchemaBase {

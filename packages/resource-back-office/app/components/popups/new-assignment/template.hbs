@@ -59,15 +59,17 @@
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectType}}
           >
             {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.assignmentTypeName}}>
-                {{assignmentType.assignmentTypeName}}
+              <option value={{assignmentType.name}}>
+                {{assignmentType.name}}
               </option>
             {{/each}}
           </select>
+          {{!-- template-lint-disable no-log --}}
+          {{log this.assignmentType.color}}
           <button
             type="button"
             class="grow-0"

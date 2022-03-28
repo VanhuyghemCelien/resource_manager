@@ -17,10 +17,10 @@ export class EnterpriseSerializer extends BaseJsonApiSerializer<EnterpriseModel>
       whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
       relationships: {
         resources: {
-          type: 'resource',
+          type: 'resources',
         },
         assignments: {
-          type: 'assignment',
+          type: 'assignments',
         },
       },
     });
