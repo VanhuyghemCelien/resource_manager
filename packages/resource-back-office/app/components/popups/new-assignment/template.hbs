@@ -85,7 +85,7 @@
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectTitle}}
           >
             {{#each @model.assignmentTitle as |assignmentTitle|}}
@@ -109,7 +109,7 @@
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectEnterprise}}
           >
             {{#each @model.enterprise as |enterprise|}}

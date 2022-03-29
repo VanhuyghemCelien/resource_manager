@@ -24,7 +24,7 @@ export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel>
           type: 'resource',
         },
         assignmentTypes: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
       },
     });

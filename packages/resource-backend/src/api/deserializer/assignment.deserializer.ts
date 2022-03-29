@@ -17,13 +17,13 @@ export class AssignmentDeserializer {
           type: 'resource',
         },
         assignmentTypes: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
       },
     });
     this.deserializer.register('enterprise');
     this.deserializer.register('resource');
-    this.deserializer.register('assignment-type');
+    this.deserializer.register('assignmentType');
   }
 
   public deserialize (data: any) : any {

@@ -5,7 +5,7 @@ import { AssignmentTypeRepository } from '../repositories/assignment-type.reposi
 import { AssignmentModel } from './assignment.model.js';
 
 @Entity({
-  tableName: 'assignment-type',
+  tableName: 'assignmentType',
   customRepository: () => AssignmentTypeRepository,
 })
 

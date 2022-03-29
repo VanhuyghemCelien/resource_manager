@@ -12,14 +12,14 @@ export class AssignmentTypeSerializer extends BaseJsonApiSerializer<AssignmentTy
   ) {
     super(configurationService);
 
-    this.serializer.register('assignment-types', {
+    this.serializer.register('assignmentTypes', {
       whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
       relationships: {
         childs: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
         parents: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
         assignments: {
           type: 'assignment',
@@ -41,6 +41,6 @@ export class AssignmentTypeSerializer extends BaseJsonApiSerializer<AssignmentTy
     data: AssignmentTypeModel[] | AssignmentTypeModel,
     extraData?: Record<string, unknown>,
   ) {
-    return this.serializer.serializeAsync('assignment-types', data, extraData ?? ({} as any));
+    return this.serializer.serializeAsync('assignmentTypes', data, extraData ?? ({} as any));
   }
 }

@@ -8,25 +8,25 @@ export class AssignmentTypeDeserializer {
 
   constructor () {
     this.deserializer = new JSONAPIDeSerializer({ unconvertCase: 'camelCase' });
-    this.deserializer.register('assignment-type', {
+    this.deserializer.register('assignmentType', {
       relationships: {
         parents: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
         childs: {
-          type: 'assignment-type',
+          type: 'assignmentType',
         },
         assignments: {
           type: 'assignment',
         },
       },
     });
-    this.deserializer.register('assignment-type');
-    this.deserializer.register('assignment-type');
+    this.deserializer.register('assignmentType');
+    this.deserializer.register('assignmentType');
     this.deserializer.register('assignment');
   }
 
   public deserialize (data: any) : any {
-    return this.deserializer.deserialize('assignment-type', data);
+    return this.deserializer.deserialize('assignmentType', data);
   }
 }
