@@ -160,7 +160,6 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       await enterpriseCreated.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
-      this.flashMessages.success("L'entreprise a correctement été ajoutée");
       this.router.refresh();
     } catch (e) {
       this.flashMessages.warning(e.message);

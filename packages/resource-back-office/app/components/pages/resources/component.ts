@@ -12,6 +12,7 @@ import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import { loading } from 'ember-loading';
 import ResourceValidation from '../../../validator/forms/resources';
+import fetch from 'fetch';
 
 interface PagesResourcesArgs {}
 
@@ -139,7 +140,28 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @loading
   async addResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
-      console.log(changeset);
+      if (changeset.isInvalid) {
+        throw new Error('Remplissez tous les champs nécessaires');
+      }
+
+      let formData = new FormData();
+      formData.append('file', changeset.get('image'));
+
+      const response = await fetch('http://localhost:8000/api/v1/documents', {
+        headers: {
+          accept: 'application/vnd.api+json',
+        },
+        method: 'POST',
+        body: formData,
+      });
+      if (response.status === 201) {
+        const responseJson = await response.json();
+        changeset.set('image', responseJson.data.id);
+        console.log('Image created : ' + responseJson.data.id);
+      } else {
+        throw new Error("Une erreur est survenue lors de l'envoi de l'image.");
+      }
+      console.log('here');
 
       const resourceToSave: Partial<ResourceModel> = {
         image: changeset.get('image'),
@@ -161,7 +183,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.toggleDisplayResourceModal('new');
       this.router.refresh();
     } catch (e) {
-      this.flashMessages.warning('Erreur lors de la création de la ressource');
+      this.flashMessages.danger(e.message);
     }
   }
 
