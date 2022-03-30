@@ -41,7 +41,6 @@ export default class FormsResources extends BaseForm<
   @action changeEnterprise(event: { target: { value: string } }) {
     this.formData.set('enterprise', event.target.value);
   }
-  //ATTENTION -> spécificité Ember, faire un response.json() et push le record dans le store sinon il ne sera pas ajouté
   @action async changeImage(event: { target: { files: FileList } }) {
     // Verify that file is present
     if (event.target.files[0]) {
