@@ -9,7 +9,6 @@ export default class ResourceModel extends Model {
   @attr() declare lastName: string;
   @attr() declare phoneNumber: string;
   @attr() declare phoneNumber2?: string;
-  @attr() declare roleUser: string;
   @attr() declare enterprise: string;
   @attr() declare cost?: string;
   @hasMany('assignment', { async: false })

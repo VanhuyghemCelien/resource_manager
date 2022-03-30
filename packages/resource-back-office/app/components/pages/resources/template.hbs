@@ -22,13 +22,13 @@
   </div>
   <table class="w-full min-w-[850px]">
     <thead>
-      <th class="text-primary text-lg">Nom complet</th>
+      <th class="text-primary text-lg text-left">Nom complet</th>
       <th class="text-primary text-lg">Entreprise</th>
       <th class="text-primary text-lg">Adresse email</th>
       <th class="text-primary text-lg">N° de téléphone</th>
     </thead>
     <tbody>
-      {{#each @model as |resource|}}
+      {{#each @model.resource as |resource|}}
         <Ui::List
           @type="resource"
           @object={{resource}}
@@ -43,8 +43,10 @@
       @changeset={{this.changeset}}
       @popupType="new"
       @objectType="Resource"
+      @store={{this.store}}
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
       @saveFunction={{this.addResource}}
+      @enterpriseOptions={{@model.enterprise}}
     />
   {{/if}}
   {{#if this.displayEditResourceModal}}
@@ -54,6 +56,7 @@
       @objectType="Resource"
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
       @saveFunction={{this.editResource}}
+      @enterpriseOptions={{@model.enterprise}}
     />
   {{/if}}
   {{#if this.displayDetailsResourceModal}}
@@ -62,6 +65,7 @@
       @popupType="details"
       @objectType="Resource"
       @toggleDisplayModal={{this.toggleDisplayResourceModal}}
+      @enterpriseOptions={{@model.enterprise}}
     />
   {{/if}}
   {{#if this.displayDeleteResourceModal}}

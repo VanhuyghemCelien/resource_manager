@@ -12,12 +12,13 @@ import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import { loading } from 'ember-loading';
 import ResourceValidation from '../../../validator/forms/resources';
+import fetch from 'fetch';
 
 interface PagesResourcesArgs {}
 
 export default class PagesResources extends Component<PagesResourcesArgs> {
   @service declare store: Store;
-  @service declare router: RouterService;
+  @inject declare router: RouterService;
   @inject declare flashMessages: FlashMessageService;
 
   @tracked displayNewResourceModal: Boolean = false;
@@ -27,7 +28,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @tracked modalName: string = '';
   @tracked resource: Partial<ResourceModel> = {
     id: '',
-    image: '/assets/images/resource1.png',
+    image: '',
     firstName: '',
     lastName: '',
     enterprise: '',
@@ -35,7 +36,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     emailAddress2: '',
     phoneNumber: '',
     phoneNumber2: '',
-    roleUser: 'user',
     cost: '',
   };
 
@@ -44,7 +44,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     super(owner, args);
     this.changeset = Changeset(
       {
-        image: '/assets/images/resource1.png',
+        image: '',
         firstName: '',
         lastName: '',
         enterprise: '',
@@ -52,7 +52,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         emailAddress2: '',
         phoneNumber: '',
         phoneNumber2: '',
-        roleUser: 'user',
         cost: '',
       },
       lookupValidator(ResourceValidation),
@@ -128,7 +127,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     this.changeset.set('emailAddress2', resourceReceived.emailAddress2);
     this.changeset.set('phoneNumber', resourceReceived.phoneNumber);
     this.changeset.set('phoneNumber2', resourceReceived.phoneNumber2);
-    this.changeset.set('roleUser', resourceReceived.roleUser);
+    this.changeset.set('image', resourceReceived.image);
     this.changeset.set('cost', resourceReceived.cost);
     if (modalName === 'edit') {
       this.toggleDisplayEditResourceModal();
@@ -141,8 +140,31 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @loading
   async addResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
+      if (changeset.isInvalid) {
+        throw new Error('Remplissez tous les champs nécessaires');
+      }
+
+      let formData = new FormData();
+      formData.append('file', changeset.get('image'));
+
+      const response = await fetch('http://localhost:8000/api/v1/documents', {
+        headers: {
+          accept: 'application/vnd.api+json',
+        },
+        method: 'POST',
+        body: formData,
+      });
+      if (response.status === 201) {
+        const responseJson = await response.json();
+        changeset.set('image', responseJson.data.id);
+        console.log('Image created : ' + responseJson.data.id);
+      } else {
+        throw new Error("Une erreur est survenue lors de l'envoi de l'image.");
+      }
+      console.log('here');
+
       const resourceToSave: Partial<ResourceModel> = {
-        image: '/assets/images/resource1.png',
+        image: changeset.get('image'),
         firstName: changeset.get('firstName'),
         lastName: changeset.get('lastName'),
         enterprise: changeset.get('enterprise'),
@@ -150,7 +172,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         emailAddress2: changeset.get('emailAddress2') ?? undefined,
         phoneNumber: changeset.get('phoneNumber'),
         phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
-        roleUser: 'user',
         cost: changeset.get('cost'),
       };
       const resourceCreated = await this.store.createRecord(
@@ -173,7 +194,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       const resource = await this.store.queryRecord('resource', {
         id: this.changeset.get('id'),
       });
-      resource.image = '/assets/images/resource1.png';
+      resource.image = changeset.get('image');
       resource.firstName = changeset.get('firstName');
       resource.lastName = changeset.get('lastName');
       resource.enterprise = changeset.get('enterprise');
@@ -181,14 +202,13 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       resource.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
       resource.phoneNumber = changeset.get('phoneNumber');
       resource.phoneNumber2 = changeset.get('phoneNumber2') ?? undefined;
-      resource.roleUser = 'user';
       resource.cost = changeset.get('cost');
 
       await resource.save();
       this.changeset.rollback();
       this.toggleDisplayResourceModal('edit');
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 
@@ -202,7 +222,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.changeset.rollback();
       this.toggleDisplayDeleteResourceModal();
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.warning(e.message);
     }
   }
 }
