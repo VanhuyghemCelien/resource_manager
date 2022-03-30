@@ -35,7 +35,7 @@
               <input
                 id="morningInput"
                 type="checkbox"
-                checked={{this.assignment.boolMorning}}
+                checked={{this.assignment.isMorning}}
                 {{on "click" this.selectedMorning}}
               />
             </label>
@@ -46,7 +46,7 @@
               <input
                 id="afternoonInput"
                 type="checkbox"
-                checked={{this.assignment.boolAfternoon}}
+                checked={{this.assignment.isAfternoon}}
                 {{on "click" this.selectedAfternoon}}
               />
             </label>
@@ -88,9 +88,9 @@
             style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectTitle}}
           >
-            {{#each @model.assignmentTitle as |assignmentTitle|}}
-              <option value={{assignmentTitle.assignmentTitleName}}>
-                {{assignmentTitle.assignmentTitleName}}
+            {{#each @model.assignmentType as |assignmentType|}}
+              <option value={{assignmentType.name}}>
+                {{assignmentType.name}}
               </option>
             {{/each}}
           </select>
@@ -161,8 +161,6 @@
             "click"
             (fn
               @addAssignment
-              @choosingDay
-              this.assignment.resource
               this.assignment
             )
           }}

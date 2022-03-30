@@ -26,6 +26,6 @@ export class EnterpriseQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedFilters (
     _context: ControllerParamsContext,
   ): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id.$eq'];
+    return ['id.$eq', 'name'];
   }
 }

@@ -5,7 +5,7 @@ import type { ResourceModel } from '../models/resource.model';
 
 @Schema(true)
 export class ValidatedAssignment extends SchemaBase {
-    @Date()
+    @Date({ convert: true })
   public declare date : Date;
 
   @Boolean()
@@ -20,16 +20,19 @@ export class ValidatedAssignment extends SchemaBase {
   @String({ optional: true, empty: true })
   public declare comment: string;
 
+  @String()
   public declare enterprises: EnterpriseModel;
 
+  @String()
   public declare resources: ResourceModel;
 
+  @String()
   public declare assignmentTypes: AssignmentTypeModel;
 }
 
 @Schema(true)
 export class ValidatedAssignmentUpdate extends SchemaBase {
-    @Date({ optional: true })
+    @Date({ optional: true, convert: true })
   public declare date : Date;
 
     @Boolean({ optional: true })
@@ -44,9 +47,12 @@ export class ValidatedAssignmentUpdate extends SchemaBase {
     @String({ optional: true })
     public declare comment: string;
 
+    @String({ optional: true })
     public declare enterprises: EnterpriseModel;
 
+    @String({ optional: true })
     public declare resources: ResourceModel;
 
+    @String({ optional: true })
     public declare types: AssignmentTypeModel;
 }

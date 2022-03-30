@@ -31,7 +31,7 @@ import { AssignmentDeserializer } from '../deserializer/assignment.deserializer.
 import { ValidatedAssignment, ValidatedAssignmentUpdate } from '../validators/assignment.validator.js';
 import { AssignmentQueryParamsSchema } from '../query-params-schema/assignment.schema.js';
 
-@Controller('/assignment')
+@Controller('/assignments')
 @UseErrorHandler(JsonApiErrorHandler)
 @UseGuard(ContentGuard, true)
 @UseResponseHandler(JsonApiResponsehandler, AssignmentSerializer)

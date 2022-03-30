@@ -7,7 +7,7 @@ import { EnterpriseModel } from './enterprise.model.js';
 import { ResourceModel } from './resource.model.js';
 
 @Entity({
-  tableName: 'assignment',
+  tableName: 'assignments',
   customRepository: () => AssignmentRepository,
 })
 

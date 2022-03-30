@@ -21,10 +21,10 @@ export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel>
           type: 'enterprise',
         },
         resources: {
-          type: 'resource',
+          type: 'resources',
         },
         assignmentTypes: {
-          type: 'assignmentType',
+          type: 'assignmentTypes',
         },
       },
     });

@@ -39,7 +39,8 @@ export default class DashboardWeek extends Route {
     console.log(last);
     const [resource] = await Promise.all([
       this.store.query('resource', {
-        fields: '*',
+        include: 'assignments',
+        // fields: '*',
         // filter: {
         //   $and: [
         //     { 'assignments.date': { $lte: last } },
@@ -53,10 +54,16 @@ export default class DashboardWeek extends Route {
         fields: '*',
       }),
     ]);
+    const [enterprise] = await Promise.all([
+      this.store.query('enterprise', {
+        fields: '*',
+      }),
+    ]);
     return {
       resource,
       week,
       assignmentType,
+      enterprise,
     };
   }
 }

@@ -1,18 +1,20 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
-import type {
-  AssignmentTitle,
-  Enterprise,
-} from 'ember-boilerplate/components/pages/dashboard/week/component';
+import type AssignmentTypeModel from './assignment-type';
+import type EnterpriseModel from './enterprise';
 import type ResourceModel from './resource';
 
 export default class AssignmentModel extends Model {
-  @attr() declare assignmentTitle: AssignmentTitle;
-  @attr() declare enterprise: Enterprise;
   @attr('date') declare date: Date;
-  @attr() declare boolMorning: boolean;
-  @attr() declare boolAfternoon: boolean;
+  @attr() declare isMorning: boolean;
+  @attr() declare isAfternoon: boolean;
+  @attr() declare isRemote: boolean;
+  @attr() declare comment?: Text;
   @belongsTo('resource')
-  declare resource: ResourceModel;
+  declare resources: ResourceModel;
+  @belongsTo('assignmentType')
+  declare assignmentTypes: AssignmentTypeModel;
+  @belongsTo('enterprise')
+  declare enterprises: EnterpriseModel;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.
