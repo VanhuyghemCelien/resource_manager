@@ -62,13 +62,14 @@
             style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectType}}
           >
+            <option value="" selected disabled>Sélectionnez un type d'occupation</option>
             {{#each @model.assignmentType as |assignmentType|}}
               <option value={{assignmentType.name}}>
                 {{assignmentType.name}}
               </option>
             {{/each}}
           </select>
-          {{!-- template-lint-disable no-log --}}
+          {{! template-lint-disable no-log }}
           {{log this.assignmentType.color}}
           <button
             type="button"
@@ -88,6 +89,10 @@
             style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectTitle}}
           >
+            <option value="" selected disabled>
+              Sélectionnez un titre
+              d'occupation
+            </option>
             {{#each @model.assignmentType as |assignmentType|}}
               <option value={{assignmentType.name}}>
                 {{assignmentType.name}}
@@ -112,6 +117,7 @@
             style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectEnterprise}}
           >
+            <option value="" selected disabled>Sélectionnez une entreprise</option>
             {{#each @model.enterprise as |enterprise|}}
               <option value={{enterprise.name}}>
                 {{enterprise.name}}
@@ -157,13 +163,7 @@
         <button
           type="button"
           class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
-          {{on
-            "click"
-            (fn
-              @addAssignment
-              this.assignment
-            )
-          }}
+          {{on "click" (fn @addAssignment this.assignment)}}
         >
           <p>Add Assignment</p>
         </button>
