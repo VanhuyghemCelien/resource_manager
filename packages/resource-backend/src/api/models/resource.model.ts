@@ -21,16 +21,16 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare emailAddress: string;
 
-    @Property()
+    @Property({ nullable: true })
     declare emailAddress2?: string;
 
     @Property()
     declare phoneNumber: string;
 
-    @Property()
+    @Property({ nullable: true })
     declare phoneNumber2?: string;
 
-    @Property()
+    @Property({ nullable: true })
     declare cost?: string;
 
     @Property()
@@ -39,9 +39,6 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare enterprise: string;
 
-    @Property()
-    declare roleUser: string;
-
   // @OneToOne({
   //   entity: () => ResourcePictureModel,
   //   mappedBy: 'user',
@@ -49,6 +46,6 @@ export class ResourceModel implements JsonApiModelInterface {
   // })
   //   resourcePicture?: ResourcePictureModel;
 
-  //   @ManytoOne('EnterpriseModel')
-  //     enterprises = new Collection<EnterpriseModel>(this);
+  // @ManyToOne('EnterpriseModel')
+  //   enterprises = new Collection<EnterpriseModel>(this);
 }

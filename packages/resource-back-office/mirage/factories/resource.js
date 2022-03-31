@@ -40,9 +40,6 @@ export default Factory.extend({
   phoneNumber2() {
     return '0457/89.01.23';
   },
-  roleUser() {
-    return 'user';
-  },
   enterprise(i) {
     if (i === 0) {
       return 'Triptyk';

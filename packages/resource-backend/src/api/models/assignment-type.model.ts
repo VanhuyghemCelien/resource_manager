@@ -15,6 +15,6 @@ export class AssignmentTypeModel implements JsonApiModelInterface {
         @Property()
         declare name: string;
 
-        @Property()
+        @Property({ nullable: true })
         declare color?: string;
 }

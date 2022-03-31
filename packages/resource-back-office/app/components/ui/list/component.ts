@@ -4,6 +4,7 @@ import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 
 interface UiListArgs {
+  enterprises: [EnterpriseModel];
   type: string;
   object: EnterpriseModel | ResourceModel | AssignmentTypeModel;
   displayDetails: (typeOfDisplay: string, enterprise: EnterpriseModel) => void;

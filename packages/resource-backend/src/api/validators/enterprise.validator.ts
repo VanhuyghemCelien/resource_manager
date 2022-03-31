@@ -15,16 +15,16 @@ export class ValidatedEnterprise extends SchemaBase {
       @String()
       declare emailAddress: string;
 
-      @String({ optional: true })
+      @String({ optional: true, empty: true })
       declare emailAddress2: string;
 
-      @String({ optional: true })
+      @String({ optional: true, empty: true })
       declare phoneNumber2: string;
 
-      @String({ optional: true })
+      @String({ optional: true, empty: true })
       declare enterpriseNumber: string;
 
-      @String({ optional: true })
+      @String({ optional: true, empty: true })
       declare vatNumber: string;
 
       @String()

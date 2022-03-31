@@ -9,7 +9,7 @@ export class ValidatedAssignmentType extends SchemaBase {
       @String()
   declare name: string;
 
-      @String({ optional: true })
+      @String({ optional: true, empty: true })
       declare color: string;
 }
 

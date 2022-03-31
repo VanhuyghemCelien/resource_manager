@@ -13,18 +13,18 @@ export class EnterpriseModel implements JsonApiModelInterface {
           id: string = v4();
 
         @Property()
-        declare name:string;
+        declare name: string;
 
         @Property()
         declare emailAddress: string;
 
-        @Property()
+        @Property({ nullable: true })
         declare emailAddress2?: string;
 
         @Property()
         declare phoneNumber: string;
 
-        @Property()
+        @Property({ nullable: true })
         declare phoneNumber2?: string;
 
         @Property()
@@ -33,9 +33,9 @@ export class EnterpriseModel implements JsonApiModelInterface {
         @Property()
         declare address: string;
 
-        @Property()
+        @Property({ nullable: true })
         declare enterpriseNumber?: string;
 
-        @Property()
+        @Property({ nullable: true })
         declare vatNumber?: string;
 }
