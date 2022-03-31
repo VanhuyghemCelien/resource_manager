@@ -1,12 +1,12 @@
 <button
   type="button"
   class="bg-opacity-100 hover:border-2 h-[52px] w-60 hover:border-navbarBg text-center text-white bg-navbarSelected
-    {{if @boolMorning 'rounded-t-xl' 'rounded-b-xl'}}"
+    {{if @boolMorning "rounded-t-xl" "rounded-b-xl"}}"
   {{! template-lint-disable no-inline-styles }}
   {{! template-lint-disable style-concatenation }}
   style="background-color:{{if
     (or this.assignment.isMorning this.assignment.isAfternoon)
-    (get this.assignment 'assignmentType.color')
+    (get this.assignment "assignmentType.color")
   }}"
   {{on
     "click"
