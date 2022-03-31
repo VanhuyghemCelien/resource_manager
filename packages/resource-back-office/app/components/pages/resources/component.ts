@@ -250,6 +250,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.toggleDisplayResourceModal('edit');
     } catch (e) {
       this.flashMessages.warning(e.message);
+      console.error(e);
     }
   }
 

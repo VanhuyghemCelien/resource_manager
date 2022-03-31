@@ -6,7 +6,7 @@ export default class Resources extends Route {
   @service declare store: Store;
 
   async model() {
-    const [enterprise, resource] = await Promise.all([
+    const [resource, enterprise] = await Promise.all([
       this.store.query('resource', {
         fields:
           'firstName,lastName,cost,image,phoneNumber,phoneNumber2,emailAddress,emailAddress2',
