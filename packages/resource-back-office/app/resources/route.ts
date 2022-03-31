@@ -13,7 +13,7 @@ export default class Resources extends Route {
         include: 'enterprise',
       }),
       this.store.query('enterprise', {
-        fields: 'name',
+        fields: 'name,city',
       }),
     ]);
     return { enterprise, resource };

@@ -6,13 +6,13 @@ export class ResourceFactory extends Factory<ResourceModel> {
 
   definition (): Partial<ResourceModel> {
     return {
-      firstName: 'string',
-      lastName: 'string',
-      emailAddress: 'string',
-      emailAddress2: 'string',
-      phoneNumber: 'string',
-      phoneNumber2: 'string',
-      cost: 'string',
+      firstName: 'Amaury',
+      lastName: 'Deflorenne',
+      emailAddress: 'amaury@tpk.be',
+      emailAddress2: 'amaury@tpk.be',
+      phoneNumber: '+32478986532',
+      phoneNumber2: '+32478985632',
+      cost: '15',
       image: 'string',
     };
   }

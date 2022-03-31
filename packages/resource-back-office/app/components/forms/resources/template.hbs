@@ -22,9 +22,9 @@
           <div
             class="absolute inset-0 flex justify-center items-center z-10 h-full w-full rounded-full hover:bg-primary hover:bg-opacity-20 transition-all duration-200
               {{if
-                (eq @popupType "edit")
-                "text-white/0 hover:text-white/100"
-                "text-secondary hover:text-primary"
+                (eq @popupType 'edit')
+                'text-white/0 hover:text-white/100'
+                'text-secondary hover:text-primary'
               }}"
           >
             {{if
@@ -49,9 +49,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }}  pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "firstName"}}
       @placeholder="Prénom"
@@ -68,9 +68,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "lastName"}}
       @placeholder={{if (eq @popupType "details") "" "Nom de famille"}}
@@ -87,9 +87,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress"}}
       @placeholder={{if (eq @popupType "details") "" "Adresse mail"}}
@@ -105,9 +105,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress2"}}
       @placeholder={{if (eq @popupType "details") "" "Adresse mail n°2"}}
@@ -122,9 +122,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber"}}
       @placeholder={{if (eq @popupType "details") "" "N° de téléphone"}}
@@ -140,9 +140,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber2"}}
       @placeholder={{if (eq @popupType "details") "" "N° de téléphone n°2"}}
@@ -161,7 +161,7 @@
         <option
           value=""
           disabled
-          selected={{if (eq @popupType "details") false true}}
+          selected={{if (eq @popupType "new") true false}}
         >
           Sélectionnez une entreprise
         </option>
@@ -171,7 +171,7 @@
             selected={{if
               (and
                 (or (eq @popupType "edit") (eq @popupType "details"))
-                (eq enterprise.id (changeset-get @changeset "enterprise"))
+                (eq enterprise.id (changeset-get @changeset "enterprise.id"))
               )
               true
               false
@@ -191,9 +191,9 @@
       @containerStyle=""
       @labelStyle="text-primary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        (eq @popupType 'details')
+        'border-secondary text-secondary'
+        'border-primary focus:border-navbarBg text-primary'
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "cost"}}
       @placeholder={{if (eq @popupType "details") "" "Coût (€/h)"}}

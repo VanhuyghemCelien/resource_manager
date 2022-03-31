@@ -6,11 +6,11 @@ export class EnterpriseFactory extends Factory<EnterpriseModel> {
 
   definition (): Partial<EnterpriseModel> {
     return {
-      name: 'max inc.',
-      emailAddress: 'a@gmail.com',
-      phoneNumber: '123',
-      city: 'nismes',
-      address: 'rue du goulag',
+      name: 'TRIPTYK',
+      emailAddress: 'tpk@tpk.be',
+      phoneNumber: '+32478965823',
+      city: 'Mons',
+      address: 'Chaussée de Binche, 177A',
     };
   }
 }
