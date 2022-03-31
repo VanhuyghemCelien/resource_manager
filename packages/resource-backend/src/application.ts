@@ -23,8 +23,6 @@ import { LoggerService } from './api/services/logger.service.js';
 import cors from '@koa/cors';
 import { CurrentUserMiddleware } from './api/middlewares/current-user.middleware.js';
 import createHttpError from 'http-errors';
-import { TestSeeder } from './database/seeder/test.seeder.js';
-import type { SqlEntityManager } from '@mikro-orm/mysql';
 import { createRateLimitMiddleware } from './api/middlewares/rate-limit.middleware.js';
 import helmet from 'koa-helmet';
 import koaBody from 'koa-body';
@@ -71,11 +69,11 @@ export async function runApplication () {
 
   // comment this section after first run
   if (env === 'test' || env === 'development') {
-    const generator = orm.getSchemaGenerator();
-    await generator.dropSchema();
-    await generator.createSchema();
-    await generator.updateSchema();
-    await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
+    // const generator = orm.getSchemaGenerator();
+    // await generator.dropSchema();
+    // await generator.createSchema();
+    // await generator.updateSchema();
+    // await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
   }
 
   const koaApp = await createApplication({

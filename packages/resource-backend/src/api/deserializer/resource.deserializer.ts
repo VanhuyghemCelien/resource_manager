@@ -8,7 +8,7 @@ export class ResourceDeserializer {
 
   constructor () {
     this.deserializer = new JSONAPIDeSerializer({ unconvertCase: 'camelCase' });
-    this.deserializer.register('resource', {
+    this.deserializer.register('resources', {
       relationships: {
         enterprises: {
           type: 'enterprises',
@@ -23,6 +23,6 @@ export class ResourceDeserializer {
   }
 
   public deserialize (data: any) : any {
-    return this.deserializer.deserialize('resource', data);
+    return this.deserializer.deserialize('resources', data);
   }
 }

@@ -179,9 +179,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   async addResource() {
     console.log(this.resource);
     console.log(this.resource.enterprises);
-    const resource = await this.store.createRecord('resource', this.resource);
-    this.reinitResource();
     try {
+      console.log('ici');
+      const resource = await this.store.createRecord('resource', this.resource);
+      console.log('après');
+      this.reinitResource();
       resource.save();
       this.toggleDisplayResourceModal('new');
     } catch (e) {

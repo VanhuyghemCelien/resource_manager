@@ -1,5 +1,6 @@
 import { inject, injectable, singleton } from '@triptyk/nfw-core';
 import { BaseJsonApiSerializer } from '../../json-api/serializer/base.serializer.js';
+import type { AssignmentTypeModel } from '../models/assignment-type.model.js';
 import type { AssignmentModel } from '../models/assignment.model.js';
 import type { EnterpriseModel } from '../models/enterprise.model.js';
 import type { ResourceModel } from '../models/resource.model.js';
@@ -29,6 +30,14 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
     });
     this.serializer.register('assignments', {
       whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
+      relationships: {
+        assignmentTypes: {
+          type: 'assignmentTypes',
+        },
+      },
+    });
+    this.serializer.register('assignmentTypes', {
+      whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
     });
   }
 
