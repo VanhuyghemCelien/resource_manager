@@ -48,7 +48,7 @@ export class ResourceController {
   @UseMiddleware(deserialize(ResourceDeserializer))
   async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
     // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
-    return this.resourceRepository.jsonApiCreate(body);
+    return await this.resourceRepository.jsonApiCreate(body);
   }
 
   @PATCH('/:id')

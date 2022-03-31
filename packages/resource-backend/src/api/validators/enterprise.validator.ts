@@ -3,6 +3,8 @@ import {
   SchemaBase,
   String,
 } from 'fastest-validator-decorators';
+import type { AssignmentModel } from '../models/assignment.model.js';
+import type { ResourceModel } from '../models/resource.model.js';
 
   @Schema(true)
 export class ValidatedEnterprise extends SchemaBase {
@@ -10,10 +12,10 @@ export class ValidatedEnterprise extends SchemaBase {
   declare name: string;
 
       @String()
-      declare phoneNumber: string;
+      public declare phoneNumber: string;
 
       @String()
-      declare emailAddress: string;
+      public declare emailAddress: string;
 
       @String({ optional: true, empty: true })
       declare emailAddress2: string;
@@ -28,41 +30,49 @@ export class ValidatedEnterprise extends SchemaBase {
       declare vatNumber: string;
 
       @String()
-      declare city: string;
+      public declare city: string;
 
       @String()
-      declare address: string;
+      public declare address: string;
+
+      public declare assignment: AssignmentModel[];
+
+      public declare resource: ResourceModel[];
 }
 
   @Schema(true)
 export class ValidatedEnterpriseUpdate extends SchemaBase {
       @String({ optional: true })
-  declare id: string;
+  public declare id: string;
 
       @String({ optional: true })
-      declare name: string;
+      public declare name: string;
 
       @String({ optional: true })
-      declare phoneNumber: string;
+      public declare phoneNumber: string;
 
       @String({ optional: true })
-      declare emailAddress: string;
+      public declare emailAddress: string;
 
       @String({ optional: true })
-      declare emailAddress2: string;
+      public declare emailAddress2: string;
 
       @String({ optional: true })
-      declare phoneNumber2: string;
+      public declare phoneNumber2: string;
 
       @String({ optional: true })
-      declare enterpriseNumber: string;
+      public declare enterpriseNumber: string;
 
       @String({ optional: true })
-      declare vatNumber: string;
+      public declare vatNumber: string;
 
       @String({ optional: true })
-      declare city: string;
+      public declare city: string;
 
       @String({ optional: true })
-      declare address: string;
+      public declare address: string;
+
+      public declare assignment: AssignmentModel[];
+
+      public declare resource: ResourceModel[];
 }

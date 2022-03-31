@@ -93,7 +93,7 @@ implements JsonApiSerializerInterface<T> {
 
         return links;
       },
-      convertCase: 'kebab-case',
+      convertCase: 'camelCase',
     });
   }
 

@@ -1,7 +1,9 @@
 import type { JsonApiModelInterface } from './../../json-api/interfaces/model.interface.js';
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { ResourceRepository } from '../repositories/resource.repository.js';
+import { AssignmentModel } from './assignment.model.js';
+import type { EnterpriseModel } from './enterprise.model.js';
 
 @Entity({
   tableName: 'resources',
@@ -36,16 +38,9 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare image: string;
 
-    @Property()
-    declare enterprise: string;
+    @OneToMany({ entity: () => AssignmentModel, mappedBy: 'resources', nullable: true })
+      assignments = new Collection<AssignmentModel>(this);
 
-  // @OneToOne({
-  //   entity: () => ResourcePictureModel,
-  //   mappedBy: 'user',
-  //   nullable: false,
-  // })
-  //   resourcePicture?: ResourcePictureModel;
-
-  // @ManyToOne('EnterpriseModel')
-  //   enterprises = new Collection<EnterpriseModel>(this);
+      @ManyToOne('EnterpriseModel', { wrappedReference: true })
+    declare enterprise: EnterpriseModel;
 }

@@ -7,6 +7,8 @@ import type { DocumentModel } from '../../api/models/document.model.js';
 import { UserModel } from '../../api/models/user.model.js';
 import type { UserRepository } from '../../api/repositories/user.repository.js';
 import { DocumentFactory } from '../factories/document.factory.js';
+import { EnterpriseFactory } from '../factories/enterprise.factory.js';
+import { ResourceFactory } from '../factories/resource.factory.js';
 import { UserFactory } from '../factories/user.factory.js';
 
 export class TestSeeder extends Seeder {
@@ -33,6 +35,11 @@ export class TestSeeder extends Seeder {
       role: Roles.USER,
       documents: [document] as unknown as Collection<DocumentModel>,
     });
+    const entreprise = await new EnterpriseFactory(em).createOne();
+    await new ResourceFactory(em).createOne({
+      enterprises: entreprise,
+    });
+
     const path = document.path.split('/');
     path.pop();
     await mkdir(path.join('/'), { recursive: true });

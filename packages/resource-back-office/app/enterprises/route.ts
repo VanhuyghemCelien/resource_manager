@@ -7,8 +7,8 @@ export default class Enterprises extends Route {
 
   model() {
     return this.store.query('enterprise', {
-      fields:
-        'name,city,address,phoneNumber,phoneNumber2,emailAddress,emailAddress2,enterpriseNumber,vatNumber',
+      fields: '*',
+      include: 'resources',
     });
   }
 }

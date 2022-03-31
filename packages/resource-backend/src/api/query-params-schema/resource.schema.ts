@@ -13,25 +13,25 @@ import type {
 export class ResourceQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedIncludes (
     _context: ControllerParamsContext,
-  ): string[] | Promise<string[]> {
-    return [];
+  ): CheckTypes[] | Promise<CheckTypes[]> {
+    return ['enterprises', 'assignments'];
   }
 
   allowedFields (
     _context: ControllerParamsContext,
-  ): string[] | Promise<string[]> {
-    return ['id', 'firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image', 'enterprise'];
+  ): CheckTypes[] | Promise<CheckTypes[]> {
+    return ['id', /resource\.(.+)/, /enterprise\.(.+)/, /assignments\.(.+)/, /.*/];
   }
 
   allowedSortFields (
     _context: ControllerParamsContext,
-  ): string[] | Promise<string[]> {
+  ): CheckTypes[] | Promise<CheckTypes[]> {
     return [];
   }
 
   allowedFilters (
     _context: ControllerParamsContext,
   ): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id.$eq'];
+    return ['id.$eq', '$and.0.assignments.date.$lte', '$and.1.assignments.date.$gte'];
   }
 }

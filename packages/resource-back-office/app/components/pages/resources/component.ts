@@ -31,7 +31,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     image: '',
     firstName: '',
     lastName: '',
-    enterprise: '',
     emailAddress: '',
     emailAddress2: '',
     phoneNumber: '',
@@ -47,7 +46,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         image: '',
         firstName: '',
         lastName: '',
-        enterprise: '',
+        enterprise: undefined,
         emailAddress: '',
         emailAddress2: '',
         phoneNumber: '',
@@ -166,7 +165,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         image: changeset.get('image'),
         firstName: changeset.get('firstName'),
         lastName: changeset.get('lastName'),
-        enterprise: changeset.get('enterprise'),
+        //Get the enterprise record to save in the DB
+        enterprise: await this.store.queryRecord('enterprise', {
+          id: changeset.get('enterprise'),
+          fields: '*',
+        }),
         emailAddress: changeset.get('emailAddress'),
         emailAddress2: changeset.get('emailAddress2') ?? undefined,
         phoneNumber: changeset.get('phoneNumber'),
@@ -229,7 +232,13 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       resource.image = changeset.get('image');
       resource.firstName = changeset.get('firstName');
       resource.lastName = changeset.get('lastName');
-      resource.enterprise = changeset.get('enterprise');
+      //If enterprise is changed => need to get the enterprise from the DB
+      if (changeset.get('enterprise') !== resource.enterprise.id) {
+        resource.enterprise = await this.store.queryRecord('enterprise', {
+          id: changeset.get('enterprise'),
+          fields: '*',
+        });
+      }
       resource.emailAddress = changeset.get('emailAddress');
       resource.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
       resource.phoneNumber = changeset.get('phoneNumber');

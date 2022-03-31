@@ -3,34 +3,13 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
-
-export interface Assignment {
-  assignmentType: AssignmentType;
-  assignmentTitle: AssignmentTitle;
-  enterprise: Enterprise;
-  date: Date;
-  boolMorning: boolean;
-  boolAfternoon: boolean;
-  resource?: ResourceModel;
-}
-
-export interface AssignmentType {
-  assignmentTypeName: string;
-  multipleColors: boolean;
-  assignmentTypeColor?: string;
-}
-
-export interface AssignmentTitle {
-  assignmentTitleName: string;
-  assignmentTitleColor?: string;
-}
-
-export interface Enterprise {
-  name: string;
-}
+import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type AssignmentModel from 'ember-boilerplate/models/assignment';
 
 interface PagesDashboardWeekArgs {
   model: { week: number };
@@ -50,95 +29,83 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked color: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
-  @tracked assignmentType: AssignmentType = {
-    assignmentTypeName: '',
-    multipleColors: false,
-    assignmentTypeColor: '#adab32',
+  @tracked assignmentType: Partial<AssignmentTypeModel> = {
+    name: '',
+    color: '#adab32',
   };
-  @tracked assignmentTitle: AssignmentTitle = {
-    assignmentTitleName: '',
-    assignmentTitleColor: '',
+  @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
+    name: '',
+    color: '',
+    parents: undefined,
   };
-  @tracked enterprise: Enterprise = {
+  @tracked enterprise: Partial<EnterpriseModel> = {
     name: '',
   };
-  @tracked assignment: Assignment = {
-    assignmentType: {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
-    },
-    assignmentTitle: {
-      assignmentTitleName: '',
-      assignmentTitleColor: '',
-    },
-    enterprise: {
-      name: '',
-    },
+  @tracked assignment: Partial<AssignmentModel> = {
     date: new Date(),
-    boolMorning: false,
-    boolAfternoon: false,
-    resource: undefined,
+    isMorning: false,
+    isAfternoon: false,
+    isRemote: false,
+    comment: undefined,
+    resources: undefined,
+    assignmentTypes: undefined,
+    enterprises: undefined,
   };
+
+  reinitEnterprise() {
+    this.enterprise = {
+      id: '',
+      name: '',
+      city: '',
+      address: '',
+      emailAddress: '',
+      phoneNumber: '',
+      emailAddress2: '',
+      phoneNumber2: '',
+      enterpriseNumber: '',
+      vatNumber: '',
+    };
+  }
 
   // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
-  addAssignment(
-    date: Date,
-    resource: ResourceModel,
-    assignmentNew: Assignment
-  ) {
+  addAssignment(assignmentNew: Partial<AssignmentModel>) {
+    console.log(assignmentNew, 'addassignment');
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: assignmentNew.assignmentType.assignmentTypeName,
-        multipleColors: false,
-        assignmentTypeColor: assignmentNew.assignmentType.assignmentTypeColor,
-      },
-      assignmentTitle: {
-        assignmentTitleName: assignmentNew.assignmentTitle.assignmentTitleName,
-        assignmentTitleColor:
-          assignmentNew.assignmentTitle.assignmentTitleColor,
-      },
-      enterprise: {
-        name: assignmentNew.enterprise.name,
-      },
-      date: date,
-      boolMorning: assignmentNew.boolMorning,
-      boolAfternoon: assignmentNew.boolAfternoon,
-      resource: resource,
+      date: assignmentNew.date,
+      isMorning: assignmentNew.isMorning,
+      isAfternoon: assignmentNew.isAfternoon,
+      isRemote: assignmentNew.isRemote,
+      comment: assignmentNew.comment,
+      resources: assignmentNew.resources,
+      assignmentTypes: assignmentNew.assignmentTypes,
+      enterprises: assignmentNew.enterprises,
     };
+    console.log(this.assignment);
     const assignment = this.store.createRecord('assignment', this.assignment);
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: '',
-        multipleColors: false,
-        assignmentTypeColor: '',
-      },
-      assignmentTitle: {
-        assignmentTitleName: '',
-        assignmentTitleColor: '',
-      },
-      enterprise: {
-        name: '',
-      },
       date: new Date(),
-      boolMorning: false,
-      boolAfternoon: false,
-      resource: undefined,
+      isMorning: false,
+      isAfternoon: false,
+      isRemote: false,
+      comment: undefined,
+      resources: undefined,
+      assignmentTypes: undefined,
+      enterprises: undefined,
     };
     // rajouter async await + gestion erreurs
     assignment.save();
-    this.toggleDisplayNewAssignmentModal(this.today, resource, false, false);
+    this.toggleDisplayNewAssignmentModal();
   }
 
   @action
   editAssignmentTypeField(field: string, event: { target: { value: string } }) {
     switch (field) {
       case 'assignmentTypeName':
-        this.assignmentType.assignmentTypeName = event.target.value;
+        this.assignmentType.name = event.target.value;
         break;
       case 'assignmentTypeColor':
-        this.assignmentType.assignmentTypeColor = event.target.value;
+        this.assignmentType.color = event.target.value;
         break;
     }
   }
@@ -150,17 +117,47 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   ) {
     switch (field) {
       case 'name':
-        this.assignmentTitle.assignmentTitleName = event.target.value;
+        this.assignmentTitle.name = event.target.value;
         break;
       case 'color':
-        this.assignmentTitle.assignmentTitleColor = event.target.value;
+        this.assignmentTitle.color = event.target.value;
         break;
     }
   }
 
   @action
-  editEnterpriseField(event: { target: { value: string } }) {
-    this.enterprise.name = event.target.value;
+  editEnterpriseField(field: string, event: { target: { value: string } }) {
+    switch (field) {
+      case 'name':
+        this.enterprise.name = event.target.value;
+        break;
+      case 'city':
+        this.enterprise.city = event.target.value;
+        break;
+      case 'emailAddress':
+        this.enterprise.emailAddress = event.target.value;
+        break;
+      case 'phoneNumber':
+        this.enterprise.phoneNumber = event.target.value;
+        break;
+      case 'phoneNumber2':
+        this.enterprise.phoneNumber2 = event.target.value;
+        break;
+      case 'emailAddress2':
+        this.enterprise.emailAddress2 = event.target.value;
+        break;
+      case 'enterpriseNumber':
+        this.enterprise.enterpriseNumber = event.target.value;
+        break;
+      case 'vatNumber':
+        this.enterprise.vatNumber = event.target.value;
+        break;
+      case 'address':
+        this.enterprise.address = event.target.value;
+        break;
+      default:
+        break;
+    }
   }
 
   @action
@@ -171,9 +168,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     );
     // changeset
     this.assignmentType = {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
+      name: '',
+      color: '',
     };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();
@@ -182,25 +178,33 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @action
   addAssignmentTitle() {
     const assignmentTitle = this.store.createRecord(
-      'assignment-title',
+      'assignmentType',
       this.assignmentTitle
     );
     this.assignmentTitle = {
-      assignmentTitleName: '',
-      assignmentTitleColor: '',
+      name: '',
+      color: '',
+      parents: undefined,
     };
     assignmentTitle.save();
     this.toggleDisplayNewTitleModal();
   }
 
+  @inject declare flashMessage: FlashMessageService;
   @action
-  addEnterprise() {
-    const enterprise = this.store.createRecord('enterprise', this.enterprise);
-    this.enterprise = {
-      name: '',
-    };
-    enterprise.save();
-    this.toggleDisplayNewEnterpriseModal();
+  async addEnterprise(e: Event) {
+    e.preventDefault();
+    const enterprise = await this.store.createRecord(
+      'enterprise',
+      this.enterprise
+    );
+    this.reinitEnterprise();
+    try {
+      enterprise.save();
+      this.toggleDisplayNewEnterpriseModal();
+    } catch (e) {
+      this.flashMessage.danger('erreur');
+    }
   }
 
   @action
@@ -212,23 +216,23 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   toggleDisplayNewAssignmentModal(
     choosingdate?: Date,
     resource?: ResourceModel,
-    boolMorning?: boolean,
-    boolAfternoon?: boolean
+    isMorning?: boolean,
+    isAfternoon?: boolean
   ) {
     if (this.displayNewAssignmentModal) {
       this.displayNewAssignmentModal = false;
       this.assignment = {
         ...this.assignment,
-        boolMorning: false,
-        boolAfternoon: false,
+        isMorning: false,
+        isAfternoon: false,
       };
     } else {
-      this.displayNewAssignmentModal = true;
       this.choosingDay = new Date(choosingdate!);
-      this.assignment.resource = resource;
+      this.assignment.resources = resource;
       this.resourceName = resource!.firstName + ' ' + resource!.lastName;
-      this.assignment.boolMorning = boolMorning!;
-      this.assignment.boolAfternoon = boolAfternoon!;
+      this.assignment.isMorning = isMorning!;
+      this.assignment.isAfternoon = isAfternoon!;
+      this.displayNewAssignmentModal = true;
     }
   }
 

@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import { AssignmentController } from './api/controllers/assignment.controller.js';
+import { AssignmentModel } from './api/models/assignment.model.js';
 import { AssignmentTypeController } from './api/controllers/assignment-type.controller.js';
 import { ResourceModel } from './api/models/resource.model.js';
 import { LoadStrategy, MikroORM } from '@mikro-orm/core';
@@ -21,8 +23,6 @@ import { LoggerService } from './api/services/logger.service.js';
 import cors from '@koa/cors';
 import { CurrentUserMiddleware } from './api/middlewares/current-user.middleware.js';
 import createHttpError from 'http-errors';
-import { TestSeeder } from './database/seeder/test.seeder.js';
-import type { SqlEntityManager } from '@mikro-orm/mysql';
 import { createRateLimitMiddleware } from './api/middlewares/rate-limit.middleware.js';
 import helmet from 'koa-helmet';
 import koaBody from 'koa-body';
@@ -47,7 +47,7 @@ export async function runApplication () {
   const logger = container.resolve(LoggerService);
 
   const orm = await MikroORM.init({
-    entities: [UserModel, RefreshTokenModel, DocumentModel, ResourceModel, AssignmentTypeModel, EnterpriseModel],
+    entities: [UserModel, RefreshTokenModel, DocumentModel, EnterpriseModel, ResourceModel, AssignmentTypeModel, AssignmentModel],
     dbName: database.database,
     host: database.host,
     port: database.port,
@@ -69,16 +69,16 @@ export async function runApplication () {
 
   // comment this section after first run
   if (env === 'test' || env === 'development') {
-    const generator = orm.getSchemaGenerator();
-    await generator.dropSchema();
-    await generator.createSchema();
-    await generator.updateSchema();
-    await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
+    // const generator = orm.getSchemaGenerator();
+    // await generator.dropSchema();
+    // await generator.createSchema();
+    // await generator.updateSchema();
+    // await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
   }
 
   const koaApp = await createApplication({
     server: new Koa(),
-    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController],
+    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController, AssignmentController],
     globalGuards: [],
     globalMiddlewares: [
       helmet(),
