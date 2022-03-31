@@ -17,13 +17,13 @@ export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel>
     this.serializer.register('assignment', {
       whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
       relationships: {
-        enterprises: {
+        enterprise: {
           type: 'enterprise',
         },
-        resources: {
+        resource: {
           type: 'resource',
         },
-        assignmentTypes: {
+        assignmentType: {
           type: 'assignmentType',
         },
       },

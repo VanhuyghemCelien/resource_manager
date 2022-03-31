@@ -19,7 +19,7 @@ export class EnterpriseSerializer extends BaseJsonApiSerializer<EnterpriseModel>
         resource: {
           type: 'resource',
         },
-        assignments: {
+        assignment: {
           type: 'assignment',
         },
       },

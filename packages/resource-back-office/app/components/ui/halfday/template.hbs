@@ -6,9 +6,9 @@
   {{! template-lint-disable no-inline-styles }}
   {{! template-lint-disable style-concatenation }}
 
-  style="background-color:{{if
-    this.assignment.isMorning
-    (get this.assignment "assignmentTypes.color")
+  style="background-color:{{if (or
+    this.assignment.isMorning this.assignment.isAfternoon)
+    (get this.assignment "assignmentType.color")
   }}"
   {{on
     "click"
@@ -21,10 +21,10 @@
     )
   }}
 >
-  {{#if this.assignment.isMorning}}
+  {{#if (or this.assignment.isMorning this.assignment.isAfternoon)}}
     <p>
-      {{this.assignment.assignmentTypes.name}}<br
-      />{{this.assignment.enterprises.name}}
+      {{this.assignment.assignmentType.name}}<br
+      />{{get this.assignment "enterprise.name"}}
     </p>
   {{/if}}
 </button>

@@ -10,6 +10,13 @@ import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import type AssignmentModel from 'ember-boilerplate/models/assignment';
+import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/enterprise/component';
+import { Changeset } from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
+import EnterpriseValidation from '../../../../validator/forms/enterprise';
+import { loading } from 'ember-loading';
+import type RouterService from '@ember/routing/router-service';
 
 interface PagesDashboardWeekArgs {
   model: { week: number };
@@ -17,6 +24,8 @@ interface PagesDashboardWeekArgs {
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
+  @service declare router: RouterService;
+  @inject declare flashMessages: FlashMessageService;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -33,6 +42,25 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     name: '',
     color: '#adab32',
   };
+  @tracked changeset: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  constructor(owner: unknown, args: PagesDashboardWeekArgs) {
+    super(owner, args);
+    this.changeset = Changeset(
+      {
+        name: '',
+        city: '',
+        address: '',
+        emailAddress: '',
+        phoneNumber: '',
+        emailAddress2: '',
+        phoneNumber2: '',
+        enterpriseNumber: '',
+        vatNumber: '',
+      },
+      lookupValidator(EnterpriseValidation),
+      EnterpriseValidation
+    ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
+  }
   @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
     name: '',
     color: '',
@@ -190,20 +218,31 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.toggleDisplayNewTitleModal();
   }
 
-  @inject declare flashMessage: FlashMessageService;
   @action
-  async addEnterprise(e: Event) {
-    e.preventDefault();
-    const enterprise = await this.store.createRecord(
-      'enterprise',
-      this.enterprise
-    );
-    this.reinitEnterprise();
+  @loading
+  async addEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
     try {
-      enterprise.save();
+      const enterpriseToSave: Partial<EnterpriseModel> = {
+        name: changeset.get('name'),
+        city: changeset.get('city'),
+        emailAddress: changeset.get('emailAddress'),
+        phoneNumber: changeset.get('phoneNumber'),
+        phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
+        emailAddress2: changeset.get('emailAddress2') ?? undefined,
+        enterpriseNumber: changeset.get('enterpriseNumber') ?? undefined,
+        vatNumber: changeset.get('vatNumber') ?? undefined,
+        address: changeset.get('address'),
+      };
+      const enterpriseCreated = await this.store.createRecord(
+        'enterprise',
+        enterpriseToSave
+      );
+      await enterpriseCreated.save();
+      this.changeset.rollback();
       this.toggleDisplayNewEnterpriseModal();
+      this.router.refresh();
     } catch (e) {
-      this.flashMessage.danger('erreur');
+      this.flashMessages.warning(e.message);
     }
   }
 
