@@ -1,6 +1,6 @@
-import type Store from '@ember-data/store';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import type { BaseFormArgs } from 'ember-form-changeset-validations/components/form';
@@ -25,7 +25,7 @@ export enum ImageMimeTypes {
 }
 
 interface FormsResourcesArgs extends BaseFormArgs<FormsResourcesDTO> {
-  store: Store;
+  popupType: string;
 }
 
 export default class FormsResources extends BaseForm<
@@ -76,20 +76,52 @@ export default class FormsResources extends BaseForm<
 
   @action
   async verifyFormData(event: Event) {
-    event.preventDefault();
-    this.args.changeset.set('firstName', this.formData.get('firstName'));
-    this.args.changeset.set('lastName', this.formData.get('lastName'));
-    this.args.changeset.set('emailAddress', this.formData.get('emailAddress'));
-    this.args.changeset.set(
-      'emailAddress2',
-      this.formData.get('emailAddress2')
-    );
-    this.args.changeset.set('phoneNumber', this.formData.get('phoneNumber'));
-    this.args.changeset.set('phoneNumber2', this.formData.get('phoneNumber2'));
-    this.args.changeset.set('enterprise', this.formData.get('enterprise'));
-    this.args.changeset.set('cost', this.formData.get('cost'));
-    this.args.changeset.set('image', this.formData.get('image'));
-
-    this.args.saveFunction(this.args.changeset);
+    try {
+      event.preventDefault();
+      this.args.changeset.set('firstName', this.formData.get('firstName'));
+      this.args.changeset.set('lastName', this.formData.get('lastName'));
+      this.args.changeset.set(
+        'emailAddress',
+        this.formData.get('emailAddress')
+      );
+      this.args.changeset.set(
+        'emailAddress2',
+        this.formData.get('emailAddress2')
+      );
+      this.args.changeset.set('phoneNumber', this.formData.get('phoneNumber'));
+      this.args.changeset.set(
+        'phoneNumber2',
+        this.formData.get('phoneNumber2')
+      );
+      if (isEmpty(this.formData.get('enterprise'))) {
+        this.args.changeset.set(
+          'enterprise',
+          this.args.changeset.get('enterprise')
+        );
+      } else {
+        this.args.changeset.set('enterprise', this.formData.get('enterprise'));
+      }
+      this.args.changeset.set('cost', this.formData.get('cost'));
+      if (this.args.popupType === 'edit') {
+        //If the popup is edit, and no new image has been selected, we set the old image in the changeset
+        if (isEmpty(this.formData.get('image'))) {
+          this.args.changeset.set('image', this.args.changeset.get('image'));
+        } else {
+          //If the popup is edit, and a new image has been selected, we set the new image in the changeset
+          this.args.changeset.set('image', this.formData.get('image'));
+        }
+      } else {
+        //If the popup is to create a new enterprise, and no image has been selected, we throw an error
+        if (isEmpty(this.formData.get('image'))) {
+          throw new Error('Veuillez sélectionner une image.');
+        } else {
+          //If the popup is to create a new enterprise, and an image has been selected, we set the new in the changeset
+          this.args.changeset.set('image', this.formData.get('image'));
+        }
+      }
+      this.args.saveFunction(this.args.changeset);
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
   }
 }

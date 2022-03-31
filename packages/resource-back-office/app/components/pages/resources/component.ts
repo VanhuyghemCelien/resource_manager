@@ -140,13 +140,14 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @loading
   async addResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
+      //Verify if changeset is valid
       if (changeset.isInvalid) {
         throw new Error('Remplissez tous les champs nécessaires');
       }
-
+      //Create a new form data that will create the image
       let formData = new FormData();
       formData.append('file', changeset.get('image'));
-
+      //Creating the record of the image in the DB
       const response = await fetch('http://localhost:8000/api/v1/documents', {
         headers: {
           accept: 'application/vnd.api+json',
@@ -155,14 +156,12 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         body: formData,
       });
       if (response.status === 201) {
+        //If the image is created, we add the id of the image in the changeset
         const responseJson = await response.json();
         changeset.set('image', responseJson.data.id);
-        console.log('Image created : ' + responseJson.data.id);
       } else {
         throw new Error("Une erreur est survenue lors de l'envoi de l'image.");
       }
-      console.log('here');
-
       const resourceToSave: Partial<ResourceModel> = {
         image: changeset.get('image'),
         firstName: changeset.get('firstName'),
@@ -174,6 +173,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
         cost: changeset.get('cost'),
       };
+      //Create the resource in the DB
       const resourceCreated = await this.store.createRecord(
         'resource',
         resourceToSave
@@ -191,9 +191,41 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
   @loading
   async editResource(changeset: TypedBufferedChangeset<FormsResourcesDTO>) {
     try {
+      //Verify if changeset is valid
+      if (changeset.isInvalid) {
+        throw new Error('Remplissez tous les champs nécessaires');
+      }
+      //Get the resource to edit
       const resource = await this.store.queryRecord('resource', {
-        id: this.changeset.get('id'),
+        id: changeset.get('id'),
       });
+      //If the image in the changeset is different from the one in the DB
+      if (resource.image !== changeset.get('image')) {
+        let formData = new FormData();
+        formData.append('file', changeset.get('image'));
+        //Creating a record of the new image in the DB
+        const response = await fetch('http://localhost:8000/api/v1/documents', {
+          headers: {
+            accept: 'application/vnd.api+json',
+          },
+          method: 'POST',
+          body: formData,
+        });
+        if (response.status === 201) {
+          const responseJson = await response.json();
+          //Deleting the old image associated with the resource that we edit
+          const imageToDelete = await this.store.queryRecord('document', {
+            id: resource.image,
+          });
+          await imageToDelete.destroyRecord();
+          //Adding the new image id to the changeset
+          changeset.set('image', responseJson.data.id);
+        } else {
+          throw new Error(
+            "Une erreur est survenue lors de l'envoi de l'image."
+          );
+        }
+      }
       resource.image = changeset.get('image');
       resource.firstName = changeset.get('firstName');
       resource.lastName = changeset.get('lastName');
@@ -214,11 +246,16 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
 
   @action
   async deleteResource() {
+    //Deleting the resource and the image associated with it
     try {
       const resourceToDelete = await this.store.queryRecord('resource', {
         id: this.changeset.get('id'),
       });
-      resourceToDelete.destroyRecord();
+      const imageToDelete = await this.store.queryRecord('document', {
+        id: resourceToDelete.image,
+      });
+      await resourceToDelete.destroyRecord();
+      await imageToDelete.destroyRecord();
       this.changeset.rollback();
       this.toggleDisplayDeleteResourceModal();
     } catch (e) {

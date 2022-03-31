@@ -37,7 +37,6 @@
             type="file"
             id="resourcePic"
             class="hidden"
-            required
             {{on "change" this.changeImage}}
           />
         </label>
@@ -157,7 +156,7 @@
         class="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary text-primary pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
         {{on "change" this.changeEnterprise}}
         disabled={{if (eq @popupType "details") true false}}
-        required
+        required={{if (eq @popupType "new") true false}}
       >
         <option
           value=""
