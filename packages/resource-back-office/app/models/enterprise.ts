@@ -13,9 +13,9 @@ export default class EnterpriseModel extends Model {
   @attr() declare enterpriseNumber?: string;
   @attr() declare vatNumber?: string;
   @hasMany('resource', { async: false })
-  declare resources: ResourceModel[];
+  declare resource: ResourceModel[];
   @hasMany('assignment', { async: false })
-  declare assignments: AssignmentModel[];
+  declare assignment: AssignmentModel[];
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

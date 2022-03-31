@@ -14,27 +14,27 @@ export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel>
   ) {
     super(configurationService);
 
-    this.serializer.register('assignments', {
+    this.serializer.register('assignment', {
       whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
       relationships: {
         enterprises: {
           type: 'enterprise',
         },
         resources: {
-          type: 'resources',
+          type: 'resource',
         },
         assignmentTypes: {
-          type: 'assignmentTypes',
+          type: 'assignmentType',
         },
       },
     });
     this.serializer.register('enterprise', {
       whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
     });
-    this.serializer.register('resources', {
+    this.serializer.register('resource', {
       whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'enterprise', 'image', 'roleUser'] as (keyof ResourceModel)[],
     });
-    this.serializer.register('assignmentTypes', {
+    this.serializer.register('assignmentType', {
       whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
     });
   }
@@ -43,6 +43,6 @@ export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel>
     data: AssignmentModel[] | AssignmentModel,
     extraData?: Record<string, unknown>,
   ) {
-    return this.serializer.serializeAsync('assignments', data, extraData ?? ({} as any));
+    return this.serializer.serializeAsync('assignment', data, extraData ?? ({} as any));
   }
 }

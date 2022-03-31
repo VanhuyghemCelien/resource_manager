@@ -11,15 +11,15 @@ export class EnterpriseDeserializer {
     this.deserializer.register('enterprise', {
       relationships: {
         resources: {
-          type: 'resources',
+          type: 'resource',
         },
         assignments: {
-          type: 'assignments',
+          type: 'assignment',
         },
       },
     });
-    this.deserializer.register('resources');
-    this.deserializer.register('assignments');
+    this.deserializer.register('resource');
+    this.deserializer.register('assignment');
   }
 
   public deserialize (data: any) : any {

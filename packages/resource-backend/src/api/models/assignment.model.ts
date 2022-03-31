@@ -32,11 +32,11 @@ export class AssignmentModel implements JsonApiModelInterface {
       declare comment?: String;
 
       @ManyToOne(() => EnterpriseModel, { wrappedReference: true })
-      declare enterprises: EnterpriseModel;
+      declare enterprise: EnterpriseModel;
 
       @ManyToOne(() => ResourceModel, { wrappedReference: true })
-      declare resources: ResourceModel;
+      declare resource: ResourceModel;
 
       @ManyToOne(() => AssignmentTypeModel, { wrappedReference: true })
-      declare assignmentTypes: AssignmentTypeModel;
+      declare assignmentType: AssignmentTypeModel;
 }

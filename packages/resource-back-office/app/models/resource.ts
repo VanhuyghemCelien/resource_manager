@@ -12,7 +12,7 @@ export default class ResourceModel extends Model {
   @attr() declare phoneNumber2?: string;
   @attr() declare cost?: string;
   @hasMany('assignment', { async: false })
-  declare assignments: AssignmentModel[];
+  declare assignment: AssignmentModel[];
   @belongsTo('enterprise')
   declare enterprise: EnterpriseModel;
 }

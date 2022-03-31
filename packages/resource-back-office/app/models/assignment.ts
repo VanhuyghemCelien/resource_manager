@@ -10,11 +10,11 @@ export default class AssignmentModel extends Model {
   @attr() declare isRemote: boolean;
   @attr() declare comment?: Text;
   @belongsTo('resource')
-  declare resources: ResourceModel;
+  declare resource: ResourceModel;
   @belongsTo('assignmentType')
-  declare assignmentTypes: AssignmentTypeModel;
+  declare assignmentType: AssignmentTypeModel;
   @belongsTo('enterprise')
-  declare enterprises: EnterpriseModel;
+  declare enterprise: EnterpriseModel;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

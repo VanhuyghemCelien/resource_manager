@@ -39,7 +39,7 @@ export default class DashboardWeek extends Route {
     console.log(last);
     const [resource] = await Promise.all([
       this.store.query('resource', {
-        include: 'assignments,assignments.assignmentTypes',
+        include: 'assignment,assignment.assignmentType',
         fields: '*',
         // filter: {
         //   $and: [

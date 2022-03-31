@@ -37,7 +37,7 @@ export class TestSeeder extends Seeder {
     });
     const entreprise = await new EnterpriseFactory(em).createOne();
     await new ResourceFactory(em).createOne({
-      enterprises: entreprise,
+      enterprise: entreprise,
     });
 
     const path = document.path.split('/');

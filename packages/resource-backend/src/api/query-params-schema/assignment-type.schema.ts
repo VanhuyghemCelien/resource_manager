@@ -14,13 +14,13 @@ export class AssignmentTypeQueryParamsSchema implements QueryParamsSchemaInterfa
   allowedIncludes (
     _context: ControllerParamsContext,
   ): string[] | Promise<string[]> {
-    return ['childs', 'parents', 'assignments'];
+    return ['childs', 'parents', 'assignment'];
   }
 
   allowedFields (
     _context: ControllerParamsContext,
   ): CheckTypes[] | Promise<string[]> {
-    return ['id', /assignmentTypes\.(.+)/, /parents\.(.+)/, /childs\.(.+)/, /assignments\.(.+)/, /.*/];
+    return ['id', /assignmentType\.(.+)/, /parents\.(.+)/, /childs\.(.+)/, /assignment\.(.+)/, /.*/];
   }
 
   allowedSortFields (

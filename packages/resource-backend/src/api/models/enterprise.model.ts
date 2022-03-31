@@ -41,9 +41,9 @@ export class EnterpriseModel implements JsonApiModelInterface {
         @Property({ nullable: true })
         declare vatNumber?: string;
 
-        @OneToMany({ entity: () => AssignmentModel, mappedBy: 'enterprises' })
-          assignments = new Collection<AssignmentModel>(this);
+        @OneToMany({ entity: () => AssignmentModel, mappedBy: 'enterprise' })
+          assignment = new Collection<AssignmentModel>(this);
 
         @OneToMany({ entity: () => ResourceModel, mappedBy: 'enterprise' })
-          resources = new Collection<ResourceModel>(this);
+          resource = new Collection<ResourceModel>(this);
 }

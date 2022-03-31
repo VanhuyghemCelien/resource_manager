@@ -47,9 +47,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     isAfternoon: false,
     isRemote: false,
     comment: undefined,
-    resources: undefined,
-    assignmentTypes: undefined,
-    enterprises: undefined,
+    resource: undefined,
+    assignmentType: undefined,
+    enterprise: undefined,
   };
 
   reinitEnterprise() {
@@ -77,9 +77,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       isAfternoon: assignmentNew.isAfternoon,
       isRemote: assignmentNew.isRemote,
       comment: assignmentNew.comment,
-      resources: assignmentNew.resources,
-      assignmentTypes: assignmentNew.assignmentTypes,
-      enterprises: assignmentNew.enterprises,
+      resource: assignmentNew.resource,
+      assignmentType: assignmentNew.assignmentType,
+      enterprise: assignmentNew.enterprise,
     };
     console.log(this.assignment);
     const assignment = this.store.createRecord('assignment', this.assignment);
@@ -89,9 +89,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       isAfternoon: false,
       isRemote: false,
       comment: undefined,
-      resources: undefined,
-      assignmentTypes: undefined,
-      enterprises: undefined,
+      resource: undefined,
+      assignmentType: undefined,
+      enterprise: undefined,
     };
     // rajouter async await + gestion erreurs
     assignment.save();
@@ -228,7 +228,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       };
     } else {
       this.choosingDay = new Date(choosingdate!);
-      this.assignment.resources = resource;
+      this.assignment.resource = resource;
       this.resourceName = resource!.firstName + ' ' + resource!.lastName;
       this.assignment.isMorning = isMorning!;
       this.assignment.isAfternoon = isAfternoon!;

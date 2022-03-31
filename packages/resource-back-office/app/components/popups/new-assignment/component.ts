@@ -37,7 +37,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @tracked assignment: Partial<AssignmentModel> = {
     ...this.args.assignment,
     date: this.args.choosingDay,
-    resources: this.args.assignment.resources,
+    resource: this.args.assignment.resource,
   };
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
     name: '',
@@ -68,7 +68,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     });
     this.assignment = {
       ...this.assignment,
-      assignmentTypes: selected.firstObject,
+      assignmentType: selected.firstObject,
     };
     this.assignmentType = {
       ...this.assignmentType,
@@ -101,7 +101,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     });
     this.assignment = {
       ...this.assignment,
-      enterprises: selected.firstObject,
+      enterprise: selected.firstObject,
     };
     this.enterprise = {
       name: selected.firstObject?.name,

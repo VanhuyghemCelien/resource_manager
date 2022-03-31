@@ -6,11 +6,11 @@ import type { CheckTypes, QueryParamsSchemaInterface } from '../../json-api/inte
 @singleton()
 export class AssignmentQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedIncludes (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['enterprises', 'resources', 'assignmentTypes'];
+    return ['enterprise', 'resource', 'assignmentType'];
   }
 
   allowedFields (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id', /assignments\.(.+)/, /enterprises\.(.+)/, /resources\.(.+)/, /assignmentTypes\.(.+)/];
+    return ['id', /assignment\.(.+)/, /enterprise\.(.+)/, /resource\.(.+)/, /assignmentType\.(.+)/];
   }
 
   allowedSortFields (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {

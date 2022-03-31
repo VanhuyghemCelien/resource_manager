@@ -8,7 +8,7 @@ export class AssignmentDeserializer {
 
   constructor () {
     this.deserializer = new JSONAPISerializer();
-    this.deserializer.register('assignments', {
+    this.deserializer.register('assignment', {
       relationships: {
         enterprises: {
           type: 'enterprise',
@@ -27,6 +27,6 @@ export class AssignmentDeserializer {
   }
 
   public deserialize (data: any) : any {
-    return this.deserializer.deserialize('assignments', data);
+    return this.deserializer.deserialize('assignment', data);
   }
 }

@@ -8,21 +8,21 @@ export class ResourceDeserializer {
 
   constructor () {
     this.deserializer = new JSONAPIDeSerializer({ unconvertCase: 'camelCase' });
-    this.deserializer.register('resources', {
+    this.deserializer.register('resource', {
       relationships: {
         enterprises: {
-          type: 'enterprises',
+          type: 'enterprise',
         },
         assignments: {
-          type: 'assignments',
+          type: 'assignment',
         },
       },
     });
-    this.deserializer.register('enterprises');
-    this.deserializer.register('assignments');
+    this.deserializer.register('enterprise');
+    this.deserializer.register('assignment');
   }
 
   public deserialize (data: any) : any {
-    return this.deserializer.deserialize('resources', data);
+    return this.deserializer.deserialize('resource', data);
   }
 }

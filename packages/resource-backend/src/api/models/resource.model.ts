@@ -38,8 +38,8 @@ export class ResourceModel implements JsonApiModelInterface {
     @Property()
     declare image: string;
 
-    @OneToMany({ entity: () => AssignmentModel, mappedBy: 'resources', nullable: true })
-      assignments = new Collection<AssignmentModel>(this);
+    @OneToMany({ entity: () => AssignmentModel, mappedBy: 'resource', nullable: true })
+      assignment = new Collection<AssignmentModel>(this);
 
       @ManyToOne('EnterpriseModel', { wrappedReference: true })
     declare enterprise: EnterpriseModel;

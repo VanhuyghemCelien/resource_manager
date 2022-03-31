@@ -13,21 +13,21 @@ export class EnterpriseSerializer extends BaseJsonApiSerializer<EnterpriseModel>
   ) {
     super(configurationService);
 
-    this.serializer.register('enterprises', {
+    this.serializer.register('enterprise', {
       whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
       relationships: {
-        resources: {
-          type: 'resources',
+        resource: {
+          type: 'resource',
         },
         assignments: {
-          type: 'assignments',
+          type: 'assignment',
         },
       },
     });
-    this.serializer.register('assignments', {
+    this.serializer.register('assignment', {
       whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
     });
-    this.serializer.register('resources', {
+    this.serializer.register('resource', {
       whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'enterprise', 'image', 'roleUser'] as (keyof ResourceModel)[],
     });
   }
@@ -36,6 +36,6 @@ export class EnterpriseSerializer extends BaseJsonApiSerializer<EnterpriseModel>
     data: EnterpriseModel[] | EnterpriseModel,
     extraData?: Record<string, unknown>,
   ) {
-    return this.serializer.serializeAsync('enterprises', data, extraData ?? ({} as any));
+    return this.serializer.serializeAsync('enterprise', data, extraData ?? ({} as any));
   }
 }

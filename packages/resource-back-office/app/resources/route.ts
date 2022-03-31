@@ -5,11 +5,17 @@ import { service } from '@ember/service';
 export default class Resources extends Route {
   @service declare store: Store;
 
-  model() {
-    return this.store.query('resource', {
-      fields:
-        'firstName,lastName,cost,image,enterprise,phoneNumber,phoneNumber2,emailAddress,emailAddress2',
-      include: 'enterprises',
-    });
+  async model() {
+    const [enterprise, resource] = await Promise.all([
+      this.store.query('resource', {
+        fields:
+          'firstName,lastName,cost,image,phoneNumber,phoneNumber2,emailAddress,emailAddress2',
+        include: 'enterprise',
+      }),
+      this.store.query('enterprise', {
+        fields: 'name',
+      }),
+    ]);
+    return { enterprise, resource };
   }
 }

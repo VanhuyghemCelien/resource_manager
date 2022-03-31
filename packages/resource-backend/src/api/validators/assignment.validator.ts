@@ -21,13 +21,13 @@ export class ValidatedAssignment extends SchemaBase {
   public declare comment: string;
 
   @String()
-  public declare enterprises: EnterpriseModel;
+  public declare enterprise: EnterpriseModel;
 
   @String()
-  public declare resources: ResourceModel;
+  public declare resource: ResourceModel;
 
   @String()
-  public declare assignmentTypes: AssignmentTypeModel;
+  public declare assignmentType: AssignmentTypeModel;
 }
 
 @Schema(true)
@@ -48,11 +48,11 @@ export class ValidatedAssignmentUpdate extends SchemaBase {
     public declare comment: string;
 
     @String({ optional: true })
-    public declare enterprises: EnterpriseModel;
+    public declare enterprise: EnterpriseModel;
 
     @String({ optional: true })
-    public declare resources: ResourceModel;
+    public declare resource: ResourceModel;
 
     @String({ optional: true })
-    public declare types: AssignmentTypeModel;
+    public declare assignmentType: AssignmentTypeModel;
 }

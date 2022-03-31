@@ -22,7 +22,7 @@ export class ValidatedAssignmentType extends SchemaBase {
       public declare childs: AssignmentTypeModel[];
 
       @Array({ empty: true, optional: true, items: 'string' })
-      public declare assignments: AssignmentModel[];
+      public declare assignment: AssignmentModel[];
 }
 
   @Schema(true)
@@ -43,5 +43,5 @@ export class ValidatedAssignmentTypeUpdate extends SchemaBase {
       public declare childs: AssignmentTypeModel[];
 
       @Array({ empty: true, optional: true, items: 'string' })
-      public declare assignments: AssignmentModel[];
+      public declare assignment: AssignmentModel[];
 }

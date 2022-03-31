@@ -8,7 +8,7 @@ export default class Enterprises extends Route {
   model() {
     return this.store.query('enterprise', {
       fields: '*',
-      include: 'resources',
+      include: 'resource',
     });
   }
 }

@@ -31,6 +31,8 @@ import { ResourceController } from './api/controllers/resource.controller.js';
 import { EnterpriseModel } from './api/models/enterprise.model.js';
 import { EnterpriseController } from './api/controllers/enterprise.controller.js';
 import { AssignmentTypeModel } from './api/models/assignment-type.model.js';
+import type { SqlEntityManager } from '@mikro-orm/mysql';
+import { TestSeeder } from './database/seeder/test.seeder.js';
 
 export async function runApplication () {
   /**
@@ -69,11 +71,11 @@ export async function runApplication () {
 
   // comment this section after first run
   if (env === 'test' || env === 'development') {
-    // const generator = orm.getSchemaGenerator();
-    // await generator.dropSchema();
-    // await generator.createSchema();
-    // await generator.updateSchema();
-    // await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
+    const generator = orm.getSchemaGenerator();
+    await generator.dropSchema();
+    await generator.createSchema();
+    await generator.updateSchema();
+    await new TestSeeder().run(orm.em.fork() as SqlEntityManager);
   }
 
   const koaApp = await createApplication({

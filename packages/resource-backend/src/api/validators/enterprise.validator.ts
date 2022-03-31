@@ -2,6 +2,7 @@ import {
   Schema,
   SchemaBase,
   String,
+  Array,
 } from 'fastest-validator-decorators';
 import type { AssignmentModel } from '../models/assignment.model.js';
 import type { ResourceModel } from '../models/resource.model.js';
@@ -35,8 +36,10 @@ export class ValidatedEnterprise extends SchemaBase {
       @String()
       public declare address: string;
 
+      @Array({ empty: true, optional: true, items: 'string' })
       public declare assignment: AssignmentModel[];
 
+      @Array({ empty: true, optional: true, items: 'string' })
       public declare resource: ResourceModel[];
 }
 
@@ -72,7 +75,9 @@ export class ValidatedEnterpriseUpdate extends SchemaBase {
       @String({ optional: true })
       public declare address: string;
 
+      @Array({ empty: true, optional: true, items: 'string' })
       public declare assignment: AssignmentModel[];
 
+      @Array({ empty: true, optional: true, items: 'string' })
       public declare resource: ResourceModel[];
 }
