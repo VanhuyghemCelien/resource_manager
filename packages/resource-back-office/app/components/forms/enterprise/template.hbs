@@ -1,192 +1,196 @@
 <form {{on "submit" this.submit}} ...attributes>
-  <div class="flex flex-col items-stretch mt-4">
-    <Ui::Input
-      @label="Nom"
-      @name="name"
-      @value={{changeset-get @changeset "name"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "name"}}
-      @placeholder={{if (eq @popupType "details") "" "Nom de l'entreprise"}}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{true}}
-      required
-      autocapitalize="on"
-      type="text"
-      data-test-input="name"
-    />
-    <Ui::Input
-      @label="N° d'entreprise"
-      @name="enterpriseNumber"
-      @value={{changeset-get @changeset "enterpriseNumber"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "enterpriseNumber"}}
-      @placeholder={{if (eq @popupType "details") "" "0123456789"}}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{false}}
-      type="text"
-      data-test-input="enterpriseNumber"
-    />
-    <Ui::Input
-      @label="N° de TVA"
-      @name="vatNumber"
-      @value={{changeset-get @changeset "vatNumber"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "vatNumber"}}
-      @placeholder={{if (eq @popupType "details") "" "BE0123456789"}}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{false}}
-      type="text"
-      data-test-input="vatNumber"
-    />
-    <Ui::Input
-      @label="Ville"
-      @name="city"
-      @value={{changeset-get @changeset "city"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "city"}}
-      @placeholder={{if (eq @popupType "details") "" "Mons"}}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{true}}
-      required
-      autocapitalize="on"
-      type="text"
-      data-test-input="city"
-    />
-    <Ui::Input
-      @label="Adresse"
-      @name="address"
-      @value={{changeset-get @changeset "address"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "address"}}
-      @placeholder={{if (eq @popupType "details") "" "Rue, numéro"}}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{true}}
-      required
-      autocapitalize="on"
-      type="text"
-      data-test-input="address"
-    />
-    <Ui::Input
-      @label="Adresse mail"
-      @name="emailAddress"
-      @value={{changeset-get @changeset "emailAddress"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "emailAddress"}}
-      @placeholder={{if
-        (eq @popupType "details")
-        ""
-        "Adresse mail de l'entreprise"
-      }}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{true}}
-      required
-      type="text"
-      data-test-input="emailAddress"
-    />
-    <Ui::Input
-      @label="Adresse mail n°2"
-      @name="emailAddress2"
-      @value={{changeset-get @changeset "emailAddress2"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "emailAddress2"}}
-      @placeholder={{if
-        (eq @popupType "details")
-        ""
-        "2e adresse mail de l'entreprise"
-      }}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{false}}
-      type="text"
-      data-test-input="emailAddress2"
-    />
-    <Ui::Input
-      @label="N° de téléphone"
-      @name="phoneNumber"
-      @value={{changeset-get @changeset "phoneNumber"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "phoneNumber"}}
-      @placeholder={{if
-        (eq @popupType "details")
-        ""
-        "N° de téléphone de l'enterprise"
-      }}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{true}}
-      required
-      type="text"
-      data-test-input="phoneNumber"
-    />
-    <Ui::Input
-      @label="N° de téléphone n°2"
-      @name="phoneNumber2"
-      @value={{changeset-get @changeset "phoneNumber2"}}
-      @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
-      @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
-        (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
-      }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-      @updateValue={{fn this.changeInput "phoneNumber2"}}
-      @placeholder={{if
-        (eq @popupType "details")
-        ""
-        "2e n° de téléphone de l'entreprise"
-      }}
-      @disabled={{if (eq @popupType "details") true false}}
-      @mandatory={{false}}
-      type="text"
-      data-test-input="phoneNumber2"
-    />
+  <div class="flex flex-row items-stretch mt-4">
+    <div class="flex flex-col mr-5 w-1/2">
+      <Ui::Input
+        @label="Nom"
+        @name="name"
+        @value={{changeset-get @changeset "name"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "name"}}
+        @placeholder={{if (eq @popupType "details") "" "Nom de l'entreprise"}}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{true}}
+        required
+        autocapitalize="on"
+        type="text"
+        data-test-input="name"
+      />
+      <Ui::Input
+        @label="N° d'entreprise"
+        @name="enterpriseNumber"
+        @value={{changeset-get @changeset "enterpriseNumber"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "enterpriseNumber"}}
+        @placeholder={{if (eq @popupType "details") "" "0123456789"}}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{false}}
+        type="text"
+        data-test-input="enterpriseNumber"
+      />
+      <Ui::Input
+        @label="N° de TVA"
+        @name="vatNumber"
+        @value={{changeset-get @changeset "vatNumber"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "vatNumber"}}
+        @placeholder={{if (eq @popupType "details") "" "BE0123456789"}}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{false}}
+        type="text"
+        data-test-input="vatNumber"
+      />
+      <Ui::Input
+        @label="Ville"
+        @name="city"
+        @value={{changeset-get @changeset "city"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "city"}}
+        @placeholder={{if (eq @popupType "details") "" "Mons"}}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{true}}
+        required
+        autocapitalize="on"
+        type="text"
+        data-test-input="city"
+      />
+    </div>
+    <div class="flex flex-col w-1/2">
+      <Ui::Input
+        @label="Adresse mail"
+        @name="emailAddress"
+        @value={{changeset-get @changeset "emailAddress"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "emailAddress"}}
+        @placeholder={{if
+          (eq @popupType "details")
+          ""
+          "Adresse mail de l'entreprise"
+        }}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{true}}
+        required
+        type="text"
+        data-test-input="emailAddress"
+      />
+      <Ui::Input
+        @label="Adresse mail n°2"
+        @name="emailAddress2"
+        @value={{changeset-get @changeset "emailAddress2"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "emailAddress2"}}
+        @placeholder={{if
+          (eq @popupType "details")
+          ""
+          "2e adresse mail de l'entreprise"
+        }}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{false}}
+        type="text"
+        data-test-input="emailAddress2"
+      />
+      <Ui::Input
+        @label="N° de téléphone"
+        @name="phoneNumber"
+        @value={{changeset-get @changeset "phoneNumber"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "phoneNumber"}}
+        @placeholder={{if
+          (eq @popupType "details")
+          ""
+          "N° de téléphone de l'enterprise"
+        }}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{true}}
+        required
+        type="text"
+        data-test-input="phoneNumber"
+      />
+      <Ui::Input
+        @label="N° de téléphone n°2"
+        @name="phoneNumber2"
+        @value={{changeset-get @changeset "phoneNumber2"}}
+        @containerStyle=""
+        @labelStyle="text-primary font-base mt-1 block"
+        @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+          (eq @popupType "details")
+          "border-secondary text-secondary"
+          "border-primary focus:border-navbarBg text-primary"
+        }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        @updateValue={{fn this.changeInput "phoneNumber2"}}
+        @placeholder={{if
+          (eq @popupType "details")
+          ""
+          "2e n° de téléphone de l'entreprise"
+        }}
+        @disabled={{if (eq @popupType "details") true false}}
+        @mandatory={{false}}
+        type="text"
+        data-test-input="phoneNumber2"
+      />
+    </div>
   </div>
+  <Ui::Input
+    @label="Adresse"
+    @name="address"
+    @value={{changeset-get @changeset "address"}}
+    @containerStyle=""
+    @labelStyle="text-primary font-base mt-1 block"
+    @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
+      (eq @popupType "details")
+      "border-secondary text-secondary"
+      "border-primary focus:border-navbarBg text-primary"
+    }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+    @updateValue={{fn this.changeInput "address"}}
+    @placeholder={{if (eq @popupType "details") "" "Rue, numéro"}}
+    @disabled={{if (eq @popupType "details") true false}}
+    @mandatory={{true}}
+    required
+    autocapitalize="on"
+    type="text"
+    data-test-input="address"
+  />
   {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
     <button
       type="submit"
