@@ -2,9 +2,9 @@
   <div class="flex flex-row items-stretch mt-4">
     <div class="flex flex-col mr-5 w-1/2">
       <Ui::Input
-        @label="Nom"
+        id="name"
         @name="name"
-        @value={{changeset-get @changeset "name"}}
+        @label="Nom"
         @containerStyle=""
         @labelStyle="text-primary font-base mt-1 block"
         @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
@@ -12,16 +12,22 @@
           "border-secondary text-secondary"
           "border-primary focus:border-navbarBg text-primary"
         }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
-        @updateValue={{fn this.changeInput "name"}}
         @placeholder={{if (eq @popupType "details") "" "Nom de l'entreprise"}}
-        @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
+        @changeset={{@changeset}}
+        @validationField="name"
+        @updateValue={{fn this.changeInput "name"}}
+        @hasError={{get @changeset.error "name"}}
+        @value={{changeset-get @changeset "name"}}
+        @disabled={{if (eq @popupType "details") true false}}
         required
         autocapitalize="on"
         type="text"
         data-test-input="name"
+        {{on "change" (fn this.setValidation "name")}}
       />
       <Ui::Input
+        id="enterpriseNumber"
         @label="N° d'entreprise"
         @name="enterpriseNumber"
         @value={{changeset-get @changeset "enterpriseNumber"}}
@@ -38,8 +44,10 @@
         @mandatory={{false}}
         type="text"
         data-test-input="enterpriseNumber"
+        {{on "change" (fn this.setValidation "enterpriseNumber")}}
       />
       <Ui::Input
+        id="vatNumber"
         @label="N° de TVA"
         @name="vatNumber"
         @value={{changeset-get @changeset "vatNumber"}}
@@ -56,8 +64,10 @@
         @mandatory={{false}}
         type="text"
         data-test-input="vatNumber"
+        {{on "change" (fn this.setValidation "vatNumber")}}
       />
       <Ui::Input
+        id="city"
         @label="Ville"
         @name="city"
         @value={{changeset-get @changeset "city"}}
@@ -76,10 +86,12 @@
         autocapitalize="on"
         type="text"
         data-test-input="city"
+        {{on "change" (fn this.setValidation "city")}}
       />
     </div>
     <div class="flex flex-col w-1/2">
       <Ui::Input
+        id="emailAddress"
         @label="Adresse mail"
         @name="emailAddress"
         @value={{changeset-get @changeset "emailAddress"}}
@@ -98,11 +110,14 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
+        @hasError={{fn this.setValidation "emailAddress"}}
         required
         type="text"
         data-test-input="emailAddress"
+        {{on "change" (fn this.setValidation "emailAddress")}}
       />
       <Ui::Input
+        id="emailAddress2"
         @label="Adresse mail n°2"
         @name="emailAddress2"
         @value={{changeset-get @changeset "emailAddress2"}}
@@ -123,8 +138,10 @@
         @mandatory={{false}}
         type="text"
         data-test-input="emailAddress2"
+        {{on "change" (fn this.setValidation "emailAddress2")}}
       />
       <Ui::Input
+        id="phoneNumber"
         @label="N° de téléphone"
         @name="phoneNumber"
         @value={{changeset-get @changeset "phoneNumber"}}
@@ -146,8 +163,10 @@
         required
         type="text"
         data-test-input="phoneNumber"
+        {{on "change" (fn this.setValidation "phoneNumber")}}
       />
       <Ui::Input
+        id="phoneNumber2"
         @label="N° de téléphone n°2"
         @name="phoneNumber2"
         @value={{changeset-get @changeset "phoneNumber2"}}
@@ -168,10 +187,12 @@
         @mandatory={{false}}
         type="text"
         data-test-input="phoneNumber2"
+        {{on "change" (fn this.setValidation "phoneNumber2")}}
       />
     </div>
   </div>
   <Ui::Input
+    id="address"
     @label="Adresse"
     @name="address"
     @value={{changeset-get @changeset "address"}}
@@ -190,15 +211,23 @@
     autocapitalize="on"
     type="text"
     data-test-input="address"
+    {{on "change" (fn this.setValidation "address")}}
   />
   {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
-    <button
-      type="submit"
-      class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-      disabled={{@changeset.isInvalid}}
-      data-test-submit
-    >
-      {{@popupName}}
-    </button>
+    <div>
+      <div
+        id="errorEnterpriseForm"
+        class="text-warn text-sm w-max mx-auto mt-2"
+      >
+      </div>
+      <button
+        type="submit"
+        class="block mt-3 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+        {{on "click" this.validate}}
+        data-test-submit
+      >
+        {{@popupName}}
+      </button>
+    </div>
   {{/if}}
 </form>
