@@ -31,7 +31,6 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
     image: '',
     firstName: '',
     lastName: '',
-    enterprise: '',
     emailAddress: '',
     emailAddress2: '',
     phoneNumber: '',
@@ -47,7 +46,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         image: '',
         firstName: '',
         lastName: '',
-        enterprise: '',
+        enterprise: undefined,
         emailAddress: '',
         emailAddress2: '',
         phoneNumber: '',
@@ -166,7 +165,11 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         image: changeset.get('image'),
         firstName: changeset.get('firstName'),
         lastName: changeset.get('lastName'),
-        enterprise: changeset.get('enterprise'),
+        //Get the enterprise record to save in the DB
+        enterprise: await this.store.queryRecord('enterprise', {
+          id: changeset.get('enterprise'),
+          fields: '*',
+        }),
         emailAddress: changeset.get('emailAddress'),
         emailAddress2: changeset.get('emailAddress2') ?? undefined,
         phoneNumber: changeset.get('phoneNumber'),
@@ -196,11 +199,16 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
         throw new Error('Remplissez tous les champs nécessaires');
       }
       //Get the resource to edit
+      console.log('ici');
       const resource = await this.store.queryRecord('resource', {
         id: changeset.get('id'),
       });
+      console.log('là');
+
       //If the image in the changeset is different from the one in the DB
       if (resource.image !== changeset.get('image')) {
+        console.log('icici');
+
         let formData = new FormData();
         formData.append('file', changeset.get('image'));
         //Creating a record of the new image in the DB
@@ -211,13 +219,18 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
           method: 'POST',
           body: formData,
         });
+        console.log('lala');
+
         if (response.status === 201) {
           const responseJson = await response.json();
           //Deleting the old image associated with the resource that we edit
           const imageToDelete = await this.store.queryRecord('document', {
             id: resource.image,
           });
+          console.log('encore la');
+
           await imageToDelete.destroyRecord();
+          console.log('plus là');
           //Adding the new image id to the changeset
           changeset.set('image', responseJson.data.id);
         } else {
@@ -226,10 +239,21 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
           );
         }
       }
+      console.log('normalement ok');
+
       resource.image = changeset.get('image');
       resource.firstName = changeset.get('firstName');
       resource.lastName = changeset.get('lastName');
-      resource.enterprise = changeset.get('enterprise');
+      //If enterprise is changed => need to get the enterprise from the DB
+      if (changeset.get('enterprise') !== resource.enterprise.get('id')) {
+        console.log('le problème est là ?');
+
+        resource.enterprise = await this.store.queryRecord('enterprise', {
+          id: changeset.get('enterprise'),
+          fields: '*',
+        });
+        console.log('ah bah non');
+      }
       resource.emailAddress = changeset.get('emailAddress');
       resource.emailAddress2 = changeset.get('emailAddress2') ?? undefined;
       resource.phoneNumber = changeset.get('phoneNumber');
@@ -241,6 +265,7 @@ export default class PagesResources extends Component<PagesResourcesArgs> {
       this.toggleDisplayResourceModal('edit');
     } catch (e) {
       this.flashMessages.warning(e.message);
+      console.error(e);
     }
   }
 

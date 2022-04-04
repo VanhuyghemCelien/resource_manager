@@ -161,7 +161,7 @@
         <option
           value=""
           disabled
-          selected={{if (eq @popupType "details") false true}}
+          selected={{if (eq @popupType "new") true false}}
         >
           Sélectionnez une entreprise
         </option>
@@ -171,7 +171,7 @@
             selected={{if
               (and
                 (or (eq @popupType "edit") (eq @popupType "details"))
-                (eq enterprise.id (changeset-get @changeset "enterprise"))
+                (eq enterprise.id (changeset-get @changeset "enterprise.id"))
               )
               true
               false

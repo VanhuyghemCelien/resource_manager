@@ -1,59 +1,56 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-
-export interface AssignmentTypeModel {
-  assignmentTypeId: number;
-  assignmentTypeName: string;
-  multipleColors: boolean;
-  assignmentTypeColor?: string;
-}
+import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
+import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import { Changeset } from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import { loading } from 'ember-loading';
+import AssignmentTypeValidation from '../../../validator/forms/assignment-type';
 
 interface PagesAssignmentTypesArgs {}
 
 export default class PagesAssignmentTypes extends Component<PagesAssignmentTypesArgs> {
   @service declare store: Store;
+  @service declare flashMessages: FlashMessageService;
+  @service declare router: RouterService;
 
   @tracked displayNewAssignmentTypeModal: Boolean = false;
   @tracked displayEditAssignmentTypeModal: Boolean = false;
   @tracked displayDeleteAssignmentTypeModal: Boolean = false;
+  @tracked multipleColors: boolean = false;
   @tracked modalName: string = '';
-  @tracked assignmentType: AssignmentTypeModel = {
-    assignmentTypeId: 3,
-    assignmentTypeName: '',
-    multipleColors: false,
-    assignmentTypeColor: '',
-  };
+  @tracked changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  constructor(owner: unknown, args: PagesAssignmentTypesArgs) {
+    super(owner, args);
+    this.changeset = Changeset(
+      {
+        name: '',
+        color: '',
+      },
+      lookupValidator(AssignmentTypeValidation),
+      AssignmentTypeValidation
+    ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  }
 
   @action
   toggleMultipleColors() {
-    if (this.assignmentType.multipleColors) {
-      this.assignmentType.multipleColors = false;
+    if (this.multipleColors) {
+      this.multipleColors = false;
     } else {
-      this.assignmentType.multipleColors = true;
+      this.multipleColors = true;
     }
   }
 
-  reinitAssignmentType() {
-    this.assignmentType = {
-      assignmentTypeId: 3,
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
-    };
-  }
-
   @action
-  displayDeleteAssignmentType(assignmentType: AssignmentTypeModel) {
+  displayDeleteAssignmentType(id: string) {
     this.toggleDisplayDeleteAssignmentTypeModal();
-    this.assignmentType = {
-      assignmentTypeId: assignmentType.assignmentTypeId,
-      assignmentTypeName: assignmentType.assignmentTypeName,
-      multipleColors: assignmentType.multipleColors,
-      assignmentTypeColor: assignmentType.assignmentTypeColor,
-    };
+    this.changeset.set('id', id);
   }
 
   @action
@@ -67,7 +64,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
 
   @action
   async toggleDisplayDeleteAssignmentTypeModal() {
-    this.reinitAssignmentType();
+    this.changeset.rollback();
     if (this.displayDeleteAssignmentTypeModal) {
       this.displayDeleteAssignmentTypeModal = false;
     } else {
@@ -76,10 +73,9 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   }
 
   toggleDisplayNewAssignmentTypeModal() {
-    this.reinitAssignmentType();
     if (this.displayNewAssignmentTypeModal) {
       this.displayNewAssignmentTypeModal = false;
-      this.reinitAssignmentType();
+      this.changeset.rollback();
     } else {
       this.displayNewAssignmentTypeModal = true;
     }
@@ -88,77 +84,82 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   toggleDisplayEditAssignmentTypeModal() {
     if (this.displayEditAssignmentTypeModal) {
       this.displayEditAssignmentTypeModal = false;
-      this.reinitAssignmentType();
+      this.changeset.rollback();
     } else {
       this.displayEditAssignmentTypeModal = true;
     }
   }
 
   @action
-  displayAssignmentTypeDetails(assignmentTypeReceived: AssignmentTypeModel) {
-    const assignmentTypeToEdit: AssignmentTypeModel = {
-      assignmentTypeId: assignmentTypeReceived.assignmentTypeId,
-      assignmentTypeName: assignmentTypeReceived.assignmentTypeName,
-      multipleColors: assignmentTypeReceived.multipleColors,
-      assignmentTypeColor: assignmentTypeReceived.assignmentTypeColor,
-    };
-    this.assignmentType = assignmentTypeToEdit;
+  async displayAssignmentTypeDetails(assignmentTypeIdReceived: string) {
+    const assignmentTypeReceived = await this.store.queryRecord(
+      'assignment-type',
+      {
+        id: assignmentTypeIdReceived,
+      }
+    );
+    this.changeset.set('id', assignmentTypeReceived.id);
+    this.changeset.set('color', assignmentTypeReceived.color);
+    this.changeset.set('name', assignmentTypeReceived.name);
     this.toggleDisplayEditAssignmentTypeModal();
   }
 
   @action
-  editAssignmentTypeField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'assignmentTypeName':
-        this.assignmentType.assignmentTypeName = event.target.value;
-        break;
-      case 'multipleColors':
-        this.assignmentType.multipleColors = Boolean(event.target.value);
-        break;
-      case 'assignmentTypeColor':
-        this.assignmentType.assignmentTypeColor = event.target.value;
-        break;
-      default:
-        break;
+  @loading
+  async addAssignmentType(
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentTypeToSave: Partial<AssignmentTypeModel> = {
+        name: changeset.get('name'),
+        color: changeset.get('color'),
+      };
+      const assignmentTypeCreated = await this.store.createRecord(
+        'assignment-type',
+        assignmentTypeToSave
+      );
+      await assignmentTypeCreated.save();
+      this.changeset.rollback();
+      this.toggleDisplayAssignmentTypeModal('new');
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger(e.message);
     }
   }
 
   @action
-  addAssignmentType() {
-    const assignmentType = this.store.createRecord(
-      'assignment-type',
-      this.assignmentType
-    );
-    this.reinitAssignmentType();
-    assignmentType.save();
-    this.toggleDisplayAssignmentTypeModal('new');
+  async editAssignmentType(
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentType = await this.store.queryRecord('assignment-type', {
+        id: changeset.get('id'),
+      });
+
+      assignmentType.name = changeset.get('name');
+      assignmentType.color = changeset.get('color');
+      await assignmentType.save();
+      this.changeset.rollback();
+      this.toggleDisplayAssignmentTypeModal('edit');
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
   }
 
   @action
-  async editAssignmentType() {
-    const editedAssignmentType = this.assignmentType;
-    const assignmentType = await this.store.findRecord(
-      'assignment-type',
-      editedAssignmentType.assignmentTypeId
-    );
-
-    assignmentType.assignmentTypeName = editedAssignmentType.assignmentTypeName;
-    assignmentType.multipleColors = editedAssignmentType.multipleColors;
-    assignmentType.assignmentTypeColor =
-      editedAssignmentType.assignmentTypeColor;
-    assignmentType.save();
-    this.toggleDisplayAssignmentTypeModal('edit');
-  }
-
-  @action
-  async deleteAssignmentType(assignmentType: AssignmentTypeModel) {
-    const assignmentTypeToDelete = await this.store.peekRecord(
-      'assignment-type',
-      assignmentType.assignmentTypeId
-    );
-    if (assignmentTypeToDelete) {
+  async deleteAssignmentType() {
+    try {
+      const assignmentTypeToDelete = await this.store.queryRecord(
+        'assignment-type',
+        {
+          id: this.changeset.get('id'),
+        }
+      );
       assignmentTypeToDelete.destroyRecord();
+      this.changeset.rollback();
       this.toggleDisplayDeleteAssignmentTypeModal();
+    } catch (e) {
+      this.flashMessages.danger(e.message);
     }
   }
 }

@@ -13,7 +13,11 @@
         {{@resource.firstName}}
         {{@resource.lastName}}
       </h1>
-      <p class="text-secondary text-left">{{@resource.enterprise}}</p>
+      <p class="text-secondary text-left">
+        {{@resource.enterprise.name}}
+        -
+        {{@resource.enterprise.city}}
+      </p>
     </div>
   </div>
   {{#each this.tableDay as |numDay|}}

@@ -1,26 +1,47 @@
+import type { AssignmentModel } from './../models/assignment.model.js';
 import {
   Schema,
   SchemaBase,
   String,
+  Array,
 } from 'fastest-validator-decorators';
+import type { AssignmentTypeModel } from '../models/assignment-type.model.js';
 
   @Schema(true)
 export class ValidatedAssignmentType extends SchemaBase {
       @String()
-  declare name: string;
+  public declare name: string;
 
       @String({ optional: true, empty: true })
-      declare color: string;
+      public declare color: string;
+
+      @String({ empty: true, optional: true })
+      public declare parents: AssignmentTypeModel;
+
+      @Array({ empty: true, optional: true, items: 'string' })
+      public declare childs: AssignmentTypeModel[];
+
+      @Array({ empty: true, optional: true, items: 'string' })
+      public declare assignment: AssignmentModel[];
 }
 
   @Schema(true)
 export class ValidatedAssignmentTypeUpdate extends SchemaBase {
       @String()
-  declare id: string;
+  public declare id: string;
 
       @String({ optional: true })
-      declare name: string;
+      public declare name: string;
 
       @String({ optional: true })
-      declare color: string;
+      public declare color: string;
+
+      @String({ empty: true, optional: true })
+      public declare parents: AssignmentTypeModel;
+
+      @Array({ empty: true, optional: true, items: 'string' })
+      public declare childs: AssignmentTypeModel[];
+
+      @Array({ empty: true, optional: true, items: 'string' })
+      public declare assignment: AssignmentModel[];
 }

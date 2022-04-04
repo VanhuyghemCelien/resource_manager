@@ -1,7 +1,6 @@
 import type Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { Promise } from 'rsvp';
 
 export default class Resources extends Route {
   @service declare store: Store;
@@ -10,10 +9,13 @@ export default class Resources extends Route {
     const [resource, enterprise] = await Promise.all([
       this.store.query('resource', {
         fields:
-          'firstName,lastName,cost,image,enterprise,phoneNumber,phoneNumber2,emailAddress,emailAddress2',
+          'firstName,lastName,cost,image,phoneNumber,phoneNumber2,emailAddress,emailAddress2',
+        include: 'enterprise',
       }),
-      this.store.query('enterprise', { fields: 'id,name,city' }),
+      this.store.query('enterprise', {
+        fields: 'name,city',
+      }),
     ]);
-    return { resource, enterprise };
+    return { enterprise, resource };
   }
 }

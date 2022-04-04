@@ -51,9 +51,9 @@ export class EnterpriseController {
 
   @GET('/')
   public async list (@JsonApiQueryParams(EnterpriseQueryParamsSchema) queryParams: ValidatedJsonApiQueryParams) {
-    console.log('all');
-    console.log(this.enterpriseRepository.jsonApiFind);
-    return this.enterpriseRepository.jsonApiFind(queryParams);
+    const rt = await this.enterpriseRepository.jsonApiFind(queryParams);
+    console.log(rt);
+    return rt;
   }
 
   @GET('/:id')

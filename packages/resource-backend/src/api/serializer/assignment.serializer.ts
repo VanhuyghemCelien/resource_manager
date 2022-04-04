@@ -8,33 +8,31 @@ import { ConfigurationService } from '../services/configuration.service.js';
 
 @injectable()
 @singleton()
-export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
+export class AssignmentSerializer extends BaseJsonApiSerializer<AssignmentModel> {
   constructor (
     @inject(ConfigurationService) configurationService: ConfigurationService,
   ) {
     super(configurationService);
 
-    this.serializer.register('resource', {
-      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image'] as (keyof ResourceModel)[],
+    this.serializer.register('assignment', {
+      whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
       relationships: {
         enterprise: {
           type: 'enterprise',
         },
-        assignment: {
-          type: 'assignment',
+        resource: {
+          type: 'resource',
+        },
+        assignmentType: {
+          type: 'assignmentType',
         },
       },
     });
     this.serializer.register('enterprise', {
       whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
     });
-    this.serializer.register('assignment', {
-      whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
-      relationships: {
-        assignmentType: {
-          type: 'assignmentType',
-        },
-      },
+    this.serializer.register('resource', {
+      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'enterprise', 'image', 'roleUser'] as (keyof ResourceModel)[],
     });
     this.serializer.register('assignmentType', {
       whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
@@ -42,9 +40,9 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
   }
 
   serialize (
-    data: ResourceModel[] | ResourceModel,
+    data: AssignmentModel[] | AssignmentModel,
     extraData?: Record<string, unknown>,
   ) {
-    return this.serializer.serializeAsync('resource', data, extraData ?? ({} as any));
+    return this.serializer.serializeAsync('assignment', data, extraData ?? ({} as any));
   }
 }

@@ -1,3 +1,4 @@
+import { endOfWeek, getYear, startOfWeek } from 'date-fns';
 import type Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
@@ -11,23 +12,58 @@ export default class DashboardWeek extends Route {
     },
   };
 
-  async model({ week }: { week: string }) {
-    const [resource, assignmentType, assignmentTitle, enterprise, assignment] =
-      await Promise.all([
-        this.store.findAll('resource', { include: 'assignments' }),
-        this.store.findAll('assignment-type'), // plus besoin de tout ça
-        this.store.findAll('assignment-title'),
-        this.store.findAll('enterprise'),
-        this.store.findAll('assignment'),
-      ]);
-    console.log(week);
+  getDateOfISOWeek(w: number, y: number) {
+    var simple = new Date(y, 0, 1 + (w - 2) * 7);
+    var dow = simple.getDay();
+    var ISOweekStart = simple;
+    if (dow <= 4) ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+    else ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+    return ISOweekStart;
+  }
+
+  firstDayOfWeek(x: Date) {
+    var start = startOfWeek(x);
+    return start;
+  }
+
+  lastDayOfWeek(x: Date) {
+    var end = endOfWeek(x);
+    return end;
+  }
+
+  async model({ week }: { week: number }) {
+    var year = getYear(new Date());
+    var first = this.getDateOfISOWeek(week, year);
+    var last = endOfWeek(first);
+    console.log(first);
+    console.log(last);
+    const [resource] = await Promise.all([
+      this.store.query('resource', {
+        include: 'assignment,assignment.assignmentType',
+        fields: '*',
+        // filter: {
+        //   $and: [
+        //     { 'assignments.date': { $lte: last } },
+        //     { 'assignments.date': { $gte: first } },
+        //   ],
+        // },
+      }),
+    ]);
+    const [assignmentType] = await Promise.all([
+      this.store.query('assignmentType', {
+        fields: '*',
+      }),
+    ]);
+    const [enterprise] = await Promise.all([
+      this.store.query('enterprise', {
+        fields: '*',
+      }),
+    ]);
     return {
       resource,
-      assignmentType,
-      assignmentTitle,
-      enterprise,
-      assignment,
       week,
+      assignmentType,
+      enterprise,
     };
   }
 }

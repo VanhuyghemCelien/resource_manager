@@ -1,4 +1,4 @@
-<div class="mt-12 ml-28 max-w-[90%] font-normal">
+<div class="mt-12 ml-12 max-w-[90%] font-normal">
   <div class="flex flex-row">
     <h1 class="text-3xl font-black text-primary">
       Month :
@@ -81,6 +81,7 @@
       @addAssignment={{this.addAssignment}}
       @assignment={{this.assignment}}
       @choosingDay={{this.choosingDay}}
+      @assignmentTitle={{this.assignmentTitle}}
     />
   {{/if}}
   {{#if this.displayNewTypeModal}}
@@ -145,44 +146,12 @@
     </div>
   {{/if}}
   {{#if this.displayNewEnterpriseModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-80">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Enterprise:
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayNewEnterpriseModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <div>
-            <input
-              type="text"
-              id="enterpriseInput"
-              class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
-              {{on "change" this.editEnterpriseField}}
-            />
-            <button
-              type="button"
-              class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-              {{on "click" this.addEnterprise}}
-            >
-              <p>Create title</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Popups::CreateEditDetails
+      @changeset={{this.changeset}}
+      @popupType="new"
+      @objectType="Enterprise"
+      @toggleDisplayModal={{this.toggleDisplayNewEnterpriseModal}}
+      @saveFunction={{this.addEnterprise}}
+    />
   {{/if}}
 </div>

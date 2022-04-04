@@ -33,6 +33,11 @@ export class TestSeeder extends Seeder {
       role: Roles.USER,
       documents: [document] as unknown as Collection<DocumentModel>,
     });
+    // const entreprise = await new EnterpriseFactory(em).createOne();
+    // await new ResourceFactory(em).createOne({
+    //   enterprise: entreprise,
+    // });
+
     const path = document.path.split('/');
     path.pop();
     await mkdir(path.join('/'), { recursive: true });

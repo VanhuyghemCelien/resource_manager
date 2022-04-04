@@ -20,12 +20,14 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     return !this.args.boolMorning;
   }
   get assignment() {
-    const res = this.args.resource.assignments.find((e) => {
+    // console.log(this.args.resource);
+    const res = this.args.resource.assignment.find((e) => {
       if (this.args.boolMorning) {
-        return e.date.getDay() === this.args.numDay && e.boolMorning;
+        return e.date.getDay() === this.args.numDay && e.isMorning;
       }
-      return e.date.getDay() === this.args.numDay && e.boolAfternoon;
+      return e.date.getDay() === this.args.numDay && e.isAfternoon;
     });
+    // console.log(res?.assignmentType);
     return res;
   }
 

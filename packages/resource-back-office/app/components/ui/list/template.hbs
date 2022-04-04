@@ -14,7 +14,7 @@
       {{#if (eq @type "resource")}}
         <div class="flex flex-row items-center">
           <img
-            src={{@object.image}}
+            src={{@object.image.path}}
             alt="resource's profile pic"
             class="inline h-6 w-6 object-cover rounded-full mr-2"
           />
@@ -29,7 +29,9 @@
       {{@object.city}}
     {{/if}}
     {{#if (eq @type "resource")}}
-      {{@object.enterprise}}
+      {{@object.enterprise.name}}
+      -
+      {{@object.enterprise.city}}
     {{/if}}
   </td>
   <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
