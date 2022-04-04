@@ -5,7 +5,6 @@
     class="flex h-screen justify-center items-center
       {{if @displayNewTypeModal "mr-[432px]"}}
       {{if @displayNewTitleModal "mr-[432px]"}}
-      {{if @displayNewEnterpriseModal "mr-[432px]"}}
       transition-all duration-200"
   >
     <div class="bg-white p-5 rounded-3xl w-[500px] font-normal">
@@ -90,8 +89,7 @@
             {{on "change" this.selectTitle}}
           >
             <option value="" selected disabled>
-              Sélectionnez un titre
-              d'occupation
+              Sélectionnez un titre d'occupation
             </option>
             {{#each @model.assignmentType as |assignmentType|}}
               <option value={{assignmentType.name}}>
