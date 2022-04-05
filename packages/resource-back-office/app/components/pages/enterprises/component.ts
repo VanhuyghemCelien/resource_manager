@@ -26,18 +26,6 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @tracked displayDetailsEnterpriseModal: Boolean = false;
   @tracked displayDeleteEnterpriseModal: Boolean = false;
   @tracked modalName: string = '';
-  @tracked enterprise: Partial<EnterpriseModel> = {
-    id: '',
-    name: '',
-    city: '',
-    address: '',
-    emailAddress: '',
-    phoneNumber: '',
-    emailAddress2: '',
-    phoneNumber2: '',
-    enterpriseNumber: '',
-    vatNumber: '',
-  };
 
   @tracked changeset: TypedBufferedChangeset<FormsEnterpriseDTO>;
   constructor(owner: unknown, args: PagesEnterprisesArgs) {

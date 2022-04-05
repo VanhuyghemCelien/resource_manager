@@ -119,6 +119,8 @@
             {{#each @model.enterprise as |enterprise|}}
               <option value={{enterprise.name}}>
                 {{enterprise.name}}
+                -
+                {{enterprise.city}}
               </option>
             {{/each}}
           </select>
