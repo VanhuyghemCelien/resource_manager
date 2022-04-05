@@ -15,8 +15,10 @@ import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/ente
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../../validator/forms/enterprise';
+import AssignmentValidation from '../../../../validator/forms/assignment';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
+import type { FormsAssignmentDTO } from 'ember-boilerplate/components/forms/assignment/component';
 
 interface PagesDashboardWeekArgs {
   model: { week: number };
@@ -43,6 +45,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     color: '#adab32',
   };
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  @tracked changesetAssignment: TypedBufferedChangeset<FormsAssignmentDTO>;
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
     this.changesetEnterprise = Changeset(
@@ -60,6 +63,18 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       lookupValidator(EnterpriseValidation),
       EnterpriseValidation
     ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
+    this.changesetAssignment = Changeset(
+      {
+        resource: null,
+        isMorning: false,
+        isAfternoon: false,
+        comment: '',
+        assignmentType: null,
+        assignmentTitle: null,
+      },
+      lookupValidator(AssignmentValidation),
+      AssignmentValidation
+    ) as TypedBufferedChangeset<FormsAssignmentDTO>;
   }
   @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
     name: '',
@@ -155,10 +170,22 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  addAssignmentTitle() {
+  async addAssignmentTitle() {
+    const parent = await this.store.queryRecord('assignment-type', {
+      id: this.assignment.assignmentType!.id,
+    });
+    console.log(parent);
+
+    const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
+      name: this.assignmentTitle.name,
+      color: this.assignmentTitle.color,
+      parents: parent,
+    };
+    console.log(assignmentTitleToAdd);
+
     const assignmentTitle = this.store.createRecord(
       'assignmentType',
-      this.assignmentTitle
+      assignmentTitleToAdd
     );
     this.assignmentTitle = {
       name: '',
@@ -204,7 +231,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleColor() {
-    this.color = this.color ? false : true;
+    this.color = this.color ? true : false;
   }
 
   @action
@@ -283,5 +310,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   get numDay() {
     let numDay: number = this.today.getDay();
     return numDay;
+  }
+
+  @action
+  createAssignment() {
+    console.log(this.changesetAssignment);
   }
 }

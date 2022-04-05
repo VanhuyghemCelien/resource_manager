@@ -13,7 +13,7 @@ export class AssignmentTypeDeserializer {
         parents: {
           type: 'assignmentType',
         },
-        childs: {
+        children: {
           type: 'assignmentType',
         },
         assignments: {
@@ -21,8 +21,6 @@ export class AssignmentTypeDeserializer {
         },
       },
     });
-    this.deserializer.register('assignmentType');
-    this.deserializer.register('assignmentType');
     this.deserializer.register('assignment');
   }
 

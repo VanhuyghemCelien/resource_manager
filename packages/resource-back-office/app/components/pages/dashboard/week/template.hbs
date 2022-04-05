@@ -86,6 +86,19 @@
       @choosingDay={{this.choosingDay}}
       @assignmentTitle={{this.assignmentTitle}}
     />
+    {{!-- <Forms::Assignment
+      @changeset={{this.changesetAssignment}}
+      @displayNewTypeModal={{this.displayNewTypeModal}}
+      @displayNewTitleModal={{this.displayNewTitleModal}}
+      @resourceName={{this.resourceName}}
+      @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
+      @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
+      @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
+      @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
+      @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
+      @saveFunction={{this.createAssignment}}
+      @choosingDay={{this.choosingDay}}
+    /> --}}
   {{/if}}
   {{#if this.displayNewTypeModal}}
     <Popups::AssignmentType
@@ -94,6 +107,15 @@
       @toggleIsColorChecked={{this.toggleColor}}
       @saveFunction={{this.addAssignmentType}}
       @isColorChecked={{this.color}}
+    />
+  {{/if}}
+  {{#if this.displayNewEnterpriseModal}}
+    <Popups::CreateEditDetails
+      @changeset={{this.changesetEnterprise}}
+      @popupType="new"
+      @objectType="Enterprise"
+      @toggleDisplayModal={{this.toggleDisplayNewEnterpriseModal}}
+      @saveFunction={{this.addEnterprise}}
     />
   {{/if}}
   {{#if this.displayNewTitleModal}}
@@ -106,7 +128,7 @@
         <div class="bg-white p-5 rounded-3xl w-[314px]">
           <div class="flex flex-row justify-center">
             <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Title:
+              Nouveau titre d'occupation :
             </h1>
             <button
               type="button"
@@ -128,11 +150,13 @@
           </div>
           {{#if this.color}}
             <div class="flex flex-row mt-2 justify-between">
-              <p>Select the color to apply<br />for this type of assignment</p>
+              <p class="w-10/12">
+                Sélectionnez la couleur à appliquer pour ce type d'occupation
+              </p>
               <input
                 type="color"
                 id="colorTitleInput"
-                class="my-auto ml-4 px-3 py-1"
+                class="my-auto w-2/12"
                 {{on "change" (fn this.editAssignmentTitleField "color")}}
               />
             </div>
@@ -142,19 +166,10 @@
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
             {{on "click" this.addAssignmentTitle}}
           >
-            <p>Create title</p>
+            <p>Créer le titre</p>
           </button>
         </div>
       </div>
     </div>
-  {{/if}}
-  {{#if this.displayNewEnterpriseModal}}
-    <Popups::CreateEditDetails
-      @changeset={{this.changesetEnterprise}}
-      @popupType="new"
-      @objectType="Enterprise"
-      @toggleDisplayModal={{this.toggleDisplayNewEnterpriseModal}}
-      @saveFunction={{this.addEnterprise}}
-    />
   {{/if}}
 </div>

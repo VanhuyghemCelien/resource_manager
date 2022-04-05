@@ -3,8 +3,8 @@
 >
   <div
     class="flex h-screen justify-center items-center
-      {{if @displayNewTypeModal "mr-[432px]"}}
-      {{if @displayNewTitleModal "mr-[432px]"}}
+      {{if @displayNewTypeModal 'mr-[432px]'}}
+      {{if @displayNewTitleModal 'mr-[432px]'}}
       transition-all duration-200"
   >
     <div class="bg-white p-5 rounded-3xl w-[500px] font-normal">
@@ -16,11 +16,7 @@
           {{@resourceName}}
         </p>
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
-          <img
-            src="/assets/icons/close-button.svg"
-            alt="close button icon"
-            class="inline h-5 w-auto mr-1"
-          />
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <div class="text-center mt-3">
@@ -74,6 +70,7 @@
             type="button"
             class="grow-0"
             {{on "click" @toggleDisplayNewTypeModal}}
+            title="Ajouter un type d'occupation"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
@@ -86,21 +83,20 @@
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
+            disabled
             {{on "change" this.selectTitle}}
           >
             <option value="" selected disabled>
               Sélectionnez un titre d'occupation
             </option>
-            {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.name}}>
-                {{assignmentType.name}}
-              </option>
-            {{/each}}
           </select>
           <button
+            id="newTitleButton"
             type="button"
             class="grow-0"
             {{on "click" @toggleDisplayNewTitleModal}}
+            disabled
+            title="Ajouter un titre d'occupation pour le type sélectionné"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
