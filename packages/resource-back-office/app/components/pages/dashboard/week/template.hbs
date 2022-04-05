@@ -1,10 +1,13 @@
 <div class="mt-12 ml-12 max-w-[90%] font-normal">
   <div class="flex flex-row">
-    <h1 class="text-3xl font-black text-primary">
+    <h1 class="text-3xl font-black text-textPrimary">
       Month :
       {{this.currentMonth}}
     </h1>
-    <LinkTo @route="dashboard.month" class="h-full ml-4 mt-auto text-secondary">
+    <LinkTo
+      @route="dashboard.month"
+      class="h-full ml-4 mt-auto text-textSecondary"
+    >
       <p>Show by Month</p>
     </LinkTo>
   </div>
@@ -95,7 +98,7 @@
   {{/if}}
   {{#if this.displayNewTitleModal}}
     <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+      class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
     >
       <div
         class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
@@ -119,7 +122,7 @@
             <input
               type="text"
               id="titleInput"
-              class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
+              class="border border-textPrimary rounded mx-auto w-full mt-4 px-3 py-1"
               {{on "change" (fn this.editAssignmentTitleField "name")}}
             />
           </div>
@@ -147,7 +150,7 @@
   {{/if}}
   {{#if this.displayNewEnterpriseModal}}
     <Popups::CreateEditDetails
-      @changeset={{this.changeset}}
+      @changeset={{this.changesetEnterprise}}
       @popupType="new"
       @objectType="Enterprise"
       @toggleDisplayModal={{this.toggleDisplayNewEnterpriseModal}}

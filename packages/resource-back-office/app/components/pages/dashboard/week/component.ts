@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { inject, service } from '@ember/service';
+import { service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
@@ -25,7 +25,7 @@ interface PagesDashboardWeekArgs {
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
   @service declare router: RouterService;
-  @inject declare flashMessages: FlashMessageService;
+  @service declare flashMessages: FlashMessageService;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -42,10 +42,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     name: '',
     color: '#adab32',
   };
-  @tracked changeset: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
-    this.changeset = Changeset(
+    this.changesetEnterprise = Changeset(
       {
         name: '',
         city: '',
@@ -79,21 +79,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     assignmentType: undefined,
     enterprise: undefined,
   };
-
-  reinitEnterprise() {
-    this.enterprise = {
-      id: '',
-      name: '',
-      city: '',
-      address: '',
-      emailAddress: '',
-      phoneNumber: '',
-      emailAddress2: '',
-      phoneNumber2: '',
-      enterpriseNumber: '',
-      vatNumber: '',
-    };
-  }
 
   // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
@@ -154,41 +139,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  editEnterpriseField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'name':
-        this.enterprise.name = event.target.value;
-        break;
-      case 'city':
-        this.enterprise.city = event.target.value;
-        break;
-      case 'emailAddress':
-        this.enterprise.emailAddress = event.target.value;
-        break;
-      case 'phoneNumber':
-        this.enterprise.phoneNumber = event.target.value;
-        break;
-      case 'phoneNumber2':
-        this.enterprise.phoneNumber2 = event.target.value;
-        break;
-      case 'emailAddress2':
-        this.enterprise.emailAddress2 = event.target.value;
-        break;
-      case 'enterpriseNumber':
-        this.enterprise.enterpriseNumber = event.target.value;
-        break;
-      case 'vatNumber':
-        this.enterprise.vatNumber = event.target.value;
-        break;
-      case 'address':
-        this.enterprise.address = event.target.value;
-        break;
-      default:
-        break;
-    }
-  }
-
-  @action
   addAssignmentType() {
     const assignmentType = this.store.createRecord(
       'assignment-type',
@@ -201,6 +151,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();
+    this.router.refresh();
   }
 
   @action
@@ -216,31 +167,36 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     assignmentTitle.save();
     this.toggleDisplayNewTitleModal();
+    this.router.refresh();
   }
 
   @action
   @loading
-  async addEnterprise(changeset: TypedBufferedChangeset<FormsEnterpriseDTO>) {
+  async addEnterprise(
+    changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>
+  ) {
     try {
       const enterpriseToSave: Partial<EnterpriseModel> = {
-        name: changeset.get('name'),
-        city: changeset.get('city'),
-        emailAddress: changeset.get('emailAddress'),
-        phoneNumber: changeset.get('phoneNumber'),
-        phoneNumber2: changeset.get('phoneNumber2') ?? undefined,
-        emailAddress2: changeset.get('emailAddress2') ?? undefined,
-        enterpriseNumber: changeset.get('enterpriseNumber') ?? undefined,
-        vatNumber: changeset.get('vatNumber') ?? undefined,
-        address: changeset.get('address'),
+        name: changesetEnterprise.get('name'),
+        city: changesetEnterprise.get('city'),
+        emailAddress: changesetEnterprise.get('emailAddress'),
+        phoneNumber: changesetEnterprise.get('phoneNumber'),
+        phoneNumber2: changesetEnterprise.get('phoneNumber2') ?? undefined,
+        emailAddress2: changesetEnterprise.get('emailAddress2') ?? undefined,
+        enterpriseNumber:
+          changesetEnterprise.get('enterpriseNumber') ?? undefined,
+        vatNumber: changesetEnterprise.get('vatNumber') ?? undefined,
+        address: changesetEnterprise.get('address'),
       };
       const enterpriseCreated = await this.store.createRecord(
         'enterprise',
         enterpriseToSave
       );
       await enterpriseCreated.save();
-      this.changeset.rollback();
+      this.changesetEnterprise.rollback();
       this.toggleDisplayNewEnterpriseModal();
       this.router.refresh();
+      this.flashMessages.success('L’entreprise a bien été créée');
     } catch (e) {
       this.flashMessages.warning(e.message);
     }

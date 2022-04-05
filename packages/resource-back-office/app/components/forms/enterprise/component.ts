@@ -151,15 +151,17 @@ export default class FormsEnterprise extends BaseForm<
   }
 
   setErrorClass(field: string) {
-    if (document.getElementById(field)!.classList.contains('border-primary')) {
+    if (
+      document.getElementById(field)!.classList.contains('border-textPrimary')
+    ) {
       document.getElementById(field)!.classList.add('border-warn');
-      document.getElementById(field)!.classList.remove('border-primary');
+      document.getElementById(field)!.classList.remove('border-textPrimary');
     }
   }
   removeErrorClass(field: string) {
     if (document.getElementById(field)!.classList.contains('border-warn')) {
       document.getElementById(field)!.classList.remove('border-warn');
-      document.getElementById(field)!.classList.add('border-primary');
+      document.getElementById(field)!.classList.add('border-textPrimary');
     }
   }
 }
