@@ -4,7 +4,7 @@
 }
 
 .sk-cube-grid .sk-cube {
-  @apply bg-primary;
+  @apply bg-textPrimary;
   width: 33%;
   height: 33%;
   float: left;

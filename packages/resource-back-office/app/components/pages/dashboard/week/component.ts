@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { inject, service } from '@ember/service';
+import { service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
@@ -25,7 +25,7 @@ interface PagesDashboardWeekArgs {
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
   @service declare router: RouterService;
-  @inject declare flashMessages: FlashMessageService;
+  @service declare flashMessages: FlashMessageService;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -151,6 +151,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     assignmentType.save();
     this.toggleDisplayNewTypeModal();
+    this.router.refresh();
   }
 
   @action
@@ -166,6 +167,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     assignmentTitle.save();
     this.toggleDisplayNewTitleModal();
+    this.router.refresh();
   }
 
   @action
@@ -194,6 +196,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       this.changesetEnterprise.rollback();
       this.toggleDisplayNewEnterpriseModal();
       this.router.refresh();
+      this.flashMessages.success('L’entreprise a bien été créée');
     } catch (e) {
       this.flashMessages.warning(e.message);
     }

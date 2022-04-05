@@ -10,7 +10,6 @@ import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/ente
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../validator/forms/enterprise';
-import { inject } from '@ember/controller';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
 
@@ -19,7 +18,7 @@ interface PagesEnterprisesArgs {}
 export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
   @service declare store: Store;
   @service declare router: RouterService;
-  @inject declare flashMessages: FlashMessageService;
+  @service declare flashMessages: FlashMessageService;
 
   @tracked displayNewEnterpriseModal: Boolean = false;
   @tracked displayEditEnterpriseModal: Boolean = false;
@@ -148,7 +147,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       await enterpriseCreated.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
-      this.router.refresh();
+      this.flashMessages.success("L'entreprise a bien été créée");
     } catch (e) {
       this.flashMessages.warning(e.message);
     }
@@ -176,6 +175,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       await enterprise.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('edit');
+      this.flashMessages.success("L'entreprise a bien été modifiée");
     } catch (e) {
       this.flashMessages.warning(e.message);
     }
@@ -190,6 +190,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
       enterpriseToDelete.destroyRecord();
       this.changeset.rollback();
       this.toggleDisplayDeleteEnterpriseModal();
+      this.flashMessages.success("L'entreprise a bien été supprimée");
     } catch (e) {
       this.flashMessages.warning(e.message);
     }

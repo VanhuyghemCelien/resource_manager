@@ -1,6 +1,6 @@
 {{! Eviter les ifs à répétition ca nique le principe du component et c'est redondant }}
 <div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
-  <h1 class="text-3xl font-black text-primary">Ressources</h1>
+  <h1 class="text-3xl font-black text-textPrimary">Ressources</h1>
   <div
     class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
   >
@@ -22,10 +22,10 @@
   </div>
   <table class="w-full min-w-[850px]">
     <thead>
-      <th class="text-primary text-lg text-left">Nom complet</th>
-      <th class="text-primary text-lg">Entreprise</th>
-      <th class="text-primary text-lg">Adresse email</th>
-      <th class="text-primary text-lg">N° de téléphone</th>
+      <th class="text-textPrimary text-lg text-left">Nom complet</th>
+      <th class="text-textPrimary text-lg">Entreprise</th>
+      <th class="text-textPrimary text-lg">Adresse email</th>
+      <th class="text-textPrimary text-lg">N° de téléphone</th>
     </thead>
     <tbody>
       {{#each @model.resource as |resource|}}
