@@ -82,20 +82,23 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     this.args.assignment.assignmentType = selected.firstObject;
     document.getElementById('titleSelect')!.removeAttribute('disabled');
     document.getElementById('newTitleButton')!.removeAttribute('disabled');
-    //EDIT HERE TO DISPLAY ONLY THE ASSIGNMENT TYPES WITH THE RIGHT PARENT
     const titleTable = await this.store.query('assignmentType', {
-      filter: { parents: selected.firstObject },
       fields: 'name,color',
+      include: 'parents',
     });
-    for (let i = 0; i < titleTable.length; i++) {
-      document.getElementById('titleSelect')!.innerHTML =
-        document.getElementById('titleSelect')!.innerHTML +
-        '<option value="' +
-        titleTable[i].name +
-        '">' +
-        titleTable[i].name +
-        '</option>';
-    }
+    document.getElementById('titleSelect')!.innerHTML =
+      '<option value="" selected disabled>Sélectionnez un titre d\'occupation</option>';
+    titleTable.forEach((title) => {
+      if (selected.firstObject.id === title.parents.get('id')) {
+        document.getElementById('titleSelect')!.innerHTML =
+          document.getElementById('titleSelect')!.innerHTML +
+          '<option value="' +
+          title.name +
+          '">' +
+          title.name +
+          '</option>';
+      }
+    });
   }
 
   @action

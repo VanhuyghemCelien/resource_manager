@@ -66,11 +66,13 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.changesetAssignment = Changeset(
       {
         resource: null,
+        enterprise: null,
+        assignmentType: null,
+        date: new Date(),
         isMorning: false,
         isAfternoon: false,
+        isRemote: false,
         comment: '',
-        assignmentType: null,
-        assignmentTitle: null,
       },
       lookupValidator(AssignmentValidation),
       AssignmentValidation
@@ -154,47 +156,62 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  addAssignmentType() {
-    const assignmentType = this.store.createRecord(
-      'assignment-type',
-      this.assignmentType
-    );
-    // changeset
-    this.assignmentType = {
-      name: '',
-      color: '',
-    };
-    assignmentType.save();
-    this.toggleDisplayNewTypeModal();
-    this.router.refresh();
+  @loading
+  async addAssignmentType() {
+    try {
+      const assignmentType = this.store.createRecord(
+        'assignment-type',
+        this.assignmentType
+      );
+      // changeset
+      this.assignmentType = {
+        name: '',
+        color: '',
+      };
+      await assignmentType.save();
+      this.toggleDisplayNewTypeModal();
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
+  @loading
   async addAssignmentTitle() {
-    const parent = await this.store.queryRecord('assignment-type', {
-      id: this.assignment.assignmentType!.id,
-    });
-    console.log(parent);
+    try {
+      const parent = await this.store.queryRecord('assignment-type', {
+        id: this.assignment.assignmentType!.id,
+      });
 
-    const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
-      name: this.assignmentTitle.name,
-      color: this.assignmentTitle.color,
-      parents: parent,
-    };
-    console.log(assignmentTitleToAdd);
+      const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
+        name: this.assignmentTitle.name,
+        color: this.assignmentTitle.color,
+        parents: parent,
+      };
 
-    const assignmentTitle = this.store.createRecord(
-      'assignmentType',
-      assignmentTitleToAdd
-    );
-    this.assignmentTitle = {
-      name: '',
-      color: '',
-      parents: undefined,
-    };
-    assignmentTitle.save();
-    this.toggleDisplayNewTitleModal();
-    this.router.refresh();
+      const assignmentTitle = this.store.createRecord(
+        'assignmentType',
+        assignmentTitleToAdd
+      );
+      this.assignmentTitle = {
+        name: '',
+        color: '',
+        parents: undefined,
+      };
+      await assignmentTitle.save();
+      document.getElementById('titleSelect')!.innerHTML =
+        document.getElementById('titleSelect')!.innerHTML +
+        '<option value="' +
+        assignmentTitle.name +
+        '">' +
+        assignmentTitle.name +
+        '</option>';
+      this.toggleDisplayNewTitleModal();
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
@@ -310,10 +327,5 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   get numDay() {
     let numDay: number = this.today.getDay();
     return numDay;
-  }
-
-  @action
-  createAssignment() {
-    console.log(this.changesetAssignment);
   }
 }
