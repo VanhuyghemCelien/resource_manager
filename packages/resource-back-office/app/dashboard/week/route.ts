@@ -13,31 +13,31 @@ export default class DashboardWeek extends Route {
   };
 
   getDateOfISOWeek(w: number, y: number) {
-    var simple = new Date(y, 0, 1 + (w - 2) * 7);
-    var dow = simple.getDay();
-    var ISOweekStart = simple;
+    let simple = new Date(y, 0, 1 + (w - 2) * 7);
+    let dow = simple.getDay();
+    let ISOweekStart = simple;
     if (dow <= 4) ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
     else ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
     return ISOweekStart;
   }
 
   firstDayOfWeek(x: Date) {
-    var start = startOfWeek(x);
+    let start = startOfWeek(x);
     return start;
   }
 
   lastDayOfWeek(x: Date) {
-    var end = endOfWeek(x);
+    let end = endOfWeek(x);
     return end;
   }
 
   async model({ week }: { week: number }) {
-    var year = getYear(new Date());
-    var first = this.getDateOfISOWeek(week, year);
-    var last = endOfWeek(first);
+    let year = getYear(new Date());
+    let first = this.getDateOfISOWeek(week, year);
+    let last = endOfWeek(first);
     console.log(first);
     console.log(last);
-    const [resource] = await Promise.all([
+    const [resource, assignmentType, enterprise] = await Promise.all([
       this.store.query('resource', {
         include: 'assignment,assignment.assignmentType',
         fields: '*',
@@ -48,13 +48,9 @@ export default class DashboardWeek extends Route {
         //   ],
         // },
       }),
-    ]);
-    const [assignmentType] = await Promise.all([
       this.store.query('assignmentType', {
         fields: '*',
       }),
-    ]);
-    const [enterprise] = await Promise.all([
       this.store.query('enterprise', {
         fields: '*',
       }),

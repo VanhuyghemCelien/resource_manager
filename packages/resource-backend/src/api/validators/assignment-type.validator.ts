@@ -19,7 +19,7 @@ export class ValidatedAssignmentType extends SchemaBase {
       public declare parents: AssignmentTypeModel;
 
       @Array({ empty: true, optional: true, items: 'string' })
-      public declare childs: AssignmentTypeModel[];
+      public declare children: AssignmentTypeModel[];
 
       @Array({ empty: true, optional: true, items: 'string' })
       public declare assignment: AssignmentModel[];
@@ -40,7 +40,7 @@ export class ValidatedAssignmentTypeUpdate extends SchemaBase {
       public declare parents: AssignmentTypeModel;
 
       @Array({ empty: true, optional: true, items: 'string' })
-      public declare childs: AssignmentTypeModel[];
+      public declare children: AssignmentTypeModel[];
 
       @Array({ empty: true, optional: true, items: 'string' })
       public declare assignment: AssignmentModel[];

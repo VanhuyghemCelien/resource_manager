@@ -20,7 +20,7 @@ export class AssignmentTypeQueryParamsSchema implements QueryParamsSchemaInterfa
   allowedFields (
     _context: ControllerParamsContext,
   ): CheckTypes[] | Promise<string[]> {
-    return ['id', /assignmentType\.(.+)/, /parents\.(.+)/, /childs\.(.+)/, /assignment\.(.+)/, /.*/];
+    return ['id', /assignmentType\.(.+)/, /parents\.(.+)/, /children\.(.+)/, /assignment\.(.+)/, /.*/];
   }
 
   allowedSortFields (

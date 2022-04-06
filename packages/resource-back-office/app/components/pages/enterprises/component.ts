@@ -144,7 +144,7 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
         'enterprise',
         enterpriseToSave
       );
-      await enterpriseCreated.save();
+      enterpriseCreated.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
       this.flashMessages.success("L'entreprise a bien été créée");

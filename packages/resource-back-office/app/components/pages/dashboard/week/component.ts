@@ -35,7 +35,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked displayNewEnterpriseModal: boolean = false;
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
-  @tracked color: boolean = false;
+  @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
@@ -139,35 +139,66 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  addAssignmentType() {
-    const assignmentType = this.store.createRecord(
-      'assignment-type',
-      this.assignmentType
-    );
-    // changeset
-    this.assignmentType = {
-      name: '',
-      color: '',
-    };
-    assignmentType.save();
-    this.toggleDisplayNewTypeModal();
-    this.router.refresh();
+  @loading
+  async addAssignmentType() {
+    try {
+      if (this.multipleColor) {
+        this.assignmentType.color = undefined;
+      }
+      const assignmentType = this.store.createRecord(
+        'assignment-type',
+        this.assignmentType
+      );
+      // changeset
+      this.assignmentType = {
+        name: '',
+        color: '',
+      };
+      await assignmentType.save();
+      this.multipleColor = false;
+      this.toggleDisplayNewTypeModal();
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
-  addAssignmentTitle() {
-    const assignmentTitle = this.store.createRecord(
-      'assignmentType',
-      this.assignmentTitle
-    );
-    this.assignmentTitle = {
-      name: '',
-      color: '',
-      parents: undefined,
-    };
-    assignmentTitle.save();
-    this.toggleDisplayNewTitleModal();
-    this.router.refresh();
+  @loading
+  async addAssignmentTitle() {
+    try {
+      const parent = await this.store.queryRecord('assignment-type', {
+        id: this.assignment.assignmentType!.id,
+      });
+
+      const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
+        name: this.assignmentTitle.name,
+        color: this.assignmentTitle.color,
+        parents: parent,
+      };
+
+      const assignmentTitle = this.store.createRecord(
+        'assignmentType',
+        assignmentTitleToAdd
+      );
+      this.assignmentTitle = {
+        name: '',
+        color: '',
+        parents: undefined,
+      };
+      await assignmentTitle.save();
+      document.getElementById('titleSelect')!.innerHTML =
+        document.getElementById('titleSelect')!.innerHTML +
+        '<option value="' +
+        assignmentTitle.name +
+        '">' +
+        assignmentTitle.name +
+        '</option>';
+      this.toggleDisplayNewTitleModal();
+      this.router.refresh();
+    } catch (e) {
+      this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
@@ -204,7 +235,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleColor() {
-    this.color = this.color ? false : true;
+    if (this.multipleColor) {
+      this.multipleColor = false;
+    } else {
+      this.multipleColor = true;
+    }
   }
 
   @action
@@ -233,23 +268,38 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleDisplayNewTypeModal() {
-    this.displayNewTypeModal
-      ? (this.displayNewTypeModal = false)
-      : (this.displayNewTypeModal = true);
+    if (this.displayNewTypeModal) {
+      this.displayNewTypeModal = false;
+    } else {
+      this.displayNewTypeModal = true;
+      this.multipleColor = false;
+    }
   }
 
   @action
-  toggleDisplayNewTitleModal() {
-    this.displayNewTitleModal
-      ? (this.displayNewTitleModal = false)
-      : (this.displayNewTitleModal = true);
+  async toggleDisplayNewTitleModal() {
+    if (this.displayNewTitleModal) {
+      this.displayNewTitleModal = false;
+    } else {
+      this.displayNewTitleModal = true;
+      const parent = await this.store.queryRecord('assignment-type', {
+        id: this.assignment.assignmentType!.id,
+      });
+      if (parent.get('color')) {
+        this.multipleColor = false;
+      } else {
+        this.multipleColor = true;
+      }
+    }
   }
 
   @action
   toggleDisplayNewEnterpriseModal() {
-    this.displayNewEnterpriseModal
-      ? (this.displayNewEnterpriseModal = false)
-      : (this.displayNewEnterpriseModal = true);
+    if (this.displayNewEnterpriseModal) {
+      this.displayNewEnterpriseModal = false;
+    } else {
+      this.displayNewEnterpriseModal = true;
+    }
   }
 
   @action

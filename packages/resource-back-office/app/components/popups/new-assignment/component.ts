@@ -7,6 +7,7 @@ import type AssignmentModel from 'ember-boilerplate/models/assignment';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import { loading } from 'ember-loading';
 
 interface PopupsNewAssignmentArgs {
   displayNewTypeModal: boolean;
@@ -42,6 +43,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
     name: '',
     color: '',
+    children: undefined,
   };
 
   @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
@@ -60,11 +62,12 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   }
 
   @action
+  @loading
   async selectType(event: { target: { value: string } }) {
     const value = event.target.value;
-    let selected = await this.store.query('assignmentType', {
+    let selected = await this.store.query('assignment-type', {
       filter: { name: value },
-      fields: 'color,name',
+      fields: 'color,name,children',
     });
     this.assignment = {
       ...this.assignment,
@@ -74,13 +77,34 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       ...this.assignmentType,
       name: selected.firstObject!.name,
       color: selected.firstObject!.color,
+      children: selected.firstObject!.children,
     };
+    this.args.assignment.assignmentType = selected.firstObject;
+    document.getElementById('titleSelect')!.removeAttribute('disabled');
+    document.getElementById('newTitleButton')!.removeAttribute('disabled');
+    const titleTable = await this.store.query('assignmentType', {
+      fields: 'name,color',
+      include: 'parents',
+    });
+    document.getElementById('titleSelect')!.innerHTML =
+      '<option value="" selected disabled>Sélectionnez un titre d\'occupation</option>';
+    titleTable.forEach((title) => {
+      if (selected.firstObject.id === title.parents.get('id')) {
+        document.getElementById('titleSelect')!.innerHTML =
+          document.getElementById('titleSelect')!.innerHTML +
+          '<option value="' +
+          title.name +
+          '">' +
+          title.name +
+          '</option>';
+      }
+    });
   }
 
   @action
   async selectTitle(event: { target: { value: string } }) {
     const value = event.target.value;
-    let selected = await this.store.query('assignmentType', {
+    let selected = await this.store.query('assignment-type', {
       filter: { name: value },
       fields: 'name,color,parents',
     });
@@ -89,6 +113,12 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       color: selected.firstObject!.color,
       parents: selected.firstObject!.parents,
     };
+    this.assignment = {
+      ...this.assignment,
+      assignmentType: selected.firstObject,
+    };
+    this.args.assignment.assignmentType = selected.firstObject;
+    console.log(this.args.assignment.assignmentType);
   }
 
   @action
