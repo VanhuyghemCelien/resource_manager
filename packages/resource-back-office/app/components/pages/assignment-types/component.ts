@@ -38,6 +38,10 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   }
 
+  get isMultipleColor() {
+    return '';
+  }
+
   @action
   toggleMultipleColors() {
     if (this.multipleColors) {

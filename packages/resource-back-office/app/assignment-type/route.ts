@@ -6,6 +6,8 @@ export default class AssignmentType extends Route {
   @service declare store: Store;
 
   model() {
-    return this.store.findAll('assignment-type');
+    return this.store.query('assignmentType', {
+      fields: '*',
+    });
   }
 }

@@ -7,8 +7,6 @@
       type="button"
       class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
       {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new")}}
-      disabled
-      {{! REMOVE DISABLED WHEN ADDING WORKS }}
     >
       <div class="text-lg flex flex-row">
         <img
@@ -29,72 +27,12 @@
     </thead>
     <tbody>
       {{#each @model as |assignmentType|}}
-        <tr
-          class="border-b border-textPrimary border-opacity-25 hover:bg-textSecondary hover:bg-opacity-10 transition-all duration-200"
-        >
-          <td
-            class="w-1/4 text-center text-textPrimary font-medium px-2 text-base py-2"
-          >
-            {{assignmentType.name}}
-          </td>
-          <td class="w-1/4 text-center text-textSecondary px-2 text-base py-2">
-            {{if assignmentType.color "Non" "Oui"}}
-          </td>
-          <td class="w-1/4 text-center text-textSecondary px-2 text-base py-2">
-            {{#if assignmentType.color}}
-              {{! template-lint-disable no-inline-styles }}
-              {{! template-lint-disable style-concatenation }}
-              <div
-                class="h-6 w-6 mx-auto rounded-full"
-                style="background-color: {{assignmentType.color}};"
-              ></div>
-            {{/if}}
-          </td>
-          <td class="w-[10%] text-center px-2 py-2">
-            <div
-              class="w-max rounded-full hover:bg-navbarBg transition-all duration-200"
-            >
-              <button
-                type="button"
-                class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-                {{on
-                  "click"
-                  (fn this.displayAssignmentTypeDetails assignmentType.id)
-                }}
-                {{! disabled }}
-                {{! REMOVE DISABLE WHEN EDITING WORKS }}
-              >
-                <img
-                  src="/assets/icons/edit-button.svg"
-                  alt="edit button icon"
-                  class="inline h-5 w-auto mr-1"
-                />
-                Modifier
-              </button>
-            </div>
-          </td>
-          <td class="w-[10%] text-center px-2 py-2">
-            <div
-              class="w-max rounded-full hover:bg-warn transition-all duration-200"
-            >
-              <button
-                type="button"
-                class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-                {{on
-                  "click"
-                  (fn this.displayDeleteAssignmentType assignmentType.id)
-                }}
-              >
-                <img
-                  src="/assets/icons/delete-button.svg"
-                  alt="delete button icon"
-                  class="inline h-5 w-auto mr-1"
-                />
-                Supprimer
-              </button>
-            </div>
-          </td>
-        </tr>
+        <Ui::List
+          @type="assignment-type"
+          @object={{assignmentType}}
+          @displayDetails={{this.displayAssignmentTypeDetails}}
+          @displayDelete={{this.displayDeleteAssignmentType}}
+        />
       {{/each}}
     </tbody>
   </table>
