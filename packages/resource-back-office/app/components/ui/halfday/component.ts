@@ -37,4 +37,26 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     day.setHours(1);
     return day;
   }
+
+  get bgColor() {
+    if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
+      if (this.assignment?.assignmentType.get('color')) {
+        return (
+          'background-color:' + this.assignment?.assignmentType.get('color')
+        );
+      }
+    }
+    return '';
+  }
+  get textColor() {
+    if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
+      if (this.assignment?.assignmentType.get('color')) {
+        return '';
+      }
+      return (
+        'color:' + this.assignment?.assignmentType.get('parents').get('color')
+      );
+    }
+    return '';
+  }
 }

@@ -55,7 +55,7 @@
 
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
-      <div class="text-center">Semaine</div>
+      <div class="text-center"></div>
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{1}} />
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{2}} />
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{3}} />
@@ -86,19 +86,6 @@
       @choosingDay={{this.choosingDay}}
       @assignmentTitle={{this.assignmentTitle}}
     />
-    {{!-- <Forms::Assignment
-      @changeset={{this.changesetAssignment}}
-      @displayNewTypeModal={{this.displayNewTypeModal}}
-      @displayNewTitleModal={{this.displayNewTitleModal}}
-      @resourceName={{this.resourceName}}
-      @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
-      @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
-      @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
-      @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
-      @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
-      @saveFunction={{this.createAssignment}}
-      @choosingDay={{this.choosingDay}}
-    /> --}}
   {{/if}}
   {{#if this.displayNewTypeModal}}
     <Popups::AssignmentType
@@ -106,7 +93,7 @@
       @editAssignmentTypeField={{this.editAssignmentTypeField}}
       @toggleIsColorChecked={{this.toggleColor}}
       @saveFunction={{this.addAssignmentType}}
-      @isColorChecked={{this.color}}
+      @isColorChecked={{this.multipleColor}}
     />
   {{/if}}
   {{#if this.displayNewEnterpriseModal}}
@@ -148,10 +135,10 @@
               {{on "change" (fn this.editAssignmentTitleField "name")}}
             />
           </div>
-          {{#if this.color}}
+          {{#if this.multipleColor}}
             <div class="flex flex-row mt-2 justify-between">
               <p class="w-10/12">
-                Sélectionnez la couleur à appliquer pour ce type d'occupation
+                Sélectionnez la couleur à appliquer pour ce titre d'occupation
               </p>
               <input
                 type="color"

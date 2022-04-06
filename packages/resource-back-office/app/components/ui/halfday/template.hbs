@@ -4,10 +4,7 @@
     {{if @boolMorning "rounded-t-xl" "rounded-b-xl"}}"
   {{! template-lint-disable no-inline-styles }}
   {{! template-lint-disable style-concatenation }}
-  style="background-color:{{if
-    (or this.assignment.isMorning this.assignment.isAfternoon)
-    (get this.assignment "assignmentType.color")
-  }}"
+  style={{this.bgColor}}
   {{on
     "click"
     (fn
@@ -20,9 +17,13 @@
   }}
 >
   {{#if (or this.assignment.isMorning this.assignment.isAfternoon)}}
-    <p>
-      {{this.assignment.assignmentType.name}}<br
-      />{{this.assignment.enterprise.name}}
+    {{! template-lint-disable no-inline-styles }}
+    {{! template-lint-disable style-concatenation }}
+    <p style={{this.textColor}}>
+      {{get this.assignment "assignmentType.name"}}<br />
+      {{get this.assignment "enterprise.name"}}
+      -
+      {{get this.assignment "enterprise.city"}}
     </p>
   {{/if}}
 </button>

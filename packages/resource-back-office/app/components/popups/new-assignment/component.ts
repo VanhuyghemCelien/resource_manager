@@ -106,13 +106,19 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     const value = event.target.value;
     let selected = await this.store.query('assignment-type', {
       filter: { name: value },
-      fields: 'name,color,children',
+      fields: 'name,color,parents',
     });
     this.assignmentTitle = {
       name: selected.firstObject!.name,
       color: selected.firstObject!.color,
       parents: selected.firstObject!.parents,
     };
+    this.assignment = {
+      ...this.assignment,
+      assignmentType: selected.firstObject,
+    };
+    this.args.assignment.assignmentType = selected.firstObject;
+    console.log(this.args.assignment.assignmentType);
   }
 
   @action

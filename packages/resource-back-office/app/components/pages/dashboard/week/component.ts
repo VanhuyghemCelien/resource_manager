@@ -15,10 +15,8 @@ import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/ente
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../../validator/forms/enterprise';
-import AssignmentValidation from '../../../../validator/forms/assignment';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
-import type { FormsAssignmentDTO } from 'ember-boilerplate/components/forms/assignment/component';
 
 interface PagesDashboardWeekArgs {
   model: { week: number };
@@ -37,7 +35,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked displayNewEnterpriseModal: boolean = false;
   @tracked choosingDay: Date = new Date();
   @tracked specificDay: Date = new Date();
-  @tracked color: boolean = false;
+  @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
@@ -45,7 +43,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     color: '#adab32',
   };
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
-  @tracked changesetAssignment: TypedBufferedChangeset<FormsAssignmentDTO>;
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
     this.changesetEnterprise = Changeset(
@@ -63,20 +60,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       lookupValidator(EnterpriseValidation),
       EnterpriseValidation
     ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
-    this.changesetAssignment = Changeset(
-      {
-        resource: null,
-        enterprise: null,
-        assignmentType: null,
-        date: new Date(),
-        isMorning: false,
-        isAfternoon: false,
-        isRemote: false,
-        comment: '',
-      },
-      lookupValidator(AssignmentValidation),
-      AssignmentValidation
-    ) as TypedBufferedChangeset<FormsAssignmentDTO>;
   }
   @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
     name: '',
@@ -159,6 +142,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @loading
   async addAssignmentType() {
     try {
+      if (this.multipleColor) {
+        this.assignmentType.color = undefined;
+      }
       const assignmentType = this.store.createRecord(
         'assignment-type',
         this.assignmentType
@@ -169,6 +155,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         color: '',
       };
       await assignmentType.save();
+      this.multipleColor = false;
       this.toggleDisplayNewTypeModal();
       this.router.refresh();
     } catch (e) {
@@ -248,7 +235,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleColor() {
-    this.color = this.color ? true : false;
+    if (this.multipleColor) {
+      this.multipleColor = false;
+    } else {
+      this.multipleColor = true;
+    }
   }
 
   @action
@@ -277,23 +268,38 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   @action
   toggleDisplayNewTypeModal() {
-    this.displayNewTypeModal
-      ? (this.displayNewTypeModal = false)
-      : (this.displayNewTypeModal = true);
+    if (this.displayNewTypeModal) {
+      this.displayNewTypeModal = false;
+    } else {
+      this.displayNewTypeModal = true;
+      this.multipleColor = false;
+    }
   }
 
   @action
-  toggleDisplayNewTitleModal() {
-    this.displayNewTitleModal
-      ? (this.displayNewTitleModal = false)
-      : (this.displayNewTitleModal = true);
+  async toggleDisplayNewTitleModal() {
+    if (this.displayNewTitleModal) {
+      this.displayNewTitleModal = false;
+    } else {
+      this.displayNewTitleModal = true;
+      const parent = await this.store.queryRecord('assignment-type', {
+        id: this.assignment.assignmentType!.id,
+      });
+      if (parent.get('color')) {
+        this.multipleColor = false;
+      } else {
+        this.multipleColor = true;
+      }
+    }
   }
 
   @action
   toggleDisplayNewEnterpriseModal() {
-    this.displayNewEnterpriseModal
-      ? (this.displayNewEnterpriseModal = false)
-      : (this.displayNewEnterpriseModal = true);
+    if (this.displayNewEnterpriseModal) {
+      this.displayNewEnterpriseModal = false;
+    } else {
+      this.displayNewEnterpriseModal = true;
+    }
   }
 
   @action
