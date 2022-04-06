@@ -126,6 +126,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       this.changeset.rollback();
       this.toggleDisplayAssignmentTypeModal('new');
       this.router.refresh();
+      this.flashMessages.success("Le type d'occupation a bien été créé");
     } catch (e) {
       this.flashMessages.danger(e.message);
     }
@@ -145,6 +146,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       await assignmentType.save();
       this.changeset.rollback();
       this.toggleDisplayAssignmentTypeModal('edit');
+      this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
       this.flashMessages.danger(e.message);
     }
@@ -162,6 +164,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       assignmentTypeToDelete.destroyRecord();
       this.changeset.rollback();
       this.toggleDisplayDeleteAssignmentTypeModal();
+      this.flashMessages.success("Le type d'occupation a bien été supprimé");
     } catch (e) {
       this.flashMessages.danger(e.message);
     }

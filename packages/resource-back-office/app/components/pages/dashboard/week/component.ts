@@ -109,6 +109,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     // rajouter async await + gestion erreurs
     assignment.save();
     this.toggleDisplayNewAssignmentModal();
+    this.flashMessages.success("L'occupation a bien été ajoutée");
   }
 
   @action
@@ -158,6 +159,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       this.multipleColor = false;
       this.toggleDisplayNewTypeModal();
       this.router.refresh();
+      this.flashMessages.success("Le type d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
     }
@@ -196,6 +198,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         '</option>';
       this.toggleDisplayNewTitleModal();
       this.router.refresh();
+      this.flashMessages.success("Le titre d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
     }
