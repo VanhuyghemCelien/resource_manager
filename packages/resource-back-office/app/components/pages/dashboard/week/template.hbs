@@ -1,14 +1,14 @@
 <div class="mt-12 ml-12 max-w-[90%] font-normal">
   <div class="flex flex-row">
     <h1 class="text-3xl font-black text-textPrimary">
-      Month :
+      MOIS :
       {{this.currentMonth}}
     </h1>
     <LinkTo
       @route="dashboard.month"
       class="h-full ml-4 mt-auto text-textSecondary"
     >
-      <p>Show by Month</p>
+      <p>Voir par mois</p>
     </LinkTo>
   </div>
   <div class="flex flex-row h-max mt-4">
@@ -37,7 +37,7 @@
     </div>
     <div class="ml-4 h-max my-auto">
       <label name="specificDay">
-        Choose a specific day
+        Choisir un jour spécifique
         {{! template-lint-disable no-down-event-binding }}
         <input
           type="date"
