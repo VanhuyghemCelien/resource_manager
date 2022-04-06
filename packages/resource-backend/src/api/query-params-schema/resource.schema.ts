@@ -32,6 +32,6 @@ export class ResourceQueryParamsSchema implements QueryParamsSchemaInterface {
   allowedFilters (
     _context: ControllerParamsContext,
   ): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id.$eq', '$and.0.assignments.date.$lte', '$and.1.assignments.date.$gte'];
+    return ['id.$eq', 'assignment.$and.0.date.$lte', 'assignment.$and.1.date.$gte'];
   }
 }

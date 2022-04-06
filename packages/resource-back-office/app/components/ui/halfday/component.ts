@@ -37,4 +37,8 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     day.setHours(1);
     return day;
   }
+
+  get dayNumber() {
+    return this.args.numDay.toString();
+  }
 }

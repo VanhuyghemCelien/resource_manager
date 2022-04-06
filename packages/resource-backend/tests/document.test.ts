@@ -9,7 +9,7 @@ const authorizedToken =
   'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjUwMDM5MTEwNjUsImlhdCI6MTY0MzkxMDc2NSwic3ViIjoiMTIzNDU2Nzg5MTBhYmNkZWYiLCJuYmYiOjE2NDM5MTA3NjUsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCJ9.D2AP61Td-JLzOwJqnz_YWLVqzF10pcuV3YLo_SjaStMnbpphNx8TzUnJf_ldzDjqj0q69gtLHF9czdja3Mxaxw';
 
 test('Should list documents', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/documents', {
+  const response = await fetch('http://localhost:8000/api/v1/documents', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/vnd.api+json',
@@ -21,7 +21,7 @@ test('Should list documents', async () => {
 
 test('Should get document', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/documents/123456789',
+    'http://localhost:8000/api/v1/documents/123456789',
     {
       headers: {
         'content-type': 'application/vnd.api+json',
@@ -38,7 +38,7 @@ test('Create document', async () => {
   formData.append('file', new File(['abc'], 'hello-world.txt', {
     type: 'text/plain',
   }));
-  const response = await fetch('http://localhost:8001/api/v1/documents/', {
+  const response = await fetch('http://localhost:8000/api/v1/documents/', {
     headers: {
       Authorization: `Bearer ${authorizedToken}`,
       accept: 'application/vnd.api+json',
@@ -54,7 +54,7 @@ test('Create document with unknown type', async () => {
   formData.append('file', new File(['abc'], 'hello-world.gwe', {
     type: 'text/goulagwe',
   }));
-  const response = await fetch('http://localhost:8001/api/v1/documents/', {
+  const response = await fetch('http://localhost:8000/api/v1/documents/', {
     headers: {
       Authorization: `Bearer ${authorizedToken}`,
       accept: 'application/vnd.api+json',
@@ -77,7 +77,7 @@ test('Replace document', async () => {
   formData.append('file', new File(['abc'], 'hello-world.txt', {
     type: 'text/plain',
   }));
-  const response = await fetch('http://localhost:8001/api/v1/documents/123456789', {
+  const response = await fetch('http://localhost:8000/api/v1/documents/123456789', {
     headers: {
       Authorization: `Bearer ${authorizedToken}`,
       accept: 'application/vnd.api+json',
@@ -104,7 +104,7 @@ test('Delete document', async () => {
   expect(firstFile.path).toStrictEqual('dist/uploads/upload_1');
   expect(existsSync(firstFile.path)).toStrictEqual(true);
 
-  const response = await fetch('http://localhost:8001/api/v1/documents/123456789', {
+  const response = await fetch('http://localhost:8000/api/v1/documents/123456789', {
     headers: {
       Authorization: `Bearer ${authorizedToken}`,
       'content-type': 'application/vnd.api+json',

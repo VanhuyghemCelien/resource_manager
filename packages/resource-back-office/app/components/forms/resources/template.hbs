@@ -38,6 +38,7 @@
             id="resourcePic"
             class="hidden"
             {{on "change" this.changeImage}}
+            data-test-input="resourceImage"
           />
         </label>
       {{/if}}
@@ -60,6 +61,7 @@
       required
       autocapitalize="on"
       type="text"
+      data-test-input="resourceFirstName"
     />
     <Ui::Input
       @label="Nom de famille"
@@ -79,6 +81,7 @@
       required
       autocapitalize="on"
       type="text"
+      data-test-input="resourceLastName"
     />
     <Ui::Input
       @label="Adresse mail"
@@ -97,6 +100,7 @@
       @mandatory={{true}}
       required
       type="text"
+      data-test-input="resourceMail"
     />
     <Ui::Input
       @label="Adresse mail n°2"
@@ -131,6 +135,7 @@
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
+      data-test-input="resourcePhone"
       required
     />
     <Ui::Input
@@ -157,6 +162,7 @@
         {{on "change" this.changeEnterprise}}
         disabled={{if (eq @popupType "details") true false}}
         required={{if (eq @popupType "new") true false}}
+        data-test-select="enterprisesSelect"
       >
         <option
           value=""
@@ -206,6 +212,7 @@
     <button
       type="submit"
       class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+      data-test-input="saveResource"
     >
       {{@popupName}}
     </button>

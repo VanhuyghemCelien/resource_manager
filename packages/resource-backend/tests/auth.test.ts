@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 /* eslint-disable no-undef */
 test('Login', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/auth/login', {
+  const response = await fetch('http://localhost:8000/api/v1/auth/login', {
     body: JSON.stringify({
       email: 'amaury@localhost.com',
       password: '123',
@@ -21,7 +21,7 @@ test('Login', async () => {
 });
 
 test('Login incorrect user/password', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/auth/login', {
+  const response = await fetch('http://localhost:8000/api/v1/auth/login', {
     body: JSON.stringify({
       email: 'amaury@localhost.com',
       password: '1234',
@@ -38,7 +38,7 @@ test('Login incorrect user/password', async () => {
 });
 
 test('Auth register', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/auth/register', {
+  const response = await fetch('http://localhost:8000/api/v1/auth/register', {
     body: JSON.stringify({
       password: '123',
       email: 'amauryD@gmail.com',
@@ -62,7 +62,7 @@ test('Auth register', async () => {
 });
 
 test('Auth register must deny unknown property', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/auth/register', {
+  const response = await fetch('http://localhost:8000/api/v1/auth/register', {
     body: JSON.stringify({
       password: '123',
       email: 'amauryD@gmail.com',
@@ -79,7 +79,7 @@ test('Auth register must deny unknown property', async () => {
 });
 
 test('Refreshing token', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/auth/login', {
+  const response = await fetch('http://localhost:8000/api/v1/auth/login', {
     body: JSON.stringify({
       email: 'amaury@localhost.com',
       password: '123',
@@ -100,7 +100,7 @@ test('Refreshing token', async () => {
   // Wait 1s otherwise the accesstoken would be the same because of UNIX timestamp
   await new Promise((resolve, _reject) => setTimeout(resolve, 1000));
 
-  const refreshResponse = await fetch('http://localhost:8001/api/v1/auth/refresh-token', {
+  const refreshResponse = await fetch('http://localhost:8000/api/v1/auth/refresh-token', {
     body: JSON.stringify({
       refreshToken: body.refreshToken,
     }),
@@ -119,7 +119,7 @@ test('Refreshing token', async () => {
 });
 
 test('Refreshing wrong token', async () => {
-  const refreshResponse = await fetch('http://localhost:8001/api/v1/auth/refresh-token', {
+  const refreshResponse = await fetch('http://localhost:8000/api/v1/auth/refresh-token', {
     body: JSON.stringify({
       refreshToken: 'sdkl,dkjkjfl',
     }),

@@ -32,21 +32,17 @@ export default class DashboardWeek extends Route {
   }
 
   async model({ week }: { week: number }) {
+    console.log(week);
     var year = getYear(new Date());
     var first = this.getDateOfISOWeek(week, year);
-    var last = endOfWeek(first);
-    console.log(first);
-    console.log(last);
+    var lastIso = endOfWeek(first).toISOString();
+    var firstIso = first.toISOString();
+    console.log(firstIso);
+    console.log(lastIso);
     const [resource] = await Promise.all([
       this.store.query('resource', {
-        include: 'assignment,assignment.assignmentType',
-        fields: '*',
-        // filter: {
-        //   $and: [
-        //     { 'assignments.date': { $lte: last } },
-        //     { 'assignments.date': { $gte: first } },
-        //   ],
-        // },
+        firstDate: firstIso,
+        lastDate: lastIso,
       }),
     ]);
     const [assignmentType] = await Promise.all([
@@ -60,6 +56,7 @@ export default class DashboardWeek extends Route {
       }),
     ]);
     return {
+      first,
       resource,
       week,
       assignmentType,

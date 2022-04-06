@@ -3,7 +3,6 @@ import {
   Controller,
   DELETE,
   GET,
-  inject,
   injectable,
   InjectRepository,
   Param,
@@ -18,7 +17,6 @@ import { JsonApiErrorHandler } from '../../json-api/error-handler/json-api.error
 import { ContentGuard } from '../../json-api/guards/content.guard.js';
 import { JsonApiResponsehandler } from '../../json-api/response-handlers/json-api.response-handler.js';
 import { EntityFromBody } from '../decorators/entity-from-body.decorator.js';
-import { AclService } from '../services/acl.service.js';
 import type { ValidatedJsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
 import { JsonApiQueryParams } from '../../json-api/decorators/json-api-params.js';
 import { CurrentUser } from '../decorators/current-user.decorator.js';
@@ -41,7 +39,7 @@ export class AssignmentController {
   constructor (
     @InjectRepository(AssignmentModel)
     private assignmentRepository: AssignmentRepository,
-    @inject(AclService) private aclService: AclService,
+    // @inject(AclService) private aclService: AclService,
   ) {}
 
   @POST('/')
