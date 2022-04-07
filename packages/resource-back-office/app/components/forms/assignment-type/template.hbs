@@ -32,6 +32,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            required
           />
           <div class="flex flex-row mt-2 justify-between">
             <p>Plusieurs couleurs pour ce type d'occupation* ?</p>
@@ -62,9 +63,9 @@
           <button
             type="submit"
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            {{on "click" this.validate}}
+            {{on "click" this.saveAssignmentType}}
           >
-            Créer
+            Créer le type
           </button>
         {{/if}}
         {{#if (eq @type "title")}}
@@ -103,7 +104,7 @@
             @mandatory={{true}}
             type="text"
           />
-          {{#if this.isParentSelected}}
+          {{#if this.isTitleColorDisplayed}}
             <div class="flex flex-row mt-2 justify-between">
               <p class="w-10/12 mb-1">
                 Sélectionnez la couleur à appliquer pour ce titre d'occupation
@@ -112,6 +113,7 @@
                 type="color"
                 id="colorTitleInput"
                 class="my-auto w-2/12"
+                value={{changeset-get @changeset "color"}}
                 {{on "change" this.changeColor}}
               />
             </div>
@@ -119,7 +121,7 @@
           <button
             type="submit"
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            {{on "click" this.validate}}
+            {{on "click" this.saveAssignmentTitle}}
           >
             <p>Créer le titre</p>
           </button>

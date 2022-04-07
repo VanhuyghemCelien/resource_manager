@@ -24,6 +24,7 @@ export default class FormsAssignmentType extends BaseForm<
 > {
   @service declare store: Store;
   @tracked isParentSelected: boolean = false;
+  @tracked isTitleColorDisplayed: boolean = false;
   @action changeInput(field: string, value: string) {
     this.args.changeset.set(field as keyof FormsAssignmentTypeDTO, value);
   }
@@ -32,26 +33,33 @@ export default class FormsAssignmentType extends BaseForm<
   }
   @action
   async changeParents(event: { target: { value: string } }) {
-    this.args.changeset.set('parents', event.target.value);
-    const parent = await this.store.queryRecord('assignment-type', {
+    const parentReceived = await this.store.queryRecord('assignment-type', {
       id: event.target.value,
     });
-    if (parent.get('color')) {
-      this.isParentSelected = false;
+    this.args.changeset.set('parents', parentReceived);
+    this.isParentSelected = true;
+    if (parentReceived.get('color')) {
+      this.isTitleColorDisplayed = false;
     } else {
-      this.isParentSelected = true;
+      this.isTitleColorDisplayed = true;
     }
   }
-  @action validate(event: Event) {
+
+  @action saveAssignmentType(event: Event) {
     event.preventDefault();
     if (this.args.isColorChecked) {
       this.args.changeset.set('color', undefined);
     }
-    if (this.args.type === 'type') {
-      this.args.changeset.set('parents', undefined);
+    this.args.changeset.set('parents', undefined);
+    this.args.saveFunction(this.args.changeset);
+  }
+  @action saveAssignmentTitle(event: Event) {
+    event.preventDefault();
+    if (this.isParentSelected) {
+      if (!this.isTitleColorDisplayed) {
+        this.args.changeset.set('color', undefined);
+      }
+      this.args.saveFunction(this.args.changeset);
     }
-    console.log('Name: ' + this.args.changeset.name);
-    console.log('Color: ' + this.args.changeset.color);
-    console.log('Parents: ' + this.args.changeset.parents);
   }
 }
