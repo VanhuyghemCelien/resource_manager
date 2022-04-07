@@ -5,10 +5,12 @@ import type Store from '@ember-data/store';
 export default class Enterprises extends Route {
   @service declare store: Store;
 
-  model() {
-    return this.store.query('enterprise', {
-      fields: '*',
-      include: 'resource',
-    });
+  async model() {
+    const [enterprise] = await Promise.all([
+      this.store.query('enterprise', {
+        fields: '*',
+      }),
+    ]);
+    return { enterprise };
   }
 }

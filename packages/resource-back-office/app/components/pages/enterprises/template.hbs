@@ -27,7 +27,7 @@
       <th class="text-textPrimary text-lg">N° de téléphone</th>
     </thead>
     <tbody>
-      {{#each @model as |enterprise|}}
+      {{#each @model.enterprise as |enterprise|}}
         <Ui::List
           @type="enterprise"
           @object={{enterprise}}
