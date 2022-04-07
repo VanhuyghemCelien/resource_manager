@@ -35,6 +35,7 @@
             @mandatory={{true}}
             type="text"
             required
+            data-test-input="typeName"
           />
           <div class="flex flex-row mt-2 justify-between">
             <p>Plusieurs couleurs pour ce type d'occupation* ?</p>
@@ -44,6 +45,7 @@
               class="my-auto ml-4 cursor-pointer"
               {{on "click" @toggleIsColorChecked}}
               checked={{@isColorChecked}}
+              data-test-input="typeCheckbox"
             />
           </div>
           {{#unless @isColorChecked}}
@@ -71,6 +73,7 @@
             type="submit"
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
             {{on "click" this.saveAssignmentType}}
+            data-test-input="saveType"
           >
             {{#if (eq @popupType "new")}}
               <p>Créer le type</p>
@@ -91,6 +94,7 @@
                 name="parents"
                 class="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
                 {{on "change" this.changeParents}}
+                data-test-select="typeSelectTitle"
               >
                 <option value="" selected disabled>
                   Type d'occupation parent
@@ -127,6 +131,7 @@
             @disabled={{if (eq @popupType "details") true false}}
             @mandatory={{true}}
             type="text"
+            data-test-input="titleName"
           />
           {{#if
             (or this.isTitleColorDisplayed (changeset-get @changeset "color"))
@@ -141,6 +146,7 @@
                 class="my-auto w-2/12"
                 value={{changeset-get @changeset "color"}}
                 {{on "change" this.changeColor}}
+                data-test-input="colorTitle"
               />
             </div>
           {{/if}}
@@ -148,6 +154,7 @@
             type="submit"
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
             {{on "click" this.saveAssignmentTitle}}
+            data-test-input="saveTitle"
           >
             {{#if (eq @popupType "new")}}
               <p>Créer le titre</p>

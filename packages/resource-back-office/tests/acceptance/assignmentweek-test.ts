@@ -52,12 +52,17 @@ module('Acceptance | posts', function (hooks) {
     await click('[data-test-input="2"]');
     await click('[data-test-input="addAssignmentType"]');
     await fillIn('[data-test-input="typeName"]', 'TestType');
+    await click('[data-test-input="typeCheckbox"]');
     await click('[data-test-input="saveType"]');
     await select('[data-test-select="typeSelect"]', 'TestType');
     await click('[data-test-input="addAssignmentTitle"]');
-    await fillIn('[data-test-input="titleName"]', 'TestType');
+    await select('[data-test-select="typeSelectTitle"]', 'TestType');
+    await fillIn('[data-test-input="titleName"]', 'TestTitle');
+    await document
+      .getElementById('colorTitleInput')!
+      .setAttribute('value', '#ff0000');
     await click('[data-test-input="saveTitle"]');
-    await select('[data-test-select="titleSelect"]', 'TestType');
+    await select('[data-test-select="titleSelect"]', 'TestTitle');
     await click('[data-test-input="addEnterprises2"]');
     await fillIn('[data-test-input="name"]', 'testEnterprise2');
     await fillIn('[data-test-input="city"]', 'testTown2');
@@ -70,12 +75,7 @@ module('Acceptance | posts', function (hooks) {
     await click('[data-test-input="comment"]');
     await fillIn('[data-test-input="commentText"]', 'test de commentaire');
     await click('[data-test-input="saveAssignment"]');
-    assert
-      .dom('[data-test-input="2"]')
-      .hasText(
-        'TestType testEnterprise - testTown',
-        'great, the assignments test works'
-      );
+    assert.dom('[data-test-input="2"]').containsText('-');
     await click('[data-test-input="nextWeek"]');
     assert
       .dom('[data-test-input="2"]')
