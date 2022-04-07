@@ -26,15 +26,17 @@
       {{/if}}
     </button>
   </td>
-  <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
-    {{#if (eq @type "enterprise")}}
-      {{@object.city}}
-    {{/if}}
-    {{#if (eq @type "resource")}}
-      {{@object.enterprise.name}}
-      -
-      {{@object.enterprise.city}}
-    {{/if}}
+  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+    <p data-test-validated="validated">
+      {{#if (eq @type "enterprise")}}
+        {{@object.city}}
+      {{/if}}
+      {{#if (eq @type "resource")}}
+        {{@object.enterprise.name}}
+        -
+        {{@object.enterprise.city}}
+      {{/if}}
+    </p>
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
     {{@object.emailAddress}}

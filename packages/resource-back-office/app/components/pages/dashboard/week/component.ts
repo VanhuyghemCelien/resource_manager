@@ -19,7 +19,7 @@ import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
 
 interface PagesDashboardWeekArgs {
-  model: { week: number };
+  model: { week: number; first: Date };
 }
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
@@ -33,11 +33,12 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked displayNewTypeModal: boolean = false;
   @tracked displayNewTitleModal: boolean = false;
   @tracked displayNewEnterpriseModal: boolean = false;
-  @tracked choosingDay: Date = new Date();
+  @tracked choosingDay: Date = new Date(this.args.model.first);
   @tracked specificDay: Date = new Date();
   @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
+  @tracked paramsDay: Number = 0;
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
     name: '',
     color: '#adab32',
@@ -307,22 +308,37 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.choosingDay = new Date(
       this.choosingDay.setDate(this.choosingDay.getDate() + 7)
     );
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
-
-  get choosingDateLess() {
-    return getWeek(subWeeks(this.choosingDay, 1), { weekStartsOn: 0 });
+  @action
+  choosingDateLess() {
+    this.choosingDay = new Date(
+      this.choosingDay.setDate(this.choosingDay.getDate() - 7)
+    );
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
 
   @action
   choosingDayActual() {
     this.choosingDay = new Date();
     this.specificDay = new Date();
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
 
   @action
   choosingSpecificDay(event: { target: { value: Date } }) {
     this.specificDay = event.target.value;
     this.choosingDay = new Date(this.specificDay);
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
+    this.router.transitionTo({ queryParams: { week: this.paramsDay } });
   }
 
   get currentMonth() {
