@@ -41,7 +41,7 @@
       {{@object.enterprise.city}}
     {{/if}}
     {{#if (eq @type "assignment-type")}}
-      {{if (get @object "parents.name") "Titre" "Type"}}
+      {{if (get @object "parents.name") this.title "Type"}}
     {{/if}}
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
