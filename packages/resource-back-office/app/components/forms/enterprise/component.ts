@@ -58,7 +58,6 @@ export default class FormsEnterprise extends BaseForm<
         break;
     }
     if (error) {
-      console.log(error);
       return true;
     }
     return false;
@@ -140,7 +139,7 @@ export default class FormsEnterprise extends BaseForm<
       this.removeErrorClass('address');
     }
     if (numberError === 0) {
-      console.log('ok');
+      return;
     } else if (numberError === 1) {
       document.getElementById('errorEnterpriseForm')!.innerHTML =
         '<ul class="list-disc list-inside">' + errorText + '</ul>';
