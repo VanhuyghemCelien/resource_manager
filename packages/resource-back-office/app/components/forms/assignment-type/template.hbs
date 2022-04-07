@@ -4,7 +4,9 @@
   <div
     class="flex h-screen justify-center items-center transition-all duration-200"
   >
-    <div class="bg-white p-5 rounded-3xl w-[314px] ml-[432px]">
+    <div
+      class="bg-white p-5 rounded-3xl w-[314px] {{unless @page "ml-[432px]"}}"
+    >
       <div class="flex flex-row justify-center">
         <h1 class="ml-5 w-full text-2xl font-bol text-center">
           {{#if (eq @type "type")}}
@@ -82,13 +84,23 @@
               <option value="" selected disabled>
                 Type d'occupation parent
               </option>
-              {{#each @model.assignmentType as |assignmentType|}}
-                {{#if (not (get assignmentType "parents.name"))}}
-                  <option value={{assignmentType.id}}>
-                    {{assignmentType.name}}
-                  </option>
-                {{/if}}
-              {{/each}}
+              {{#if @page}}
+                {{#each @model as |assignmentType|}}
+                  {{#if (not (get assignmentType "parents.name"))}}
+                    <option value={{assignmentType.id}}>
+                      {{assignmentType.name}}
+                    </option>
+                  {{/if}}
+                {{/each}}
+              {{else}}
+                {{#each @model.assignmentType as |assignmentType|}}
+                  {{#if (not (get assignmentType "parents.name"))}}
+                    <option value={{assignmentType.id}}>
+                      {{assignmentType.name}}
+                    </option>
+                  {{/if}}
+                {{/each}}
+              {{/if}}
             </select>
           </label>
           <Ui::Input

@@ -79,7 +79,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     };
     this.args.assignment.assignmentType = selected.firstObject;
     document.getElementById('titleSelect')!.removeAttribute('disabled');
-    document.getElementById('newTitleButton')!.removeAttribute('disabled');
     const titleTable = await this.store.query('assignmentType', {
       fields: 'name,color',
       include: 'parents',

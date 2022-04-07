@@ -1,22 +1,42 @@
 <div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
   <h1 class="text-3xl font-black text-textPrimary">Types d'occupations</h1>
-  <div
-    class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
-  >
-    <button
-      type="button"
-      class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-      {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new")}}
+  <div class="flex flex-row">
+    <div
+      class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
     >
-      <div class="text-lg flex flex-row">
-        <img
-          src="/assets/icons/plus-button.svg"
-          alt="plus button icon"
-          class="inline h-6 w-6 my-auto"
-        />
-        <p class="ml-1">Ajouter un type d'occupation</p>
-      </div>
-    </button>
+      <button
+        type="button"
+        class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new" "type")}}
+      >
+        <div class="text-lg flex flex-row">
+          <img
+            src="/assets/icons/plus-button.svg"
+            alt="plus button icon"
+            class="inline h-6 w-6 my-auto"
+          />
+          <p class="ml-1">Ajouter un type d'occupation</p>
+        </div>
+      </button>
+    </div>
+    <div
+      class="mt-1 w-max ml-4 rounded-full hover:bg-navbarBg transition-all duration-200"
+    >
+      <button
+        type="button"
+        class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new" "title")}}
+      >
+        <div class="text-lg flex flex-row">
+          <img
+            src="/assets/icons/plus-button.svg"
+            alt="plus button icon"
+            class="inline h-6 w-6 my-auto"
+          />
+          <p class="ml-1">Ajouter un titre d'occupation</p>
+        </div>
+      </button>
+    </div>
   </div>
   <table class="w-full min-w-[850px]">
     <thead>
@@ -37,13 +57,19 @@
     </tbody>
   </table>
   {{#if this.displayNewAssignmentTypeModal}}
-    <Popups::AssignmentType
-      @changeset={{this.changeset}}
-      @popupType="new"
-      @saveFunction={{this.addAssignmentType}}
-      @toggleDisplayModal={{fn this.toggleDisplayAssignmentTypeModal "new"}}
-      @toggleIsColorChecked={{this.toggleMultipleColors}}
-      @multipleColors={{this.multipleColors}}
+    <Forms::AssignmentType
+      @page="assignment-types"
+      @model={{@model}}
+      @type={{this.type}}
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{fn
+        this.toggleDisplayAssignmentTypeModal
+        "new"
+        this.type
+      }}
+      @toggleIsColorChecked={{this.toggleMultipleColor}}
+      @saveFunction={{fn this.add this.type}}
+      @isColorChecked={{this.multipleColor}}
     />
   {{/if}}
   {{#if this.displayEditAssignmentTypeModal}}{{/if}}

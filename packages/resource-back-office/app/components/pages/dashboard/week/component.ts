@@ -86,6 +86,17 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     });
   }
 
+  @action add(
+    type: string,
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    if (type === 'type') {
+      this.addAssignmentType(changeset);
+    } else if (type === 'title') {
+      this.addAssignmentTitle(changeset);
+    }
+  }
+
   @tracked assignment: Partial<AssignmentModel> = {
     date: new Date(),
     isMorning: false,
@@ -270,14 +281,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       this.assignmentTypeChangeset.rollback();
     } else {
       this.displayNewTitleModal = true;
-      const parent = await this.store.queryRecord('assignment-type', {
-        id: this.assignment.assignmentType!.id,
-      });
-      if (parent.get('color')) {
-        this.multipleColor = false;
-      } else {
-        this.multipleColor = true;
-      }
     }
   }
 
