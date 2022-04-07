@@ -109,6 +109,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     // rajouter async await + gestion erreurs
     assignment.save();
+    const second = localStorage.getItem('second') ?? '';
+    const third = localStorage.getItem('third') ?? '';
+    localStorage.setItem('first', assignment.id);
+    localStorage.setItem('second', second);
+    localStorage.setItem('third', third);
     this.toggleDisplayNewAssignmentModal();
   }
 
