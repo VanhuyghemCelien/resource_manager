@@ -20,8 +20,10 @@ module.exports = {
       },
     },
     colors: {
-      primary: '#34404A',
-      secondary: '#66727C',
+      primary: '#47E67F',
+      secondary: '#2B4999',
+      textPrimary: '#34404A',
+      textSecondary: '#66727C',
       navbarBg: '#3787C0',
       navbarSelected: '#F2F2F2',
       text: '#647377',

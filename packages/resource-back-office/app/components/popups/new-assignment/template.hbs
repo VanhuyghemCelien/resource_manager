@@ -1,11 +1,10 @@
 <div
-  class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+  class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
 >
   <div
     class="flex h-screen justify-center items-center
       {{if @displayNewTypeModal "mr-[432px]"}}
       {{if @displayNewTitleModal "mr-[432px]"}}
-      {{if @displayNewEnterpriseModal "mr-[432px]"}}
       transition-all duration-200"
   >
     <div class="bg-white p-5 rounded-3xl w-[500px] font-normal">
@@ -17,11 +16,7 @@
           {{@resourceName}}
         </p>
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
-          <img
-            src="/assets/icons/close-button.svg"
-            alt="close button icon"
-            class="inline h-5 w-auto mr-1"
-          />
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <div class="text-center mt-3">
@@ -65,9 +60,11 @@
           >
             <option value="" selected disabled>Sélectionnez un type d'occupation</option>
             {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.name}}>
-                {{assignmentType.name}}
-              </option>
+              {{#if (not (get assignmentType "parents.name"))}}
+                <option value={{assignmentType.name}}>
+                  {{assignmentType.name}}
+                </option>
+              {{/if}}
             {{/each}}
           </select>
           {{! template-lint-disable no-log }}
@@ -77,6 +74,7 @@
             class="grow-0"
             data-test-input="addAssignmentType"
             {{on "click" @toggleDisplayNewTypeModal}}
+            title="Ajouter un type d'occupation"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
@@ -90,22 +88,20 @@
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
+            disabled
             {{on "change" this.selectTitle}}
           >
             <option value="" selected disabled>
-              Sélectionnez un titre
-              d'occupation
+              Sélectionnez un titre d'occupation
             </option>
-            {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.name}}>
-                {{assignmentType.name}}
-              </option>
-            {{/each}}
           </select>
           <button
+            id="newTitleButton"
             type="button"
             class="grow-0"
             {{on "click" @toggleDisplayNewTitleModal}}
+            disabled
+            title="Ajouter un titre d'occupation pour le type sélectionné"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
@@ -125,6 +121,8 @@
             {{#each @model.enterprise as |enterprise|}}
               <option value={{enterprise.name}}>
                 {{enterprise.name}}
+                -
+                {{enterprise.city}}
               </option>
             {{/each}}
           </select>

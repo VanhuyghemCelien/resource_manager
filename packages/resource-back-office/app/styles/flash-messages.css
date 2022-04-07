@@ -11,6 +11,7 @@
   content: '\00D7';
   width: 50px;
   height: 22px;
+  @apply text-textPrimary
 }
 .alert:hover {
   cursor: pointer;

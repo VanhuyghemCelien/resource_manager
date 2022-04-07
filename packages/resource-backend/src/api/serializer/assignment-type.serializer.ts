@@ -15,7 +15,7 @@ export class AssignmentTypeSerializer extends BaseJsonApiSerializer<AssignmentTy
     this.serializer.register('assignmentType', {
       whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
       relationships: {
-        childs: {
+        children: {
           type: 'assignmentType',
         },
         parents: {
@@ -26,7 +26,7 @@ export class AssignmentTypeSerializer extends BaseJsonApiSerializer<AssignmentTy
         },
       },
     });
-    this.serializer.register('childs', {
+    this.serializer.register('children', {
       whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
     });
     this.serializer.register('parents', {

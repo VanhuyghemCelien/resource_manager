@@ -24,7 +24,7 @@ export class AssignmentTypeModel implements JsonApiModelInterface {
         declare parents: AssignmentTypeModel;
 
         @OneToMany({ entity: () => AssignmentTypeModel, mappedBy: 'parents', nullable: true })
-          childs = new Collection<AssignmentTypeModel>(this);
+          children = new Collection<AssignmentTypeModel>(this);
 
         @OneToMany({ entity: () => AssignmentModel, mappedBy: 'assignmentType', nullable: true })
           assignment = new Collection<AssignmentModel>(this);
