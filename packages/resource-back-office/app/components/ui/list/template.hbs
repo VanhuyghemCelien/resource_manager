@@ -80,7 +80,14 @@
       <button
         type="button"
         class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        {{on "click" (fn @displayDetails "edit" @object.id)}}
+        {{on
+          "click"
+          (fn
+            @displayDetails
+            (if (get @object "parents.name") "title" "type")
+            @object.id
+          )
+        }}
       >
         <img
           src="/assets/icons/edit-button.svg"

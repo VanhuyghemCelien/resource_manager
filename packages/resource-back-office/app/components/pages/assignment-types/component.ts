@@ -114,17 +114,39 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   }
 
   @action
-  async displayAssignmentTypeDetails(assignmentTypeIdReceived: string) {
+  edit(
+    type: string,
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    if (type === 'type') {
+      this.editAssignmentType(changeset);
+    } else if (type === 'title') {
+      this.editAssignmentTitle(changeset);
+    }
+  }
+
+  @action
+  async displayAssignmentTypeDetails(
+    type: string,
+    assignmentTypeIdReceived: string
+  ) {
     const assignmentTypeReceived = await this.store.queryRecord(
-      'assignment-type',
+      'assignmentType',
       {
         id: assignmentTypeIdReceived,
       }
     );
+    this.toggleDisplayEditAssignmentTypeModal(type);
+    if (!assignmentTypeReceived.color && assignmentTypeReceived.children) {
+      if (type === 'type') {
+        this.toggleMultipleColor();
+      } else if (type === 'title') {
+        this.toggleMultipleColor();
+      }
+    }
     this.assignmentTypeChangeset.set('id', assignmentTypeReceived.id);
     this.assignmentTypeChangeset.set('color', assignmentTypeReceived.color);
     this.assignmentTypeChangeset.set('name', assignmentTypeReceived.name);
-    this.toggleDisplayEditAssignmentTypeModal();
   }
 
   @action
@@ -192,7 +214,28 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       assignmentType.color = changeset.get('color');
       await assignmentType.save();
       this.assignmentTypeChangeset.rollback();
-      this.toggleDisplayAssignmentTypeModal('edit');
+      this.toggleDisplayAssignmentTypeModal('edit', 'type');
+      this.flashMessages.success("Le type d'occupation a bien été modifié");
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
+  }
+
+  @action
+  async editAssignmentTitle(
+    // A modifier l'edit de titre ne fonctionne pas
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentTitle = await this.store.queryRecord('assignmentType', {
+        id: changeset.get('id'),
+      });
+
+      assignmentTitle.name = changeset.get('name');
+      assignmentTitle.color = changeset.get('color');
+      await assignmentTitle.save();
+      this.assignmentTypeChangeset.rollback();
+      this.toggleDisplayAssignmentTypeModal('edit', 'title');
       this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
       this.flashMessages.danger(e.message);

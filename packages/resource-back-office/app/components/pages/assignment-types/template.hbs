@@ -61,6 +61,7 @@
       @page="assignment-types"
       @model={{@model}}
       @type={{this.type}}
+      @popupType="new"
       @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{fn
         this.toggleDisplayAssignmentTypeModal
@@ -72,7 +73,23 @@
       @isColorChecked={{this.multipleColor}}
     />
   {{/if}}
-  {{#if this.displayEditAssignmentTypeModal}}{{/if}}
+  {{#if this.displayEditAssignmentTypeModal}}
+    <Forms::AssignmentType
+      @page="assignment-types"
+      @model={{@model}}
+      @type={{this.type}}
+      @popupType="edit"
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{fn
+        this.toggleDisplayAssignmentTypeModal
+        "edit"
+        this.type
+      }}
+      @toggleIsColorChecked={{this.toggleMultipleColor}}
+      @saveFunction={{fn this.edit this.type}}
+      @isColorChecked={{this.multipleColor}}
+    />
+  {{/if}}
   {{#if this.displayDeleteAssignmentTypeModal}}
     <Popups::Delete
       @type="assignment type"

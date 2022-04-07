@@ -90,6 +90,7 @@
   {{#if this.displayNewTypeModal}}
     <Forms::AssignmentType
       @type="type"
+      @popupType="new"
       @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
       @toggleIsColorChecked={{this.toggleColor}}
@@ -109,6 +110,7 @@
   {{#if this.displayNewTitleModal}}
     <Forms::AssignmentType
       @type="title"
+      @popupType="new"
       @model={{@model}}
       @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{this.toggleDisplayNewTitleModal}}
