@@ -140,13 +140,14 @@ export default class PagesEnterprises extends Component<PagesEnterprisesArgs> {
         vatNumber: changeset.get('vatNumber') ?? undefined,
         address: changeset.get('address'),
       };
-      const enterpriseCreated = await this.store.createRecord(
+      const enterprise = await this.store.createRecord(
         'enterprise',
         enterpriseToSave
       );
-      enterpriseCreated.save();
+      await enterprise.save();
       this.changeset.rollback();
       this.toggleDisplayEnterpriseModal('new');
+      this.router.refresh();
       this.flashMessages.success("L'entreprise a bien été créée");
     } catch (e) {
       this.flashMessages.warning(e.message);

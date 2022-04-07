@@ -134,6 +134,7 @@
             <input
               type="text"
               id="titleInput"
+              data-test-input="titleName"
               class="border border-textPrimary rounded mx-auto w-full mt-4 px-3 py-1"
               {{on "change" (fn this.editAssignmentTitleField "name")}}
             />
@@ -154,6 +155,7 @@
           <button
             type="button"
             class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            data-test-input="saveTitle"
             {{on "click" this.addAssignmentTitle}}
           >
             <p>Créer le titre</p>

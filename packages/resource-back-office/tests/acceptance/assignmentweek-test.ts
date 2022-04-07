@@ -53,6 +53,11 @@ module('Acceptance | posts', function (hooks) {
     await click('[data-test-input="addAssignmentType"]');
     await fillIn('[data-test-input="typeName"]', 'TestType');
     await click('[data-test-input="saveType"]');
+    await select('[data-test-select="typeSelect"]', 'TestType');
+    await click('[data-test-input="addAssignmentTitle"]');
+    await fillIn('[data-test-input="titleName"]', 'TestType');
+    await click('[data-test-input="saveTitle"]');
+    await select('[data-test-select="titleSelect"]', 'TestType');
     await click('[data-test-input="addEnterprises2"]');
     await fillIn('[data-test-input="name"]', 'testEnterprise2');
     await fillIn('[data-test-input="city"]', 'testTown2');
@@ -60,8 +65,6 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="emailAddress"]', 'info2@test.be');
     await fillIn('[data-test-input="phoneNumber"]', '0476786732');
     await click('[data-test-submit = "saveEnterprise"]');
-    await select('[data-test-select="typeSelect"]', 'TestType');
-    await select('[data-test-select="titleSelect"]', 'TestType');
     await select('[data-test-select="enterprisesSelect2"]', 'testEnterprise');
     await click('[data-test-input="remote"]');
     await click('[data-test-input="comment"]');
@@ -69,7 +72,10 @@ module('Acceptance | posts', function (hooks) {
     await click('[data-test-input="saveAssignment"]');
     assert
       .dom('[data-test-input="2"]')
-      .hasText('TestTypetestEnterprise', 'great, the assignments test works');
+      .hasText(
+        'TestType testEnterprise - testTown',
+        'great, the assignments test works'
+      );
     await click('[data-test-input="nextWeek"]');
     assert
       .dom('[data-test-input="2"]')
