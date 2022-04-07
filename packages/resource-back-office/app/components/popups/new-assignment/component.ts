@@ -7,7 +7,6 @@ import type AssignmentModel from 'ember-boilerplate/models/assignment';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
-import { loading } from 'ember-loading';
 
 interface PopupsNewAssignmentArgs {
   displayNewTypeModal: boolean;
@@ -62,7 +61,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   }
 
   @action
-  @loading
   async selectType(event: { target: { value: string } }) {
     const value = event.target.value;
     let selected = await this.store.query('assignment-type', {

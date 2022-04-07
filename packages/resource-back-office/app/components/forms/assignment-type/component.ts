@@ -30,8 +30,17 @@ export default class FormsAssignmentType extends BaseForm<
   @action changeColor(event: { target: { value: string } }) {
     this.args.changeset.set('color', event.target.value);
   }
-  @action changeParents(event: { target: { value: string } }) {
+  @action
+  async changeParents(event: { target: { value: string } }) {
     this.args.changeset.set('parents', event.target.value);
+    const parent = await this.store.queryRecord('assignment-type', {
+      id: event.target.value,
+    });
+    if (parent.get('color')) {
+      this.isParentSelected = false;
+    } else {
+      this.isParentSelected = true;
+    }
   }
   @action validate(event: Event) {
     event.preventDefault();
@@ -44,25 +53,5 @@ export default class FormsAssignmentType extends BaseForm<
     console.log('Name: ' + this.args.changeset.name);
     console.log('Color: ' + this.args.changeset.color);
     console.log('Parents: ' + this.args.changeset.parents);
-  }
-  @tracked parentsOption = this.getParentsOption();
-  async getParentsOption() {
-    // {{#if (not (get assignmentType "parents.name"))}}
-    //   <option value={{assignmentType.name}}>
-    //     {{assignmentType.name}}
-    //   </option>
-    // {{/if}}
-    const titleTable = await this.store.query('assignment-type', {
-      fields: 'name,color',
-      include: 'parents',
-    });
-    let parents: Partial<AssignmentTypeModel>[] = [];
-    titleTable.forEach((title) => {
-      if (!title.get('parents').get('name')) {
-        parents.addObject(title.get('parents'));
-      }
-    });
-
-    return parents as AssignmentTypeModel[];
   }
 }

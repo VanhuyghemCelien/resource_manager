@@ -76,13 +76,14 @@
               id="parentsSelect"
               name="parents"
               class="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
+              {{on "change" this.changeParents}}
             >
               <option value="" selected disabled>
                 Type d'occupation parent
               </option>
               {{#each @model.assignmentType as |assignmentType|}}
                 {{#if (not (get assignmentType "parents.name"))}}
-                  <option value={{assignmentType.name}}>
+                  <option value={{assignmentType.id}}>
                     {{assignmentType.name}}
                   </option>
                 {{/if}}
@@ -102,9 +103,9 @@
             @mandatory={{true}}
             type="text"
           />
-          {{#if @multipleColor}}
+          {{#if this.isParentSelected}}
             <div class="flex flex-row mt-2 justify-between">
-              <p class="w-10/12">
+              <p class="w-10/12 mb-1">
                 Sélectionnez la couleur à appliquer pour ce titre d'occupation
               </p>
               <input
