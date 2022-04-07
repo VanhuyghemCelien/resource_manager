@@ -15,8 +15,10 @@ import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/ente
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../../validator/forms/enterprise';
+import AssignmentTypeValidation from '../../../../validator/forms/assignment-type';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
+import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 
 interface PagesDashboardWeekArgs {
   model: { week: number };
@@ -43,6 +45,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     color: '#adab32',
   };
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  @tracked
+  assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
     this.changesetEnterprise = Changeset(
@@ -60,6 +64,14 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       lookupValidator(EnterpriseValidation),
       EnterpriseValidation
     ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
+    this.assignmentTypeChangeset = Changeset(
+      {
+        name: '',
+        color: '',
+      },
+      lookupValidator(AssignmentTypeValidation),
+      AssignmentTypeValidation
+    ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   }
   @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
     name: '',
@@ -69,6 +81,22 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked enterprise: Partial<EnterpriseModel> = {
     name: '',
   };
+
+  @tracked parentsOption = this.getParentsOption();
+
+  async getParentsOption() {
+    const titleTable = await this.store.query('assignment-type', {
+      fields: 'name,color',
+      include: 'parents',
+    });
+    let parents: Partial<AssignmentTypeModel>[] = [];
+    titleTable.forEach((title) => {
+      if (!title.get('parents').get('name')) {
+        parents.addObject(title.get('parents'));
+      }
+    });
+  }
+
   @tracked assignment: Partial<AssignmentModel> = {
     date: new Date(),
     isMorning: false,

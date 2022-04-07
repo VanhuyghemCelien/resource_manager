@@ -88,7 +88,16 @@
     />
   {{/if}}
   {{#if this.displayNewTypeModal}}
-    <Popups::AssignmentType
+    {{!-- <Popups::AssignmentType
+      @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
+      @editAssignmentTypeField={{this.editAssignmentTypeField}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentType}}
+      @isColorChecked={{this.multipleColor}}
+    /> --}}
+    <Forms::AssignmentType
+      @type="type"
+      @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
       @editAssignmentTypeField={{this.editAssignmentTypeField}}
       @toggleIsColorChecked={{this.toggleColor}}
@@ -106,7 +115,7 @@
     />
   {{/if}}
   {{#if this.displayNewTitleModal}}
-    <div
+    {{!-- <div
       class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
     >
       <div
@@ -157,6 +166,17 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> --}}
+    <Forms::AssignmentType
+      @type="title"
+      @model={{@model}}
+      @parentsOption={{this.parentsOption}}
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{this.toggleDisplayNewTitleModal}}
+      @editAssignmentTypeField={{this.editAssignmentTitleField}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentTitle}}
+      @isColorChecked={{this.multipleColor}}
+    />
   {{/if}}
 </div>
