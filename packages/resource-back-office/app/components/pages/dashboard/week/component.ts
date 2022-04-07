@@ -40,10 +40,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
-  @tracked assignmentType: Partial<AssignmentTypeModel> = {
-    name: '',
-    color: '#adab32',
-  };
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
   @tracked
   assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
@@ -74,14 +70,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       AssignmentTypeValidation
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   }
-  @tracked assignmentTitle: Partial<AssignmentTypeModel> = {
-    name: '',
-    color: '',
-    parents: undefined,
-  };
-  @tracked enterprise: Partial<EnterpriseModel> = {
-    name: '',
-  };
 
   @tracked parentsOption = this.getParentsOption();
 
@@ -109,7 +97,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     enterprise: undefined,
   };
 
-  // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
   addAssignment(assignmentNew: Partial<AssignmentModel>) {
     console.log(assignmentNew, 'addassignment');
@@ -142,41 +129,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   }
 
   @action
-  editAssignmentTypeField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'assignmentTypeName':
-        this.assignmentType.name = event.target.value;
-        break;
-      case 'assignmentTypeColor':
-        this.assignmentType.color = event.target.value;
-        break;
-    }
-  }
-
-  @action
-  editAssignmentTitleField(
-    field: string,
-    event: { target: { value: string } }
-  ) {
-    switch (field) {
-      case 'name':
-        this.assignmentTitle.name = event.target.value;
-        break;
-      case 'color':
-        this.assignmentTitle.color = event.target.value;
-        break;
-    }
-  }
-
-  @action
   @loading
   async addAssignmentType(
     changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
   ) {
     try {
-      // if (this.multipleColor) {
-      //   this.assignmentType.color = undefined;
-      // }
       const assignmentTypeToAdd: Partial<AssignmentTypeModel> = {
         name: changeset.get('name'),
         color: changeset.get('color'),
@@ -186,11 +143,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
         'assignment-type',
         assignmentTypeToAdd
       );
-      // changeset
-      // this.assignmentType = {
-      //   name: '',
-      //   color: '',
-      // };
       this.assignmentTypeChangeset.rollback();
       await assignmentType.save();
       this.multipleColor = false;
