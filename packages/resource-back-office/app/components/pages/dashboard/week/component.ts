@@ -40,6 +40,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
+  @tracked paramsDay: Number = 0;
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
   @tracked
   assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
