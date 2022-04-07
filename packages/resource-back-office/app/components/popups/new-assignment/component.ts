@@ -160,4 +160,17 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       this.assignment.isAfternoon = true;
     }
   }
+
+  @action
+  selectedRemote() {
+    if (this.assignment.isRemote) {
+      this.assignment.isRemote = false;
+    } else {
+      this.assignment.isRemote = true;
+    }
+  }
+  @action
+  editAssignmentCommentField(event: { target: { value: string } }) {
+    this.assignment.comment = event.target.value;
+  }
 }

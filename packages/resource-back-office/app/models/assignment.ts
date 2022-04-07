@@ -8,7 +8,7 @@ export default class AssignmentModel extends Model {
   @attr() declare isMorning: boolean;
   @attr() declare isAfternoon: boolean;
   @attr() declare isRemote: boolean;
-  @attr() declare comment?: Text;
+  @attr() declare comment?: String;
   @belongsTo('resource')
   declare resource: ResourceModel;
   @belongsTo('assignmentType')

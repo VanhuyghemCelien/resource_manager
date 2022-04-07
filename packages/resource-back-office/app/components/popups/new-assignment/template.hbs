@@ -52,6 +52,7 @@
           <select
             id="typeSelect"
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
+            data-test-select="typeSelect"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
@@ -71,6 +72,7 @@
           <button
             type="button"
             class="grow-0"
+            data-test-input="addAssignmentType"
             {{on "click" @toggleDisplayNewTypeModal}}
             title="Ajouter un type d'occupation"
           >
@@ -82,6 +84,7 @@
           <select
             id="titleSelect"
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
+            data-test-select="titleSelect"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
@@ -96,6 +99,7 @@
             id="newTitleButton"
             type="button"
             class="grow-0"
+            data-test-input="addAssignmentTitle"
             {{on "click" @toggleDisplayNewTitleModal}}
             title="Ajouter un titre d'occupation"
           >
@@ -107,6 +111,7 @@
           <select
             id="enterpriseSelect"
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
+            data-test-select="enterprisesSelect2"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
@@ -124,6 +129,7 @@
           <button
             type="button"
             class="grow-0"
+            data-test-input="addEnterprises2"
             {{on "click" @toggleDisplayNewEnterpriseModal}}
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
@@ -137,6 +143,7 @@
                 id="commentInput"
                 type="checkbox"
                 class="cursor-pointer"
+                data-test-input="comment"
                 {{on "click" this.toggleComment}}
               />
             </label>
@@ -144,7 +151,7 @@
           <div class="w-max">
             <label class="cursor-pointer">
               A distance ?
-              <input id="remoteInput" type="checkbox" class="cursor-pointer" />
+              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" {{on "click" this.selectedRemote}} />
             </label>
           </div>
         </div>
@@ -154,12 +161,15 @@
               id="CommentText"
               class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
               rows="2"
+              data-test-input="commentText"
+              {{on "change" this.editAssignmentCommentField}}
             ></textarea>
           </div>
         {{/if}}
         <button
           type="button"
           class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
+          data-test-input="saveAssignment"
           {{on "click" (fn @addAssignment this.assignment)}}
         >
           <p>Ajouter l'occupation</p>

@@ -14,26 +14,29 @@
   <div class="flex flex-row h-max mt-4">
     <div class="flex flex-row w-max">
       <LinkTo
-        {{! { week : this.choosingMachin } }}
-        @query={{hash week=this.choosingDateLess}}
+        @query={{hash week=this.paramsDay}}
+        {{on "click" this.choosingDateLess}}
         class="block text-center h-9 w-9 pr-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
       >
         <p class="w-full text-center mt-1.5">&#x276E;</p>
       </LinkTo>
-      <button
+      <LinkTo
         class="block text-center py-1 px-5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"
+        @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayActual}}
       >
         Cette semaine
-      </button>
-      <button
+      </LinkTo>
+      <LinkTo
         class="block text-center h-9 w-9 pl-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"
+        data-test-input="nextWeek"
+        @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayPlus}}
       >
         <p class="w-full text-center">&#x276F;</p>
-      </button>
+      </LinkTo>
     </div>
     <div class="ml-4 h-max my-auto">
       <label name="specificDay">

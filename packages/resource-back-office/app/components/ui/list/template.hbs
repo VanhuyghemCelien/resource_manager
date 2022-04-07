@@ -32,17 +32,19 @@
     {{/if}}
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
-    {{#if (eq @type "enterprise")}}
-      {{@object.city}}
-    {{/if}}
-    {{#if (eq @type "resource")}}
-      {{@object.enterprise.name}}
-      -
-      {{@object.enterprise.city}}
-    {{/if}}
-    {{#if (eq @type "assignment-type")}}
-      {{if (get @object "parents.name") this.title "Type"}}
-    {{/if}}
+    <p data-test-validated="validated">
+      {{#if (eq @type "enterprise")}}
+        {{@object.city}}
+      {{/if}}
+      {{#if (eq @type "resource")}}
+        {{@object.enterprise.name}}
+        -
+        {{@object.enterprise.city}}
+      {{/if}}
+      {{#if (eq @type "assignment-type")}}
+        {{if (get @object "parents.name") this.title "Type"}}
+      {{/if}}
+    </p>
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
     {{#if (or (eq @type "enterprise") (eq @type "resource"))}}

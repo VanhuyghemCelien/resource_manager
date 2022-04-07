@@ -19,10 +19,9 @@
     "lint:js": "eslint {app,tests}/**/*.{js,ts} --cache",
     "lint:js:fix": "eslint {app,tests}/**/*.{js,ts} --fix",
     "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:duplication": "jscpd --exitCode 1 --pattern app/**/*.{ts,js}",
-    "test:ember": "COVERAGE=true ember test",
-    "test:cov": "node read-cov.js . 40"
+    "test": "npm-run-all -r -p lint:* && npm-run-all -r -p test:*",
+    "test:ember": "sleep 10 && COVERAGE=true ember test",
+    "test:launch-backend": "cd ../resource-backend && pnpm start:test"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",

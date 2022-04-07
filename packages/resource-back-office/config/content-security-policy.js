@@ -7,7 +7,7 @@ module.exports = function (env) {
       'default-src': ["'none'"],
       'script-src': ["'self'"],
       'font-src': ["'self'", 'https://fonts.gstatic.com'],
-      'connect-src': ["'self'"],
+      'connect-src': ["'self'", 'http://localhost:8000'],
       'img-src': ["'self'"],
       'style-src': ["'self'", 'https://fonts.googleapis.com'],
       'media-src': ["'self'"],
@@ -25,7 +25,7 @@ module.exports = function (env) {
   }
 
   if (env === 'test') {
-    csp.policy['connect-src'].push("'http://localhost:8080'");
+    csp.policy['connect-src'].push('http://localhost:8000');
     csp.policy['script-src'].push("'unsafe-eval'");
   }
 

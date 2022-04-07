@@ -2,6 +2,7 @@
   type="button"
   class="bg-opacity-100 border-2 border-navbarSelected h-[52px] w-60 hover:border-navbarBg text-center text-white bg-navbarSelected
     {{if @boolMorning "rounded-t-xl" "rounded-b-xl"}}"
+  data-test-input={{if @boolMorning @numDay}}
   {{! template-lint-disable no-inline-styles }}
   {{! template-lint-disable style-concatenation }}
   style="{{this.bgColor}}{{this.borderColor}}"

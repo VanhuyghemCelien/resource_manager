@@ -7,7 +7,7 @@ const authorizedToken =
   'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjUwMDM5MTEwNjUsImlhdCI6MTY0MzkxMDc2NSwic3ViIjoiMTIzNDU2Nzg5MTBhYmNkZWYiLCJuYmYiOjE2NDM5MTA3NjUsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCJ9.D2AP61Td-JLzOwJqnz_YWLVqzF10pcuV3YLo_SjaStMnbpphNx8TzUnJf_ldzDjqj0q69gtLHF9czdja3Mxaxw';
 
 test('Should list users', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/vnd.api+json',
@@ -18,7 +18,7 @@ test('Should list users', async () => {
 });
 
 test('Should get profile', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users/profile', {
+  const response = await fetch('http://localhost:8000/api/v1/users/profile', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/vnd.api+json',
@@ -30,7 +30,7 @@ test('Should get profile', async () => {
 
 test('Should get user', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/users/12345678910abcdef',
+    'http://localhost:8000/api/v1/users/12345678910abcdef',
     {
       headers: {
         'content-type': 'application/vnd.api+json',
@@ -45,7 +45,7 @@ test('Should get user', async () => {
 describe('JSON-API tests', () => {
   test('Should get user with include documents', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users/12345678910abcdef?include=documents',
+      'http://localhost:8000/api/v1/users/12345678910abcdef?include=documents',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -64,7 +64,7 @@ describe('JSON-API tests', () => {
   });
   test('Should refuse unknown include', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users/12345678910abcdef?include=documentsssss',
+      'http://localhost:8000/api/v1/users/12345678910abcdef?include=documentsssss',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -77,7 +77,7 @@ describe('JSON-API tests', () => {
   });
   test('Should get user with only firstName field', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users/12345678910abcdef?fields[users]=firstName',
+      'http://localhost:8000/api/v1/users/12345678910abcdef?fields[users]=firstName',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -97,7 +97,7 @@ describe('JSON-API tests', () => {
   });
   test('Should refuse unknown field', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users/12345678910abcdef?fields=azdlpazlda',
+      'http://localhost:8000/api/v1/users/12345678910abcdef?fields=azdlpazlda',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -110,7 +110,7 @@ describe('JSON-API tests', () => {
   });
   test('Should order by id', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users?sort=-id',
+      'http://localhost:8000/api/v1/users?sort=-id',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -127,7 +127,7 @@ describe('JSON-API tests', () => {
   });
   test('Should refuse unknown order key', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users?sort=-ids',
+      'http://localhost:8000/api/v1/users?sort=-ids',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -140,7 +140,7 @@ describe('JSON-API tests', () => {
   });
   test('Should paginate', async () => {
     const response = await fetch(
-      'http://localhost:8001/api/v1/users?page[size]=1&page[number]=1',
+      'http://localhost:8000/api/v1/users?page[size]=1&page[number]=1',
       {
         headers: {
           'content-type': 'application/vnd.api+json',
@@ -173,7 +173,7 @@ describe('JSON-API tests', () => {
 
 test('Should create user', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/users',
+    'http://localhost:8000/api/v1/users',
     {
       method: 'post',
       body: JSON.stringify({
@@ -199,7 +199,7 @@ test('Should create user', async () => {
 
 test('Create user with unknown key', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/users',
+    'http://localhost:8000/api/v1/users',
     {
       method: 'post',
       body: JSON.stringify({
@@ -226,7 +226,7 @@ test('Create user with unknown key', async () => {
 
 test('Should update user', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/users/12345678910abcdef',
+    'http://localhost:8000/api/v1/users/12345678910abcdef',
     {
       method: 'patch',
       body: JSON.stringify({
@@ -249,7 +249,7 @@ test('Should update user', async () => {
 
 test('Should delete user', async () => {
   const response = await fetch(
-    'http://localhost:8001/api/v1/users/12345678910abcdef',
+    'http://localhost:8000/api/v1/users/12345678910abcdef',
     {
       method: 'DELETE',
       headers: {
@@ -263,7 +263,7 @@ test('Should delete user', async () => {
 });
 
 test('Should get unexisting user', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users/1234bcdef', {
+  const response = await fetch('http://localhost:8000/api/v1/users/1234bcdef', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/vnd.api+json',
@@ -274,7 +274,7 @@ test('Should get unexisting user', async () => {
 });
 
 test('Should refuse unauthorized user', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/vnd.api+json',
@@ -284,7 +284,7 @@ test('Should refuse unauthorized user', async () => {
 });
 
 test('Should refuse wrong content-type', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     headers: {
       'content-type': 'application/nd.api+json',
       accept: 'application/vnd.api+json',
@@ -294,7 +294,7 @@ test('Should refuse wrong content-type', async () => {
 });
 
 test('Should refuse good content-type but with media chars', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     headers: {
       'content-type': 'application/vnd.api+json; encoding=UTF-8',
       accept: 'application/vnd.api+json',
@@ -304,7 +304,7 @@ test('Should refuse good content-type but with media chars', async () => {
 });
 
 test('Should refuse wrong accept', async () => {
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     headers: {
       'content-type': 'application/vnd.api+json',
       accept: 'application/json',
@@ -315,7 +315,7 @@ test('Should refuse wrong accept', async () => {
 
 test('Should deny > 128kb payloads', async () => {
   const bytes = randomBytes(131073);
-  const response = await fetch('http://localhost:8001/api/v1/users', {
+  const response = await fetch('http://localhost:8000/api/v1/users', {
     method: 'post',
     headers: {
       'content-type': 'application/vnd.api+json',
