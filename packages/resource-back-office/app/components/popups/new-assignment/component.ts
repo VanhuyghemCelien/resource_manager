@@ -72,10 +72,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       assignmentType: selected.firstObject,
     };
     this.assignmentType = {
-      ...this.assignmentType,
-      name: selected.firstObject!.name,
-      color: selected.firstObject!.color,
-      children: selected.firstObject!.children,
+      ...this.assignment.assignmentType,
     };
     this.args.assignment.assignmentType = selected.firstObject;
     document.getElementById('titleSelect')!.removeAttribute('disabled');
@@ -90,9 +87,9 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         document.getElementById('titleSelect')!.innerHTML =
           document.getElementById('titleSelect')!.innerHTML +
           '<option value="' +
-          title.name +
+          title.get('name') +
           '">' +
-          title.name +
+          title.get('name') +
           '</option>';
       }
     });

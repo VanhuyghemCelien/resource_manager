@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 
@@ -13,11 +12,6 @@ interface PopupsCreateEditDetailsArgs {
 }
 
 export default class PopupsCreateEditDetails extends Component<PopupsCreateEditDetailsArgs> {
-  @tracked field = '';
-  get fieldToEdit() {
-    return this.field;
-  }
-
   get popupName() {
     if (this.args.popupType === 'details') {
       if (this.args.objectType === 'Enterprise') {
