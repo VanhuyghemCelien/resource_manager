@@ -4,6 +4,7 @@ import {
   select,
   fillIn,
   triggerEvent,
+  waitFor,
 } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -54,6 +55,7 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="typeName"]', 'TestType');
     await click('[data-test-input="typeCheckbox"]');
     await click('[data-test-input="saveType"]');
+    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
     await select('[data-test-select="typeSelect"]', 'TestType');
     await click('[data-test-input="addAssignmentTitle"]');
     await select('[data-test-select="typeSelectTitle"]', 'TestType');

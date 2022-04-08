@@ -90,9 +90,9 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         document.getElementById('titleSelect')!.innerHTML =
           document.getElementById('titleSelect')!.innerHTML +
           '<option value="' +
-          title.name +
+          title.get('name') +
           '">' +
-          title.name +
+          title.get('name') +
           '</option>';
       }
     });
