@@ -83,7 +83,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
-  addAssignment(assignmentNew: Partial<AssignmentModel>) {
+  async addAssignment(assignmentNew: Partial<AssignmentModel>) {
     console.log(assignmentNew, 'addassignment');
     this.assignment = {
       date: assignmentNew.date,
@@ -96,7 +96,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterprise: assignmentNew.enterprise,
     };
     console.log(this.assignment);
-    const assignment = this.store.createRecord('assignment', this.assignment);
+    const assignment = await this.store.createRecord(
+      'assignment',
+      this.assignment
+    );
     this.assignment = {
       date: new Date(),
       isMorning: false,
@@ -108,10 +111,11 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterprise: undefined,
     };
     // rajouter async await + gestion erreurs
-    assignment.save();
-    const second = localStorage.getItem('second') ?? '';
-    const third = localStorage.getItem('third') ?? '';
+    await assignment.save();
+    const second = localStorage.getItem('first') ?? '';
+    const third = localStorage.getItem('second') ?? '';
     localStorage.setItem('first', assignment.id);
+    console.log(localStorage.getItem('first'));
     localStorage.setItem('second', second);
     localStorage.setItem('third', third);
     this.toggleDisplayNewAssignmentModal();
