@@ -21,6 +21,7 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="emailAddress"]', 'info@test.be');
     await fillIn('[data-test-input="phoneNumber"]', '0476786734');
     await click('[data-test-submit = "saveEnterprise"]');
+    await waitFor('[data-test-validated="validated"]', { timeout: 1000 });
     assert
       .dom('[data-test-validated="validated"]')
       .exists()
@@ -58,6 +59,7 @@ module('Acceptance | posts', function (hooks) {
     await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
     await select('[data-test-select="typeSelect"]', 'TestType');
     await click('[data-test-input="addAssignmentTitle"]');
+    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
     await select('[data-test-select="typeSelectTitle"]', 'TestType');
     await fillIn('[data-test-input="titleName"]', 'TestTitle');
     await document
