@@ -1,0 +1,38 @@
+<div class="absolute top-28 right-0 transition-all duration-200">
+  <div class="flex flex-row items-start">
+    <button
+      type="button"
+      class="h-24 px-2 w-9 rounded-l-lg bg-navbarBg text-navbarSelected"
+      {{on "click" this.toggleIsLegendDisplayed}}
+    >
+      {{! template-lint-disable no-inline-styles }}
+      <p class="rotate-180" style="writing-mode: vertical-lr;">Légende</p>
+    </button>
+    {{#if this.isLegendDisplayed}}
+      <div
+        id="legendDiv"
+        class="border-2 w-max min-h-[96px]
+          {{this.borderRadius}}
+          border-navbarBg bg-white"
+      >
+        {{#if (eq (get this.tableAssignmentTypeDisplayed "length") 0)}}
+          <div class="w-48 p-2 text-center flex flex-start flex-row my-auto">
+            Aucun type d'élément n'est assigné à une tâche actuellement
+          </div>
+        {{else}}
+          {{#each this.tableAssignmentTypeDisplayed as |element|}}
+            <div class="flex flex-start flex-row mt-1.5 mb-1.5">
+              {{! template-lint-disable no-inline-styles }}
+              {{! template-lint-disable style-concatenation }}
+              <div
+                class="h-5 w-5 rounded-full m-2"
+                style="background-color: {{get element "color"}}"
+              ></div>
+              <p class="my-auto mr-2">{{get element "name"}}</p>
+            </div>
+          {{/each}}
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</div>
