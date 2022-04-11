@@ -42,21 +42,34 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
       if (this.assignment?.assignmentType.get('color')) {
         return (
-          'background-color:' + this.assignment?.assignmentType.get('color')
+          'background-color:' +
+          this.assignment?.assignmentType.get('color') +
+          ';'
         );
       }
     }
-    return '';
+    return undefined;
   }
   get textColor() {
     if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
       if (this.assignment?.assignmentType.get('color')) {
-        return '';
+        return undefined;
       }
       return (
-        'color:' + this.assignment?.assignmentType.get('parents').get('color')
+        'color:' +
+        this.assignment?.assignmentType.get('parents').get('color') +
+        ';'
       );
     }
-    return '';
+    return undefined;
+  }
+
+  get borderColor() {
+    if (this.bgColor) {
+      return 'border-color:' + this.bgColor.split(':')[1];
+    } else if (this.textColor) {
+      return 'border-color:' + this.textColor.split(':')[1];
+    }
+    return undefined;
   }
 }

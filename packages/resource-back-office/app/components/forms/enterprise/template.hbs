@@ -17,15 +17,17 @@
         @changeset={{@changeset}}
         @validationField="name"
         @updateValue={{fn this.changeInput "name"}}
-        @hasError={{get @changeset.error "name"}}
         @value={{changeset-get @changeset "name"}}
         @disabled={{if (eq @popupType "details") true false}}
         required
         autocapitalize="on"
         type="text"
         data-test-input="name"
-        {{on "change" (fn this.setValidation "name")}}
-      />
+        {{on "focusout" (fn this.validateField "name")}}
+      >
+        <p id="nameError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="enterpriseNumber"
         @label="N° d'entreprise"
@@ -44,8 +46,11 @@
         @mandatory={{false}}
         type="text"
         data-test-input="enterpriseNumber"
-        {{on "change" (fn this.setValidation "enterpriseNumber")}}
-      />
+        {{on "focusout" (fn this.validateField "enterpriseNumber")}}
+      >
+        <p id="enterpriseNumberError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="vatNumber"
         @label="N° de TVA"
@@ -64,8 +69,11 @@
         @mandatory={{false}}
         type="text"
         data-test-input="vatNumber"
-        {{on "change" (fn this.setValidation "vatNumber")}}
-      />
+        {{on "focusout" (fn this.validateField "vatNumber")}}
+      >
+        <p id="vatNumberError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="city"
         @label="Ville"
@@ -86,8 +94,11 @@
         autocapitalize="on"
         type="text"
         data-test-input="city"
-        {{on "change" (fn this.setValidation "city")}}
-      />
+        {{on "focusout" (fn this.validateField "city")}}
+      >
+        <p id="cityError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
     </div>
     <div class="flex flex-col w-1/2">
       <Ui::Input
@@ -110,12 +121,14 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
-        @hasError={{fn this.setValidation "emailAddress"}}
         required
         type="text"
         data-test-input="emailAddress"
-        {{on "change" (fn this.setValidation "emailAddress")}}
-      />
+        {{on "focusout" (fn this.validateField "emailAddress")}}
+      >
+        <p id="emailAddressError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="emailAddress2"
         @label="Adresse mail n°2"
@@ -138,8 +151,11 @@
         @mandatory={{false}}
         type="text"
         data-test-input="emailAddress2"
-        {{on "change" (fn this.setValidation "emailAddress2")}}
-      />
+        {{on "focusout" (fn this.validateField "emailAddress2")}}
+      >
+        <p id="emailAddress2Error" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="phoneNumber"
         @label="N° de téléphone"
@@ -163,8 +179,11 @@
         required
         type="text"
         data-test-input="phoneNumber"
-        {{on "change" (fn this.setValidation "phoneNumber")}}
-      />
+        {{on "focusout" (fn this.validateField "phoneNumber")}}
+      >
+        <p id="phoneNumberError" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
       <Ui::Input
         id="phoneNumber2"
         @label="N° de téléphone n°2"
@@ -187,8 +206,11 @@
         @mandatory={{false}}
         type="text"
         data-test-input="phoneNumber2"
-        {{on "change" (fn this.setValidation "phoneNumber2")}}
-      />
+        {{on "focusout" (fn this.validateField "phoneNumber2")}}
+      >
+        <p id="phoneNumber2Error" class="text-sm text-warn">
+        </p>
+      </Ui::Input>
     </div>
   </div>
   <Ui::Input
@@ -211,8 +233,11 @@
     autocapitalize="on"
     type="text"
     data-test-input="address"
-    {{on "change" (fn this.setValidation "address")}}
-  />
+    {{on "focusout" (fn this.validateField "address")}}
+  >
+    <p id="addressError" class="text-sm text-warn">
+    </p>
+  </Ui::Input>
   {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
     <div>
       <div
@@ -223,7 +248,7 @@
       <button
         type="submit"
         class="block mt-3 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-        {{on "click" this.validate}}
+        disabled={{changeset-get @changeset "isInvalid"}}
         data-test-submit="saveEnterprise"
       >
         {{@popupName}}

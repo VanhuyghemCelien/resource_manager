@@ -9,10 +9,10 @@
   >
     <div class="bg-white p-5 rounded-3xl w-auto font-normal">
       <div class="flex flex-row justify-end">
-        <h1 class="ml-[19px] w-full text-2xl font-bold text-center">
-          Assignment for
+        <h1 class="ml-5 text-2xl font-bold text-center">
+          Occupation pour
         </h1>
-        <p class="w-full font-semibold text-navbarBg text-start text-2xl">
+        <p class="ml-3 mr-5 font-semibold text-navbarBg text-start text-2xl">
           {{@resourceName}}
         </p>
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
@@ -26,7 +26,7 @@
         <div class="flex flex-row w-max mx-auto mt-4">
           <div class="w-max">
             <label>
-              Morning
+              Matin
               <input
                 id="morningInput"
                 type="checkbox"
@@ -37,7 +37,7 @@
           </div>
           <div class="w-max ml-5">
             <label>
-              Afternoon
+              Après-midi
               <input
                 id="afternoonInput"
                 type="checkbox"
@@ -124,8 +124,7 @@
                 class="grow-0"
                 data-test-input="addAssignmentTitle"
                 {{on "click" @toggleDisplayNewTitleModal}}
-                disabled
-                title="Ajouter un titre d'occupation pour le type sélectionné"
+                title="Ajouter un titre d'occupation"
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
               </button>
@@ -164,7 +163,7 @@
         <div class="flex flex-row mt-4 justify-between">
           <div class="w-max">
             <label class="cursor-pointer">
-              Add a comment ?
+              Ajoutez un commentaire ?
               <input
                   id="commentInput"
                   type="checkbox"
@@ -176,7 +175,7 @@
           </div>
           <div class="w-max">
             <label class="cursor-pointer">
-              Remote ?
+              A distance ?
               <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" {{on "click" this.selectedRemote}} />
             </label>
           </div>
@@ -198,7 +197,7 @@
           data-test-input="saveAssignment"
           {{on "click" (fn @addAssignment this.assignment)}}
         >
-          <p>Add Assignment</p>
+          <p>Ajouter l'occupation</p>
         </button>
       </form>
 
