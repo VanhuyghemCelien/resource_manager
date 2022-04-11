@@ -11,5 +11,12 @@ interface UiListArgs {
   displayDelete: (enterprise: EnterpriseModel) => void;
 }
 
-// eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class UiList extends Component<UiListArgs> {}
+export default class UiList extends Component<UiListArgs> {
+  get title() {
+    if (this.args.type === 'assignment-type') {
+      const assignmentType = this.args.object as AssignmentTypeModel;
+      return 'Titre - ' + assignmentType.get('parents').get('name');
+    }
+    return undefined;
+  }
+}

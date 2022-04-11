@@ -10,6 +10,7 @@ import type ResourceModel from 'ember-boilerplate/models/resource';
 import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import { loading } from 'ember-loading';
 
+
 interface PopupsNewAssignmentArgs {
   displayNewTypeModal: boolean;
   displayNewTitleModal: boolean;
@@ -261,7 +262,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   }
 
   @action
-  @loading
   async selectType(event: { target: { value: string } }) {
     const value = event.target.value;
     let selected = await this.store.query('assignment-type', {
@@ -273,14 +273,10 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       assignmentType: selected.firstObject,
     };
     this.assignmentType = {
-      ...this.assignmentType,
-      name: selected.firstObject!.name,
-      color: selected.firstObject!.color,
-      children: selected.firstObject!.children,
+      ...this.assignment.assignmentType,
     };
     this.args.assignment.assignmentType = selected.firstObject;
     document.getElementById('titleSelect')!.removeAttribute('disabled');
-    document.getElementById('newTitleButton')!.removeAttribute('disabled');
     const titleTable = await this.store.query('assignmentType', {
       fields: 'name,color',
       include: 'parents',
@@ -292,9 +288,9 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         document.getElementById('titleSelect')!.innerHTML =
           document.getElementById('titleSelect')!.innerHTML +
           '<option value="' +
-          title.name +
+          title.get('name') +
           '">' +
-          title.name +
+          title.get('name') +
           '</option>';
       }
     });

@@ -2,62 +2,168 @@
   class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
 >
   <div
-    class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
+    class="flex h-screen justify-center items-center transition-all duration-200"
   >
-    <div class="bg-white p-5 rounded-3xl w-[314px]">
+    <div
+      class="bg-white p-5 rounded-3xl w-[314px] {{unless @page "ml-[432px]"}}"
+    >
       <div class="flex flex-row justify-center">
-        <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-          Nouveau type d'occupation :
+        <h1 class="ml-5 w-full text-2xl font-bol text-center">
+          {{#if (eq @type "type")}}
+            Nouveau type d'occupation :
+          {{/if}}
+          {{#if (eq @type "title")}}
+            Nouveau titre d'occupation :
+          {{/if}}
         </h1>
         <button type="button" {{on "click" @toggleDisplayModal}}>
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <form {{on "submit" @saveFunction}} ...attributes>
-        <Ui::Input
-          @label="Nom"
-          @name="name"
-          @value={{changeset-get @changeset "name"}}
-          @containerStyle=""
-          @labelStyle="text-textPrimary font-base mt-1 block"
-          @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
-          @updateValue={{fn this.changeInput "name"}}
-          @placeholder="Nom du type d'occupation"
-          @disabled={{if (eq @popupType "details") true false}}
-          @mandatory={{true}}
-          type="text"
-        />
-        <div class="flex flex-row mt-2 justify-between">
-          <p>Plusieurs couleurs pour ce type d'occupation* ?</p>
-          <input
-            type="checkbox"
-            id="multicolorsInput"
-            class="my-auto ml-4"
-            {{on "click" @toggleIsColorChecked}}
+        {{#if (eq @type "type")}}
+          <Ui::Input
+            @label="Nom du type"
+            @name="name"
+            @value={{changeset-get @changeset "name"}}
+            @containerStyle=""
+            @labelStyle="text-textPrimary font-base mt-1 block"
+            @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
+            @updateValue={{fn this.changeInput "name"}}
+            @placeholder="Nom du type d'occupation"
+            @disabled={{if (eq @popupType "details") true false}}
+            @mandatory={{true}}
+            type="text"
+            required
+            data-test-input="typeName"
           />
-        </div>
-        <div class="flex flex-row mt-2 justify-between">
-          <p class="w-10/12">
-            Sélectionnez la couleur à appliquer pour ce type d'occupation
-          </p>
-          <input
-            type="color"
-            id="colorInput"
-            class="my-auto w-2/12"
-            {{on "change" (fn @editAssignmentTypeField "assignmentTypeColor")}}
+          <div class="flex flex-row mt-2 justify-between">
+            <p>Plusieurs couleurs pour ce type d'occupation* ?</p>
+            <input
+              type="checkbox"
+              id="multicolorsTypeInput"
+              class="my-auto ml-4 cursor-pointer"
+              {{on "click" @toggleIsColorChecked}}
+              checked={{@isColorChecked}}
+              data-test-input="typeCheckbox"
+            />
+          </div>
+          {{#unless @isColorChecked}}
+            <div class="flex flex-row mt-2 justify-between">
+              <p class="w-10/12">
+                Sélectionnez la couleur à appliquer pour ce type d'occupation
+              </p>
+              <input
+                type="color"
+                id="colorInputType"
+                class="my-auto w-2/12"
+                value={{if
+                  (changeset-get @changeset "color")
+                  (changeset-get @changeset "color")
+                }}
+                {{on "change" this.changeColor}}
+              />
+            </div>
+            <p class="text-xs text-textSecondary mt-2">
+              *Si coché, vous devrez sélectionner une couleur pour chaque titre
+              créé pour ce type d'occupation
+            </p>
+          {{/unless}}
+          <button
+            type="submit"
+            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            {{on "click" this.saveAssignmentType}}
+            data-test-input="saveType"
+          >
+            {{#if (eq @popupType "new")}}
+              <p>Créer le type</p>
+            {{/if}}
+            {{#if (eq @popupType "edit")}}
+              <p>Modifier le type</p>
+            {{/if}}
+          </button>
+        {{/if}}
+        {{#if (eq @type "title")}}
+          {{#if (eq @popupType "new")}}
+            <p class="mt-2">
+              Sélectionnez le type d'occupation auquel sera associé ce type :
+            </p>
+            <label name="parentsSelect">
+              <select
+                id="parentsSelect"
+                name="parents"
+                class="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
+                {{on "change" this.changeParents}}
+                data-test-select="typeSelectTitle"
+              >
+                <option value="" selected disabled>
+                  Type d'occupation parent
+                </option>
+                {{#if @page}}
+                  {{#each @model as |assignmentType|}}
+                    {{#if (not (get assignmentType "parents.name"))}}
+                      <option value={{assignmentType.id}}>
+                        {{assignmentType.name}}
+                      </option>
+                    {{/if}}
+                  {{/each}}
+                {{else}}
+                  {{#each @model.assignmentType as |assignmentType|}}
+                    {{#if (not (get assignmentType "parents.name"))}}
+                      <option value={{assignmentType.id}}>
+                        {{assignmentType.name}}
+                      </option>
+                    {{/if}}
+                  {{/each}}
+                {{/if}}
+              </select>
+            </label>
+          {{/if}}
+          <Ui::Input
+            @label="Nom du titre"
+            @name="name"
+            @value={{changeset-get @changeset "name"}}
+            @containerStyle=""
+            @labelStyle="text-textPrimary font-base mt-1 block"
+            @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary focus:border-navbarBg pt-1.5 pb-1.5 px-3 font-base text-textPrimary focus:outline-none focus:ring-0"
+            @updateValue={{fn this.changeInput "name"}}
+            @placeholder="Nom du titre d'occupation"
+            @disabled={{if (eq @popupType "details") true false}}
+            @mandatory={{true}}
+            type="text"
+            data-test-input="titleName"
           />
-        </div>
-        <p class="text-xs text-textSecondary mt-2">
-          *Si coché, vous devrez sélectionner une couleur pour chaque titre créé
-          pour ce type d'occupation
-        </p>
-        <button
-          type="submit"
-          class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-          disabled={{@changeset.isInvalid}}
-        >
-          Créer
-        </button>
+          {{#if
+            (or this.isTitleColorDisplayed (changeset-get @changeset "color"))
+          }}
+            <div class="flex flex-row mt-2 justify-between">
+              <p class="w-10/12 mb-1">
+                Sélectionnez la couleur à appliquer pour ce titre d'occupation
+              </p>
+              <input
+                type="color"
+                id="colorTitleInput"
+                class="my-auto w-2/12"
+                value={{changeset-get @changeset "color"}}
+                {{on "change" this.changeColor}}
+                data-test-input="colorTitle"
+              />
+            </div>
+          {{/if}}
+          <button
+            type="submit"
+            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+            {{on "click" this.saveAssignmentTitle}}
+            data-test-input="saveTitle"
+          >
+            {{#if (eq @popupType "new")}}
+              <p>Créer le titre</p>
+            {{/if}}
+            {{#if (eq @popupType "edit")}}
+              <p>Modifier le titre</p>
+            {{/if}}
+          </button>
+        {{/if}}
       </form>
     </div>
   </div>

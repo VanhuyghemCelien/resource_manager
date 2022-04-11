@@ -1,14 +1,14 @@
 <div class="mt-12 ml-12 max-w-[90%] font-normal">
   <div class="flex flex-row">
     <h1 class="text-3xl font-black text-textPrimary">
-      Month :
+      Mois :
       {{this.currentMonth}}
     </h1>
     <LinkTo
       @route="dashboard.month"
       class="h-full ml-4 mt-auto text-textSecondary"
     >
-      <p>Show by Month</p>
+      <p>Voir par mois</p>
     </LinkTo>
   </div>
   <div class="flex flex-row h-max mt-4">
@@ -18,7 +18,7 @@
         {{on "click" this.choosingDateLess}}
         class="block text-center h-9 w-9 pr-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
       >
-        <p class="w-full text-center mt-1.5">&#x276E;</p>
+        <p class="w-full text-center my-1">&#x276E;</p>
       </LinkTo>
       <LinkTo
         class="block text-center py-1 px-5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
@@ -26,7 +26,7 @@
         @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayActual}}
       >
-        Actual
+        Cette semaine
       </LinkTo>
       <LinkTo
         class="block text-center h-9 w-9 pl-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
@@ -35,12 +35,12 @@
         @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayPlus}}
       >
-        <p class="w-full text-center">&#x276F;</p>
+        <p class="w-full text-center my-1">&#x276F;</p>
       </LinkTo>
     </div>
     <div class="ml-4 h-max my-auto">
       <label name="specificDay">
-        Choose a specific day
+        Choisir un jour spécifique
         {{! template-lint-disable no-down-event-binding }}
         <input
           type="date"
@@ -91,9 +91,11 @@
     />
   {{/if}}
   {{#if this.displayNewTypeModal}}
-    <Popups::AssignmentType
+    <Forms::AssignmentType
+      @type="type"
+      @popupType="new"
+      @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
-      @editAssignmentTypeField={{this.editAssignmentTypeField}}
       @toggleIsColorChecked={{this.toggleColor}}
       @saveFunction={{this.addAssignmentType}}
       @isColorChecked={{this.multipleColor}}
@@ -109,59 +111,15 @@
     />
   {{/if}}
   {{#if this.displayNewTitleModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-[314px]">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Nouveau titre d'occupation :
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayNewTitleModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <div>
-            <input
-              type="text"
-              id="titleInput"
-              data-test-input="titleName"
-              class="border border-textPrimary rounded mx-auto w-full mt-4 px-3 py-1"
-              {{on "change" (fn this.editAssignmentTitleField "name")}}
-            />
-          </div>
-          {{#if this.multipleColor}}
-            <div class="flex flex-row mt-2 justify-between">
-              <p class="w-10/12">
-                Sélectionnez la couleur à appliquer pour ce titre d'occupation
-              </p>
-              <input
-                type="color"
-                id="colorTitleInput"
-                class="my-auto w-2/12"
-                {{on "change" (fn this.editAssignmentTitleField "color")}}
-              />
-            </div>
-          {{/if}}
-          <button
-            type="button"
-            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            data-test-input="saveTitle"
-            {{on "click" this.addAssignmentTitle}}
-          >
-            <p>Créer le titre</p>
-          </button>
-        </div>
-      </div>
-    </div>
+    <Forms::AssignmentType
+      @type="title"
+      @popupType="new"
+      @model={{@model}}
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{this.toggleDisplayNewTitleModal}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentTitle}}
+      @isColorChecked={{this.multipleColor}}
+    />
   {{/if}}
 </div>

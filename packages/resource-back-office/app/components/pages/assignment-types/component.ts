@@ -23,12 +23,16 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @tracked displayNewAssignmentTypeModal: Boolean = false;
   @tracked displayEditAssignmentTypeModal: Boolean = false;
   @tracked displayDeleteAssignmentTypeModal: Boolean = false;
-  @tracked multipleColors: boolean = false;
+  @tracked multipleColor: boolean = false;
   @tracked modalName: string = '';
-  @tracked changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+
+  @tracked type: string = '';
+
+  @tracked
+  assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   constructor(owner: unknown, args: PagesAssignmentTypesArgs) {
     super(owner, args);
-    this.changeset = Changeset(
+    this.assignmentTypeChangeset = Changeset(
       {
         name: '',
         color: '',
@@ -38,33 +42,48 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   }
 
+  get isMultipleColor() {
+    return '';
+  }
+
   @action
-  toggleMultipleColors() {
-    if (this.multipleColors) {
-      this.multipleColors = false;
+  toggleMultipleColor() {
+    if (this.multipleColor) {
+      this.multipleColor = false;
     } else {
-      this.multipleColors = true;
+      this.multipleColor = true;
+    }
+  }
+
+  @action add(
+    type: string,
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    if (type === 'type') {
+      this.addAssignmentType(changeset);
+    } else if (type === 'title') {
+      this.addAssignmentTitle(changeset);
     }
   }
 
   @action
   displayDeleteAssignmentType(id: string) {
     this.toggleDisplayDeleteAssignmentTypeModal();
-    this.changeset.set('id', id);
+    this.assignmentTypeChangeset.set('id', id);
   }
 
   @action
-  toggleDisplayAssignmentTypeModal(type: string) {
-    if (type === 'new') {
-      this.toggleDisplayNewAssignmentTypeModal();
-    } else if (type === 'edit') {
-      this.toggleDisplayEditAssignmentTypeModal();
+  toggleDisplayAssignmentTypeModal(popupType: string, type?: string) {
+    if (popupType === 'new') {
+      this.toggleDisplayNewAssignmentTypeModal(type);
+    } else if (popupType === 'edit') {
+      this.toggleDisplayEditAssignmentTypeModal(type);
     }
   }
 
   @action
   async toggleDisplayDeleteAssignmentTypeModal() {
-    this.changeset.rollback();
+    this.assignmentTypeChangeset.rollback();
     if (this.displayDeleteAssignmentTypeModal) {
       this.displayDeleteAssignmentTypeModal = false;
     } else {
@@ -72,36 +91,62 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
     }
   }
 
-  toggleDisplayNewAssignmentTypeModal() {
+  toggleDisplayNewAssignmentTypeModal(type?: string) {
     if (this.displayNewAssignmentTypeModal) {
       this.displayNewAssignmentTypeModal = false;
-      this.changeset.rollback();
+      this.type = '';
+      this.assignmentTypeChangeset.rollback();
     } else {
       this.displayNewAssignmentTypeModal = true;
+      this.type = type!;
     }
   }
 
-  toggleDisplayEditAssignmentTypeModal() {
+  toggleDisplayEditAssignmentTypeModal(type?: string) {
     if (this.displayEditAssignmentTypeModal) {
       this.displayEditAssignmentTypeModal = false;
-      this.changeset.rollback();
+      this.type = '';
+      this.assignmentTypeChangeset.rollback();
     } else {
       this.displayEditAssignmentTypeModal = true;
+      this.type = type!;
     }
   }
 
   @action
-  async displayAssignmentTypeDetails(assignmentTypeIdReceived: string) {
+  edit(
+    type: string,
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    if (type === 'type') {
+      this.editAssignmentType(changeset);
+    } else if (type === 'title') {
+      this.editAssignmentTitle(changeset);
+    }
+  }
+
+  @action
+  async displayAssignmentTypeDetails(
+    type: string,
+    assignmentTypeIdReceived: string
+  ) {
     const assignmentTypeReceived = await this.store.queryRecord(
-      'assignment-type',
+      'assignmentType',
       {
         id: assignmentTypeIdReceived,
       }
     );
-    this.changeset.set('id', assignmentTypeReceived.id);
-    this.changeset.set('color', assignmentTypeReceived.color);
-    this.changeset.set('name', assignmentTypeReceived.name);
-    this.toggleDisplayEditAssignmentTypeModal();
+    this.toggleDisplayEditAssignmentTypeModal(type);
+    if (!assignmentTypeReceived.color && assignmentTypeReceived.children) {
+      if (type === 'type') {
+        this.toggleMultipleColor();
+      } else if (type === 'title') {
+        this.toggleMultipleColor();
+      }
+    }
+    this.assignmentTypeChangeset.set('id', assignmentTypeReceived.id);
+    this.assignmentTypeChangeset.set('color', assignmentTypeReceived.color);
+    this.assignmentTypeChangeset.set('name', assignmentTypeReceived.name);
   }
 
   @action
@@ -110,20 +155,49 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
     changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
   ) {
     try {
-      const assignmentTypeToSave: Partial<AssignmentTypeModel> = {
+      const assignmentTypeToAdd: Partial<AssignmentTypeModel> = {
         name: changeset.get('name'),
         color: changeset.get('color'),
+        parents: changeset.get('parents'),
       };
-      const assignmentTypeCreated = await this.store.createRecord(
+      const assignmentType = this.store.createRecord(
         'assignment-type',
-        assignmentTypeToSave
+        assignmentTypeToAdd
       );
-      await assignmentTypeCreated.save();
-      this.changeset.rollback();
-      this.toggleDisplayAssignmentTypeModal('new');
+      this.assignmentTypeChangeset.rollback();
+      await assignmentType.save();
+      this.multipleColor = false;
+      this.toggleDisplayNewAssignmentTypeModal();
       this.router.refresh();
+      this.flashMessages.success("Le type d'occupation a bien été ajouté");
     } catch (e) {
-      this.flashMessages.danger(e.message);
+      this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
+    }
+  }
+
+  @action
+  @loading
+  async addAssignmentTitle(
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
+        name: changeset.get('name'),
+        color: changeset.get('color'),
+        parents: changeset.get('parents'),
+      };
+
+      const assignmentTitle = this.store.createRecord(
+        'assignmentType',
+        assignmentTitleToAdd
+      );
+      this.assignmentTypeChangeset.rollback();
+      await assignmentTitle.save();
+      this.toggleDisplayAssignmentTypeModal('new', 'title');
+      this.router.refresh();
+      this.flashMessages.success("Le titre d'occupation a bien été ajouté");
+    } catch (e) {
+      this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
     }
   }
 
@@ -139,8 +213,32 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       assignmentType.name = changeset.get('name');
       assignmentType.color = changeset.get('color');
       await assignmentType.save();
-      this.changeset.rollback();
-      this.toggleDisplayAssignmentTypeModal('edit');
+      this.assignmentTypeChangeset.rollback();
+      this.toggleDisplayAssignmentTypeModal('edit', 'type');
+      this.router.refresh();
+      this.flashMessages.success("Le type d'occupation a bien été modifié");
+    } catch (e) {
+      this.flashMessages.danger(e.message);
+    }
+  }
+
+  @action
+  async editAssignmentTitle(
+    // A modifier l'edit de titre ne fonctionne pas
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentTitle = await this.store.queryRecord('assignmentType', {
+        id: changeset.get('id'),
+      });
+
+      assignmentTitle.name = changeset.get('name');
+      assignmentTitle.color = changeset.get('color');
+      await assignmentTitle.save();
+      this.assignmentTypeChangeset.rollback();
+      this.router.refresh();
+      this.toggleDisplayAssignmentTypeModal('edit', 'title');
+      this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
       this.flashMessages.danger(e.message);
     }
@@ -152,12 +250,13 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       const assignmentTypeToDelete = await this.store.queryRecord(
         'assignment-type',
         {
-          id: this.changeset.get('id'),
+          id: this.assignmentTypeChangeset.get('id'),
         }
       );
       assignmentTypeToDelete.destroyRecord();
-      this.changeset.rollback();
+      this.assignmentTypeChangeset.rollback();
       this.toggleDisplayDeleteAssignmentTypeModal();
+      this.flashMessages.success("Le type d'occupation a bien été supprimé");
     } catch (e) {
       this.flashMessages.danger(e.message);
     }

@@ -4,29 +4,34 @@
   <td
     class="w-1/5 text-center text-textPrimary font-medium px-2 text-base py-2"
   >
-    <button
-      type="button"
-      class="hover:text-navbarBg my-auto w-full items-start"
-      {{on "click" (fn @displayDetails "details" @object.id)}}
-    >
-      {{! propriété => valeur }}
-      {{#if (eq @type "enterprise")}}
-        {{@object.name}}
-      {{/if}}
-      {{#if (eq @type "resource")}}
-        <div class="flex flex-row items-center">
-          <img
-            src={{@object.image.path}}
-            alt="resource's profile pic"
-            class="inline h-6 w-6 object-cover rounded-full mr-2"
-          />
-          {{@object.firstName}}
-          {{@object.lastName}}
-        </div>
-      {{/if}}
-    </button>
+    {{#if (or (eq @type "resource") (eq @type "enterprise"))}}
+      <button
+        type="button"
+        class="hover:text-navbarBg my-auto w-full items-start"
+        {{on "click" (fn @displayDetails "details" @object.id)}}
+      >
+        {{! propriété => valeur }}
+        {{#if (eq @type "enterprise")}}
+          {{@object.name}}
+        {{/if}}
+        {{#if (eq @type "resource")}}
+          <div class="flex flex-row items-center">
+            <img
+              src={{@object.image.path}}
+              alt="resource's profile pic"
+              class="inline h-6 w-6 object-cover rounded-full mr-2"
+            />
+            {{@object.firstName}}
+            {{@object.lastName}}
+          </div>
+        {{/if}}
+      </button>
+    {{/if}}
+    {{#if (eq @type "assignment-type")}}
+      {{@object.name}}
+    {{/if}}
   </td>
-  <td class="w-1/5 text-center text-secondary px-2 text-base py-2">
+  <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
     <p data-test-validated="validated">
       {{#if (eq @type "enterprise")}}
         {{@object.city}}
@@ -36,13 +41,39 @@
         -
         {{@object.enterprise.city}}
       {{/if}}
+      {{#if (eq @type "assignment-type")}}
+        {{if (get @object "parents.name") this.title "Type"}}
+      {{/if}}
     </p>
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
-    {{@object.emailAddress}}
+    {{#if (or (eq @type "enterprise") (eq @type "resource"))}}
+      {{@object.emailAddress}}
+    {{/if}}
+    {{#if (eq @type "assignment-type")}}
+      {{if @object.color "Non" (if (get @object "children") "Oui" "Non")}}
+    {{/if}}
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
-    {{@object.phoneNumber}}
+    {{#if (or (eq @type "enterprise") (eq @type "resource"))}}
+      {{@object.phoneNumber}}
+    {{/if}}
+    {{#if (eq @type "assignment-type")}}
+      {{#if @object.color}}
+        {{! template-lint-disable no-inline-styles }}
+        {{! template-lint-disable style-concatenation }}
+        <div
+          class="h-6 w-6 mx-auto rounded-full"
+          style="background-color: {{@object.color}}"
+        ></div>
+      {{else}}
+        <img
+          src="/assets/icons/block.svg"
+          alt="no color for this assignment type"
+          class="h-6 w-6 mx-auto rounded-full"
+        />
+      {{/if}}
+    {{/if}}
   </td>
   <td class="w-[10%] text-center px-2 py-2">
     <div
@@ -51,7 +82,18 @@
       <button
         type="button"
         class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-        {{on "click" (fn @displayDetails "edit" @object.id)}}
+        {{on
+          "click"
+          (if
+            (or (eq @type "enterprise") (eq @type "resource"))
+            (fn @displayDetails "edit" @object.id)
+            (fn
+              @displayDetails
+              (if (get @object "parents.name") "title" "type")
+              @object.id
+            )
+          )
+        }}
       >
         <img
           src="/assets/icons/edit-button.svg"
