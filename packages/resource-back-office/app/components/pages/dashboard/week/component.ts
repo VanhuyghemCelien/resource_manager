@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
@@ -18,7 +18,9 @@ import EnterpriseValidation from '../../../../validator/forms/enterprise';
 import AssignmentTypeValidation from '../../../../validator/forms/assignment-type';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
+import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
+
 
 interface PagesDashboardWeekArgs {
   model: { week: number; first: Date };
@@ -28,6 +30,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @service declare store: Store;
   @service declare router: RouterService;
   @service declare flashMessages: FlashMessageService;
+  @inject declare localstorage: LocalStorage;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -139,12 +142,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     };
     // rajouter async await + gestion erreurs
     await assignment.save();
-    const second = localStorage.getItem('first') ?? '';
-    const third = localStorage.getItem('second') ?? '';
-    localStorage.setItem('first', assignment.id);
-    console.log(localStorage.getItem('first'));
-    localStorage.setItem('second', second);
-    localStorage.setItem('third', third);
+    this.localstorage.setThirdItem();
+    this.localstorage.setSecondItem();
+    this.localstorage.setFirstItem(assignment);
     this.toggleDisplayNewAssignmentModal();
     this.flashMessages.success("L'occupation a bien été ajoutée");
   }
