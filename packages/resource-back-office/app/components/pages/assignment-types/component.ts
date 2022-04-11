@@ -215,6 +215,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       await assignmentType.save();
       this.assignmentTypeChangeset.rollback();
       this.toggleDisplayAssignmentTypeModal('edit', 'type');
+      this.router.refresh();
       this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
       this.flashMessages.danger(e.message);
@@ -235,6 +236,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       assignmentTitle.color = changeset.get('color');
       await assignmentTitle.save();
       this.assignmentTypeChangeset.rollback();
+      this.router.refresh();
       this.toggleDisplayAssignmentTypeModal('edit', 'title');
       this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
