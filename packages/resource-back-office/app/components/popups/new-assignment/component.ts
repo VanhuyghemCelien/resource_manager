@@ -1,12 +1,13 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type AssignmentModel from 'ember-boilerplate/models/assignment';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import { loading } from 'ember-loading';
 
 interface PopupsNewAssignmentArgs {
@@ -32,7 +33,14 @@ interface PopupsNewAssignmentArgs {
 export default class PopupsNewAssignment extends Component<PopupsNewAssignmentArgs> {
   @tracked comment: boolean = false;
   @service declare store: Store;
+  @inject declare localstorage: LocalStorage;
 
+  @tracked isFirstItem: boolean = false;
+  @tracked isSecondItem: boolean = false;
+  @tracked isThirdItem: boolean = false;
+  @tracked isFirstExist: boolean = false;
+  @tracked isSecondExist: boolean = false;
+  @tracked isThirdExist: boolean = false;
   @tracked isMorning: boolean = this.args.assignment.isMorning!;
   @tracked isAfternoon: boolean = this.args.assignment.isAfternoon!;
   @tracked assignmentColor: string = '';
@@ -42,6 +50,12 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     resource: this.args.assignment.resource,
   };
   @tracked firstAssignment: Partial<AssignmentModel> = {
+    ...this.assignment,
+  };
+  @tracked secondAssignment: Partial<AssignmentModel> = {
+    ...this.assignment,
+  };
+  @tracked thirdAssignment: Partial<AssignmentModel> = {
     ...this.assignment,
   };
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
@@ -62,54 +76,183 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
 
   constructor(o: unknown, args: PopupsNewAssignmentArgs) {
     super(o, args);
-    this.firstAssignments().then((firstassignment) => {
-      this.firstAssignment = {
-        date: firstassignment!.date,
-        isMorning: firstassignment!.isMorning,
-        isAfternoon: firstassignment!.isAfternoon,
-        isRemote: firstassignment!.isRemote,
-        comment: firstassignment!.comment,
-        enterprise: firstassignment!.enterprise,
-        assignmentType: firstassignment!.assignmentType,
+    this.localstorage
+      .getItems('first')
+      .then((firstassignment) => {
+        this.firstAssignment = {
+          date: undefined,
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: firstassignment!.isRemote,
+          comment: firstassignment!.comment,
+          enterprise: firstassignment!.enterprise,
+          assignmentType: firstassignment!.assignmentType,
+        };
+        this.isFirstExist = true;
+      })
+      .catch(() => {
+        this.firstAssignment = {
+          date: new Date(),
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: false,
+          comment: '',
+          enterprise: undefined,
+          assignmentType: undefined,
+        };
+      });
+    this.localstorage
+      .getItems('second')
+      .then((secondassignment) => {
+        this.secondAssignment = {
+          date: undefined,
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: secondassignment!.isRemote,
+          comment: secondassignment!.comment,
+          enterprise: secondassignment!.enterprise,
+          assignmentType: secondassignment!.assignmentType,
+        };
+        this.isSecondExist = true;
+      })
+      .catch(() => {
+        this.secondAssignment = {
+          date: new Date(),
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: false,
+          comment: '',
+          enterprise: undefined,
+          assignmentType: undefined,
+        };
+      });
+    this.localstorage
+      .getItems('third')
+      .then((thirdassignment) => {
+        this.thirdAssignment = {
+          date: undefined,
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: thirdassignment!.isRemote,
+          comment: thirdassignment!.comment,
+          enterprise: thirdassignment!.enterprise,
+          assignmentType: thirdassignment!.assignmentType,
+        };
+        this.isThirdExist = true;
+      })
+      .catch(() => {
+        this.thirdAssignment = {
+          date: new Date(),
+          isMorning: false,
+          isAfternoon: false,
+          isRemote: false,
+          comment: '',
+          enterprise: undefined,
+          assignmentType: undefined,
+        };
+      });
+  }
+
+  @action
+  selectFirstItem() {
+    if (this.isFirstItem) {
+      this.isFirstItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: false,
+        comment: '',
+        enterprise: undefined,
+        assignmentType: undefined,
       };
-    });
-  }
-
-  get firstAssignmentExists() {
-    if (localStorage.getItem('first')) {
-      return true;
+      this.comment = false;
+      document.getElementById('commentInput')!.removeAttribute('checked');
+      document.getElementById('remoteInput')!.removeAttribute('checked');
+      document.getElementById('commentInput')!.removeAttribute('disabled');
+      document.getElementById('typeSelect')!.removeAttribute('disabled');
+      document.getElementById('typeButton')!.removeAttribute('disabled');
+      document.getElementById('titleSelect')!.removeAttribute('disabled');
+      document.getElementById('newTitleButton')!.removeAttribute('disabled');
+      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
+      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
+    } else {
+      this.isFirstItem = true;
+      this.isSecondItem = false;
+      this.isThirdItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: this.firstAssignment.isRemote,
+        comment: this.firstAssignment.comment,
+        enterprise: this.firstAssignment.enterprise,
+        assignmentType: this.firstAssignment.assignmentType,
+      };
+      this.comment = true;
+      document.getElementById('commentInput')!.setAttribute('checked', 'true');
+      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
+      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
+      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
+      document
+        .getElementById('newTitleButton')!
+        .setAttribute('checked', 'true');
+      document
+        .getElementById('enterpriseSelect')!
+        .setAttribute('disabled', 'true');
+      document
+        .getElementById('enterpriseButton')!
+        .setAttribute('disabled', 'true');
+      if (this.assignment.isRemote) {
+        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
+      }
     }
-    return false;
   }
 
-  async firstAssignments() {
-    let res = await this.store.query('assignment', {
-      filter: { id: localStorage.getItem('first') },
-      fields: '*',
-    });
-    console.log(res);
-    return res.firstObject;
+  @action
+  selectSecondItem() {
+    if (this.isSecondItem) {
+      this.isSecondItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: false,
+        comment: '',
+        enterprise: undefined,
+        assignmentType: undefined,
+      };
+    } else {
+      this.isFirstItem = false;
+      this.isSecondItem = true;
+      this.isThirdItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: this.secondAssignment.isRemote,
+        comment: this.secondAssignment.comment,
+        enterprise: this.secondAssignment.enterprise,
+        assignmentType: this.secondAssignment.assignmentType,
+      };
+    }
   }
 
-  // get firstAssignment() {
-  //   let assignment = this.getFirstStorageAssignment();
-  //   return assignment;
-  // }
-
-  get secondAssignment() {
-    let secondAssignment = this.store.query('assignment', {
-      filter: { id: localStorage.getItem('second') },
-      fields: '*',
-    });
-    return secondAssignment;
-  }
-
-  get thirdAssignment() {
-    let thirdAssignment = this.store.query('assignment', {
-      filter: { id: localStorage.getItem('third') },
-      fields: '*',
-    });
-    return thirdAssignment;
+  @action
+  selectThirdItem() {
+    if (this.isThirdItem) {
+      this.isThirdItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: false,
+        comment: '',
+        enterprise: undefined,
+        assignmentType: undefined,
+      };
+    } else {
+      this.isFirstItem = false;
+      this.isThirdItem = true;
+      this.isSecondItem = false;
+      this.assignment = {
+        ...this.assignment,
+        isRemote: this.thirdAssignment.isRemote,
+        comment: this.thirdAssignment.comment,
+        enterprise: this.thirdAssignment.enterprise,
+        assignmentType: this.thirdAssignment.assignmentType,
+      };
+    }
   }
 
   @action
