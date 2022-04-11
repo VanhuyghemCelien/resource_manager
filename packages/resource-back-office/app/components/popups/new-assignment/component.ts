@@ -31,6 +31,7 @@ interface PopupsNewAssignmentArgs {
 export default class PopupsNewAssignment extends Component<PopupsNewAssignmentArgs> {
   @tracked comment: boolean = false;
   @service declare store: Store;
+
   @tracked isMorning: boolean = this.args.assignment.isMorning!;
   @tracked isAfternoon: boolean = this.args.assignment.isAfternoon!;
   @tracked assignmentColor: string = '';
@@ -38,6 +39,9 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     ...this.args.assignment,
     date: this.args.choosingDay,
     resource: this.args.assignment.resource,
+  };
+  @tracked firstAssignment: Partial<AssignmentModel> = {
+    ...this.assignment,
   };
   @tracked assignmentType: Partial<AssignmentTypeModel> = {
     name: '',
@@ -54,6 +58,58 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @tracked enterprise: Partial<EnterpriseModel> = {
     name: '',
   };
+
+  constructor(o: unknown, args: PopupsNewAssignmentArgs) {
+    super(o, args);
+    this.firstAssignments().then((firstassignment) => {
+      this.firstAssignment = {
+        date: firstassignment!.date,
+        isMorning: firstassignment!.isMorning,
+        isAfternoon: firstassignment!.isAfternoon,
+        isRemote: firstassignment!.isRemote,
+        comment: firstassignment!.comment,
+        enterprise: firstassignment!.enterprise,
+        assignmentType: firstassignment!.assignmentType,
+      };
+    });
+  }
+
+  get firstAssignmentExists() {
+    if (localStorage.getItem('first')) {
+      return true;
+    }
+    return false;
+  }
+
+  async firstAssignments() {
+    let res = await this.store.query('assignment', {
+      filter: { id: localStorage.getItem('first') },
+      fields: '*',
+    });
+    console.log(res);
+    return res.firstObject;
+  }
+
+  // get firstAssignment() {
+  //   let assignment = this.getFirstStorageAssignment();
+  //   return assignment;
+  // }
+
+  get secondAssignment() {
+    let secondAssignment = this.store.query('assignment', {
+      filter: { id: localStorage.getItem('second') },
+      fields: '*',
+    });
+    return secondAssignment;
+  }
+
+  get thirdAssignment() {
+    let thirdAssignment = this.store.query('assignment', {
+      filter: { id: localStorage.getItem('third') },
+      fields: '*',
+    });
+    return thirdAssignment;
+  }
 
   @action
   toggleComment() {
