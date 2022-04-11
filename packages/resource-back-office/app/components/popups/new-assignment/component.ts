@@ -8,8 +8,6 @@ import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import type LocalStorage from 'ember-boilerplate/services/localstorage';
-import { loading } from 'ember-loading';
-
 
 interface PopupsNewAssignmentArgs {
   displayNewTypeModal: boolean;
@@ -193,7 +191,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
       document
         .getElementById('newTitleButton')!
-        .setAttribute('checked', 'true');
+        .setAttribute('disabled', 'true');
       document
         .getElementById('enterpriseSelect')!
         .setAttribute('disabled', 'true');
@@ -217,6 +215,16 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         enterprise: undefined,
         assignmentType: undefined,
       };
+      this.comment = false;
+      document.getElementById('commentInput')!.removeAttribute('checked');
+      document.getElementById('remoteInput')!.removeAttribute('checked');
+      document.getElementById('commentInput')!.removeAttribute('disabled');
+      document.getElementById('typeSelect')!.removeAttribute('disabled');
+      document.getElementById('typeButton')!.removeAttribute('disabled');
+      document.getElementById('titleSelect')!.removeAttribute('disabled');
+      document.getElementById('newTitleButton')!.removeAttribute('disabled');
+      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
+      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
     } else {
       this.isFirstItem = false;
       this.isSecondItem = true;
@@ -228,6 +236,23 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         enterprise: this.secondAssignment.enterprise,
         assignmentType: this.secondAssignment.assignmentType,
       };
+      this.comment = true;
+      document.getElementById('commentInput')!.setAttribute('checked', 'true');
+      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
+      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
+      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
+      document
+        .getElementById('newTitleButton')!
+        .setAttribute('disabled', 'true');
+      document
+        .getElementById('enterpriseSelect')!
+        .setAttribute('disabled', 'true');
+      document
+        .getElementById('enterpriseButton')!
+        .setAttribute('disabled', 'true');
+      if (this.assignment.isRemote) {
+        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
+      }
     }
   }
 
@@ -242,6 +267,16 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         enterprise: undefined,
         assignmentType: undefined,
       };
+      this.comment = false;
+      document.getElementById('commentInput')!.removeAttribute('checked');
+      document.getElementById('remoteInput')!.removeAttribute('checked');
+      document.getElementById('commentInput')!.removeAttribute('disabled');
+      document.getElementById('typeSelect')!.removeAttribute('disabled');
+      document.getElementById('typeButton')!.removeAttribute('disabled');
+      document.getElementById('titleSelect')!.removeAttribute('disabled');
+      document.getElementById('newTitleButton')!.removeAttribute('disabled');
+      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
+      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
     } else {
       this.isFirstItem = false;
       this.isThirdItem = true;
@@ -253,6 +288,23 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         enterprise: this.thirdAssignment.enterprise,
         assignmentType: this.thirdAssignment.assignmentType,
       };
+      this.comment = true;
+      document.getElementById('commentInput')!.setAttribute('checked', 'true');
+      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
+      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
+      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
+      document
+        .getElementById('newTitleButton')!
+        .setAttribute('disabled', 'true');
+      document
+        .getElementById('enterpriseSelect')!
+        .setAttribute('disabled', 'true');
+      document
+        .getElementById('enterpriseButton')!
+        .setAttribute('disabled', 'true');
+      if (this.assignment.isRemote) {
+        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
+      }
     }
   }
 
