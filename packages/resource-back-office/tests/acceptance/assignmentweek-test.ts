@@ -54,16 +54,16 @@ module('Acceptance | posts', function (hooks) {
     await click('[data-test-input="2"]');
     await click('[data-test-input="addAssignmentType"]');
     await fillIn('[data-test-input="typeName"]', 'TestType');
-    //await click('[data-test-input="typeCheckbox"]');
+    await click('[data-test-input="typeCheckbox"]');
     await click('[data-test-input="saveType"]');
     await select('[data-test-select="typeSelect"]', 'TestType');
     await click('[data-test-input="addAssignmentTitle"]');
-    // await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
-    // await select('[data-test-select="typeSelectTitle"]', 'TestType');
+    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
+    await select('[data-test-select="typeSelectTitle"]', 'TestType');
     await fillIn('[data-test-input="titleName"]', 'TestTitle');
-    // await document
-    //   .getElementById('colorTitleInput')!
-    //   .setAttribute('value', '#ff0000');
+    await document
+      .getElementById('colorTitleInput')!
+      .setAttribute('value', '#ff0000');
     await click('[data-test-input="saveTitle"]');
     await select('[data-test-select="titleSelect"]', 'TestTitle');
     await click('[data-test-input="addEnterprises2"]');
