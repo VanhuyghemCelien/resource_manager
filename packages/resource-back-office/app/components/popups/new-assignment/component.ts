@@ -34,6 +34,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @tracked isMorning: boolean = this.args.assignment.isMorning!;
   @tracked isAfternoon: boolean = this.args.assignment.isAfternoon!;
   @tracked assignmentColor: string = '';
+
   @tracked assignment: Partial<AssignmentModel> = {
     ...this.args.assignment,
     date: this.args.choosingDay,
@@ -60,6 +61,8 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     this.comment ? (this.comment = false) : (this.comment = true);
   }
 
+  @tracked typeSelected: boolean = false;
+
   @action
   async selectType(event: { target: { value: string } }) {
     const value = event.target.value;
@@ -75,7 +78,7 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
       ...this.assignment.assignmentType,
     };
     this.args.assignment.assignmentType = selected.firstObject;
-    document.getElementById('titleSelect')!.removeAttribute('disabled');
+    this.typeSelected = true;
     const titleTable = await this.store.query('assignmentType', {
       fields: 'name,color',
       include: 'parents',

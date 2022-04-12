@@ -29,6 +29,8 @@ export default class FormsAssignmentType extends BaseForm<
     this.args.changeset.set(field as keyof FormsAssignmentTypeDTO, value);
   }
   @action changeColor(event: { target: { value: string } }) {
+    console.log(event);
+
     this.args.changeset.set('color', event.target.value);
   }
   @action

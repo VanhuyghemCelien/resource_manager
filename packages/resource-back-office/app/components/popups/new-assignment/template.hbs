@@ -88,7 +88,7 @@
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
             style="border: 1px solid {{this.assignmentType.color}}"
-            disabled
+            disabled={{unless this.typeSelected "disabled"}}
             {{on "change" this.selectTitle}}
           >
             <option value="" selected disabled>
@@ -151,7 +151,13 @@
           <div class="w-max">
             <label class="cursor-pointer">
               A distance ?
-              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" {{on "click" this.selectedRemote}} />
+              <input
+                id="remoteInput"
+                type="checkbox"
+                class="cursor-pointer"
+                data-test-input="remote"
+                {{on "click" this.selectedRemote}}
+              />
             </label>
           </div>
         </div>

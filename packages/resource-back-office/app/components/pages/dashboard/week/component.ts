@@ -72,21 +72,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   }
 
-  @tracked parentsOption = this.getParentsOption();
-
-  async getParentsOption() {
-    const titleTable = await this.store.query('assignment-type', {
-      fields: 'name,color',
-      include: 'parents',
-    });
-    let parents: Partial<AssignmentTypeModel>[] = [];
-    titleTable.forEach((title) => {
-      if (!title.get('parents').get('name')) {
-        parents.addObject(title.get('parents'));
-      }
-    });
-  }
-
   @action add(
     type: string,
     changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>

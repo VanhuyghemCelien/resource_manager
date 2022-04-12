@@ -26,7 +26,7 @@ module('Acceptance | posts', function (hooks) {
 
   test('add resources', async function (assert) {
     await visit('/resources');
-    await click('[data-test-enterprises="addResourceButton"]');
+    await click('[data-test-resources="addResourceButton"]');
     await triggerEvent('[data-test-input="resourceImage"]', 'change', {
       files: [
         new File(['Ember Rules!'], 'ember-rules.png', { type: 'image/png' }),
@@ -37,8 +37,12 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="resourceMail"]', 'test@user.be');
     await fillIn('[data-test-input="resourcePhone"]', '0478967314');
     await select('[data-test-select="enterprisesSelect"]', 'testEnterprise');
+    await waitFor('[data-test-input="saveResource"]', { timeout: 1000 });
     await click('[data-test-input="saveResource"]');
-    assert.dom('[data-test-enterprises="addResourceButton"]').exists();
+    await waitFor('[data-test-resources="addResourceButton"]', {
+      timeout: 1000,
+    });
+    assert.dom('[data-test-resources="addResourceButton"]').exists();
   });
 
   test('add Assignment', async function (assert) {
@@ -55,9 +59,9 @@ module('Acceptance | posts', function (hooks) {
     await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
     await select('[data-test-select="typeSelectTitle"]', 'TestType');
     await fillIn('[data-test-input="titleName"]', 'TestTitle');
-    await document
-      .getElementById('colorTitleInput')!
-      .setAttribute('value', '#ff0000');
+    await triggerEvent('[data-test-input="colorTitle"]', 'change', {
+      value: '#ff568a',
+    });
     await click('[data-test-input="saveTitle"]');
     await select('[data-test-select="titleSelect"]', 'TestTitle');
     await click('[data-test-input="addEnterprises2"]');
