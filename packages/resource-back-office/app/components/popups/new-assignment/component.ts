@@ -164,15 +164,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: undefined,
       };
       this.comment = false;
-      document.getElementById('commentInput')!.removeAttribute('checked');
-      document.getElementById('remoteInput')!.removeAttribute('checked');
-      document.getElementById('commentInput')!.removeAttribute('disabled');
-      document.getElementById('typeSelect')!.removeAttribute('disabled');
-      document.getElementById('typeButton')!.removeAttribute('disabled');
-      document.getElementById('titleSelect')!.removeAttribute('disabled');
-      document.getElementById('newTitleButton')!.removeAttribute('disabled');
-      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
-      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
     } else {
       this.isFirstItem = true;
       this.isSecondItem = false;
@@ -185,22 +176,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: this.firstAssignment.assignmentType,
       };
       this.comment = true;
-      document.getElementById('commentInput')!.setAttribute('checked', 'true');
-      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
-      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
-      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
-      document
-        .getElementById('newTitleButton')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseSelect')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseButton')!
-        .setAttribute('disabled', 'true');
-      if (this.assignment.isRemote) {
-        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
-      }
     }
   }
 
@@ -216,15 +191,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: undefined,
       };
       this.comment = false;
-      document.getElementById('commentInput')!.removeAttribute('checked');
-      document.getElementById('remoteInput')!.removeAttribute('checked');
-      document.getElementById('commentInput')!.removeAttribute('disabled');
-      document.getElementById('typeSelect')!.removeAttribute('disabled');
-      document.getElementById('typeButton')!.removeAttribute('disabled');
-      document.getElementById('titleSelect')!.removeAttribute('disabled');
-      document.getElementById('newTitleButton')!.removeAttribute('disabled');
-      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
-      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
     } else {
       this.isFirstItem = false;
       this.isSecondItem = true;
@@ -237,22 +203,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: this.secondAssignment.assignmentType,
       };
       this.comment = true;
-      document.getElementById('commentInput')!.setAttribute('checked', 'true');
-      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
-      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
-      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
-      document
-        .getElementById('newTitleButton')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseSelect')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseButton')!
-        .setAttribute('disabled', 'true');
-      if (this.assignment.isRemote) {
-        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
-      }
     }
   }
 
@@ -268,15 +218,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: undefined,
       };
       this.comment = false;
-      document.getElementById('commentInput')!.removeAttribute('checked');
-      document.getElementById('remoteInput')!.removeAttribute('checked');
-      document.getElementById('commentInput')!.removeAttribute('disabled');
-      document.getElementById('typeSelect')!.removeAttribute('disabled');
-      document.getElementById('typeButton')!.removeAttribute('disabled');
-      document.getElementById('titleSelect')!.removeAttribute('disabled');
-      document.getElementById('newTitleButton')!.removeAttribute('disabled');
-      document.getElementById('enterpriseSelect')!.removeAttribute('disabled');
-      document.getElementById('enterpriseButton')!.removeAttribute('disabled');
     } else {
       this.isFirstItem = false;
       this.isThirdItem = true;
@@ -289,22 +230,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
         assignmentType: this.thirdAssignment.assignmentType,
       };
       this.comment = true;
-      document.getElementById('commentInput')!.setAttribute('checked', 'true');
-      document.getElementById('typeSelect')!.setAttribute('disabled', 'true');
-      document.getElementById('typeButton')!.setAttribute('disabled', 'true');
-      document.getElementById('titleSelect')!.setAttribute('disabled', 'true');
-      document
-        .getElementById('newTitleButton')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseSelect')!
-        .setAttribute('disabled', 'true');
-      document
-        .getElementById('enterpriseButton')!
-        .setAttribute('disabled', 'true');
-      if (this.assignment.isRemote) {
-        document.getElementById('remoteInput')!.setAttribute('checked', 'true');
-      }
     }
   }
 
@@ -422,5 +347,18 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @action
   editAssignmentCommentField(event: { target: { value: string } }) {
     this.assignment.comment = event.target.value;
+  }
+
+  get verif() {
+    if (this.isFirstItem) {
+      return true;
+    }
+    if (this.isSecondItem) {
+      return true;
+    }
+    if (this.isThirdItem) {
+      return true;
+    }
+    return false;
   }
 }
