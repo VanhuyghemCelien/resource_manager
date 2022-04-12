@@ -1,40 +1,46 @@
-<div class="mt-12 ml-28 max-w-[90%] font-normal">
+<div class="mt-12 ml-12 max-w-[90%] font-normal">
   <div class="flex flex-row">
-    <h1 class="text-3xl font-black text-primary">
-      Month :
+    <h1 class="text-3xl font-black text-textPrimary">
+      Mois :
       {{this.currentMonth}}
     </h1>
-    <LinkTo @route="dashboard.month" class="h-full ml-4 mt-auto text-secondary">
-      <p>Show by Month</p>
+    <LinkTo
+      @route="dashboard.month"
+      class="h-full ml-4 mt-auto text-textSecondary"
+    >
+      <p>Voir par mois</p>
     </LinkTo>
   </div>
   <div class="flex flex-row h-max mt-4">
     <div class="flex flex-row w-max">
       <LinkTo
-        {{! { week : this.choosingMachin } }}
-        @query={{hash week=this.choosingDateLess}}
+        @query={{hash week=this.paramsDay}}
+        {{on "click" this.choosingDateLess}}
         class="block text-center h-9 w-9 pr-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
       >
-        <p class="w-full text-center mt-1.5">&#x276E;</p>
+        <p class="w-full text-center my-1">&#x276E;</p>
       </LinkTo>
-      <button
+      <LinkTo
         class="block text-center py-1 px-5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"
+        @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayActual}}
       >
-        Actual
-      </button>
-      <button
+        Cette semaine
+      </LinkTo>
+      <LinkTo
         class="block text-center h-9 w-9 pl-0.5 ml-1 rounded-full bg-white text-navbarBg border border-navbarBg mx-auto cursor-pointer hover:bg-navbarBg hover:text-white hover:bg-opacity-75 active:bg-navbarBg active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
         type="button"
+        data-test-input="nextWeek"
+        @query={{hash week=this.paramsDay}}
         {{on "click" this.choosingDayPlus}}
       >
-        <p class="w-full text-center">&#x276F;</p>
-      </button>
+        <p class="w-full text-center my-1">&#x276F;</p>
+      </LinkTo>
     </div>
     <div class="ml-4 h-max my-auto">
       <label name="specificDay">
-        Choose a specific day
+        Choisir un jour spécifique
         {{! template-lint-disable no-down-event-binding }}
         <input
           type="date"
@@ -52,7 +58,7 @@
 
   <div class="mt-3">
     <div class="grid grid-cols-6 gap-1 mb-5">
-      <div class="text-center">Semaine</div>
+      <div class="text-center"></div>
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{1}} />
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{2}} />
       <Ui::Dayhead @choosingDay={{this.choosingDay}} @numDay={{3}} />
@@ -81,108 +87,39 @@
       @addAssignment={{this.addAssignment}}
       @assignment={{this.assignment}}
       @choosingDay={{this.choosingDay}}
+      @assignmentTitle={{this.assignmentTitle}}
     />
   {{/if}}
   {{#if this.displayNewTypeModal}}
-    <Popups::AssignmentType
+    <Forms::AssignmentType
+      @type="type"
+      @popupType="new"
+      @changeset={{this.assignmentTypeChangeset}}
       @toggleDisplayModal={{this.toggleDisplayNewTypeModal}}
-      @editAssignmentTypeField={{this.editAssignmentTypeField}}
       @toggleIsColorChecked={{this.toggleColor}}
       @saveFunction={{this.addAssignmentType}}
-      @isColorChecked={{this.color}}
+      @isColorChecked={{this.multipleColor}}
+    />
+  {{/if}}
+  {{#if this.displayNewEnterpriseModal}}
+    <Popups::CreateEditDetails
+      @changeset={{this.changesetEnterprise}}
+      @popupType="new"
+      @objectType="Enterprise"
+      @toggleDisplayModal={{this.toggleDisplayNewEnterpriseModal}}
+      @saveFunction={{this.addEnterprise}}
     />
   {{/if}}
   {{#if this.displayNewTitleModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-[314px]">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Title:
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayNewTitleModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <div>
-            <input
-              type="text"
-              id="titleInput"
-              class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
-              {{on "change" (fn this.editAssignmentTitleField "name")}}
-            />
-          </div>
-          {{#if this.color}}
-            <div class="flex flex-row mt-2 justify-between">
-              <p>Select the color to apply<br />for this type of assignment</p>
-              <input
-                type="color"
-                id="colorTitleInput"
-                class="my-auto ml-4 px-3 py-1"
-                {{on "change" (fn this.editAssignmentTitleField "color")}}
-              />
-            </div>
-          {{/if}}
-          <button
-            type="button"
-            class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-            {{on "click" this.addAssignmentTitle}}
-          >
-            <p>Create title</p>
-          </button>
-        </div>
-      </div>
-    </div>
-  {{/if}}
-  {{#if this.displayNewEnterpriseModal}}
-    <div
-      class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
-    >
-      <div
-        class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
-      >
-        <div class="bg-white p-5 rounded-3xl w-80">
-          <div class="flex flex-row justify-center">
-            <h1 class="ml-[19px] w-full text-2xl font-bol text-center">
-              Add a new Enterprise:
-            </h1>
-            <button
-              type="button"
-              {{on "click" this.toggleDisplayNewEnterpriseModal}}
-            >
-              <img
-                src="/assets/icons/close-button.svg"
-                alt="close button icon"
-              />
-            </button>
-          </div>
-          <div>
-            <input
-              type="text"
-              id="enterpriseInput"
-              class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
-              {{on "change" this.editEnterpriseField}}
-            />
-            <button
-              type="button"
-              class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
-              {{on "click" this.addEnterprise}}
-            >
-              <p>Create title</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Forms::AssignmentType
+      @type="title"
+      @popupType="new"
+      @model={{@model}}
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{this.toggleDisplayNewTitleModal}}
+      @toggleIsColorChecked={{this.toggleColor}}
+      @saveFunction={{this.addAssignmentTitle}}
+      @isColorChecked={{this.multipleColor}}
+    />
   {{/if}}
 </div>

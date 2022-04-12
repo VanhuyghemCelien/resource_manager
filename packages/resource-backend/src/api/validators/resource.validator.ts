@@ -2,24 +2,27 @@ import {
   Schema,
   SchemaBase,
   String,
+  Array,
 } from 'fastest-validator-decorators';
+import type { AssignmentModel } from '../models/assignment.model.js';
+import type { EnterpriseModel } from '../models/enterprise.model.js';
 
 @Schema(true)
 export class ValidatedResource extends SchemaBase {
     @String()
-  declare firstName: string;
+  public declare firstName: string;
 
     @String()
-    declare lastName: string;
+    public declare lastName: string;
 
     @String()
-    declare emailAddress: string;
+    public declare emailAddress: string;
 
     @String({ optional: true, empty: true })
     declare emailAddress2: string;
 
     @String()
-    declare phoneNumber: string;
+    public declare phoneNumber: string;
 
     @String({ optional: true, empty: true })
     declare phoneNumber2: string;
@@ -28,41 +31,47 @@ export class ValidatedResource extends SchemaBase {
     declare cost: string;
 
     @String()
-    declare image: string;
+    public declare image: string;
 
     @String()
-    declare enterprise: string;
+    public declare enterprise: EnterpriseModel;
+
+    @Array({ empty: true, optional: true, items: 'string' })
+    public declare assignment: AssignmentModel[];
 }
 
 @Schema(true)
 export class ValidatedResourceUpdate extends SchemaBase {
     @String()
-  declare id: string;
+  public declare id: string;
 
     @String({ optional: true })
-    declare firstName: string;
+    public declare firstName: string;
 
     @String({ optional: true })
-    declare lastName: string;
+    public declare lastName: string;
 
     @String({ optional: true })
-    declare emailAddress: string;
+    public declare emailAddress: string;
 
     @String({ optional: true })
-    declare emailAddress2: string;
+    public declare emailAddress2: string;
 
     @String({ optional: true })
-    declare phoneNumber: string;
+    public declare phoneNumber: string;
 
     @String({ optional: true })
-    declare phoneNumber2: string;
+    public declare phoneNumber2: string;
 
     @String({ optional: true })
-    declare cost: string;
+    public declare cost: string;
 
     @String({ optional: true })
-    declare enterprise: string;
+    public declare enterprise: EnterpriseModel;
 
     @String({ optional: true })
-    declare image: string;
+    public declare image: string;
+
+    @Array({ empty: true, optional: true, items: 'string' })
+    public declare assignment: AssignmentModel[];
 }

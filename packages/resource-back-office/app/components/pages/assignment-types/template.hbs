@@ -1,100 +1,95 @@
 <div class="mt-12 ml-12 mr-10 max-w-[95%]" id="resourcePage">
-  <h1 class="text-3xl font-black text-primary">Types d'occupations</h1>
-  <div
-    class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
-  >
-    <button
-      type="button"
-      class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-      {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new")}}
+  <h1 class="text-3xl font-black text-textPrimary">Types d'occupations</h1>
+  <div class="flex flex-row">
+    <div
+      class="mt-1 w-max rounded-full hover:bg-navbarBg transition-all duration-200"
     >
-      <div class="text-lg flex flex-row">
-        <img
-          src="/assets/icons/plus-button.svg"
-          alt="plus button icon"
-          class="inline h-6 w-6 my-auto"
-        />
-        <p class="ml-1">Ajouter un type d'occupation</p>
-      </div>
-    </button>
+      <button
+        type="button"
+        class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new" "type")}}
+      >
+        <div class="text-lg flex flex-row">
+          <img
+            src="/assets/icons/plus-button.svg"
+            alt="plus button icon"
+            class="inline h-6 w-6 my-auto"
+          />
+          <p class="ml-1">Ajouter un type d'occupation</p>
+        </div>
+      </button>
+    </div>
+    <div
+      class="mt-1 w-max ml-4 rounded-full hover:bg-navbarBg transition-all duration-200"
+    >
+      <button
+        type="button"
+        class="mt-0 w-max px-2 py-1 rounded-full cursor-pointer text-navbarBg hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
+        {{on "click" (fn this.toggleDisplayAssignmentTypeModal "new" "title")}}
+      >
+        <div class="text-lg flex flex-row">
+          <img
+            src="/assets/icons/plus-button.svg"
+            alt="plus button icon"
+            class="inline h-6 w-6 my-auto"
+          />
+          <p class="ml-1">Ajouter un titre d'occupation</p>
+        </div>
+      </button>
+    </div>
   </div>
   <table class="w-full min-w-[850px]">
     <thead>
-      <th class="text-primary text-lg">Nom</th>
-      <th class="text-primary text-lg">Plusieurs couleurs</th>
-      <th class="text-primary text-lg">Couleur</th>
+      <th class="text-textPrimary text-lg">Nom</th>
+      <th class="text-textPrimary text-lg">Type ou titre</th>
+      <th class="text-textPrimary text-lg">Plusieurs couleurs</th>
+      <th class="text-textPrimary text-lg">Couleur</th>
     </thead>
     <tbody>
       {{#each @model as |assignmentType|}}
-        <tr
-          class="border-b border-primary border-opacity-25 hover:bg-secondary hover:bg-opacity-10 transition-all duration-200"
-        >
-          <td
-            class="w-1/4 text-center text-primary font-medium px-2 text-base py-2"
-          >
-            {{assignmentType.assignmentTypeName}}
-          </td>
-          <td class="w-1/4 text-center text-secondary px-2 text-base py-2">
-            {{if assignmentType.multipleColors "Oui" "Non"}}
-          </td>
-          <td class="w-1/4 text-center text-secondary px-2 text-base py-2">
-            {{#if (eq assignmentType.multipleColors false)}}
-              {{! template-lint-disable no-inline-styles }}
-              {{! template-lint-disable style-concatenation }}
-              <div
-                class="h-6 w-6 mx-auto rounded-full"
-                style="background-color: {{assignmentType.assignmentTypeColor}};"
-              ></div>
-            {{/if}}
-          </td>
-          <td class="w-[10%] text-center px-2 py-2">
-            <div
-              class="w-max rounded-full hover:bg-navbarBg transition-all duration-200"
-            >
-              <button
-                type="button"
-                class="px-6 py-2 text-navbarBg text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-                {{on
-                  "click"
-                  (fn this.displayAssignmentTypeDetails assignmentType)
-                }}
-              >
-                <img
-                  src="/assets/icons/edit-button.svg"
-                  alt="edit button icon"
-                  class="inline h-5 w-auto mr-1"
-                />
-                Modifier
-              </button>
-            </div>
-          </td>
-          <td class="w-[10%] text-center px-2 py-2">
-            <div
-              class="w-max rounded-full hover:bg-warn transition-all duration-200"
-            >
-              <button
-                type="button"
-                class="px-6 py-2 text-warn text-center flex flex-row text-base hover:text-white hover:invert hover:brightness-0 transition-all duration-200"
-                {{on
-                  "click"
-                  (fn this.displayDeleteAssignmentType assignmentType)
-                }}
-              >
-                <img
-                  src="/assets/icons/delete-button.svg"
-                  alt="delete button icon"
-                  class="inline h-5 w-auto mr-1"
-                />
-                Supprimer
-              </button>
-            </div>
-          </td>
-        </tr>
+        <Ui::List
+          @type="assignment-type"
+          @object={{assignmentType}}
+          @displayDetails={{this.displayAssignmentTypeDetails}}
+          @displayDelete={{this.displayDeleteAssignmentType}}
+        />
       {{/each}}
     </tbody>
   </table>
-  {{#if this.displayNewAssignmentTypeModal}}{{/if}}
-  {{#if this.displayEditAssignmentTypeModal}}{{/if}}
+  {{#if this.displayNewAssignmentTypeModal}}
+    <Forms::AssignmentType
+      @page="assignment-types"
+      @model={{@model}}
+      @type={{this.type}}
+      @popupType="new"
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{fn
+        this.toggleDisplayAssignmentTypeModal
+        "new"
+        this.type
+      }}
+      @toggleIsColorChecked={{this.toggleMultipleColor}}
+      @saveFunction={{fn this.add this.type}}
+      @isColorChecked={{this.multipleColor}}
+    />
+  {{/if}}
+  {{#if this.displayEditAssignmentTypeModal}}
+    <Forms::AssignmentType
+      @page="assignment-types"
+      @model={{@model}}
+      @type={{this.type}}
+      @popupType="edit"
+      @changeset={{this.assignmentTypeChangeset}}
+      @toggleDisplayModal={{fn
+        this.toggleDisplayAssignmentTypeModal
+        "edit"
+        this.type
+      }}
+      @toggleIsColorChecked={{this.toggleMultipleColor}}
+      @saveFunction={{fn this.edit this.type}}
+      @isColorChecked={{this.multipleColor}}
+    />
+  {{/if}}
   {{#if this.displayDeleteAssignmentTypeModal}}
     <Popups::Delete
       @type="assignment type"

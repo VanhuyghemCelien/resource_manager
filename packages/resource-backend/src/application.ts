@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import { AssignmentController } from './api/controllers/assignment.controller.js';
+import { AssignmentModel } from './api/models/assignment.model.js';
 import { AssignmentTypeController } from './api/controllers/assignment-type.controller.js';
 import { ResourceModel } from './api/models/resource.model.js';
 import { LoadStrategy, MikroORM } from '@mikro-orm/core';
@@ -21,8 +23,6 @@ import { LoggerService } from './api/services/logger.service.js';
 import cors from '@koa/cors';
 import { CurrentUserMiddleware } from './api/middlewares/current-user.middleware.js';
 import createHttpError from 'http-errors';
-import { TestSeeder } from './database/seeder/test.seeder.js';
-import type { SqlEntityManager } from '@mikro-orm/mysql';
 import { createRateLimitMiddleware } from './api/middlewares/rate-limit.middleware.js';
 import helmet from 'koa-helmet';
 import koaBody from 'koa-body';
@@ -31,6 +31,8 @@ import { ResourceController } from './api/controllers/resource.controller.js';
 import { EnterpriseModel } from './api/models/enterprise.model.js';
 import { EnterpriseController } from './api/controllers/enterprise.controller.js';
 import { AssignmentTypeModel } from './api/models/assignment-type.model.js';
+import type { SqlEntityManager } from '@mikro-orm/mysql';
+import { TestSeeder } from './database/seeder/test.seeder.js';
 
 export async function runApplication () {
   /**
@@ -47,7 +49,7 @@ export async function runApplication () {
   const logger = container.resolve(LoggerService);
 
   const orm = await MikroORM.init({
-    entities: [UserModel, RefreshTokenModel, DocumentModel, ResourceModel, AssignmentTypeModel, EnterpriseModel],
+    entities: [UserModel, RefreshTokenModel, DocumentModel, EnterpriseModel, ResourceModel, AssignmentTypeModel, AssignmentModel],
     dbName: database.database,
     host: database.host,
     port: database.port,
@@ -78,7 +80,7 @@ export async function runApplication () {
 
   const koaApp = await createApplication({
     server: new Koa(),
-    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController],
+    controllers: [AuthController, UsersController, DocumentController, ResourceController, EnterpriseController, AssignmentTypeController, AssignmentController],
     globalGuards: [],
     globalMiddlewares: [
       helmet(),

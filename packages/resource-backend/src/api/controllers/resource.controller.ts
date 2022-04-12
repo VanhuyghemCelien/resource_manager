@@ -44,12 +44,19 @@ export class ResourceController {
     @inject(AclService) private aclService: AclService,
   ) {}
 
+ @GET('/:firstDate/:lastDate')
+  public async listresource (@Param('firstDate') first: string, @Param('lastDate') last: string) {
+    const res = await this.resourceRepository.createQueryBuilder('resource').select('*').leftJoinAndSelect('resource.assignment', 'assignment', { $and: [{ 'assignment.date': { $lte: last } }, { 'assignment.date': { $gte: first } }] }).leftJoinAndSelect('assignment.assignmentType', 'assignmentType').getResult();
+    console.log(res);
+    return res;
+  }
+
   @POST('/')
   @UseMiddleware(deserialize(ResourceDeserializer))
-  async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
-    // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
-    return this.resourceRepository.jsonApiCreate(body);
-  }
+ async create (@EntityFromBody(ValidatedResource, ResourceModel) body: ResourceModel) {
+   // this.aclService.enforce(UserModel.ability, currentUser, 'create', body);
+   return await this.resourceRepository.jsonApiCreate(body);
+ }
 
   @PATCH('/:id')
   @UseMiddleware(deserialize(ResourceDeserializer))

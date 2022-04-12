@@ -1,30 +1,28 @@
-<div class="fixed inset-0 bg-primary bg-opacity-30 transition-all duration-200">
+<div
+  class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
+>
   <div
-    class="flex h-screen justify-center items-center transition-all duration-200
+    class="flex h-screen justify-center items-center
       {{if @displayNewTypeModal "mr-[432px]"}}
       {{if @displayNewTitleModal "mr-[432px]"}}
-      {{if @displayNewEnterpriseModal "mr-[432px]"}}"
+      transition-all duration-200"
   >
     <div class="bg-white p-5 rounded-3xl w-[500px] font-normal">
       <div class="flex flex-row justify-end">
-        <h1 class="ml-5 w-full text-2xl font-normal text-center">
-          Occupation pour
+        <h1 class="ml-[19px] w-full text-2xl font-bold text-center">
+          Assignment for
         </h1>
-        <p class="w-full font-normal text-navbarBg text-start text-2xl">
+        <p class="w-full font-semibold text-navbarBg text-start text-2xl">
           {{@resourceName}}
         </p>
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
-          <img
-            src="/assets/icons/close-button.svg"
-            alt="close button icon"
-            class="inline h-5 w-auto mr-1"
-          />
+          <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <div class="text-center mt-3">
         {{dayFormat @choosingDay}}
       </div>
-      <form {{on "submit" this.submit}} ...attributes>
+      <form aria-label="newEnterpriseForm">
         <div class="flex flex-row w-max mx-auto mt-4">
           <div class="w-max">
             <label>
@@ -32,7 +30,7 @@
               <input
                 id="morningInput"
                 type="checkbox"
-                checked={{this.assignment.boolMorning}}
+                checked={{changeset-get @changeset "isMorning"}}
                 {{on "click" this.selectedMorning}}
               />
             </label>
@@ -43,37 +41,41 @@
               <input
                 id="afternoonInput"
                 type="checkbox"
-                checked={{this.assignment.boolAfternoon}}
+                checked={{changeset-get @changeset "isAfternoon"}}
                 {{on "click" this.selectedAfternoon}}
               />
             </label>
           </div>
         </div>
         <div class="flex flex-row mt-4 justify-between">
-          <p class="w-20 grow-0">Type</p>
-          {{! template-lint-disable no-inline-styles }}
-          {{! template-lint-disable style-concatenation }}
+          <p class="w-[76px] grow-0">Type</p>
           <select
             id="typeSelect"
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            {{! template-lint-disable no-inline-styles }}
+            {{! template-lint-disable style-concatenation }}
+            style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectType}}
           >
+            <option value="" selected disabled>Sélectionnez un type d'occupation</option>
             {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.assignmentTypeName}}>
-                {{assignmentType.assignmentTypeName}}
+              <option value={{assignmentType.name}}>
+                {{assignmentType.name}}
               </option>
             {{/each}}
           </select>
+          {{! template-lint-disable no-log }}
+          {{log this.assignmentType.color}}
           <button
             type="button"
             class="grow-0"
             {{on "click" @toggleDisplayNewTypeModal}}
+            title="Ajouter un type d'occupation"
+            data-test-input="addAssignmentType"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
         </div>
-
         <div class="flex flex-row mt-4 justify-between">
           <p class="w-[76px] grow-0">Title</p>
           <select
@@ -81,36 +83,42 @@
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
             {{! template-lint-disable no-inline-styles }}
             {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            style="border: 1px solid {{this.assignmentType.color}}"
+            disabled
             {{on "change" this.selectTitle}}
           >
-            {{#each @model.assignmentTitle as |assignmentTitle|}}
-              <option value={{assignmentTitle.assignmentTitleName}}>
-                {{assignmentTitle.assignmentTitleName}}
-              </option>
-            {{/each}}
+            <option value="" selected disabled>
+              Sélectionnez un titre d'occupation
+            </option>
           </select>
           <button
+            id="newTitleButton"
             type="button"
             class="grow-0"
             {{on "click" @toggleDisplayNewTitleModal}}
+            disabled
+            title="Ajouter un titre d'occupation"
+            data-test-input="addAssignmentTitle"
           >
             <img src="/assets/icons/plus-button.svg" alt="close button icon" />
           </button>
         </div>
         <div class="flex flex-row mt-4 justify-between">
-          <p class="w-[76px] grow-0">Entreprise</p>
-          {{! template-lint-disable no-inline-styles }}
-          {{! template-lint-disable style-concatenation }}
+          <p class="w-[76px] grow-0">Enterprise</p>
           <select
             id="enterpriseSelect"
             class="grow text-center mx-4 rounded-xl px-2 bg-white"
-            style="border: 1px solid {{this.assignment.assignmentType.assignmentTypeColor}}"
+            {{! template-lint-disable no-inline-styles }}
+            {{! template-lint-disable style-concatenation }}
+            style="border: 1px solid {{this.assignmentType.color}}"
             {{on "change" this.selectEnterprise}}
           >
+            <option value="" selected disabled>Sélectionnez une entreprise</option>
             {{#each @model.enterprise as |enterprise|}}
               <option value={{enterprise.name}}>
                 {{enterprise.name}}
+                -
+                {{enterprise.city}}
               </option>
             {{/each}}
           </select>
@@ -125,7 +133,7 @@
         <div class="flex flex-row mt-4 justify-between">
           <div class="w-max">
             <label class="cursor-pointer">
-              Ajouter un commentaire ?
+              Add a comment ?
               <input
                 id="commentInput"
                 type="checkbox"
@@ -136,28 +144,29 @@
           </div>
           <div class="w-max">
             <label class="cursor-pointer">
-              À distance ?
+              Remote ?
               <input id="remoteInput" type="checkbox" class="cursor-pointer" />
             </label>
           </div>
         </div>
-        {{#if this.isAddingComment}}
+        {{#if this.comment}}
           <div class="flex mt-4">
             <textarea
-              id="comment"
-              class="border border-navbarBg rounded-xl grow p-2 max-h-80 min-h-[66px]"
+              id="CommentText"
+              class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
               rows="2"
             ></textarea>
           </div>
         {{/if}}
         <button
-          type="submit"
+          type="button"
           class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
-          disabled={{@changeset.isInvalid}}
+          {{on "click" this.saveFunction}}
         >
-          <p>Ajouter l'occupation</p>
+          <p>Add Assignment</p>
         </button>
       </form>
+
     </div>
   </div>
 </div>

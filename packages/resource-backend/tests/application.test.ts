@@ -3,12 +3,12 @@ import fetch from 'node-fetch';
 
 /* eslint-disable no-undef */
 test('Application should listen to requests', async () => {
-  const response = await fetch('http://localhost:8001');
+  const response = await fetch('http://localhost:8000');
   expect(response.status).toStrictEqual(404);
 });
 
 test('Application should invoke not-found handler', async () => {
-  const response = await fetch('http://localhost:8001/api/v1');
+  const response = await fetch('http://localhost:8000/api/v1');
   expect(response.status).toStrictEqual(404);
   const body = await response.json();
   expect(body).toMatchObject({

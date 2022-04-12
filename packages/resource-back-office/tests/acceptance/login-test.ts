@@ -20,6 +20,6 @@ module('Acceptance | login', function (hooks) {
     await fillIn("[data-test-form-login] [data-test-input='password']", '123');
     await click('[data-test-form-login] [data-test-submit]');
 
-    assert.strictEqual(currentURL(), '/');
+    assert.strictEqual(currentURL(), '/dashboard/month');
   });
 });

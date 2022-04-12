@@ -1,4 +1,4 @@
-const port = 8001;
+const port = 8000;
 
 export default {
   jwt: {
@@ -19,13 +19,13 @@ export default {
     host: 'localhost',
     user: 'root',
     password: 'test123*',
-    database: 'nfw_test',
+    database: 'resourcemgr_test',
     type: 'mysql',
     port: 3306,
     debug: false,
   },
   env: 'test',
   cors: {
-    origin: 'http://localhost:4200',
+    origin: '*',
   },
 };

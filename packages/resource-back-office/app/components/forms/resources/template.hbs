@@ -5,12 +5,12 @@
         <img
           src={{changeset-get @changeset "image"}}
           alt="Resource's profile pic"
-          class="h-28 w-28 rounded-full object-cover border-2 border-secondary mx-auto"
+          class="h-28 w-28 rounded-full object-cover border-2 border-textSecondary mx-auto"
         />
       {{else}}
         <label
           for="resourcePic"
-          class="relative z-0 text-center text-sm flex flex-col justify-center h-28 w-28 rounded-full border-2 border-primary mx-auto cursor-pointer"
+          class="relative z-0 text-center text-sm flex flex-col justify-center h-28 w-28 rounded-full border-2 border-textPrimary mx-auto cursor-pointer"
         >
           {{#if (eq @popupType "edit")}}
             <img
@@ -20,11 +20,11 @@
             />
           {{/if}}
           <div
-            class="absolute inset-0 flex justify-center items-center z-10 h-full w-full rounded-full hover:bg-primary hover:bg-opacity-20 transition-all duration-200
+            class="absolute inset-0 flex justify-center items-center z-10 h-full w-full rounded-full hover:bg-textPrimary hover:bg-opacity-20 transition-all duration-200
               {{if
                 (eq @popupType "edit")
                 "text-white/0 hover:text-white/100"
-                "text-secondary hover:text-primary"
+                "text-textSecondary hover:text-textPrimary"
               }}"
           >
             {{if
@@ -38,6 +38,7 @@
             id="resourcePic"
             class="hidden"
             {{on "change" this.changeImage}}
+            data-test-input="resourceImage"
           />
         </label>
       {{/if}}
@@ -47,11 +48,11 @@
       @name="firstName"
       @value={{changeset-get @changeset "firstName"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }}  pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "firstName"}}
       @placeholder="Prénom"
@@ -60,17 +61,18 @@
       required
       autocapitalize="on"
       type="text"
+      data-test-input="resourceFirstName"
     />
     <Ui::Input
       @label="Nom de famille"
       @name="lastName"
       @value={{changeset-get @changeset "lastName"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "lastName"}}
       @placeholder={{if (eq @popupType "details") "" "Nom de famille"}}
@@ -79,17 +81,18 @@
       required
       autocapitalize="on"
       type="text"
+      data-test-input="resourceLastName"
     />
     <Ui::Input
       @label="Adresse mail"
       @name="emailAddress"
       @value={{changeset-get @changeset "emailAddress"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress"}}
       @placeholder={{if (eq @popupType "details") "" "Adresse mail"}}
@@ -97,17 +100,18 @@
       @mandatory={{true}}
       required
       type="text"
+      data-test-input="resourceMail"
     />
     <Ui::Input
       @label="Adresse mail n°2"
       @name="emailAddress2"
       @value={{changeset-get @changeset "emailAddress2"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "emailAddress2"}}
       @placeholder={{if (eq @popupType "details") "" "Adresse mail n°2"}}
@@ -120,17 +124,18 @@
       @name="phoneNumber"
       @value={{changeset-get @changeset "phoneNumber"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber"}}
       @placeholder={{if (eq @popupType "details") "" "N° de téléphone"}}
       @disabled={{if (eq @popupType "details") true false}}
       @mandatory={{true}}
       type="text"
+      data-test-input="resourcePhone"
       required
     />
     <Ui::Input
@@ -138,11 +143,11 @@
       @name="phoneNumber2"
       @value={{changeset-get @changeset "phoneNumber2"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "phoneNumber2"}}
       @placeholder={{if (eq @popupType "details") "" "N° de téléphone n°2"}}
@@ -150,18 +155,19 @@
       @mandatory={{false}}
       type="text"
     />
-    <label class="text-primary font-base mt-1 block">
+    <label class="text-textPrimary font-base mt-1 block">
       <p>Enterprise*</p>
       <select
-        class="w-full rounded-md outline-none transition-all duration-200 border-2 border-primary text-primary pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
+        class="w-full rounded-md outline-none transition-all duration-200 border-2 border-textPrimary text-textPrimary pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
         {{on "change" this.changeEnterprise}}
         disabled={{if (eq @popupType "details") true false}}
         required={{if (eq @popupType "new") true false}}
+        data-test-select="enterprisesSelect"
       >
         <option
           value=""
           disabled
-          selected={{if (eq @popupType "details") false true}}
+          selected={{if (eq @popupType "new") true false}}
         >
           Sélectionnez une entreprise
         </option>
@@ -171,7 +177,7 @@
             selected={{if
               (and
                 (or (eq @popupType "edit") (eq @popupType "details"))
-                (eq enterprise.id (changeset-get @changeset "enterprise"))
+                (eq enterprise.id (changeset-get @changeset "enterprise.id"))
               )
               true
               false
@@ -189,11 +195,11 @@
       @name="cost"
       @value={{changeset-get @changeset "cost"}}
       @containerStyle=""
-      @labelStyle="text-primary font-base mt-1 block"
+      @labelStyle="text-textPrimary font-base mt-1 block"
       @inputStyle="w-full rounded-md outline-none transition-all duration-200 border-2 {{if
         (eq @popupType "details")
-        "border-secondary text-secondary"
-        "border-primary focus:border-navbarBg text-primary"
+        "border-textSecondary text-textSecondary"
+        "border-textPrimary focus:border-navbarBg text-textPrimary"
       }} pt-1.5 pb-1.5 px-3 font-base focus:outline-none focus:ring-0"
       @updateValue={{fn this.changeInput "cost"}}
       @placeholder={{if (eq @popupType "details") "" "Coût (€/h)"}}
@@ -206,6 +212,7 @@
     <button
       type="submit"
       class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+      data-test-input="saveResource"
     >
       {{@popupName}}
     </button>

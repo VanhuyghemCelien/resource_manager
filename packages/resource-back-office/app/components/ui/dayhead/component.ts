@@ -11,9 +11,9 @@ export default class UiDayhead extends Component<UiDayheadArgs> {
   @tracked today: Date = new Date();
 
   get day() {
-    let day = startOfWeek(this.args.choosingDay, { weekStartsOn: 0 });
-    day.setDate(day.getDate() + this.args.numDay);
-    day.setHours(1);
-    return day;
+    let dayHead = startOfWeek(this.args.choosingDay, { weekStartsOn: 0 });
+    dayHead.setDate(dayHead.getDate() + this.args.numDay);
+    dayHead.setHours(1);
+    return dayHead;
   }
 }

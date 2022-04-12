@@ -10,6 +10,8 @@ import {
   sendCoverage,
 } from 'ember-cli-code-coverage/test-support';
 
+QUnit.config.reorder = false;
+
 QUnit.done(async function () {
   forceModulesToBeLoaded();
   await sendCoverage();

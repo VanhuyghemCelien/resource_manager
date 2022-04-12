@@ -1,5 +1,5 @@
 <div
-  class="fixed top-0 bottom-0 right-0 left-0 bg-primary bg-opacity-30 transition-all duration-200"
+  class="fixed top-0 bottom-0 right-0 left-0 bg-textPrimary bg-opacity-30 transition-all duration-200"
 >
   <div
     class="flex h-screen justify-center ml-[432px] items-center transition-all duration-200"
@@ -16,7 +16,8 @@
       <input
         type="text"
         id="typeInput"
-        class="border border-primary rounded mx-auto w-full mt-4 px-3 py-1"
+        class="border border-textPrimary rounded mx-auto w-full mt-4 px-3 py-1"
+        data-test-input="typeName"
         {{on "change" (fn @editAssignmentTypeField "assignmentTypeName")}}
       />
       <div class="flex flex-row mt-2 justify-between">
@@ -44,11 +45,12 @@
       <button
         type="button"
         class="block mt-4 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all duration-200"
+        data-test-input="saveType"
         {{on "click" @saveFunction}}
       >
         <p>Créer</p>
       </button>
-      <p class="text-xs text-secondary mt-2">
+      <p class="text-xs text-textSecondary mt-2">
         *Si coché, vous devrez sélectionner une couleur pour chaque titre créé
         pour ce type d'occupation
       </p>

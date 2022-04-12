@@ -1,5 +1,8 @@
 import { inject, injectable, singleton } from '@triptyk/nfw-core';
 import { BaseJsonApiSerializer } from '../../json-api/serializer/base.serializer.js';
+import type { AssignmentTypeModel } from '../models/assignment-type.model.js';
+import type { AssignmentModel } from '../models/assignment.model.js';
+import type { EnterpriseModel } from '../models/enterprise.model.js';
 import type { ResourceModel } from '../models/resource.model.js';
 import { ConfigurationService } from '../services/configuration.service.js';
 
@@ -11,8 +14,30 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
   ) {
     super(configurationService);
 
-    this.serializer.register('resources', {
-      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'enterprise', 'image'] as (keyof ResourceModel)[],
+    this.serializer.register('resource', {
+      whitelist: ['firstName', 'lastName', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'cost', 'image'] as (keyof ResourceModel)[],
+      relationships: {
+        enterprise: {
+          type: 'enterprise',
+        },
+        assignment: {
+          type: 'assignment',
+        },
+      },
+    });
+    this.serializer.register('enterprise', {
+      whitelist: ['name', 'city', 'emailAddress', 'emailAddress2', 'phoneNumber', 'phoneNumber2', 'address', 'enterpriseNumber', 'vatNumber'] as (keyof EnterpriseModel)[],
+    });
+    this.serializer.register('assignment', {
+      whitelist: ['date', 'isMorning', 'isAfternoon', 'isRemote', 'comment'] as (keyof AssignmentModel)[],
+      relationships: {
+        assignmentType: {
+          type: 'assignmentType',
+        },
+      },
+    });
+    this.serializer.register('assignmentType', {
+      whitelist: ['name', 'color'] as (keyof AssignmentTypeModel)[],
     });
   }
 
@@ -20,6 +45,6 @@ export class ResourceSerializer extends BaseJsonApiSerializer<ResourceModel> {
     data: ResourceModel[] | ResourceModel,
     extraData?: Record<string, unknown>,
   ) {
-    return this.serializer.serializeAsync('resources', data, extraData ?? ({} as any));
+    return this.serializer.serializeAsync('resource', data, extraData ?? ({} as any));
   }
 }

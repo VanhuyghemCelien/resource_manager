@@ -3,41 +3,34 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
+import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
+import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
+import type AssignmentModel from 'ember-boilerplate/models/assignment';
+import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import type { FormsEnterpriseDTO } from 'ember-boilerplate/components/forms/enterprise/component';
+import { Changeset } from 'ember-changeset';
+import lookupValidator from 'ember-changeset-validations';
+import EnterpriseValidation from '../../../../validator/forms/enterprise';
+import AssignmentTypeValidation from '../../../../validator/forms/assignment-type';
+import { loading } from 'ember-loading';
+import type RouterService from '@ember/routing/router-service';
+import type LocalStorage from 'ember-boilerplate/services/localstorage';
+import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 
-export interface Assignment {
-  assignmentType: AssignmentType;
-  assignmentTitle: AssignmentTitle;
-  enterprise: Enterprise;
-  date: Date;
-  boolMorning: boolean;
-  boolAfternoon: boolean;
-  resource?: ResourceModel;
-}
-
-export interface AssignmentType {
-  assignmentTypeName: string;
-  multipleColors: boolean;
-  assignmentTypeColor?: string;
-}
-
-export interface AssignmentTitle {
-  assignmentTitleName: string;
-  assignmentTitleColor?: string;
-}
-
-export interface Enterprise {
-  name: string;
-}
 
 interface PagesDashboardWeekArgs {
-  model: { week: number };
+  model: { week: number; first: Date };
 }
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
+  @service declare router: RouterService;
+  @service declare flashMessages: FlashMessageService;
+  @inject declare localstorage: LocalStorage;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -45,212 +38,269 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked displayNewTypeModal: boolean = false;
   @tracked displayNewTitleModal: boolean = false;
   @tracked displayNewEnterpriseModal: boolean = false;
-  @tracked choosingDay: Date = new Date();
+  @tracked choosingDay: Date = new Date(this.args.model.first);
   @tracked specificDay: Date = new Date();
-  @tracked color: boolean = false;
+  @tracked multipleColor: boolean = false;
   @tracked comment: boolean = false;
   @tracked resourceName: string = '';
-  @tracked assignmentType: AssignmentType = {
-    assignmentTypeName: '',
-    multipleColors: false,
-    assignmentTypeColor: '#adab32',
-  };
-  @tracked assignmentTitle: AssignmentTitle = {
-    assignmentTitleName: '',
-    assignmentTitleColor: '',
-  };
-  @tracked enterprise: Enterprise = {
-    name: '',
-  };
-  @tracked assignment: Assignment = {
-    assignmentType: {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
-    },
-    assignmentTitle: {
-      assignmentTitleName: '',
-      assignmentTitleColor: '',
-    },
-    enterprise: {
-      name: '',
-    },
+  @tracked paramsDay: Number = 0;
+  @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  @tracked
+  assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  constructor(owner: unknown, args: PagesDashboardWeekArgs) {
+    super(owner, args);
+    this.changesetEnterprise = Changeset(
+      {
+        name: '',
+        city: '',
+        address: '',
+        emailAddress: '',
+        phoneNumber: '',
+        emailAddress2: '',
+        phoneNumber2: '',
+        enterpriseNumber: '',
+        vatNumber: '',
+      },
+      lookupValidator(EnterpriseValidation),
+      EnterpriseValidation
+    ) as TypedBufferedChangeset<FormsEnterpriseDTO>;
+    this.assignmentTypeChangeset = Changeset(
+      {
+        name: '',
+        color: '',
+        parents: undefined,
+      },
+      lookupValidator(AssignmentTypeValidation),
+      AssignmentTypeValidation
+    ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  }
+
+  @tracked parentsOption = this.getParentsOption();
+
+  async getParentsOption() {
+    const titleTable = await this.store.query('assignment-type', {
+      fields: 'name,color',
+      include: 'parents',
+    });
+    let parents: Partial<AssignmentTypeModel>[] = [];
+    titleTable.forEach((title) => {
+      if (!title.get('parents').get('name')) {
+        parents.addObject(title.get('parents'));
+      }
+    });
+  }
+
+  @action add(
+    type: string,
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    if (type === 'type') {
+      this.addAssignmentType(changeset);
+    } else if (type === 'title') {
+      this.addAssignmentTitle(changeset);
+    }
+  }
+
+  @tracked assignment: Partial<AssignmentModel> = {
     date: new Date(),
-    boolMorning: false,
-    boolAfternoon: false,
+    isMorning: false,
+    isAfternoon: false,
+    isRemote: false,
+    comment: undefined,
     resource: undefined,
+    assignmentType: undefined,
+    enterprise: undefined,
   };
 
-  // TRAVAILLER AVEC LES CHANGESETS POUR LA VALIDATION
   @action
-  addAssignment(
-    date: Date,
-    resource: ResourceModel,
-    assignmentNew: Assignment
-  ) {
+  async addAssignment(assignmentNew: Partial<AssignmentModel>) {
+    console.log(assignmentNew, 'addassignment');
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: assignmentNew.assignmentType.assignmentTypeName,
-        multipleColors: false,
-        assignmentTypeColor: assignmentNew.assignmentType.assignmentTypeColor,
-      },
-      assignmentTitle: {
-        assignmentTitleName: assignmentNew.assignmentTitle.assignmentTitleName,
-        assignmentTitleColor:
-          assignmentNew.assignmentTitle.assignmentTitleColor,
-      },
-      enterprise: {
-        name: assignmentNew.enterprise.name,
-      },
-      date: date,
-      boolMorning: assignmentNew.boolMorning,
-      boolAfternoon: assignmentNew.boolAfternoon,
-      resource: resource,
+      date: assignmentNew.date,
+      isMorning: assignmentNew.isMorning,
+      isAfternoon: assignmentNew.isAfternoon,
+      isRemote: assignmentNew.isRemote,
+      comment: assignmentNew.comment,
+      resource: assignmentNew.resource,
+      assignmentType: assignmentNew.assignmentType,
+      enterprise: assignmentNew.enterprise,
     };
-    const assignment = this.store.createRecord('assignment', this.assignment);
+    console.log(this.assignment);
+    const assignment = await this.store.createRecord(
+      'assignment',
+      this.assignment
+    );
     this.assignment = {
-      assignmentType: {
-        assignmentTypeName: '',
-        multipleColors: false,
-        assignmentTypeColor: '',
-      },
-      assignmentTitle: {
-        assignmentTitleName: '',
-        assignmentTitleColor: '',
-      },
-      enterprise: {
-        name: '',
-      },
       date: new Date(),
-      boolMorning: false,
-      boolAfternoon: false,
+      isMorning: false,
+      isAfternoon: false,
+      isRemote: false,
+      comment: undefined,
       resource: undefined,
+      assignmentType: undefined,
+      enterprise: undefined,
     };
     // rajouter async await + gestion erreurs
-    assignment.save();
-    this.toggleDisplayNewAssignmentModal(this.today, resource, false, false);
+    await assignment.save();
+    this.localstorage.setThirdItem();
+    this.localstorage.setSecondItem();
+    this.localstorage.setFirstItem(assignment);
+    this.toggleDisplayNewAssignmentModal();
+    this.flashMessages.success("L'occupation a bien été ajoutée");
   }
 
   @action
-  editAssignmentTypeField(field: string, event: { target: { value: string } }) {
-    switch (field) {
-      case 'assignmentTypeName':
-        this.assignmentType.assignmentTypeName = event.target.value;
-        break;
-      case 'assignmentTypeColor':
-        this.assignmentType.assignmentTypeColor = event.target.value;
-        break;
-    }
-  }
-
-  @action
-  editAssignmentTitleField(
-    field: string,
-    event: { target: { value: string } }
+  @loading
+  async addAssignmentType(
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
   ) {
-    switch (field) {
-      case 'name':
-        this.assignmentTitle.assignmentTitleName = event.target.value;
-        break;
-      case 'color':
-        this.assignmentTitle.assignmentTitleColor = event.target.value;
-        break;
+    try {
+      const assignmentTypeToAdd: Partial<AssignmentTypeModel> = {
+        name: changeset.get('name'),
+        color: changeset.get('color'),
+        parents: changeset.get('parents'),
+      };
+      const assignmentType = this.store.createRecord(
+        'assignment-type',
+        assignmentTypeToAdd
+      );
+      this.assignmentTypeChangeset.rollback();
+      await assignmentType.save();
+      this.multipleColor = false;
+      this.toggleDisplayNewTypeModal();
+      this.router.refresh();
+      this.flashMessages.success("Le type d'occupation a bien été ajouté");
+    } catch (e) {
+      this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
     }
   }
 
   @action
-  editEnterpriseField(event: { target: { value: string } }) {
-    this.enterprise.name = event.target.value;
+  @loading
+  async addAssignmentTitle(
+    changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
+  ) {
+    try {
+      const assignmentTitleToAdd: Partial<AssignmentTypeModel> = {
+        name: changeset.get('name'),
+        color: changeset.get('color'),
+        parents: changeset.get('parents'),
+      };
+
+      const assignmentTitle = this.store.createRecord(
+        'assignmentType',
+        assignmentTitleToAdd
+      );
+      this.assignmentTypeChangeset.rollback();
+      await assignmentTitle.save();
+      document.getElementById('titleSelect')!.innerHTML =
+        document.getElementById('titleSelect')!.innerHTML +
+        '<option value="' +
+        assignmentTitle.name +
+        '">' +
+        assignmentTitle.name +
+        '</option>';
+      this.toggleDisplayNewTitleModal();
+      this.router.refresh();
+      this.flashMessages.success("Le titre d'occupation a bien été ajouté");
+    } catch (e) {
+      this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
-  addAssignmentType() {
-    const assignmentType = this.store.createRecord(
-      'assignment-type',
-      this.assignmentType
-    );
-    // changeset
-    this.assignmentType = {
-      assignmentTypeName: '',
-      multipleColors: false,
-      assignmentTypeColor: '',
-    };
-    assignmentType.save();
-    this.toggleDisplayNewTypeModal();
-  }
-
-  @action
-  addAssignmentTitle() {
-    const assignmentTitle = this.store.createRecord(
-      'assignment-title',
-      this.assignmentTitle
-    );
-    this.assignmentTitle = {
-      assignmentTitleName: '',
-      assignmentTitleColor: '',
-    };
-    assignmentTitle.save();
-    this.toggleDisplayNewTitleModal();
-  }
-
-  @action
-  addEnterprise() {
-    const enterprise = this.store.createRecord('enterprise', this.enterprise);
-    this.enterprise = {
-      name: '',
-    };
-    enterprise.save();
-    this.toggleDisplayNewEnterpriseModal();
+  @loading
+  async addEnterprise(
+    changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>
+  ) {
+    try {
+      const enterpriseToSave: Partial<EnterpriseModel> = {
+        name: changesetEnterprise.get('name'),
+        city: changesetEnterprise.get('city'),
+        emailAddress: changesetEnterprise.get('emailAddress'),
+        phoneNumber: changesetEnterprise.get('phoneNumber'),
+        phoneNumber2: changesetEnterprise.get('phoneNumber2') ?? undefined,
+        emailAddress2: changesetEnterprise.get('emailAddress2') ?? undefined,
+        enterpriseNumber:
+          changesetEnterprise.get('enterpriseNumber') ?? undefined,
+        vatNumber: changesetEnterprise.get('vatNumber') ?? undefined,
+        address: changesetEnterprise.get('address'),
+      };
+      const enterpriseCreated = await this.store.createRecord(
+        'enterprise',
+        enterpriseToSave
+      );
+      await enterpriseCreated.save();
+      this.changesetEnterprise.rollback();
+      this.toggleDisplayNewEnterpriseModal();
+      this.router.refresh();
+      this.flashMessages.success('L’entreprise a bien été créée');
+    } catch (e) {
+      this.flashMessages.warning(e.message);
+    }
   }
 
   @action
   toggleColor() {
-    this.color = this.color ? false : true;
+    if (this.multipleColor) {
+      this.multipleColor = false;
+    } else {
+      this.multipleColor = true;
+    }
   }
 
   @action
   toggleDisplayNewAssignmentModal(
     choosingdate?: Date,
     resource?: ResourceModel,
-    boolMorning?: boolean,
-    boolAfternoon?: boolean
+    isMorning?: boolean,
+    isAfternoon?: boolean
   ) {
     if (this.displayNewAssignmentModal) {
       this.displayNewAssignmentModal = false;
       this.assignment = {
         ...this.assignment,
-        boolMorning: false,
-        boolAfternoon: false,
+        isMorning: false,
+        isAfternoon: false,
       };
     } else {
-      this.displayNewAssignmentModal = true;
       this.choosingDay = new Date(choosingdate!);
       this.assignment.resource = resource;
       this.resourceName = resource!.firstName + ' ' + resource!.lastName;
-      this.assignment.boolMorning = boolMorning!;
-      this.assignment.boolAfternoon = boolAfternoon!;
+      this.assignment.isMorning = isMorning!;
+      this.assignment.isAfternoon = isAfternoon!;
+      this.displayNewAssignmentModal = true;
     }
   }
 
   @action
   toggleDisplayNewTypeModal() {
-    this.displayNewTypeModal
-      ? (this.displayNewTypeModal = false)
-      : (this.displayNewTypeModal = true);
+    if (this.displayNewTypeModal) {
+      this.displayNewTypeModal = false;
+      this.assignmentTypeChangeset.rollback();
+    } else {
+      this.displayNewTypeModal = true;
+      this.multipleColor = false;
+    }
   }
 
   @action
-  toggleDisplayNewTitleModal() {
-    this.displayNewTitleModal
-      ? (this.displayNewTitleModal = false)
-      : (this.displayNewTitleModal = true);
+  async toggleDisplayNewTitleModal() {
+    if (this.displayNewTitleModal) {
+      this.displayNewTitleModal = false;
+      this.assignmentTypeChangeset.rollback();
+    } else {
+      this.displayNewTitleModal = true;
+    }
   }
 
   @action
   toggleDisplayNewEnterpriseModal() {
-    this.displayNewEnterpriseModal
-      ? (this.displayNewEnterpriseModal = false)
-      : (this.displayNewEnterpriseModal = true);
+    if (this.displayNewEnterpriseModal) {
+      this.displayNewEnterpriseModal = false;
+    } else {
+      this.displayNewEnterpriseModal = true;
+    }
   }
 
   @action
@@ -258,22 +308,37 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.choosingDay = new Date(
       this.choosingDay.setDate(this.choosingDay.getDate() + 7)
     );
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
-
-  get choosingDateLess() {
-    return getWeek(subWeeks(this.choosingDay, 1), { weekStartsOn: 0 });
+  @action
+  choosingDateLess() {
+    this.choosingDay = new Date(
+      this.choosingDay.setDate(this.choosingDay.getDate() - 7)
+    );
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
 
   @action
   choosingDayActual() {
     this.choosingDay = new Date();
     this.specificDay = new Date();
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
   }
 
   @action
   choosingSpecificDay(event: { target: { value: Date } }) {
     this.specificDay = event.target.value;
     this.choosingDay = new Date(this.specificDay);
+    this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
+      weekStartsOn: 0,
+    });
+    this.router.transitionTo({ queryParams: { week: this.paramsDay } });
   }
 
   get currentMonth() {

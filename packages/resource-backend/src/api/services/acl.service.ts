@@ -53,7 +53,6 @@ export class AclService {
      */
     const defaultProps = Object.values(perms.properties);
     const withoutRelations = defaultProps.filter((e) => e.joinColumns === undefined).map(e => e.name);
-
     /**
      * Check permissions
      */

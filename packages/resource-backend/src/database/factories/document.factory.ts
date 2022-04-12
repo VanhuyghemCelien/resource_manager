@@ -7,7 +7,7 @@ export class DocumentFactory extends Factory<DocumentModel> {
 
   definition (): Partial<DocumentModel> {
     return {
-      filename: 'upload_1',
+      filename: 'upload_1.png',
       originalName: 'file.png',
       path: 'dist/uploads/upload_1',
       mimetype: MimeTypes.PNG,

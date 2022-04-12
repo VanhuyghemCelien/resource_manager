@@ -20,12 +20,14 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     return !this.args.boolMorning;
   }
   get assignment() {
-    const res = this.args.resource.assignments.find((e) => {
+    // console.log(this.args.resource);
+    const res = this.args.resource.assignment.find((e) => {
       if (this.args.boolMorning) {
-        return e.date.getDay() === this.args.numDay && e.boolMorning;
+        return e.date.getDay() === this.args.numDay && e.isMorning;
       }
-      return e.date.getDay() === this.args.numDay && e.boolAfternoon;
+      return e.date.getDay() === this.args.numDay && e.isAfternoon;
     });
+    // console.log(res?.assignmentType);
     return res;
   }
 
@@ -34,5 +36,40 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
     day.setDate(day.getDate() + this.args.numDay);
     day.setHours(1);
     return day;
+  }
+
+  get bgColor() {
+    if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
+      if (this.assignment?.assignmentType.get('color')) {
+        return (
+          'background-color:' +
+          this.assignment?.assignmentType.get('color') +
+          ';'
+        );
+      }
+    }
+    return undefined;
+  }
+  get textColor() {
+    if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
+      if (this.assignment?.assignmentType.get('color')) {
+        return undefined;
+      }
+      return (
+        'color:' +
+        this.assignment?.assignmentType.get('parents').get('color') +
+        ';'
+      );
+    }
+    return undefined;
+  }
+
+  get borderColor() {
+    if (this.bgColor) {
+      return 'border-color:' + this.bgColor.split(':')[1];
+    } else if (this.textColor) {
+      return 'border-color:' + this.textColor.split(':')[1];
+    }
+    return undefined;
   }
 }

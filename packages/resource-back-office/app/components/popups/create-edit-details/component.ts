@@ -1,6 +1,4 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 
@@ -14,11 +12,6 @@ interface PopupsCreateEditDetailsArgs {
 }
 
 export default class PopupsCreateEditDetails extends Component<PopupsCreateEditDetailsArgs> {
-  @tracked field = '';
-  get fieldToEdit() {
-    return this.field;
-  }
-
   get popupName() {
     if (this.args.popupType === 'details') {
       if (this.args.objectType === 'Enterprise') {
@@ -40,68 +33,5 @@ export default class PopupsCreateEditDetails extends Component<PopupsCreateEditD
       }
     }
     return 'None';
-  }
-
-  @action
-  getFieldToEdit(objectType: string, fieldId: number) {
-    let valueToReturn = '';
-    switch (fieldId) {
-      case 0:
-        if (objectType === 'Enterprise') {
-          valueToReturn = 'name';
-        } else if (objectType === 'Resource') {
-          valueToReturn = 'firstName';
-        }
-        break;
-      case 1:
-        if (objectType === 'Enterprise') {
-          valueToReturn = 'enterpriseNumber';
-        } else if (objectType === 'Resource') {
-          valueToReturn = 'lastName';
-        }
-        break;
-      case 2:
-        if (objectType === 'Enterprise') {
-          valueToReturn = 'vatNumber';
-        } else if (objectType === 'Resource') {
-          valueToReturn = 'enterprise';
-        }
-        break;
-      case 3:
-        if (objectType === 'Enterprise') {
-          valueToReturn = 'city';
-        } else if (objectType === 'Resource') {
-          valueToReturn = 'cost';
-        }
-        break;
-      case 4:
-        if (objectType === 'Enterprise') {
-          valueToReturn = 'address';
-        }
-        break;
-      case 5:
-        if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'emailAddress';
-        }
-        break;
-      case 6:
-        if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'emailAddress2';
-        }
-        break;
-      case 7:
-        if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'phoneNumber';
-        }
-        break;
-      case 8:
-        if (objectType === 'Enterprise' || objectType === 'Resource') {
-          valueToReturn = 'phoneNumber2';
-        }
-        break;
-      default:
-        break;
-    }
-    this.field = valueToReturn;
   }
 }
