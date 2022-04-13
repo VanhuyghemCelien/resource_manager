@@ -15,12 +15,12 @@
           {{this.borderRadius}}
           border-navbarBg bg-white"
       >
-        {{#if (eq (get this.tableAssignmentTypeDisplayed "length") 0)}}
-          <div class="w-48 p-2 text-center flex flex-start flex-row my-auto">
-            Aucun type d'élément n'est assigné à une tâche actuellement
+        {{#if (eq this.tableLength 0)}}
+          <div class="w-52 p-2 text-center flex flex-start flex-row my-auto">
+            Aucun type d'élément n'est assigné à une tâche pour cette semaine
           </div>
         {{else}}
-          {{#each this.tableAssignmentTypeDisplayed as |element|}}
+          {{#each this.assignmentTypesToDisplay as |element|}}
             <div class="flex flex-start flex-row mt-1.5 mb-1.5">
               {{! template-lint-disable no-inline-styles }}
               {{! template-lint-disable style-concatenation }}

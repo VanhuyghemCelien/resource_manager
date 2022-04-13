@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { format, subWeeks } from 'date-fns';
 import type Store from '@ember-data/store';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import type ResourceModel from 'ember-boilerplate/models/resource';
 import getWeek from 'date-fns/getWeek';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
@@ -19,15 +19,23 @@ import AssignmentTypeValidation from '../../../../validator/forms/assignment-typ
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 
 interface PagesDashboardWeekArgs {
-  model: { week: number; first: Date };
+  model: {
+    week: number;
+    first: Date;
+    resource: Array<ResourceModel>;
+    assignmentType: Array<AssignmentTypeModel>;
+    enterprise: Array<EnterpriseModel>;
+  };
 }
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
   @service declare router: RouterService;
   @service declare flashMessages: FlashMessageService;
+  @inject declare assignmentTypeService: AssignmentTypeService;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -287,6 +295,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
+    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
   @action
   choosingDateLess() {
@@ -296,6 +305,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
+    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   @action
@@ -305,6 +315,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
+    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   @action
@@ -315,6 +326,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       weekStartsOn: 0,
     });
     this.router.transitionTo({ queryParams: { week: this.paramsDay } });
+    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   get currentMonth() {

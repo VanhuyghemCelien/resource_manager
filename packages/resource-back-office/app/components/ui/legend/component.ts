@@ -1,11 +1,11 @@
-import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
 import type EnterpriseModel from 'ember-boilerplate/models/enterprise';
 import type ResourceModel from 'ember-boilerplate/models/resource';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 
 interface UiLegendArgs {
   model: {
@@ -17,7 +17,8 @@ interface UiLegendArgs {
 
 export default class UiLegend extends Component<UiLegendArgs> {
   @tracked isLegendDisplayed: boolean = false;
-  @service declare store: Store;
+  @inject declare assignmentTypeService: AssignmentTypeService;
+  @tracked assignmentTypesToDisplay: Array<AssignmentTypeModel> = [];
 
   @action
   toggleIsLegendDisplayed() {
@@ -25,42 +26,22 @@ export default class UiLegend extends Component<UiLegendArgs> {
       this.isLegendDisplayed = false;
     } else {
       this.isLegendDisplayed = true;
-    }
-  }
-
-  @tracked tableAssignmentTypeDisplayed: AssignmentTypeModel[] = [];
-  constructor(owner: unknown, args: UiLegendArgs) {
-    super(owner, args);
-    this.args.model.assignmentType.forEach((assignmentType) => {
-      if (this.willDisplay(assignmentType.get('id'))) {
-        if (assignmentType.color) {
-          this.tableAssignmentTypeDisplayed.push(assignmentType);
-        } else {
-          this.tableAssignmentTypeDisplayed.push(assignmentType.get('parents'));
-        }
-      }
-    });
-  }
-
-  willDisplay(id: string) {
-    let isDisplayed = false;
-    const resources = this.args.model.resource;
-    resources.forEach((resource) => {
-      if (resource.get('assignment').length > 0) {
-        resource.get('assignment').forEach((assignment) => {
-          if (assignment.assignmentType.get('id') === id) {
-            isDisplayed = true;
-          }
+      this.assignmentTypeService
+        .getAssignedTypes(this.args.model.resource)
+        .then((assignmentTypes) => {
+          this.assignmentTypesToDisplay = assignmentTypes;
         });
-      }
-    });
-    return isDisplayed;
+    }
   }
 
   get borderRadius() {
-    if (this.tableAssignmentTypeDisplayed.length > 2) {
+    if (this.assignmentTypesToDisplay.length > 2) {
       return 'rounded-bl-lg';
     }
     return '';
+  }
+
+  get tableLength() {
+    return this.assignmentTypesToDisplay.length;
   }
 }
