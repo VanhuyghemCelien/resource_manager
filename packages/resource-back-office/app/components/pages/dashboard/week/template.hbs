@@ -74,7 +74,7 @@
     {{/each}}
   </div>
   {{#if this.displayNewAssignmentModal}}
-    <Popups::NewAssignment
+    {{!-- <Popups::NewAssignment
       @model={{@model}}
       @displayNewTypeModal={{this.displayNewTypeModal}}
       @displayNewTitleModal={{this.displayNewTitleModal}}
@@ -88,7 +88,19 @@
       @assignment={{this.assignment}}
       @choosingDay={{this.choosingDay}}
       @assignmentTitle={{this.assignmentTitle}}
-    />
+    /> --}}
+    <Forms::Assignment
+      @model ={{@model}}
+      @displayNewTypeModal={{this.displayNewTypeModal}}
+      @displayNewTitleModal={{this.displayNewTitleModal}}
+      @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
+      @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
+      @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
+      @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
+      @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
+      @changeset={{this.changesetAssignment}}
+      @saveFunction={{this.addAssignment}}
+   />
   {{/if}}
   {{#if this.displayNewTypeModal}}
     <Forms::AssignmentType
