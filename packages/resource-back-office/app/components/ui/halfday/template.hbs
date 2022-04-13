@@ -5,8 +5,7 @@
   data-test-input={{if @boolMorning @numDay}}
   {{! template-lint-disable no-inline-styles }}
   {{! template-lint-disable style-concatenation }}
-  style="{{this.bgColor}}{{this.borderColor}}"
-  {{on
+ {{on
     "click"
     (fn
       @toggleDisplayNewAssignmentModal
@@ -14,8 +13,9 @@
       @resource
       @boolMorning
       this.inverseBoolMorning
-    )
-  }}
+      this.assignment
+    )}}
+  style="{{this.bgColor}}{{this.borderColor}}"
 >
   {{#if (or this.assignment.isMorning this.assignment.isAfternoon)}}
     {{! template-lint-disable no-inline-styles }}

@@ -264,18 +264,23 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     choosingdate?: Date,
     resource?: ResourceModel,
     isMorning?: boolean,
-    isAfternoon?: boolean
+    isAfternoon?: boolean,
+    assignment?: AssignmentModel
   ) {
-    if (this.displayNewAssignmentModal) {
-      this.displayNewAssignmentModal = false;
-      this.changesetAssignment.rollback();
+    if (assignment) {
+      console.log('banane banane');
     } else {
-      this.changesetAssignment.set('isMorning', isMorning);
-      this.changesetAssignment.set('isAfternoon', isAfternoon);
-      this.changesetAssignment.set('date', choosingdate);
-      this.changesetAssignment.set('resource', resource);
-      this.resourceName = resource!.firstName + ' ' + resource!.lastName;
-      this.displayNewAssignmentModal = true;
+      if (this.displayNewAssignmentModal) {
+        this.displayNewAssignmentModal = false;
+        this.changesetAssignment.rollback();
+      } else {
+        this.changesetAssignment.set('isMorning', isMorning);
+        this.changesetAssignment.set('isAfternoon', isAfternoon);
+        this.changesetAssignment.set('date', choosingdate);
+        this.changesetAssignment.set('resource', resource);
+        this.resourceName = resource!.firstName + ' ' + resource!.lastName;
+        this.displayNewAssignmentModal = true;
+      }
     }
   }
 
