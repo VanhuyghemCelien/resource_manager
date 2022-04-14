@@ -16,12 +16,13 @@ import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import EnterpriseValidation from '../../../../validator/forms/enterprise';
 import AssignmentTypeValidation from '../../../../validator/forms/assignment-type';
+import AssignmentValidation from '../../../../validator/forms/assignment';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
 import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
+import type { FormsAssignmentDTO } from 'ember-boilerplate/components/forms/assignment/component';
 import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
-
 
 interface PagesDashboardWeekArgs {
   model: {
@@ -42,6 +43,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   today: Date = new Date();
   // Nomenclature variables
+  @tracked displayShowAssignmentModal: boolean = false;
   @tracked displayNewAssignmentModal: boolean = false;
   @tracked displayNewTypeModal: boolean = false;
   @tracked displayNewTitleModal: boolean = false;
@@ -53,12 +55,27 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked resourceName: string = '';
   @tracked paramsDay: Number = 0;
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
+  @tracked changesetAssignment: TypedBufferedChangeset<FormsAssignmentDTO>;
   @tracked
   assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
   @tracked assignmentTypesToDisplay: Array<AssignmentTypeModel> = [];
   @tracked assignmentTitlesToDisplay: Array<AssignmentTypeModel> = [];
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
+    this.changesetAssignment = Changeset(
+      {
+        isMorning: false,
+        isAfternoon: false,
+        isRemote: false,
+        comment: '',
+        date: new Date(),
+        assignmentType: undefined,
+        enterprise: undefined,
+        resource: undefined,
+      },
+      lookupValidator(AssignmentValidation),
+      AssignmentValidation
+    ) as TypedBufferedChangeset<FormsAssignmentDTO>;
     this.changesetEnterprise = Changeset(
       {
         name: '',
@@ -111,40 +128,43 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   };
 
   @action
-  async addAssignment(assignmentNew: Partial<AssignmentModel>) {
-    console.log(assignmentNew, 'addassignment');
-    this.assignment = {
-      date: assignmentNew.date,
-      isMorning: assignmentNew.isMorning,
-      isAfternoon: assignmentNew.isAfternoon,
-      isRemote: assignmentNew.isRemote,
-      comment: assignmentNew.comment,
-      resource: assignmentNew.resource,
-      assignmentType: assignmentNew.assignmentType,
-      enterprise: assignmentNew.enterprise,
-    };
-    console.log(this.assignment);
-    const assignment = await this.store.createRecord(
-      'assignment',
-      this.assignment
-    );
-    this.assignment = {
-      date: new Date(),
-      isMorning: false,
-      isAfternoon: false,
-      isRemote: false,
-      comment: undefined,
-      resource: undefined,
-      assignmentType: undefined,
-      enterprise: undefined,
-    };
-    // rajouter async await + gestion erreurs
-    await assignment.save();
-    this.localstorage.setThirdItem();
-    this.localstorage.setSecondItem();
-    this.localstorage.setFirstItem(assignment);
-    this.toggleDisplayNewAssignmentModal();
-    this.flashMessages.success("L'occupation a bien été ajoutée");
+  async editAssignment(changeset: TypedBufferedChangeset<FormsAssignmentDTO>) {
+    try {
+      console.log(changeset);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  @action
+  async addAssignment(changeset: TypedBufferedChangeset<FormsAssignmentDTO>) {
+    console.log('coucou');
+    try {
+      const assignmentReceived: Partial<AssignmentModel> = {
+        date: changeset.get('date'),
+        isMorning: changeset.get('isMorning'),
+        isAfternoon: changeset.get('isAfternoon'),
+        isRemote: changeset.get('isRemote'),
+        comment: changeset.get('comment'),
+        resource: changeset.get('resource'),
+        assignmentType: changeset.get('assignmentType'),
+        enterprise: changeset.get('enterprise'),
+      };
+      console.log(assignmentReceived);
+      const assignment = await this.store.createRecord(
+        'assignment',
+        assignmentReceived
+      );
+      await assignment.save();
+      this.localstorage.setThirdItem();
+      this.localstorage.setSecondItem();
+      this.localstorage.setFirstItem(assignment);
+      this.toggleDisplayNewAssignmentModal();
+      this.flashMessages.success("L'occupation a bien été ajoutée");
+    } catch (e) {
+      console.log(e);
+      this.flashMessages.danger("L'occupation n'a pas pu être ajouté");
+    }
   }
 
   @action
@@ -245,22 +265,43 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     choosingdate?: Date,
     resource?: ResourceModel,
     isMorning?: boolean,
-    isAfternoon?: boolean
+    isAfternoon?: boolean,
+    assignment?: AssignmentModel
   ) {
-    if (this.displayNewAssignmentModal) {
-      this.displayNewAssignmentModal = false;
-      this.assignment = {
-        ...this.assignment,
-        isMorning: false,
-        isAfternoon: false,
-      };
+    if (assignment || this.displayShowAssignmentModal) {
+      if (this.displayShowAssignmentModal) {
+        console.log('banane');
+        this.displayShowAssignmentModal = false;
+        this.changesetAssignment.rollback();
+      } else {
+        console.log('banane true');
+        this.displayShowAssignmentModal = true;
+        this.changesetAssignment.set('isMorning', assignment!.isMorning);
+        this.changesetAssignment.set('isAfternoon', assignment!.isAfternoon);
+        this.changesetAssignment.set('date', assignment!.date);
+        this.changesetAssignment.set('resource', assignment!.resource);
+        this.changesetAssignment.set('isRemote', assignment!.isRemote);
+        this.changesetAssignment.set('comment', assignment!.comment);
+        this.changesetAssignment.set(
+          'assignmentType',
+          assignment!.assignmentType
+        );
+        this.changesetAssignment.set('color', assignment!.assignmentType.color);
+        this.changesetAssignment.set('enterprise', assignment!.enterprise);
+        this.changesetAssignment.set('id', assignment!.id);
+      }
     } else {
-      this.choosingDay = new Date(choosingdate!);
-      this.assignment.resource = resource;
-      this.resourceName = resource!.firstName + ' ' + resource!.lastName;
-      this.assignment.isMorning = isMorning!;
-      this.assignment.isAfternoon = isAfternoon!;
-      this.displayNewAssignmentModal = true;
+      if (this.displayNewAssignmentModal) {
+        this.displayNewAssignmentModal = false;
+        this.changesetAssignment.rollback();
+      } else {
+        this.changesetAssignment.set('isMorning', isMorning);
+        this.changesetAssignment.set('isAfternoon', isAfternoon);
+        this.changesetAssignment.set('date', choosingdate);
+        this.changesetAssignment.set('resource', resource);
+        this.resourceName = resource!.firstName + ' ' + resource!.lastName;
+        this.displayNewAssignmentModal = true;
+      }
     }
   }
 

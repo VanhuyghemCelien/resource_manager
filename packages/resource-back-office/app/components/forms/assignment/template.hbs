@@ -7,27 +7,40 @@
       {{if @displayNewTitleModal "mr-[432px]"}}
       transition-all duration-200"
   >
-    <div class="bg-white p-5 rounded-3xl w-[500px] font-normal">
+    <div class="bg-white p-5 rounded-3xl w-auto font-normal">
       <div class="flex flex-row justify-end">
-        <h1 class="ml-[19px] w-full text-2xl font-bold text-center">
-          Assignment for
+        <h1 class="ml-5 text-2xl font-bold text-center">
+          Occupation pour
         </h1>
-        <p class="w-full font-semibold text-navbarBg text-start text-2xl">
-          {{@resourceName}}
+        <p class="ml-3 mr-5 font-semibold text-navbarBg text-start text-2xl">
+          {{changeset-get @changeset "resource.firstName"}} {{changeset-get @changeset "resource.lastName"}}
         </p>
+        {{#if (eq @popupType "edit")}}
+          <button type="button">Edit</button>
+          <button type="button"  {{on "click" this.toggleDisplayDeleteAssignmentModal}}>Delete</button>
+        {{/if}}
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
       <div class="text-center mt-3">
-        {{dayFormat @choosingDay}}
+        {{dayFormat (changeset-get @changeset "date")}}
       </div>
-      <form aria-label="newEnterpriseForm">
+      {{#if this.displayDeleteAssignmentModal}}
+        <Popups::Delete
+        @type="Assignment"
+        @toggleDisplayDeleteModal={{this.toggleDisplayDeleteAssignmentModal}}
+        @deleteFunction={{this.deleteAssignment}}
+        @objectIdToDelete={{changeset-get @changeset "id"}}
+        />
+      {{/if}}
+      <form {{on "submit" @saveFunction}} ...attributes>
         <div class="flex flex-row w-max mx-auto mt-4">
           <div class="w-max">
             <label>
-              Morning
+              Matin
               <input
+                disabled={{if (eq @popupType "edit") this.isDisable}}
                 id="morningInput"
                 type="checkbox"
                 checked={{changeset-get @changeset "isMorning"}}
@@ -37,8 +50,9 @@
           </div>
           <div class="w-max ml-5">
             <label>
-              Afternoon
+              Après-midi
               <input
+                disabled={{if (eq @popupType "edit") this.isDisable}}
                 id="afternoonInput"
                 type="checkbox"
                 checked={{changeset-get @changeset "isAfternoon"}}
@@ -47,123 +61,175 @@
             </label>
           </div>
         </div>
-        <div class="flex flex-row mt-4 justify-between">
-          <p class="w-[76px] grow-0">Type</p>
-          <select
-            id="typeSelect"
-            class="grow text-center mx-4 rounded-xl px-2 bg-white"
-            {{! template-lint-disable no-inline-styles }}
-            {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignmentType.color}}"
-            {{on "change" this.selectType}}
-          >
-            <option value="" selected disabled>Sélectionnez un type d'occupation</option>
-            {{#each @model.assignmentType as |assignmentType|}}
-              <option value={{assignmentType.name}}>
-                {{assignmentType.name}}
-              </option>
-            {{/each}}
-          </select>
-          {{! template-lint-disable no-log }}
-          {{log this.assignmentType.color}}
-          <button
-            type="button"
-            class="grow-0"
-            {{on "click" @toggleDisplayNewTypeModal}}
-            title="Ajouter un type d'occupation"
-            data-test-input="addAssignmentType"
-          >
-            <img src="/assets/icons/plus-button.svg" alt="close button icon" />
-          </button>
-        </div>
-        <div class="flex flex-row mt-4 justify-between">
-          <p class="w-[76px] grow-0">Title</p>
-          <select
-            id="titleSelect"
-            class="grow text-center mx-4 rounded-xl px-2 bg-white"
-            {{! template-lint-disable no-inline-styles }}
-            {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignmentType.color}}"
-            disabled
-            {{on "change" this.selectTitle}}
-          >
-            <option value="" selected disabled>
-              Sélectionnez un titre d'occupation
-            </option>
-          </select>
-          <button
-            id="newTitleButton"
-            type="button"
-            class="grow-0"
-            {{on "click" @toggleDisplayNewTitleModal}}
-            disabled
-            title="Ajouter un titre d'occupation"
-            data-test-input="addAssignmentTitle"
-          >
-            <img src="/assets/icons/plus-button.svg" alt="close button icon" />
-          </button>
-        </div>
-        <div class="flex flex-row mt-4 justify-between">
-          <p class="w-[76px] grow-0">Enterprise</p>
-          <select
-            id="enterpriseSelect"
-            class="grow text-center mx-4 rounded-xl px-2 bg-white"
-            {{! template-lint-disable no-inline-styles }}
-            {{! template-lint-disable style-concatenation }}
-            style="border: 1px solid {{this.assignmentType.color}}"
-            {{on "change" this.selectEnterprise}}
-          >
-            <option value="" selected disabled>Sélectionnez une entreprise</option>
-            {{#each @model.enterprise as |enterprise|}}
-              <option value={{enterprise.name}}>
-                {{enterprise.name}}
-                -
-                {{enterprise.city}}
-              </option>
-            {{/each}}
-          </select>
-          <button
-            type="button"
-            class="grow-0"
-            {{on "click" @toggleDisplayNewEnterpriseModal}}
-          >
-            <img src="/assets/icons/plus-button.svg" alt="close button icon" />
-          </button>
+        <div class="grid {{if (and this.isFirstExist (eq @popupType "create"))"grid-cols-2"}}">
+          {{#if (eq @popupType "create")}}
+            {{#if this.isFirstExist}}
+              <div class="grid text-center justify-center grid-rows-4 border-r-2 border-r-navbarSelected mr-2">
+                <h1 class="text-xl">Dernières tâches:</h1>
+                <button type="button" data-test-input="firstItem" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isFirstItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectFirstItem}}>
+                  {{!-- template-lint-disable no-inline-styles --}}
+                  {{! template-lint-disable style-concatenation }}
+                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.parents.color}}"></div>
+                  <p>{{this.firstAssignment.assignmentType.parents.name}} - {{this.firstAssignment.assignmentType.name}} - {{this.firstAssignment.enterprise.name}}</p>
+                </button>
+                {{#if this.isSecondExist}}
+                  <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isSecondItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectSecondItem}}>
+                    {{!-- template-lint-disable no-inline-styles --}}
+                    {{! template-lint-disable style-concatenation }}
+                    <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.parents.color}}"></div>
+                    <p>{{this.secondAssignment.assignmentType.parents.name}} - {{this.secondAssignment.assignmentType.name}} - {{this.secondAssignment.enterprise.name}}</p>
+                  </button>
+                {{/if}}
+                {{#if this.isThirdExist}}
+                  <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isThirdItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectThirdItem}}>
+                    {{!-- template-lint-disable no-inline-styles --}}
+                    {{! template-lint-disable style-concatenation }}
+                    <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.parents.color}}"></div>
+                    <p>{{this.thirdAssignment.assignmentType.parents.name}} - {{this.thirdAssignment.assignmentType.name}} - {{this.thirdAssignment.enterprise.name}}</p>
+                  </button>
+                {{/if}}
+              </div>
+            {{/if}}
+          {{/if}}
+          <div>
+            <div class="flex flex-row mt-4 justify-between">
+              <p class="w-[76px] grow-0">Type</p>
+              <select
+                id="typeSelect"
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                data-test-select="typeSelect"
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.color}}"
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                {{on "change" this.selectType}}
+              >
+                <option value="" selected disabled>Sélectionnez un type d'occupation</option>
+                {{#each @model.assignmentType as |assignmentType|}}
+                  {{#if (not (get assignmentType "parents.name"))}}
+                    <option value={{assignmentType.name}}>
+                      {{assignmentType.name}}
+                    </option>
+                  {{/if}}
+                {{/each}}
+              </select>
+              {{! template-lint-disable no-log }}
+              {{log this.assignmentType.color}}
+              <button
+                id="typeButton"
+                type="button"
+                class="grow-0"
+                data-test-input="addAssignmentType"
+                {{on "click" @toggleDisplayNewTypeModal}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                title="Ajouter un type d'occupation"
+              >
+                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+              </button>
+            </div>
+            <div class="flex flex-row mt-4 justify-between">
+              <p class="w-[76px] grow-0">Title</p>
+              <select
+                id="titleSelect"
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                data-test-select="titleSelect"
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.color}}"
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                {{on "change" this.selectTitle}}
+              >
+                <option value="" selected >
+                  Sélectionnez un titre d'occupation
+                </option>
+              </select>
+              <button
+                id="newTitleButton"
+                type="button"
+                class="grow-0"
+                data-test-input="addAssignmentTitle"
+                {{on "click" @toggleDisplayNewTitleModal}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                title="Ajouter un titre d'occupation"
+              >
+                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+              </button>
+            </div>
+            <div class="flex flex-row mt-4 justify-between">
+              <p class="w-[76px] grow-0">Enterprise</p>
+              <select
+                id="enterpriseSelect"
+                class="grow text-center mx-4 rounded-xl px-2 bg-white"
+                data-test-select="enterprisesSelect2"
+                {{! template-lint-disable no-inline-styles }}
+                {{! template-lint-disable style-concatenation }}
+                style="border: 1px solid {{this.color}}"
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                {{on "change" this.selectEnterprise}}
+              >
+                <option value="" selected disabled>Sélectionnez une entreprise</option>
+                {{#each @model.enterprise as |enterprise|}}
+                  <option value={{enterprise.name}}>
+                    {{enterprise.name}}
+                    -
+                    {{enterprise.city}}
+                  </option>
+                {{/each}}
+              </select>
+              <button
+                id="enterpriseButton"
+                type="button"
+                class="grow-0"
+                data-test-input="addEnterprises2"
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
+                {{on "click" @toggleDisplayNewEnterpriseModal}}
+              >
+                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="flex flex-row mt-4 justify-between">
           <div class="w-max">
             <label class="cursor-pointer">
-              Add a comment ?
+              Ajoutez un commentaire ?
               <input
-                id="commentInput"
-                type="checkbox"
-                class="cursor-pointer"
-                {{on "click" this.toggleComment}}
-              />
+                  id="commentInput"
+                  type="checkbox"
+                  class="cursor-pointer"
+                  data-test-input="comment"
+                  disabled={{(if (eq @popupType "edit") this.isDisable)}}
+                  checked={{(or this.verif (if (eq @popupType "edit") (changeset-get @changeset "comment")))}}
+                  {{on "click" this.toggleComment}}
+                />
             </label>
           </div>
           <div class="w-max">
             <label class="cursor-pointer">
-              Remote ?
-              <input id="remoteInput" type="checkbox" class="cursor-pointer" />
+              A distance ?
+              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" disabled={{(if (eq @popupType "edit") this.isDisable)}} checked={{changeset-get @changeset "isRemote"}} {{on "click" this.selectedRemote}} />
             </label>
           </div>
         </div>
-        {{#if this.comment}}
+        {{#if this.isComment}}
           <div class="flex mt-4">
             <textarea
-              id="CommentText"
-              class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
-              rows="2"
-            ></textarea>
+                id="CommentText"
+                class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
+                rows="2"
+                data-test-input="commentText"
+                value={{(changeset-get @changeset "comment")}}
+                {{on "change" this.editAssignmentCommentField}}
+              ></textarea>
           </div>
         {{/if}}
         <button
-          type="button"
+          type="submit"
           class="block mt-5 text-center py-2 px-5 rounded-md bg-navbarBg text-white mx-auto cursor-pointer hover:bg-opacity-75 active:bg-opacity-25 active:text-navbarBg transition-all"
-          {{on "click" this.saveFunction}}
+          data-test-input="saveAssignment"
+          {{on "click" this.saveAssignment}}
         >
-          <p>Add Assignment</p>
+          <p>Ajouter l'occupation</p>
         </button>
       </form>
 

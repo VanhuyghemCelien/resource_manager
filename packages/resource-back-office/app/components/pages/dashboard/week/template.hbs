@@ -73,23 +73,36 @@
       />
     {{/each}}
   </div>
-  {{#if this.displayNewAssignmentModal}}
-    <Popups::NewAssignment
-      @model={{@model}}
+  {{#if this.displayShowAssignmentModal}}
+    <Forms::Assignment
+      @model ={{@model}}
+      @popupType="edit"
       @displayNewTypeModal={{this.displayNewTypeModal}}
       @displayNewTitleModal={{this.displayNewTitleModal}}
       @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
-      @resourceName={{this.resourceName}}
       @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
       @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
       @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
       @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
-      @addAssignment={{this.addAssignment}}
+      @changeset={{this.changesetAssignment}}
+      @saveFunction={{this.editAssignment}}
+   />
+  {{/if}}
+  {{#if this.displayNewAssignmentModal}}
+    <Forms::Assignment
+      @model ={{@model}}
+      @popupType="create"
+      @displayNewTypeModal={{this.displayNewTypeModal}}
+      @displayNewTitleModal={{this.displayNewTitleModal}}
+      @displayNewEnterpriseModal={{this.displayNewEnterpriseModal}}
+      @toggleDisplayNewAssignmentModal={{this.toggleDisplayNewAssignmentModal}}
+      @toggleDisplayNewTypeModal={{this.toggleDisplayNewTypeModal}}
+      @toggleDisplayNewTitleModal={{this.toggleDisplayNewTitleModal}}
+      @toggleDisplayNewEnterpriseModal={{this.toggleDisplayNewEnterpriseModal}}
+      @changeset={{this.changesetAssignment}}
       @assignmentTypesToDisplay={{this.assignmentTypesToDisplay}}
-      @assignment={{this.assignment}}
-      @choosingDay={{this.choosingDay}}
-      @assignmentTitle={{this.assignmentTitle}}
-    />
+      @saveFunction={{this.addAssignment}}
+   />
   {{/if}}
   {{#if this.displayNewTypeModal}}
     <Forms::AssignmentType
