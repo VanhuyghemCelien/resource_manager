@@ -9,11 +9,16 @@
     >
       <div class="flex flex-row justify-center">
         <h1 class="ml-5 w-full text-2xl font-bol text-center">
+          {{#if (eq @popupType "new")}}
+            Nouveau
+          {{else}}
+            Modifier le
+          {{/if}}
           {{#if (eq @type "type")}}
-            Nouveau type d'occupation :
+            type d'occupation :
           {{/if}}
           {{#if (eq @type "title")}}
-            Nouveau titre d'occupation :
+            titre d'occupation :
           {{/if}}
         </h1>
         <button type="button" {{on "click" @toggleDisplayModal}}>
@@ -62,6 +67,7 @@
                   (changeset-get @changeset "color")
                 }}
                 {{on "change" this.changeColor}}
+                data-test-input="typeColor"
               />
             </div>
             <p class="text-xs text-textSecondary mt-2">
@@ -100,7 +106,7 @@
                   Type d'occupation parent
                 </option>
                 {{#if @page}}
-                  {{#each @model as |assignmentType|}}
+                  {{#each @assignmentTypesToDisplay as |assignmentType|}}
                     {{#if (not (get assignmentType "parents.name"))}}
                       <option value={{assignmentType.id}}>
                         {{assignmentType.name}}
@@ -108,7 +114,7 @@
                     {{/if}}
                   {{/each}}
                 {{else}}
-                  {{#each @model.assignmentType as |assignmentType|}}
+                  {{#each @assignmentTypesToDisplay as |assignmentType|}}
                     {{#if (not (get assignmentType "parents.name"))}}
                       <option value={{assignmentType.id}}>
                         {{assignmentType.name}}

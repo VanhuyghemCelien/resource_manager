@@ -1,11 +1,12 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
 import type RouterService from '@ember/routing/router-service';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
@@ -19,6 +20,8 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @service declare store: Store;
   @service declare flashMessages: FlashMessageService;
   @service declare router: RouterService;
+  @inject declare assignmentTypeService: AssignmentTypeService;
+  @tracked assignmentTypesToDisplay: AssignmentTypeModel[] = [];
 
   @tracked displayNewAssignmentTypeModal: Boolean = false;
   @tracked displayEditAssignmentTypeModal: Boolean = false;
@@ -40,6 +43,9 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       lookupValidator(AssignmentTypeValidation),
       AssignmentTypeValidation
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+    this.assignmentTypeService.getAssignmentTypes().then((assignmentTypes) => {
+      this.assignmentTypesToDisplay = assignmentTypes;
+    });
   }
 
   get isMultipleColor() {
@@ -168,6 +174,8 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       await assignmentType.save();
       this.multipleColor = false;
       this.toggleDisplayNewAssignmentTypeModal();
+      this.assignmentTypesToDisplay =
+        await this.assignmentTypeService.getAssignmentTypes();
       this.router.refresh();
       this.flashMessages.success("Le type d'occupation a bien été ajouté");
     } catch (e) {
@@ -215,6 +223,8 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
       await assignmentType.save();
       this.assignmentTypeChangeset.rollback();
       this.toggleDisplayAssignmentTypeModal('edit', 'type');
+      this.assignmentTypesToDisplay =
+        await this.assignmentTypeService.getAssignmentTypes();
       this.router.refresh();
       this.flashMessages.success("Le type d'occupation a bien été modifié");
     } catch (e) {
@@ -224,7 +234,6 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
 
   @action
   async editAssignmentTitle(
-    // A modifier l'edit de titre ne fonctionne pas
     changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
   ) {
     try {
@@ -253,11 +262,24 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
           id: this.assignmentTypeChangeset.get('id'),
         }
       );
-      assignmentTypeToDelete.destroyRecord();
+      let childrenToDelete: Array<AssignmentTypeModel> =
+        await this.assignmentTypeService.getAssignmentTitles(
+          this.assignmentTypeChangeset.get('id')
+        );
+      if (childrenToDelete.length > 0) {
+        childrenToDelete.forEach((child) => {
+          child.destroyRecord();
+        });
+      }
+      await assignmentTypeToDelete.destroyRecord();
+      this.assignmentTypesToDisplay =
+        await this.assignmentTypeService.getAssignmentTypes();
       this.assignmentTypeChangeset.rollback();
       this.toggleDisplayDeleteAssignmentTypeModal();
       this.flashMessages.success("Le type d'occupation a bien été supprimé");
     } catch (e) {
+      console.log(e.message);
+
       this.flashMessages.danger(e.message);
     }
   }

@@ -22,15 +22,23 @@ import type RouterService from '@ember/routing/router-service';
 import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 import type { FormsAssignmentDTO } from 'ember-boilerplate/components/forms/assignment/component';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 
 interface PagesDashboardWeekArgs {
-  model: { week: number; first: Date };
+  model: {
+    week: number;
+    first: Date;
+    resource: Array<ResourceModel>;
+    assignmentType: Array<AssignmentTypeModel>;
+    enterprise: Array<EnterpriseModel>;
+  };
 }
 
 export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs> {
   @service declare store: Store;
   @service declare router: RouterService;
   @service declare flashMessages: FlashMessageService;
+  @inject declare assignmentTypeService: AssignmentTypeService;
   @inject declare localstorage: LocalStorage;
 
   today: Date = new Date();
@@ -50,6 +58,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked changesetAssignment: TypedBufferedChangeset<FormsAssignmentDTO>;
   @tracked
   assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  @tracked assignmentTypesToDisplay: Array<AssignmentTypeModel> = [];
+  @tracked assignmentTitlesToDisplay: Array<AssignmentTypeModel> = [];
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
     this.changesetAssignment = Changeset(
@@ -90,20 +100,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       lookupValidator(AssignmentTypeValidation),
       AssignmentTypeValidation
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
-  }
-
-  @tracked parentsOption = this.getParentsOption();
-
-  async getParentsOption() {
-    const titleTable = await this.store.query('assignment-type', {
-      fields: 'name,color',
-      include: 'parents',
-    });
-    let parents: Partial<AssignmentTypeModel>[] = [];
-    titleTable.forEach((title) => {
-      if (!title.get('parents').get('name')) {
-        parents.addObject(title.get('parents'));
-      }
+    this.assignmentTypeService.getAssignmentTypes().then((assignmentTypes) => {
+      this.assignmentTypesToDisplay = assignmentTypes;
     });
   }
 
@@ -188,7 +186,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       await assignmentType.save();
       this.multipleColor = false;
       this.toggleDisplayNewTypeModal();
-      this.router.refresh();
+      this.assignmentTypesToDisplay =
+        await this.assignmentTypeService.getAssignmentTypes();
       this.flashMessages.success("Le type d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
@@ -213,15 +212,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       );
       this.assignmentTypeChangeset.rollback();
       await assignmentTitle.save();
-      document.getElementById('titleSelect')!.innerHTML =
-        document.getElementById('titleSelect')!.innerHTML +
-        '<option value="' +
-        assignmentTitle.name +
-        '">' +
-        assignmentTitle.name +
-        '</option>';
       this.toggleDisplayNewTitleModal();
-      this.router.refresh();
       this.flashMessages.success("Le titre d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");

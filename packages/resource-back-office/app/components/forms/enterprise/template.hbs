@@ -19,14 +19,24 @@
         @updateValue={{fn this.changeInput "name"}}
         @value={{changeset-get @changeset "name"}}
         @disabled={{if (eq @popupType "details") true false}}
+        @hasError={{(get @changeset.error "name")}}
         required
         autocapitalize="on"
         type="text"
         data-test-input="name"
-        {{on "focusout" (fn this.validateField "name")}}
       >
-        <p id="nameError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "emailAddress") " h-6"}}>
+          {{#let (get @changeset.error "name") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le champ nom doit être complété
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="enterpriseNumber"
@@ -44,12 +54,22 @@
         @placeholder={{if (eq @popupType "details") "" "0123456789"}}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{false}}
+        @hasError={{(get @changeset.error "enterpriseNumber")}}
         type="text"
         data-test-input="enterpriseNumber"
-        {{on "focusout" (fn this.validateField "enterpriseNumber")}}
       >
-        <p id="enterpriseNumberError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "emailAddress2") " h-6"}}>
+          {{#let (get @changeset.error "enterpriseNumber") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le N° d'entreprise doit être un N° d'entreprise européen
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="vatNumber"
@@ -67,12 +87,22 @@
         @placeholder={{if (eq @popupType "details") "" "BE0123456789"}}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{false}}
+        @hasError={{(get @changeset.error "vatNumber")}}
         type="text"
         data-test-input="vatNumber"
-        {{on "focusout" (fn this.validateField "vatNumber")}}
       >
-        <p id="vatNumberError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "phoneNumber") " h-6"}}>
+          {{#let (get @changeset.error "vatNumber") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le N° de TVA doit être un N° de TVA européen
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="city"
@@ -90,14 +120,24 @@
         @placeholder={{if (eq @popupType "details") "" "Mons"}}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
+        @hasError={{(get @changeset.error "city")}}
         required
         autocapitalize="on"
         type="text"
         data-test-input="city"
-        {{on "focusout" (fn this.validateField "city")}}
       >
-        <p id="cityError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "phoneNumber2") " h-6"}}>
+          {{#let (get @changeset.error "city") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le champ ville doit être complété
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
     </div>
     <div class="flex flex-col w-1/2">
@@ -121,13 +161,23 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
+        @hasError={{(get @changeset.error "emailAddress")}}
         required
         type="text"
         data-test-input="emailAddress"
-        {{on "focusout" (fn this.validateField "emailAddress")}}
       >
-        <p id="emailAddressError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "name") " h-6"}}>
+          {{#let (get @changeset.error "emailAddress") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  L'adresse email doit être une adresse email valide
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="emailAddress2"
@@ -149,12 +199,22 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{false}}
+        @hasError={{(get @changeset.error "emailAddress2")}}
         type="text"
         data-test-input="emailAddress2"
-        {{on "focusout" (fn this.validateField "emailAddress2")}}
       >
-        <p id="emailAddress2Error" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "enterpriseNumber") " h-6"}}>
+          {{#let (get @changeset.error "emailAddress2") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  L'adresse email N°2 doit être une adresse mail valide
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="phoneNumber"
@@ -176,13 +236,23 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{true}}
+        @hasError={{(get @changeset.error "phoneNumber")}}
         required
         type="text"
         data-test-input="phoneNumber"
-        {{on "focusout" (fn this.validateField "phoneNumber")}}
       >
-        <p id="phoneNumberError" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "vatNumber") " h-6"}}>
+          {{#let (get @changeset.error "phoneNumber") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le N° de téléphone doit être un N° de téléphone belge
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
       <Ui::Input
         id="phoneNumber2"
@@ -204,12 +274,22 @@
         }}
         @disabled={{if (eq @popupType "details") true false}}
         @mandatory={{false}}
+        @hasError={{(get @changeset.error "phoneNumber2")}}
         type="text"
         data-test-input="phoneNumber2"
-        {{on "focusout" (fn this.validateField "phoneNumber2")}}
       >
-        <p id="phoneNumber2Error" class="text-sm text-warn">
-        </p>
+        <div class={{if (get @changeset.error "city") " h-6"}}>
+          {{#let (get @changeset.error "phoneNumber2") as |error|}}
+            {{#if error}}
+              <ul class="list-disc list-inside text-warn">
+                <li class="text-left pt-1 pl-1">
+                  Le N° de téléphone N°2 doit être un N° de téléphone belge
+                </li>
+              </ul>
+            {{else}}
+            {{/if}}
+          {{/let}}
+        </div>
       </Ui::Input>
     </div>
   </div>
@@ -229,14 +309,22 @@
     @placeholder={{if (eq @popupType "details") "" "Rue, numéro"}}
     @disabled={{if (eq @popupType "details") true false}}
     @mandatory={{true}}
+    @hasError={{(get @changeset.error "address")}}
     required
     autocapitalize="on"
     type="text"
     data-test-input="address"
-    {{on "focusout" (fn this.validateField "address")}}
   >
-    <p id="addressError" class="text-sm text-warn">
-    </p>
+    {{#let (get @changeset.error "address") as |error|}}
+      {{#if error}}
+        <ul class="list-disc list-inside text-warn">
+          <li class="text-left pt-1 pl-1">
+            Le champ adresse doit être complété
+          </li>
+        </ul>
+      {{else}}
+      {{/if}}
+    {{/let}}
   </Ui::Input>
   {{#if (or (eq @popupType "new") (eq @popupType "edit"))}}
     <div>

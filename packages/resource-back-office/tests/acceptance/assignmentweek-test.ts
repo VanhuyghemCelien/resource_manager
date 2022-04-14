@@ -20,17 +20,13 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="address"]', '64 avenue du test');
     await fillIn('[data-test-input="emailAddress"]', 'info@test.be');
     await fillIn('[data-test-input="phoneNumber"]', '0476786734');
-    await click('[data-test-submit = "saveEnterprise"]');
-    await waitFor('[data-test-validated="validated"]', { timeout: 1000 });
-    assert
-      .dom('[data-test-validated="validated"]')
-      .exists()
-      .hasText('testTown', 'great, the enterprises test works');
+    await click('[data-test-submit="saveEnterprise"]');
+    assert.dom('[data-test-validated="validated"]').exists();
   });
 
   test('add resources', async function (assert) {
     await visit('/resources');
-    await click('[data-test-enterprises="addResourceButton"]');
+    await click('[data-test-resources="addResourceButton"]');
     await triggerEvent('[data-test-input="resourceImage"]', 'change', {
       files: [
         new File(['Ember Rules!'], 'ember-rules.png', { type: 'image/png' }),
@@ -41,30 +37,41 @@ module('Acceptance | posts', function (hooks) {
     await fillIn('[data-test-input="resourceMail"]', 'test@user.be');
     await fillIn('[data-test-input="resourcePhone"]', '0478967314');
     await select('[data-test-select="enterprisesSelect"]', 'testEnterprise');
+    await waitFor('[data-test-input="saveResource"]', { timeout: 1000 });
     await click('[data-test-input="saveResource"]');
-    assert
-      .dom('[data-test-validated="validated"]')
-      .exists()
-      .hasText('testEnterprise - testTown', 'great, the resources test works');
+    await waitFor('[data-test-resources="addResourceButton"]', {
+      timeout: 1000,
+    });
+    assert.dom('[data-test-resources="addResourceButton"]').exists();
+  });
+
+  test('add assignment type', async function (assert) {
+    await visit('/assignment-type');
+    await click('[data-test-input="addType"]');
+    await fillIn('[data-test-input="typeName"]', 'Formation');
+    await click('[data-test-input="typeCheckbox"]');
+    await click('[data-test-input="saveType"]');
+    assert.dom('[data-test-typeName="typeName"]').exists();
+  });
+
+  test('add assignment title', async function (assert) {
+    await visit('/assignment-type');
+    await click('[data-test-input="addTitle"]');
+    await select('[data-test-select="typeSelectTitle"]', 'Formation');
+    await fillIn('[data-test-input="titleName"]', 'EmberJS');
+    await triggerEvent('[data-test-input="colorTitle"]', 'change', {
+      value: '#ff568a',
+    });
+    await click('[data-test-input="saveTitle"]');
+    assert.dom('[data-test-typeName="typeName"]').exists();
   });
 
   test('add Assignment', async function (assert) {
     await visit('/dashboard');
     await click('[data-test-input="goMonth"]');
     await click('[data-test-input="2"]');
-    await click('[data-test-input="addAssignmentType"]');
-    await fillIn('[data-test-input="typeName"]', 'TestType');
-    await click('[data-test-input="typeCheckbox"]');
-    await click('[data-test-input="saveType"]');
     await select('[data-test-select="typeSelect"]', 'TestType');
-    await click('[data-test-input="addAssignmentTitle"]');
-    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
-    await select('[data-test-select="typeSelectTitle"]', 'TestType');
-    await fillIn('[data-test-input="titleName"]', 'TestTitle');
-    await document
-      .getElementById('colorTitleInput')!
-      .setAttribute('value', '#ff0000');
-    await click('[data-test-input="saveTitle"]');
+    await waitFor('[data-test-select="titleSelect"]', { timeout: 1000 });
     await select('[data-test-select="titleSelect"]', 'TestTitle');
     await click('[data-test-input="addEnterprises2"]');
     await fillIn('[data-test-input="name"]', 'testEnterprise2');

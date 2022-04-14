@@ -1,8 +1,9 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 import type { BaseFormArgs } from 'ember-form-changeset-validations/components/form';
 import BaseForm from 'ember-form-changeset-validations/components/form';
 
@@ -15,7 +16,7 @@ export interface FormsAssignmentTypeDTO {
 interface FormsAssignmentTypeArgs extends BaseFormArgs<FormsAssignmentTypeDTO> {
   isColorChecked: boolean;
   type: string;
-  parentsOption: AssignmentTypeModel[];
+  page: string;
 }
 
 export default class FormsAssignmentType extends BaseForm<
@@ -25,10 +26,13 @@ export default class FormsAssignmentType extends BaseForm<
   @service declare store: Store;
   @tracked isParentSelected: boolean = false;
   @tracked isTitleColorDisplayed: boolean = false;
+  @inject declare assignmentTypeService: AssignmentTypeService;
   @action changeInput(field: string, value: string) {
     this.args.changeset.set(field as keyof FormsAssignmentTypeDTO, value);
   }
   @action changeColor(event: { target: { value: string } }) {
+    console.log(event);
+
     this.args.changeset.set('color', event.target.value);
   }
   @action
@@ -59,6 +63,8 @@ export default class FormsAssignmentType extends BaseForm<
       if (!this.isTitleColorDisplayed) {
         this.args.changeset.set('color', undefined);
       }
+      this.args.saveFunction(this.args.changeset);
+    } else if (this.args.page) {
       this.args.saveFunction(this.args.changeset);
     }
   }
