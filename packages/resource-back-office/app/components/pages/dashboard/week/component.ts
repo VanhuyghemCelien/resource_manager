@@ -52,6 +52,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @tracked changesetEnterprise: TypedBufferedChangeset<FormsEnterpriseDTO>;
   @tracked
   assignmentTypeChangeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+  @tracked assignmentTypesToDisplay: Array<AssignmentTypeModel> = [];
+  @tracked assignmentTitlesToDisplay: Array<AssignmentTypeModel> = [];
   constructor(owner: unknown, args: PagesDashboardWeekArgs) {
     super(owner, args);
     this.changesetEnterprise = Changeset(
@@ -78,6 +80,9 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       lookupValidator(AssignmentTypeValidation),
       AssignmentTypeValidation
     ) as TypedBufferedChangeset<FormsAssignmentTypeDTO>;
+    this.assignmentTypeService.getAssignmentTypes().then((assignmentTypes) => {
+      this.assignmentTypesToDisplay = assignmentTypes;
+    });
   }
 
   @action add(
@@ -152,7 +157,8 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       await assignmentType.save();
       this.multipleColor = false;
       this.toggleDisplayNewTypeModal();
-      this.router.refresh();
+      this.assignmentTypesToDisplay =
+        await this.assignmentTypeService.getAssignmentTypes();
       this.flashMessages.success("Le type d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le type d'occupation n'a pas pu être ajouté");
@@ -177,15 +183,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       );
       this.assignmentTypeChangeset.rollback();
       await assignmentTitle.save();
-      document.getElementById('titleSelect')!.innerHTML =
-        document.getElementById('titleSelect')!.innerHTML +
-        '<option value="' +
-        assignmentTitle.name +
-        '">' +
-        assignmentTitle.name +
-        '</option>';
       this.toggleDisplayNewTitleModal();
-      this.router.refresh();
       this.flashMessages.success("Le titre d'occupation a bien été ajouté");
     } catch (e) {
       this.flashMessages.danger("Le titre d'occupation n'a pas pu être ajouté");
@@ -295,7 +293,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
-    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
   @action
   choosingDateLess() {
@@ -305,7 +302,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
-    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   @action
@@ -315,7 +311,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     this.paramsDay = getWeek(subWeeks(this.choosingDay, 0), {
       weekStartsOn: 0,
     });
-    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   @action
@@ -326,7 +321,6 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       weekStartsOn: 0,
     });
     this.router.transitionTo({ queryParams: { week: this.paramsDay } });
-    this.assignmentTypeService.getAssignedTypes(this.args.model.resource);
   }
 
   get currentMonth() {

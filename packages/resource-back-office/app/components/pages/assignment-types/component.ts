@@ -1,11 +1,12 @@
 import type Store from '@ember-data/store';
 import { action } from '@ember/object';
 import type RouterService from '@ember/routing/router-service';
-import { service } from '@ember/service';
+import { inject, service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 import type AssignmentTypeModel from 'ember-boilerplate/models/assignment-type';
+import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
@@ -19,6 +20,7 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
   @service declare store: Store;
   @service declare flashMessages: FlashMessageService;
   @service declare router: RouterService;
+  @inject declare assignmentTypeService: AssignmentTypeService;
 
   @tracked displayNewAssignmentTypeModal: Boolean = false;
   @tracked displayEditAssignmentTypeModal: Boolean = false;
@@ -224,7 +226,6 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
 
   @action
   async editAssignmentTitle(
-    // A modifier l'edit de titre ne fonctionne pas
     changeset: TypedBufferedChangeset<FormsAssignmentTypeDTO>
   ) {
     try {
@@ -253,6 +254,15 @@ export default class PagesAssignmentTypes extends Component<PagesAssignmentTypes
           id: this.assignmentTypeChangeset.get('id'),
         }
       );
+      let childrenToDelete: Array<AssignmentTypeModel> =
+        await this.assignmentTypeService.getAssignmentTitles(
+          this.assignmentTypeChangeset.get('id')
+        );
+      if (childrenToDelete.length > 0) {
+        childrenToDelete.forEach((child) => {
+          child.destroyRecord();
+        });
+      }
       assignmentTypeToDelete.destroyRecord();
       this.assignmentTypeChangeset.rollback();
       this.toggleDisplayDeleteAssignmentTypeModal();

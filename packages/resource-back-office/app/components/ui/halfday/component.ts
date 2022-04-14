@@ -40,7 +40,7 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
 
   get bgColor() {
     if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
-      if (this.assignment?.assignmentType.get('color')) {
+      if (this.assignment?.get('assignmentType')) {
         return (
           'background-color:' +
           this.assignment?.assignmentType.get('color') +
@@ -52,7 +52,7 @@ export default class UiHalfday extends Component<UiHalfdayArgs> {
   }
   get textColor() {
     if (this.assignment?.isMorning || this.assignment?.isAfternoon) {
-      if (this.assignment?.assignmentType.get('color')) {
+      if (this.assignment?.get('assignmentType')) {
         return undefined;
       }
       return (

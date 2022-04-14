@@ -45,24 +45,33 @@ module('Acceptance | posts', function (hooks) {
     assert.dom('[data-test-resources="addResourceButton"]').exists();
   });
 
-  test('add Assignment', async function (assert) {
-    await visit('/dashboard');
-    await click('[data-test-input="goMonth"]');
-    await click('[data-test-input="2"]');
-    await click('[data-test-input="addAssignmentType"]');
-    await fillIn('[data-test-input="typeName"]', 'TestType');
+  test('add assignment type', async function (assert) {
+    await visit('/assignment-type');
+    await click('[data-test-input="addType"]');
+    await fillIn('[data-test-input="typeName"]', 'Formation');
     await click('[data-test-input="typeCheckbox"]');
     await click('[data-test-input="saveType"]');
-    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
-    await select('[data-test-select="typeSelect"]', 'TestType');
-    await click('[data-test-input="addAssignmentTitle"]');
-    await waitFor('[data-test-select="typeSelect"]', { timeout: 1000 });
-    await select('[data-test-select="typeSelectTitle"]', 'TestType');
-    await fillIn('[data-test-input="titleName"]', 'TestTitle');
+    assert.dom('[data-test-typeName="typeName"]').exists();
+  });
+
+  test('add assignment title', async function (assert) {
+    await visit('/assignment-type');
+    await click('[data-test-input="addTitle"]');
+    await select('[data-test-select="typeSelectTitle"]', 'Formation');
+    await fillIn('[data-test-input="titleName"]', 'EmberJS');
     await triggerEvent('[data-test-input="colorTitle"]', 'change', {
       value: '#ff568a',
     });
     await click('[data-test-input="saveTitle"]');
+    assert.dom('[data-test-typeName="typeName"]').exists();
+  });
+
+  test('add Assignment', async function (assert) {
+    await visit('/dashboard');
+    await click('[data-test-input="goMonth"]');
+    await click('[data-test-input="2"]');
+    await select('[data-test-select="typeSelect"]', 'TestType');
+    await waitFor('[data-test-select="titleSelect"]', { timeout: 1000 });
     await select('[data-test-select="titleSelect"]', 'TestTitle');
     await click('[data-test-input="addEnterprises2"]');
     await fillIn('[data-test-input="name"]', 'testEnterprise2');

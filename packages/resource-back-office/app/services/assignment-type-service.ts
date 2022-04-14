@@ -63,7 +63,6 @@ export default class AssignmentTypeService extends Service {
         });
       }
     });
-
     return assignedTypes;
   }
 }

@@ -15,7 +15,11 @@
         <p class="ml-3 mr-5 font-semibold text-navbarBg text-start text-2xl">
           {{@resourceName}}
         </p>
-        <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
+        <button
+          data-test-input="closeButton"
+          type="button"
+          {{on "click" @toggleDisplayNewAssignmentModal}}
+        >
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
@@ -59,12 +63,10 @@
             {{on "change" this.selectType}}
           >
             <option value="" selected disabled>Sélectionnez un type d'occupation</option>
-            {{#each @model.assignmentType as |assignmentType|}}
-              {{#if (not (get assignmentType "parents.name"))}}
-                <option value={{assignmentType.name}}>
-                  {{assignmentType.name}}
-                </option>
-              {{/if}}
+            {{#each @assignmentTypesToDisplay as |assignmentType|}}
+              <option value={{assignmentType.name}}>
+                {{assignmentType.name}}
+              </option>
             {{/each}}
           </select>
           {{! template-lint-disable no-log }}
@@ -94,6 +96,11 @@
             <option value="" selected disabled>
               Sélectionnez un titre d'occupation
             </option>
+            {{#each this.assignmentTitleToDisplay as |assignmentTitle|}}
+              <option value={{assignmentTitle.name}}>
+                {{assignmentTitle.name}}
+              </option>
+            {{/each}}
           </select>
           <button
             id="newTitleButton"
