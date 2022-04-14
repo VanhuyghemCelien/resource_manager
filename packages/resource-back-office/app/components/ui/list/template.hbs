@@ -1,5 +1,6 @@
 <tr
   class="border-b border-textPrimary border-opacity-25 hover:bg-textSecondary hover:bg-opacity-10 transition-all duration-200"
+  data-test-validated="validated"
 >
   <td
     class="w-1/5 text-center text-textPrimary font-medium px-2 text-base py-2"
@@ -28,11 +29,11 @@
       </button>
     {{/if}}
     {{#if (eq @type "assignment-type")}}
-      {{@object.name}}
+      <p data-test-typeName="typeName">{{@object.name}}</p>
     {{/if}}
   </td>
   <td class="w-1/5 text-center text-textSecondary px-2 text-base py-2">
-    <p data-test-validated="validated">
+    <p>
       {{#if (eq @type "enterprise")}}
         {{@object.city}}
       {{/if}}

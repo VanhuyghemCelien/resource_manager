@@ -15,7 +15,11 @@
         <p class="ml-3 mr-5 font-semibold text-navbarBg text-start text-2xl">
           {{@resourceName}}
         </p>
-        <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
+        <button
+          data-test-input="closeButton"
+          type="button"
+          {{on "click" @toggleDisplayNewAssignmentModal}}
+        >
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
       </div>
@@ -85,34 +89,29 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.assignmentType.color}}"
-                disabled={{this.verif}}
                 {{on "change" this.selectType}}
               >
                 <option value="" selected disabled>Sélectionnez un type d'occupation</option>
-                {{#each @model.assignmentType as |assignmentType|}}
-                  {{#if (not (get assignmentType "parents.name"))}}
-                    <option value={{assignmentType.name}}>
-                      {{assignmentType.name}}
-                    </option>
-                  {{/if}}
+                {{#each @assignmentTypesToDisplay as |assignmentType|}}
+                  <option value={{assignmentType.name}}>
+                    {{assignmentType.name}}
+                  </option>
                 {{/each}}
               </select>
               {{! template-lint-disable no-log }}
               {{log this.assignmentType.color}}
               <button
-                id="typeButton"
                 type="button"
                 class="grow-0"
                 data-test-input="addAssignmentType"
                 {{on "click" @toggleDisplayNewTypeModal}}
-                disabled={{this.verif}}
                 title="Ajouter un type d'occupation"
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
               </button>
             </div>
             <div class="flex flex-row mt-4 justify-between">
-              <p class="w-[76px] grow-0">Title</p>
+              <p class="w-[76px] grow-0">Titre</p>
               <select
                 id="titleSelect"
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
@@ -120,12 +119,17 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.assignmentType.color}}"
-                disabled={{this.verif}}
+                disabled={{unless this.typeSelected "disabled"}}
                 {{on "change" this.selectTitle}}
               >
-                <option value="" selected >
+                <option value="" selected disabled>
                   Sélectionnez un titre d'occupation
                 </option>
+                {{#each this.assignmentTitleToDisplay as |assignmentTitle|}}
+                  <option value={{assignmentTitle.name}}>
+                    {{assignmentTitle.name}}
+                  </option>
+                {{/each}}
               </select>
               <button
                 id="newTitleButton"
@@ -133,14 +137,13 @@
                 class="grow-0"
                 data-test-input="addAssignmentTitle"
                 {{on "click" @toggleDisplayNewTitleModal}}
-                disabled={{this.verif}}
                 title="Ajouter un titre d'occupation"
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
               </button>
             </div>
             <div class="flex flex-row mt-4 justify-between">
-              <p class="w-[76px] grow-0">Enterprise</p>
+              <p class="w-[76px] grow-0">Entreprise</p>
               <select
                 id="enterpriseSelect"
                 class="grow text-center mx-4 rounded-xl px-2 bg-white"
@@ -148,7 +151,6 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.assignmentType.color}}"
-                disabled={{this.verif}}
                 {{on "change" this.selectEnterprise}}
               >
                 <option value="" selected disabled>Sélectionnez une entreprise</option>
@@ -161,11 +163,9 @@
                 {{/each}}
               </select>
               <button
-                id="enterpriseButton"
                 type="button"
                 class="grow-0"
                 data-test-input="addEnterprises2"
-                disabled={{this.verif}}
                 {{on "click" @toggleDisplayNewEnterpriseModal}}
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
@@ -190,7 +190,14 @@
           <div class="w-max">
             <label class="cursor-pointer">
               A distance ?
-              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" checked={{this.verif}} {{on "click" this.selectedRemote}} />
+              <input
+                id="remoteInput"
+                type="checkbox"
+                class="cursor-pointer"
+                data-test-input="remote"
+                checked={{this.verif}}
+                {{on "click" this.selectedRemote}}
+              />
             </label>
           </div>
         </div>
