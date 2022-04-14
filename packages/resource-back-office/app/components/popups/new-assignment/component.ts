@@ -76,8 +76,15 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
     name: '',
   };
 
+  @tracked typeSelected: boolean = false;
+  @tracked assignmentTypeToDisplay: Array<AssignmentTypeModel> = [];
+  @tracked assignmentTitleToDisplay: Array<AssignmentTypeModel> = [];
+
   constructor(o: unknown, args: PopupsNewAssignmentArgs) {
     super(o, args);
+    this.assignmentTypeService.getAssignmentTypes().then((assignmentType) => {
+      this.assignmentTypeToDisplay = assignmentType;
+    });
     this.localstorage
       .getItems('first')
       .then((firstassignment) => {
@@ -239,16 +246,6 @@ export default class PopupsNewAssignment extends Component<PopupsNewAssignmentAr
   @action
   toggleComment() {
     this.comment ? (this.comment = false) : (this.comment = true);
-  }
-
-  @tracked typeSelected: boolean = false;
-  @tracked assignmentTypeToDisplay: Array<AssignmentTypeModel> = [];
-  @tracked assignmentTitleToDisplay: Array<AssignmentTypeModel> = [];
-  constructor(owner: unknown, args: PopupsNewAssignmentArgs) {
-    super(owner, args);
-    this.assignmentTypeService.getAssignmentTypes().then((assignmentType) => {
-      this.assignmentTypeToDisplay = assignmentType;
-    });
   }
 
   @action

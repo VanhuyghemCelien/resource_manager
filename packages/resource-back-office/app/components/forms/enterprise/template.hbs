@@ -29,15 +29,9 @@
           {{#let (get @changeset.error "name") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le champ nom doit être complété
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -68,15 +62,9 @@
           {{#let (get @changeset.error "enterpriseNumber") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le N° d'entreprise doit être un N° d'entreprise européen
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -107,15 +95,9 @@
           {{#let (get @changeset.error "vatNumber") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le N° de TVA doit être un N° de TVA européen
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -148,15 +130,9 @@
           {{#let (get @changeset.error "city") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le champ ville doit être complété
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -194,15 +170,9 @@
           {{#let (get @changeset.error "emailAddress") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  L'adresse email doit être une adresse email valide
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -237,15 +207,9 @@
           {{#let (get @changeset.error "emailAddress2") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  L'adresse email N°2 doit être une adresse mail valide
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -281,15 +245,9 @@
           {{#let (get @changeset.error "phoneNumber") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le N° de téléphone doit être un N° de téléphone belge
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -324,15 +282,9 @@
           {{#let (get @changeset.error "phoneNumber2") as |error|}}
             {{#if error}}
               <ul class="list-disc list-inside text-warn">
-                {{#each (get error "validation") as |message|}}
-                  <li class="text-left pt-1 pl-1">
-                    {{message}}
-                  </li>
-                {{else}}
-                  <li class="text-left pt-1 pl-1">
-                    {{get error "validation"}}
-                  </li>
-                {{/each}}
+                <li class="text-left pt-1 pl-1">
+                  Le N° de téléphone N°2 doit être un N° de téléphone belge
+                </li>
               </ul>
             {{else}}
             {{/if}}
@@ -366,15 +318,9 @@
     {{#let (get @changeset.error "address") as |error|}}
       {{#if error}}
         <ul class="list-disc list-inside text-warn">
-          {{#each (get error "validation") as |message|}}
-            <li class="text-left pt-1 pl-1">
-              {{message}}
-            </li>
-          {{else}}
-            <li class="text-left pt-1 pl-1">
-              {{get error "validation"}}
-            </li>
-          {{/each}}
+          <li class="text-left pt-1 pl-1">
+            Le champ adresse doit être complété
+          </li>
         </ul>
       {{else}}
       {{/if}}

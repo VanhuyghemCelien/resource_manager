@@ -50,7 +50,17 @@ export default class AssignmentTypeService extends Service {
       if (resource.get('assignment').length > 0) {
         resource.get('assignment').forEach((assignment) => {
           if (assignment.assignmentType.get('color')) {
-            if (!assignedTypes.includes(assignment.assignmentType)) {
+            let isAlreadyInArray = false;
+            assignedTypes.forEach((assignedType) => {
+              if (
+                assignedType.get('id') === assignment.assignmentType.get('id')
+              ) {
+                isAlreadyInArray = true;
+              }
+            });
+            if (!isAlreadyInArray) {
+              console.log('ici');
+
               assignedTypes.push(assignment.assignmentType);
             }
           } else if (assignment.assignmentType.get('parents').get('color')) {
