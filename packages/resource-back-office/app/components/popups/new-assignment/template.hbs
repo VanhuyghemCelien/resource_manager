@@ -53,28 +53,97 @@
         </div>
         <div class="grid {{if this.isFirstExist "grid-cols-2"}}">
           {{#if this.isFirstExist}}
-            <div class="grid text-center justify-center grid-rows-4 border-r-2 border-r-navbarSelected mr-2">
+            <div
+              class="grid text-center justify-center grid-rows-4 border-r-2 border-r-navbarSelected mr-2"
+            >
               <h1 class="text-xl">Dernières tâches:</h1>
-              <button type="button" data-test-input="firstItem" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isFirstItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectFirstItem}}>
-                {{!-- template-lint-disable no-inline-styles --}}
+              <button
+                type="button"
+                data-test-input="firstItem"
+                class="flex items-center rounded-full px-4 transition-all
+                  {{if
+                    this.isFirstItem
+                    "bg-navbarBg text-white transition-all"
+                    "hover:bg-navbarSelected"
+                  }}"
+                {{on "click" this.selectFirstItem}}
+              >
+                {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
-                <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.parents.color}}"></div>
-                <p>{{this.firstAssignment.assignmentType.parents.name}} - {{this.firstAssignment.assignmentType.name}} - {{this.firstAssignment.enterprise.name}}</p>
+                <div
+                  class="w-6 h-6 mr-3 rounded-full"
+                  style="background-color:{{if
+                    this.firstAssignment.assignmentType.color
+                    this.firstAssignment.assignmentType.color
+                    this.firstAssignment.assignmentType.parents.color
+                  }}"
+                ></div>
+                <p>
+                  {{this.firstAssignment.assignmentType.parents.name}}
+                  -
+                  {{this.firstAssignment.assignmentType.name}}
+                  -
+                  {{this.firstAssignment.enterprise.name}}
+                </p>
               </button>
               {{#if this.isSecondExist}}
-                <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isSecondItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectSecondItem}}>
-                  {{!-- template-lint-disable no-inline-styles --}}
+                <button
+                  type="button"
+                  class="flex items-center rounded-full px-4 transition-all
+                    {{if
+                      this.isSecondItem
+                      "bg-navbarBg text-white transition-all"
+                      "hover:bg-navbarSelected"
+                    }}"
+                  {{on "click" this.selectSecondItem}}
+                >
+                  {{! template-lint-disable no-inline-styles }}
                   {{! template-lint-disable style-concatenation }}
-                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.parents.color}}"></div>
-                  <p>{{this.secondAssignment.assignmentType.parents.name}} - {{this.secondAssignment.assignmentType.name}} - {{this.secondAssignment.enterprise.name}}</p>
+                  <div
+                    class="w-6 h-6 mr-3 rounded-full"
+                    style="background-color:{{if
+                      this.secondAssignment.assignmentType.color
+                      this.secondAssignment.assignmentType.color
+                      this.secondAssignment.assignmentType.parents.color
+                    }}"
+                  ></div>
+                  <p>
+                    {{this.secondAssignment.assignmentType.parents.name}}
+                    -
+                    {{this.secondAssignment.assignmentType.name}}
+                    -
+                    {{this.secondAssignment.enterprise.name}}
+                  </p>
                 </button>
               {{/if}}
               {{#if this.isThirdExist}}
-                <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isThirdItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectThirdItem}}>
-                  {{!-- template-lint-disable no-inline-styles --}}
+                <button
+                  type="button"
+                  class="flex items-center rounded-full px-4 transition-all
+                    {{if
+                      this.isThirdItem
+                      "bg-navbarBg text-white transition-all"
+                      "hover:bg-navbarSelected"
+                    }}"
+                  {{on "click" this.selectThirdItem}}
+                >
+                  {{! template-lint-disable no-inline-styles }}
                   {{! template-lint-disable style-concatenation }}
-                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.parents.color}}"></div>
-                  <p>{{this.thirdAssignment.assignmentType.parents.name}} - {{this.thirdAssignment.assignmentType.name}} - {{this.thirdAssignment.enterprise.name}}</p>
+                  <div
+                    class="w-6 h-6 mr-3 rounded-full"
+                    style="background-color:{{if
+                      this.thirdAssignment.assignmentType.color
+                      this.thirdAssignment.assignmentType.color
+                      this.thirdAssignment.assignmentType.parents.color
+                    }}"
+                  ></div>
+                  <p>
+                    {{this.thirdAssignment.assignmentType.parents.name}}
+                    -
+                    {{this.thirdAssignment.assignmentType.name}}
+                    -
+                    {{this.thirdAssignment.enterprise.name}}
+                  </p>
                 </button>
               {{/if}}
             </div>
@@ -91,7 +160,9 @@
                 style="border: 1px solid {{this.assignmentType.color}}"
                 {{on "change" this.selectType}}
               >
-                <option value="" selected disabled>Sélectionnez un type d'occupation</option>
+                <option value="" selected disabled>
+                  Sélectionnez un type d'occupation
+                </option>
                 {{#each @assignmentTypesToDisplay as |assignmentType|}}
                   <option value={{assignmentType.name}}>
                     {{assignmentType.name}}
@@ -107,7 +178,10 @@
                 {{on "click" @toggleDisplayNewTypeModal}}
                 title="Ajouter un type d'occupation"
               >
-                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
               </button>
             </div>
             <div class="flex flex-row mt-4 justify-between">
@@ -139,7 +213,10 @@
                 {{on "click" @toggleDisplayNewTitleModal}}
                 title="Ajouter un titre d'occupation"
               >
-                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
               </button>
             </div>
             <div class="flex flex-row mt-4 justify-between">
@@ -168,7 +245,10 @@
                 data-test-input="addEnterprises2"
                 {{on "click" @toggleDisplayNewEnterpriseModal}}
               >
-                <img src="/assets/icons/plus-button.svg" alt="close button icon" />
+                <img
+                  src="/assets/icons/plus-button.svg"
+                  alt="close button icon"
+                />
               </button>
             </div>
           </div>
@@ -178,13 +258,13 @@
             <label class="cursor-pointer">
               Ajoutez un commentaire ?
               <input
-                  id="commentInput"
-                  type="checkbox"
-                  class="cursor-pointer"
-                  data-test-input="comment"
-                  checked={{this.verif}}
-                  {{on "click" this.toggleComment}}
-                />
+                id="commentInput"
+                type="checkbox"
+                class="cursor-pointer"
+                data-test-input="comment"
+                checked={{this.verif}}
+                {{on "click" this.toggleComment}}
+              />
             </label>
           </div>
           <div class="w-max">
@@ -204,13 +284,13 @@
         {{#if this.comment}}
           <div class="flex mt-4">
             <textarea
-                id="CommentText"
-                class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
-                rows="2"
-                data-test-input="commentText"
-                value={{this.assignment.comment}}
-                {{on "change" this.editAssignmentCommentField}}
-              ></textarea>
+              id="CommentText"
+              class="border border-navbarBg rounded-xl grow p-2 max-h-[350px] min-h-[66px]"
+              rows="2"
+              data-test-input="commentText"
+              value={{this.assignment.comment}}
+              {{on "change" this.editAssignmentCommentField}}
+            ></textarea>
           </div>
         {{/if}}
         <button
