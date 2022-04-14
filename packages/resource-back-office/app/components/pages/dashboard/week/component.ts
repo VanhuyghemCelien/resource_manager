@@ -35,6 +35,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
 
   today: Date = new Date();
   // Nomenclature variables
+  @tracked displayShowAssignmentModal: boolean = false;
   @tracked displayNewAssignmentModal: boolean = false;
   @tracked displayNewTypeModal: boolean = false;
   @tracked displayNewTitleModal: boolean = false;
@@ -127,6 +128,15 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     assignmentType: undefined,
     enterprise: undefined,
   };
+
+  @action
+  async editAssignment(changeset: TypedBufferedChangeset<FormsAssignmentDTO>) {
+    try {
+      console.log(changeset);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   @action
   async addAssignment(changeset: TypedBufferedChangeset<FormsAssignmentDTO>) {
@@ -267,8 +277,28 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
     isAfternoon?: boolean,
     assignment?: AssignmentModel
   ) {
-    if (assignment) {
-      console.log('banane banane');
+    if (assignment || this.displayShowAssignmentModal) {
+      if (this.displayShowAssignmentModal) {
+        console.log('banane');
+        this.displayShowAssignmentModal = false;
+        this.changesetAssignment.rollback();
+      } else {
+        console.log('banane true');
+        this.displayShowAssignmentModal = true;
+        this.changesetAssignment.set('isMorning', assignment!.isMorning);
+        this.changesetAssignment.set('isAfternoon', assignment!.isAfternoon);
+        this.changesetAssignment.set('date', assignment!.date);
+        this.changesetAssignment.set('resource', assignment!.resource);
+        this.changesetAssignment.set('isRemote', assignment!.isRemote);
+        this.changesetAssignment.set('comment', assignment!.comment);
+        this.changesetAssignment.set(
+          'assignmentType',
+          assignment!.assignmentType
+        );
+        this.changesetAssignment.set('color', assignment!.assignmentType.color);
+        this.changesetAssignment.set('enterprise', assignment!.enterprise);
+        this.changesetAssignment.set('id', assignment!.id);
+      }
     } else {
       if (this.displayNewAssignmentModal) {
         this.displayNewAssignmentModal = false;

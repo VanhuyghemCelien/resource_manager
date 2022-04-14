@@ -15,6 +15,10 @@
         <p class="ml-3 mr-5 font-semibold text-navbarBg text-start text-2xl">
           {{changeset-get @changeset "resource.firstName"}} {{changeset-get @changeset "resource.lastName"}}
         </p>
+        {{#if (eq @popupType "edit")}}
+          <button type="button">Edit</button>
+          <button type="button"  {{on "click" this.toggleDisplayDeleteAssignmentModal}}>Delete</button>
+        {{/if}}
         <button type="button" {{on "click" @toggleDisplayNewAssignmentModal}}>
           <img src="/assets/icons/close-button.svg" alt="close button icon" />
         </button>
@@ -22,12 +26,21 @@
       <div class="text-center mt-3">
         {{dayFormat (changeset-get @changeset "date")}}
       </div>
+      {{#if this.displayDeleteAssignmentModal}}
+        <Popups::Delete
+        @type="Assignment"
+        @toggleDisplayDeleteModal={{this.toggleDisplayDeleteAssignmentModal}}
+        @deleteFunction={{this.deleteAssignment}}
+        @objectIdToDelete={{changeset-get @changeset "id"}}
+        />
+      {{/if}}
       <form {{on "submit" @saveFunction}} ...attributes>
         <div class="flex flex-row w-max mx-auto mt-4">
           <div class="w-max">
             <label>
               Matin
               <input
+                disabled={{if (eq @popupType "edit") this.isDisable}}
                 id="morningInput"
                 type="checkbox"
                 checked={{changeset-get @changeset "isMorning"}}
@@ -39,6 +52,7 @@
             <label>
               Après-midi
               <input
+                disabled={{if (eq @popupType "edit") this.isDisable}}
                 id="afternoonInput"
                 type="checkbox"
                 checked={{changeset-get @changeset "isAfternoon"}}
@@ -47,33 +61,35 @@
             </label>
           </div>
         </div>
-        <div class="grid {{if this.isFirstExist "grid-cols-2"}}">
-          {{#if this.isFirstExist}}
-            <div class="grid text-center justify-center grid-rows-4 border-r-2 border-r-navbarSelected mr-2">
-              <h1 class="text-xl">Dernières tâches:</h1>
-              <button type="button" data-test-input="firstItem" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isFirstItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectFirstItem}}>
-                {{!-- template-lint-disable no-inline-styles --}}
-                {{! template-lint-disable style-concatenation }}
-                <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.parents.color}}"></div>
-                <p>{{this.firstAssignment.assignmentType.parents.name}} - {{this.firstAssignment.assignmentType.name}} - {{this.firstAssignment.enterprise.name}}</p>
-              </button>
-              {{#if this.isSecondExist}}
-                <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isSecondItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectSecondItem}}>
+        <div class="grid {{if (and this.isFirstExist (eq @popupType "create"))"grid-cols-2"}}">
+          {{#if (eq @popupType "create")}}
+            {{#if this.isFirstExist}}
+              <div class="grid text-center justify-center grid-rows-4 border-r-2 border-r-navbarSelected mr-2">
+                <h1 class="text-xl">Dernières tâches:</h1>
+                <button type="button" data-test-input="firstItem" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isFirstItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectFirstItem}}>
                   {{!-- template-lint-disable no-inline-styles --}}
                   {{! template-lint-disable style-concatenation }}
-                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.parents.color}}"></div>
-                  <p>{{this.secondAssignment.assignmentType.parents.name}} - {{this.secondAssignment.assignmentType.name}} - {{this.secondAssignment.enterprise.name}}</p>
+                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.color this.firstAssignment.assignmentType.parents.color}}"></div>
+                  <p>{{this.firstAssignment.assignmentType.parents.name}} - {{this.firstAssignment.assignmentType.name}} - {{this.firstAssignment.enterprise.name}}</p>
                 </button>
-              {{/if}}
-              {{#if this.isThirdExist}}
-                <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isThirdItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectThirdItem}}>
-                  {{!-- template-lint-disable no-inline-styles --}}
-                  {{! template-lint-disable style-concatenation }}
-                  <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.parents.color}}"></div>
-                  <p>{{this.thirdAssignment.assignmentType.parents.name}} - {{this.thirdAssignment.assignmentType.name}} - {{this.thirdAssignment.enterprise.name}}</p>
-                </button>
-              {{/if}}
-            </div>
+                {{#if this.isSecondExist}}
+                  <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isSecondItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectSecondItem}}>
+                    {{!-- template-lint-disable no-inline-styles --}}
+                    {{! template-lint-disable style-concatenation }}
+                    <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.color this.secondAssignment.assignmentType.parents.color}}"></div>
+                    <p>{{this.secondAssignment.assignmentType.parents.name}} - {{this.secondAssignment.assignmentType.name}} - {{this.secondAssignment.enterprise.name}}</p>
+                  </button>
+                {{/if}}
+                {{#if this.isThirdExist}}
+                  <button type="button" class="flex items-center rounded-full px-4 transition-all hover:bg-navbarSelected {{if this.isThirdItem "bg-navbarBg text-white transition-all"}}" {{on "click" this.selectThirdItem}}>
+                    {{!-- template-lint-disable no-inline-styles --}}
+                    {{! template-lint-disable style-concatenation }}
+                    <div class=" w-6 h-6 mr-3 rounded-full" style="background-color:{{if this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.color this.thirdAssignment.assignmentType.parents.color}}"></div>
+                    <p>{{this.thirdAssignment.assignmentType.parents.name}} - {{this.thirdAssignment.assignmentType.name}} - {{this.thirdAssignment.enterprise.name}}</p>
+                  </button>
+                {{/if}}
+              </div>
+            {{/if}}
           {{/if}}
           <div>
             <div class="flex flex-row mt-4 justify-between">
@@ -85,7 +101,7 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.color}}"
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 {{on "change" this.selectType}}
               >
                 <option value="" selected disabled>Sélectionnez un type d'occupation</option>
@@ -105,7 +121,7 @@
                 class="grow-0"
                 data-test-input="addAssignmentType"
                 {{on "click" @toggleDisplayNewTypeModal}}
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 title="Ajouter un type d'occupation"
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
@@ -120,7 +136,7 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.color}}"
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 {{on "change" this.selectTitle}}
               >
                 <option value="" selected >
@@ -133,7 +149,7 @@
                 class="grow-0"
                 data-test-input="addAssignmentTitle"
                 {{on "click" @toggleDisplayNewTitleModal}}
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 title="Ajouter un titre d'occupation"
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
@@ -148,7 +164,7 @@
                 {{! template-lint-disable no-inline-styles }}
                 {{! template-lint-disable style-concatenation }}
                 style="border: 1px solid {{this.color}}"
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 {{on "change" this.selectEnterprise}}
               >
                 <option value="" selected disabled>Sélectionnez une entreprise</option>
@@ -165,7 +181,7 @@
                 type="button"
                 class="grow-0"
                 data-test-input="addEnterprises2"
-                disabled={{this.verif}}
+                disabled={{(or this.verif (if (eq @popupType "edit") this.isDisable))}}
                 {{on "click" @toggleDisplayNewEnterpriseModal}}
               >
                 <img src="/assets/icons/plus-button.svg" alt="close button icon" />
@@ -182,7 +198,8 @@
                   type="checkbox"
                   class="cursor-pointer"
                   data-test-input="comment"
-                  checked={{this.verif}}
+                  disabled={{(if (eq @popupType "edit") this.isDisable)}}
+                  checked={{(or this.verif (if (eq @popupType "edit") (changeset-get @changeset "comment")))}}
                   {{on "click" this.toggleComment}}
                 />
             </label>
@@ -190,7 +207,7 @@
           <div class="w-max">
             <label class="cursor-pointer">
               A distance ?
-              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" checked={{changeset-get @changeset "isRemote"}} {{on "click" this.selectedRemote}} />
+              <input id="remoteInput" type="checkbox" class="cursor-pointer" data-test-input="remote" disabled={{(if (eq @popupType "edit") this.isDisable)}} checked={{changeset-get @changeset "isRemote"}} {{on "click" this.selectedRemote}} />
             </label>
           </div>
         </div>

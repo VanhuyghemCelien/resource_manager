@@ -19,6 +19,8 @@ export default class PopupsDelete extends Component<PopupsDeleteArgs> {
       return ' cette ressource ';
     } else if (this.args.type === 'assignment type') {
       return " ce type d'occupation ";
+    } else if (this.args.type === 'Assignment') {
+      return ' cette occupation ';
     }
     return 'None';
   }

@@ -8,6 +8,20 @@ export default class LocalStorage extends Service {
 
   @tracked public assignment?: AssignmentModel;
 
+  resetFirstItem() {
+    if (!localStorage.getItem('first')) {
+      let second = localStorage.getItem('second') ?? '';
+      localStorage.setItem('first', second);
+    }
+  }
+
+  resetSecondItem() {
+    if (!localStorage.getItem('second')) {
+      let third = localStorage.getItem('third') ?? '';
+      localStorage.setItem('second', third);
+    }
+  }
+
   setFirstItem(assignment: AssignmentModel) {
     localStorage.setItem('first', assignment.id);
   }

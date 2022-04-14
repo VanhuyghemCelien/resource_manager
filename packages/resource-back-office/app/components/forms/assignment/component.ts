@@ -20,9 +20,11 @@ export interface FormsAssignmentDTO {
   enterprise: EnterpriseModel;
   resource: ResourceModel;
   color: string;
+  id: string;
 }
 
 interface FormsAssignmentArgs extends BaseFormArgs<FormsAssignmentDTO> {
+  popupType: string;
   displayNewTypeModal: boolean;
   displayNewTitleModal: boolean;
   displayNewEnterpriseModal: boolean;
@@ -39,6 +41,8 @@ export default class FormsAssignment extends BaseForm<
   @inject declare localstorage: LocalStorage;
   @service declare store: Store;
 
+  @tracked isDisable: boolean = true;
+  @tracked displayDeleteAssignmentModal: boolean = false;
   @tracked isComment: boolean = false;
   @tracked isFirstExist: boolean = false;
   @tracked isSecondExist: boolean = false;
@@ -323,6 +327,38 @@ export default class FormsAssignment extends BaseForm<
       this.args.changeset.set('isAfternoon', false);
     } else {
       this.args.changeset.set('isAfternoon', true);
+    }
+  }
+
+  @action
+  async deleteAssignment() {
+    try {
+      const assignmentToDelete = await this.store.queryRecord('assignment', {
+        id: this.args.changeset.get('id'),
+      });
+      this.localstorage.resetFirstItem();
+      this.localstorage.resetSecondItem();
+      await assignmentToDelete.destroyRecord();
+      this.args.changeset.rollback();
+      this.toggleDisplayDeleteAssignmentModal('deleted');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  @action
+  toggleDisplayDeleteAssignmentModal(key?: string) {
+    if (this.displayDeleteAssignmentModal) {
+      console.log('try it again');
+      if (key === 'deleted') {
+        this.displayDeleteAssignmentModal = false;
+        this.args.toggleDisplayNewAssignmentModal();
+        this.args.changeset.rollback();
+      } else {
+        this.displayDeleteAssignmentModal = false;
+      }
+    } else {
+      this.displayDeleteAssignmentModal = true;
     }
   }
 
