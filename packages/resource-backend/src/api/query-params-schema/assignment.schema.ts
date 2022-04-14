@@ -10,7 +10,7 @@ export class AssignmentQueryParamsSchema implements QueryParamsSchemaInterface {
   }
 
   allowedFields (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id', /assignment\.(.+)/, /enterprise\.(.+)/, /resource\.(.+)/, /assignmentType\.(.+)/];
+    return ['id', /assignment\.(.+)/, /enterprise\.(.+)/, /resource\.(.+)/, /assignmentType\.(.+)/, /.*/];
   }
 
   allowedSortFields (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
@@ -18,6 +18,6 @@ export class AssignmentQueryParamsSchema implements QueryParamsSchemaInterface {
   }
 
   allowedFilters (context: ControllerParamsContext): CheckTypes[] | Promise<CheckTypes[]> {
-    return ['id.$eq'];
+    return ['id.$eq', 'id'];
   }
 }

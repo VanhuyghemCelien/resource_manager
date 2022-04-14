@@ -90,5 +90,9 @@ module('Acceptance | posts', function (hooks) {
     assert
       .dom('[data-test-input="2"]')
       .hasText('', 'great, the queryparams test works');
+    await click('[data-test-input="3"]');
+    await click('[data-test-input="firstItem"]');
+    await click('[data-test-input="saveAssignment"]');
+    assert.dom('[data-test-input="3"]').containsText('-');
   });
 });

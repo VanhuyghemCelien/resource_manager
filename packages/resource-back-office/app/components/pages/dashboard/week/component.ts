@@ -18,8 +18,10 @@ import EnterpriseValidation from '../../../../validator/forms/enterprise';
 import AssignmentTypeValidation from '../../../../validator/forms/assignment-type';
 import { loading } from 'ember-loading';
 import type RouterService from '@ember/routing/router-service';
+import type LocalStorage from 'ember-boilerplate/services/localstorage';
 import type { FormsAssignmentTypeDTO } from 'ember-boilerplate/components/forms/assignment-type/component';
 import type AssignmentTypeService from 'ember-boilerplate/services/assignment-type-service';
+
 
 interface PagesDashboardWeekArgs {
   model: {
@@ -36,6 +38,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   @service declare router: RouterService;
   @service declare flashMessages: FlashMessageService;
   @inject declare assignmentTypeService: AssignmentTypeService;
+  @inject declare localstorage: LocalStorage;
 
   today: Date = new Date();
   // Nomenclature variables
@@ -108,7 +111,7 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
   };
 
   @action
-  addAssignment(assignmentNew: Partial<AssignmentModel>) {
+  async addAssignment(assignmentNew: Partial<AssignmentModel>) {
     console.log(assignmentNew, 'addassignment');
     this.assignment = {
       date: assignmentNew.date,
@@ -121,7 +124,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterprise: assignmentNew.enterprise,
     };
     console.log(this.assignment);
-    const assignment = this.store.createRecord('assignment', this.assignment);
+    const assignment = await this.store.createRecord(
+      'assignment',
+      this.assignment
+    );
     this.assignment = {
       date: new Date(),
       isMorning: false,
@@ -133,7 +139,10 @@ export default class PagesDashboardWeek extends Component<PagesDashboardWeekArgs
       enterprise: undefined,
     };
     // rajouter async await + gestion erreurs
-    assignment.save();
+    await assignment.save();
+    this.localstorage.setThirdItem();
+    this.localstorage.setSecondItem();
+    this.localstorage.setFirstItem(assignment);
     this.toggleDisplayNewAssignmentModal();
     this.flashMessages.success("L'occupation a bien été ajoutée");
   }
